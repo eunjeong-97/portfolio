@@ -1,0 +1,25 @@
+#navbar {
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  top: 0;
+  width: 100%;
+  height: 80px;
+  padding: var(--space-02);
+  background-color: var(--main-07);
+  color: white;
+  font-family: var(--bold-font);
+  font-size: var(--font-04);
+  z-index: 99;
+}
+
+.navbar__list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar__list li:nth-child(2) {
+  margin: 0 var(--space-02);
+}

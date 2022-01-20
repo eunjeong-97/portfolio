@@ -1,0 +1,33 @@
+.todo-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--section-space);
+}
+
+.todo-main > .description {
+  width: 40%;
+  text-align: center;
+}
+
+.todo-items {
+  width: 40%;
+  margin-top: var(--space-04);
+  text-align: right;
+  color: var(--main-06);
+  font-family: var(--bold-font);
+  font-size: var(--font-04);
+}
+
+.todo-item {
+  margin-bottom: var(--space-01);
+}
+
+.todo-item:last-child {
+  margin-bottom: 0;
+}
+
+.todo-item__title {
+  display: inline;
+  margin-left: var(--space-01);
+}

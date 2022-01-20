@@ -1,0 +1,16 @@
+.interest > div {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.interest-description {
+  font-family: var(--bold-font);
+  font-size: var(--font-04);
+}
+.interest-description p {
+  margin-bottom: var(--space-01);
+}
+.accent {
+  color: var(--main-07);
+}

@@ -1,0 +1,24 @@
+.card-component {
+  display: flex;
+  align-items: center;
+  height: 80px;
+}
+
+.card-component img {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  margin-right: 25px;
+}
+
+.card-component__text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 40px;
+}
+
+
+

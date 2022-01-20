@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script
+      src="https://kit.fontawesome.com/e06c3f698f.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>EunJeong's Portfolio</title>
+  </head>
+  <body>
+    <nav id="navbar">
+      <div class="navbar__title">박은정</div>
+      <ul class="navbar__list">
+        <li><a href="index.html">홈</a></li>
+        <li><a href="#project">프로젝트</a></li>
+        <li><a href="#interest">관심</a></li>
+      </ul>
+    </nav>
+
+    <header>
+      <img
+        class="profile-img"
+        alt="profile-img"
+        src="image/profile-image.jpeg"
+      />
+      <div class="header__title">
+        <p>박은정</p>
+        <p>꾸준히 성장하는 프론트엔드 개발자입니다.</p>
+      </div>
+    </header>
+
+    <main>
+      <section class="introduce">
+        <h1 class="title">소개</h1>
+        <p class="description">
+          보험회사 총무로 근무를 했지만, 배움없는 단순노동은 일하는 당시에는
+          편했지만 더이상 성장하지 못한다는 생각에 힘들었습니다. 그렇게 5년이
+          지나고 2020년부터 개발 공부를 하게 되었는데 컴퓨터로 보던 화면을 내가
+          직접 만들 수 있는 거에 매력을 느꼈습니다. 여러 사람들과 프로젝트를
+          하는 동안 새로운 기술을 받아들이고 적용하며 울고 웃었던 경험을
+          바탕으로, 앞으로의 개발을 이어가고 싶습니다.
+        </p>
+      </section>
+      <section class="education">
+        <h1 class="title">교육</h1>
+        <div class="description">
+          <div class="card-component">
+            <img src="image/wecode.png" />
+            <div class="card-component__text">
+              <p class="card-component__title">위코드 프론트엔드 개발자 과정</p>
+              <p class="card-component__description">2021.08.02 ~ 2021.10.29</p>
+            </div>
+          </div>
+          <div class="card-component">
+            <img src="image/comento.jpeg" />
+            <div class="card-component__text">
+              <p class="card-component__title">
+                코멘토 스타트업 프론트엔드 개발자 과정
+              </p>
+              <p class="card-component__description">2021.11.23 ~ 2021.12.21</p>
+              <div id="project"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="project">
+        <a href="https://github.com/eunjeong-97/mobile-chatting-web">
+          <div class="project-item">
+            <div class="project-item__icon">
+              <i class="fas fa-comment fa-3x"></i>
+            </div>
+            <div class="project-item__text">
+              <h1 class="subtitle">Mobile Chatting Web</h1>
+              <p>카카오톡과 같은 채팅 서비스 웹</p>
+            </div>
+          </div>
+        </a>
+        <a href="https://github.com/eunjeong-97/24-1st-DotFriends-frontend">
+          <div class="project-item">
+            <div class="project-item__icon">
+              <i class="fas fa-shipping-fast fa-3x"></i>
+            </div>
+            <div class="project-item__text">
+              <h1 class="subtitle">E-Commerce</h1>
+              <p>네이버 라인프렌즈샵과 같은 이커머스 사이트</p>
+            </div>
+          </div>
+        </a>
+      </section>
+      <section class="todo">
+        <h1 class="title">개발 실력 Upgrage</h1>
+        <div class="todo-main">
+          <p class="description">
+            그 동안은 프로젝트 완성에 집중하느라 코드의 완성도를 우선시 하지
+            못했습니다. 가독성 및 재사용성을 높일 수 있는 코드를 만들기 위해
+            개발 실력을 키우려 합니다.
+          </p>
+          <div id="interest"></div>
+          <div class="todo-items">
+            <div class="todo-item">
+              <span class="todo-item__title">HTML5 & CSS3</span>
+              <meter max="100" value="65"></meter>
+            </div>
+            <div class="todo-item">
+              <span class="todo-item__title">JavaScript</span>
+              <meter max="100" value="55"></meter>
+            </div>
+            <div class="todo-item">
+              <span class="todo-item__title">ReactJS</span>
+              <meter max="100" value="60"></meter>
+            </div>
+            <div class="todo-item">
+              <span class="todo-item__title">TypeScript</span>
+              <meter max="100" value="0"></meter>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="interest">
+        <h1 class="title">관심</h1>
+        <div>
+          <div class="interest-description">
+            <p>개발</p>
+            <p>운동 및 다이어트</p>
+            <p>유튜브</p>
+            <p>디즈니 플러스</p>
+          </div>
+          <ul class="interest-chart">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+        </div>
+      </section>
+      <section class="photos">
+        <h1 class="title">사진</h1>
+        <div class="photos-tags">
+          <button>전체</button>
+          <button>음식</button>
+          <button>반려동물</button>
+          <button>풍경</button>
+        </div>
+        <div class="photos-main">
+          <div class="photos-item">
+            <img src="image/food.jpeg" />
+            <div class="photos-item__description">
+              <h1 class="subtitle">조개구이</h1>
+              <p>오이도에서 먹은 조개구이</p>
+            </div>
+          </div>
+          <div class="photos-item">
+            <img src="image/pet.jpeg" />
+            <div class="photos-item__description">
+              <h1 class="subtitle">콩이</h1>
+              <p>10년째 같이 지내는 반려견 콩이</p>
+            </div>
+          </div>
+          <div class="photos-item">
+            <img src="image/landscape.jpeg" />
+            <div class="photos-item__description">
+              <h1 class="subtitle">롯데월드</h1>
+              <p>12년만에 놀러간 환상의 나라 롯데월드</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="footer">
+      <p>beanlove97@gmail.com</p>
+      <p>
+        <a href="https://www.rocketpunch.com/@beanlove97"
+          >Rocket Punch Profile</a
+        >
+      </p>
+      <p><a href="https://github.com/eunjeong-97">Github Profile</a></p>
+      <p>2022 EunJeong - All rights reserved</p>
+    </footer>
+  </body>
+</html>

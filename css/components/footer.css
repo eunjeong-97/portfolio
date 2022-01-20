@@ -1,0 +1,17 @@
+#footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 250px;
+  /* margin-top: var(--space-04); */
+  padding: 50px;
+  background-color: var(--main-07);
+  color: white;
+  font-family: var(--bold-font);
+  font-size: var(--font-04);
+}
+
+#footer p:last-child {
+  font-size: var(--font-02);
+}

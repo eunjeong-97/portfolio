@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic+Coding&display=swap');
+
+/* === base ===*/
+@import './base/reset.css';
+@import './base/variable.css';
+@import './base/common.css';
+
+/* === components === */
+@import 'components/navbar.css';
+@import 'components/card-component.css';
+@import 'components/interest-chart.css';
+@import 'components/footer.css';
+
+/* === sections === */
+@import 'sections/header.css';
+@import 'sections/introduce.css';
+@import 'sections/education.css';
+@import 'sections/project.css';
+@import 'sections/todo.css';
+@import 'sections/interest.css';
+@import 'sections/photos.css';
+

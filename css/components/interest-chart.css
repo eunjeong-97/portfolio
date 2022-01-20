@@ -1,0 +1,86 @@
+.interest-chart {
+  padding: 0;
+  list-style-type: none;
+  overflow: hidden;
+  position: relative;
+  width: 350px;
+  height: 175px;
+}
+.interest-chart *,
+.interest-chart::before {
+  box-sizing: border-box;
+}
+
+.interest-chart::before {
+  position: absolute;
+  content: '';
+  width: inherit;
+  height: inherit;
+  border: 45px solid rgba(211, 211, 211, .3);
+  border-bottom: none;
+  border-top-left-radius: 175px;
+  border-top-right-radius: 175px;
+}
+
+
+.interest-chart li {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  border: 45px solid;
+  border-top: none;
+  border-bottom-left-radius: 175px;
+  border-bottom-right-radius: 175px;
+  transform-origin: 50% 0;
+}
+
+.interest-chart li:nth-child(1) {
+  z-index: 4;
+  border-color: var(--side-03);
+  animation: chartAni1 2s linear 1 forwards;
+}
+
+.interest-chart li:nth-child(2) {
+  z-index: 3;
+  border-color: var(--grey-03);
+  animation: chartAni2 2s linear 1 forwards;
+}
+
+.interest-chart li:nth-child(3) {
+  z-index: 2;
+  border-color: var(--side-06);
+  animation: chartAni3 2s linear 1 forwards;
+}
+
+.interest-chart li:nth-child(4) {
+  z-index: 1;
+  border-color: var(--main-05);
+  animation: chartAni4 2s linear 1 forwards;
+}
+
+span{display: none;}
+
+@keyframes chartAni1{
+    0%{transform: rotateZ(0);}
+    26%{transform: rotateZ(40deg)}
+    100%{transform: rotateZ(40deg)}
+}
+@keyframes chartAni2{
+    0%{transform: rotateZ(0);}
+    26%{transform: rotateZ(40deg);}
+    30%{transform: rotateZ(50deg);}
+    100%{transform: rotateZ(50deg);}
+}
+@keyframes chartAni3{
+    0%{transform: rotateZ(0);}
+    30%{transform: rotateZ(50deg)}
+    60%{transform: rotateZ(100deg)}
+    100%{transform: rotateZ(100deg)}
+}
+@keyframes chartAni4{
+    0%{transform: rotateZ(0);}
+    60%{transform: rotateZ(100deg)}
+    100%{transform: rotateZ(180deg)}
+}

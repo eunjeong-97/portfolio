@@ -1,0 +1,55 @@
+:root {
+  /*-----color-----*/
+  --main-01: #e6e9fb;
+  --main-02: #ccd3f7;
+  --main-03: #b1bef2;
+  --main-04: #95a9ee;
+  --main-05: #95a9ee;
+  --main-06: #7695e9;
+  --main-07: #5082e4;
+
+  --side-01: #ffeeea;
+  --side-02: #feddd5;
+  --side-03: #fdcbc1;
+  --side-04: #fabaad;
+  --side-05: #f6a999;
+  --side-06: #f29886;
+
+  --grey-01: #eeeeee;
+  --grey-02: #dcdcdc;
+  --grey-03: #cbcbcb;
+  --grey-04: #bbbbbb;
+  --grey-05: #aaaaaa;
+  --grey-06: #9a9a9a;
+  --grey-07: #7f7f7f;
+  --grey-08: #646464;
+  --grey-09: #4b4b4b;
+  --grey-10: #333333;
+
+  /*-----Font size-----*/
+  --font-01: 14px;
+  --font-02: 16px;
+  --font-03: 18px;
+  --font-04: 28px;
+  --font-05: 48px;
+
+  /*-----Font weight-----*/
+  --weight-01: 400;
+  --weight-02: 600;
+  --weight-03: 700;
+
+  /*-----Font Family-----*/
+  --bold-font: 'Jua', sans-serif;
+
+  /*-----Grid-----*/
+  --breakpoint-min-desktop: 1200px;
+  --breakpoint-min-tablet: 576px;
+
+  /*-----space-----*/
+  --space-01: 10px;
+  --space-02: 25px;
+  --space-03: 35px;
+  --space-04: 45px;
+  --space-05: 50px;
+  --section-space: 80px;
+}
