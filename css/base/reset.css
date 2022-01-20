@@ -56,3 +56,7 @@ a {
 	text-decoration: none;
 	color: inherit;
 }
+
+a:hover {
+	color: var(--side-06);
+}

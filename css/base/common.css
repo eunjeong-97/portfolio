@@ -35,11 +35,3 @@ section {
   font-size: var(--font-03);
   line-height: var(--font-04);
 }
-
-.no-display {
-  display: none;
-}
-
-.yes-display {
-  display: inline-block;
-}
