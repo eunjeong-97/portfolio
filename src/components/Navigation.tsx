@@ -25,6 +25,17 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const hancleLinkClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(false);
+    setTimeout(() => {
+      document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
+
   return (
     <motion.nav
       initial={{ y: -100 }}
@@ -53,6 +64,7 @@ export default function Navigation() {
               <li key={item.href}>
                 <a
                   href={item.href}
+                  onClick={(e) => hancleLinkClick(e, item.href)}
                   className="text-muted-foreground hover:text-foreground transition-colors text-sm font-medium"
                 >
                   {item.label}
@@ -106,35 +118,44 @@ export default function Navigation() {
       {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-section-bg backdrop-blur-md border-b border-border"
-          >
-            <ul className="flex flex-col px-6 py-4 gap-4">
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  <a
-                    href={item.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-muted-foreground hover:text-foreground transition-colors text-lg"
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="fixed inset-0 top-[289px] md:hidden z-40"
+            />
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden bg-section-bg backdrop-blur-md border-b border-border"
+            >
+              <ul className="flex flex-col">
+                {navItems.map((item) => (
+                  <li key={item.href}>
+                    <a
+                      href={item.href}
+                      onClick={(e) => hancleLinkClick(e, item.href)}
+                      className="text-muted-foreground hover:text-foreground transition-colors text-lg block w-full px-6 py-2"
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+                <li>
+                  <button
+                    onClick={toggleTheme}
+                    className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors w-full px-6 py-2"
                   >
-                    {item.label}
-                  </a>
+                    {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+                    {theme === "dark" ? "Light Mode" : "Dark Mode"}
+                  </button>
                 </li>
-              ))}
-              <li>
-                <button
-                  onClick={toggleTheme}
-                  className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-                  {theme === "dark" ? "Light Mode" : "Dark Mode"}
-                </button>
-              </li>
-            </ul>
-          </motion.div>
+              </ul>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </motion.nav>
