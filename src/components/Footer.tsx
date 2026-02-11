@@ -6,7 +6,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="py-8 px-6 border-t border-neutral-800">
+    <footer className="py-8 px-6 border-t border-border">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
         <motion.p
           initial={{ opacity: 0 }}
@@ -24,7 +24,7 @@ export default function Footer() {
             href="https://github.com/eunjeong-97"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-white transition-colors"
+            className="hover:text-foreground transition-colors"
           >
             GitHub
           </a>
@@ -32,13 +32,13 @@ export default function Footer() {
             href="https://velog.io/@beanlove97"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-white transition-colors"
+            className="hover:text-foreground transition-colors"
           >
             Blog
           </a>
           <a
             href="mailto:beanlove97@gmail.com"
-            className="hover:text-white transition-colors"
+            className="hover:text-foreground transition-colors"
           >
             Email
           </a>

@@ -32,7 +32,7 @@ export default function Navigation() {
       transition={{ duration: 0.5 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-neutral-950/80 backdrop-blur-md border-b border-neutral-800"
+          ? "bg-section-bg backdrop-blur-md border-b border-border"
           : "bg-transparent"
       }`}
     >
@@ -40,10 +40,10 @@ export default function Navigation() {
         {/* Logo */}
         <motion.a
           href="#"
-          className="text-xl font-bold text-white"
+          className="text-xl font-bold text-foreground"
           whileHover={{ scale: 1.05 }}
         >
-          EJ<span className="text-primary">.</span>
+          EunJeong<span className="text-primary">.</span>
         </motion.a>
 
         {/* Desktop Navigation */}
@@ -53,7 +53,7 @@ export default function Navigation() {
               <li key={item.href}>
                 <a
                   href={item.href}
-                  className="text-neutral-400 hover:text-white transition-colors text-sm font-medium"
+                  className="text-muted-foreground hover:text-foreground transition-colors text-sm font-medium"
                 >
                   {item.label}
                 </a>
@@ -64,7 +64,7 @@ export default function Navigation() {
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 transition-colors"
+            className="p-2 rounded-lg bg-muted hover:border-border transition-colors"
             aria-label="Toggle theme"
           >
             <AnimatePresence mode="wait">
@@ -96,7 +96,7 @@ export default function Navigation() {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="md:hidden p-2 text-white"
+          className="md:hidden p-2 text-foreground"
           aria-label="Toggle menu"
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -110,7 +110,7 @@ export default function Navigation() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-neutral-950/95 backdrop-blur-md border-b border-neutral-800"
+            className="md:hidden bg-section-bg backdrop-blur-md border-b border-border"
           >
             <ul className="flex flex-col px-6 py-4 gap-4">
               {navItems.map((item) => (
@@ -118,7 +118,7 @@ export default function Navigation() {
                   <a
                     href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-neutral-400 hover:text-white transition-colors text-lg"
+                    className="text-muted-foreground hover:text-foreground transition-colors text-lg"
                   >
                     {item.label}
                   </a>
@@ -127,7 +127,7 @@ export default function Navigation() {
               <li>
                 <button
                   onClick={toggleTheme}
-                  className="flex items-center gap-2 text-neutral-400 hover:text-white transition-colors"
+                  className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
                   {theme === "dark" ? "Light Mode" : "Dark Mode"}

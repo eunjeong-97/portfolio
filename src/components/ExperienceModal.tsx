@@ -10,7 +10,10 @@ interface ExperienceModalProps {
   onClose: () => void;
 }
 
-export default function ExperienceModal({ experience, onClose }: ExperienceModalProps) {
+export default function ExperienceModal({
+  experience,
+  onClose,
+}: ExperienceModalProps) {
   // ESC 키로 모달 닫기
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -51,17 +54,19 @@ export default function ExperienceModal({ experience, onClose }: ExperienceModal
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: "spring", duration: 0.5 }}
-            className="fixed inset-4 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-2xl md:max-h-[85vh] bg-neutral-900 rounded-2xl border border-neutral-700 z-50 overflow-hidden flex flex-col"
+            className="fixed inset-4 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-2xl md:max-h-[85vh] bg-section-bg rounded-2xl border border-border z-50 overflow-hidden flex flex-col"
           >
             {/* Header */}
-            <div className="flex items-start justify-between p-6 border-b border-neutral-800">
+            <div className="flex items-start justify-between p-6 border-b border-border">
               <div>
-                <span className="text-sm text-primary font-medium">{experience.period}</span>
+                <span className="text-sm text-primary font-medium">
+                  {experience.period}
+                </span>
                 <h3 className="text-2xl font-bold mt-1">{experience.title}</h3>
               </div>
               <button
                 onClick={onClose}
-                className="p-2 hover:bg-neutral-800 rounded-lg transition-colors"
+                className="p-2 hover:bg-muted rounded-lg transition-colors"
                 aria-label="Close modal"
               >
                 <X size={20} />
@@ -70,14 +75,19 @@ export default function ExperienceModal({ experience, onClose }: ExperienceModal
 
             {/* Content */}
             <div className="flex-1 overflow-y-auto p-6">
-              <p className="text-neutral-300 mb-6 leading-relaxed">{experience.description}</p>
+              <p className="text-muted-foreground mb-6 leading-relaxed">
+                {experience.description}
+              </p>
 
               {/* Details */}
               <div className="mb-6">
                 <h4 className="text-lg font-semibold mb-4">주요 내용</h4>
                 <ul className="space-y-3">
                   {experience.details.map((detail, index) => (
-                    <li key={index} className="flex gap-3 text-neutral-400">
+                    <li
+                      key={index}
+                      className="flex gap-3 text-muted-foreground"
+                    >
                       <span className="text-primary mt-1">•</span>
                       <span>{detail}</span>
                     </li>
@@ -92,7 +102,7 @@ export default function ExperienceModal({ experience, onClose }: ExperienceModal
                   {experience.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1.5 bg-neutral-800 rounded-lg text-sm text-neutral-300"
+                      className="px-3 py-1.5 bg-muted rounded-lg text-sm text-muted-foreground"
                     >
                       {tag}
                     </span>
@@ -104,7 +114,7 @@ export default function ExperienceModal({ experience, onClose }: ExperienceModal
               {experience.videoUrl && (
                 <div>
                   <h4 className="text-lg font-semibold mb-4">실행 영상</h4>
-                  <div className="relative bg-neutral-800 rounded-xl overflow-hidden aspect-video">
+                  <div className="relative bg-muted rounded-xl overflow-hidden aspect-video">
                     <video
                       src={experience.videoUrl}
                       controls

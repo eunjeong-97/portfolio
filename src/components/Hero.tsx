@@ -19,7 +19,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="inline-block px-4 py-2 bg-neutral-800 rounded-full text-sm text-primary-light mb-6 border border-neutral-700"
+            className="inline-block px-4 py-2 bg-muted rounded-full text-sm text-primary-light mb-6 border border-border"
           >
             Frontend Developer
           </motion.span>
@@ -41,7 +41,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-lg text-neutral-400 mb-8 leading-relaxed"
+            className="text-lg text-muted-foreground mb-8 leading-relaxed"
           >
             웹과 앱의 경계 없이 사용자에게 최적의 경험을 전달합니다.
             <br />
@@ -56,13 +56,13 @@ export default function Hero() {
           >
             <a
               href="#experience"
-              className="px-6 py-3 bg-primary hover:bg-primary-light rounded-lg font-medium transition-colors"
+              className="px-6 py-3 bg-primary hover:bg-primary-light rounded-lg font-medium transition-colors text-white"
             >
               경험 보기
             </a>
             <a
               href="#contact"
-              className="px-6 py-3 border border-neutral-600 hover:border-white rounded-lg font-medium transition-colors"
+              className="px-6 py-3 border border-neutral-600 hover:border-foreground rounded-lg font-medium transition-colors text-foreground"
             >
               연락하기
             </a>
@@ -78,7 +78,7 @@ export default function Hero() {
               href="https://github.com/eunjeong-97"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-neutral-400 hover:text-primary transition-colors"
+              className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
             >
               <Github size={18} />
               <span>GitHub</span>
@@ -87,7 +87,7 @@ export default function Hero() {
               href="https://velog.io/@beanlove97"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-neutral-400 hover:text-primary transition-colors"
+              className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
             >
               <FileText size={18} />
               <span>Blog</span>
@@ -107,32 +107,33 @@ export default function Hero() {
             <div className="absolute w-[300px] h-[300px] bg-primary blur-[150px] opacity-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full" />
 
             {/* Profile Frame */}
-            <div className="relative w-[280px] h-[350px] md:w-[320px] md:h-[400px] bg-gradient-to-br from-neutral-800 to-neutral-900 rounded-3xl border border-neutral-700 overflow-hidden mx-auto">
+            <div className="relative w-[280px] h-[350px] md:w-[320px] md:h-[400px] bg-gradient-to-br from-muted to-card rounded-3xl border border-border overflow-hidden mx-auto">
               {/* Placeholder - 나중에 실제 이미지로 교체 */}
-              <div className="w-full h-full flex flex-col items-center justify-center gap-4">
-                <div className="w-24 h-24 md:w-32 md:h-32 bg-neutral-700 rounded-full flex items-center justify-center">
-                  <div className="w-12 h-12 md:w-16 md:h-16 bg-neutral-600 rounded-full" />
-                </div>
-                <span className="text-neutral-600 text-sm">프로필 이미지</span>
-              </div>
-              {/* 실제 이미지 사용 시 아래 주석 해제
+              {/* <div className="w-full h-full flex flex-col items-center justify-center gap-4"> */}
+              {/* <div className="w-24 h-24 md:w-32 md:h-32 border-border rounded-full flex items-center justify-center"> */}
+              {/* <div className="w-12 h-12 md:w-16 md:h-16 bg-neutral-600 rounded-full" /> */}
+              {/* </div> */}
+              {/* <span className="text-neutral-600 text-sm">프로필 이미지</span> */}
+              {/* </div> */}
+              {/* 실제 이미지 사용 시 아래 주석 해제 */}
               <Image
-                src="/profile.jpg"
+                src="/images/profile.jpg"
                 alt="박은정"
                 fill
                 className="object-cover"
                 priority
               />
-              */}
             </div>
 
             {/* Floating Cards */}
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-4 -right-4 md:top-8 md:right-0 bg-neutral-900 border border-neutral-700 rounded-xl px-4 py-3 shadow-2xl"
+              className="absolute top-4 -right-4 md:top-8 md:right-0 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl"
             >
-              <div className="text-xs text-neutral-400 mb-1">Experience</div>
+              <div className="text-xs text-muted-foreground mb-1">
+                Experience
+              </div>
               <div className="text-lg font-semibold">
                 3<span className="text-primary">+</span> Years
               </div>
@@ -140,15 +141,22 @@ export default function Hero() {
 
             <motion.div
               animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-              className="absolute bottom-24 -left-8 md:bottom-28 md:-left-12 bg-neutral-900 border border-neutral-700 rounded-xl px-4 py-3 shadow-2xl"
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 0.5,
+              }}
+              className="absolute bottom-24 -left-8 md:bottom-28 md:-left-12 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl"
             >
-              <div className="text-xs text-neutral-400 mb-2">Tech Stack</div>
+              <div className="text-xs text-muted-foreground mb-2">
+                Tech Stack
+              </div>
               <div className="flex gap-2">
                 {["JS", "TS", "RN"].map((tech) => (
                   <div
                     key={tech}
-                    className="w-8 h-8 bg-neutral-800 rounded-lg flex items-center justify-center text-xs font-semibold text-primary-light"
+                    className="w-8 h-8 bg-muted rounded-lg flex items-center justify-center text-xs font-semibold text-primary-light"
                   >
                     {tech}
                   </div>
@@ -158,10 +166,15 @@ export default function Hero() {
 
             <motion.div
               animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              className="absolute -bottom-2 right-4 md:bottom-0 md:right-8 bg-neutral-900 border border-neutral-700 rounded-xl px-4 py-3 shadow-2xl"
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1,
+              }}
+              className="absolute -bottom-2 right-4 md:bottom-0 md:right-8 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl"
             >
-              <div className="text-xs text-neutral-400 mb-1">Projects</div>
+              <div className="text-xs text-muted-foreground mb-1">Projects</div>
               <div className="text-lg font-semibold">
                 60<span className="text-primary">+</span> Pages
               </div>
