@@ -75,7 +75,7 @@ export default function ExperienceModal({
 
             {/* Content */}
             <div className="flex-1 overflow-y-auto p-6">
-              <p className="text-muted-foreground mb-6 leading-relaxed">
+              <p className="text-muted-foreground mb-6 leading-relaxed whitespace-pre-line">
                 {experience.description}
               </p>
 
@@ -120,6 +120,8 @@ export default function ExperienceModal({
                       controls
                       className="w-full h-full object-contain"
                       playsInline
+                      autoPlay
+                      muted
                     >
                       <source src={experience.videoUrl} type="video/mp4" />
                       브라우저가 비디오 태그를 지원하지 않습니다.
