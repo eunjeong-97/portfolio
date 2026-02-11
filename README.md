@@ -66,6 +66,8 @@ src/
 
 ## 🚀 Vercel 배포
 
+> https://eunjeong.vercel.app/
+
 1. [Vercel](https://vercel.com)에 GitHub 저장소 연결
 2. 자동으로 빌드 및 배포됩니다
 3. 커스텀 도메인 설정 (선택사항)
