@@ -29,7 +29,7 @@ export const experiences: Experience[] = [
       "Swift",
     ],
     videoUrl:
-      "https://prod-files-secure.s3.us-west-2.amazonaws.com/ac994adc-23ab-495b-9ad1-c7168d2840bc/863b6301-d7ba-428b-9cb1-5910d6b4d77c/캐시버튼.mp4",
+      "https://res.cloudinary.com/dng2kkpf9/video/upload/v1770838521/%E1%84%8B%E1%85%A2%E1%84%83%E1%85%B3%E1%84%86%E1%85%A9%E1%86%B8_dipi2h.mp4",
   },
   {
     id: "admob-bidding",
@@ -43,8 +43,6 @@ export const experiences: Experience[] = [
       "기존 앱의 JavaScript 로직을 네이티브 코드로 변환하는 라이브러리 코드 분석 및 설정 적용",
     ],
     tags: ["Google AdMob", "Bidding", "Revenue Optimization"],
-    videoUrl:
-      "https://prod-files-secure.s3.us-west-2.amazonaws.com/ac994adc-23ab-495b-9ad1-c7168d2840bc/3a968997-4019-49f3-9f36-807f43bad8b1/애드몹.mp4",
   },
   {
     id: "app-rebuild",
