@@ -64,21 +64,6 @@ src/
 - ✅ 프로젝트 상세 모달
 - ✅ 실행 영상 임베드
 
-## 🎨 커스터마이징
-
-### 프로필 이미지 추가
-
-1. 프로필 이미지를 `public/profile.jpg`로 저장
-2. `src/components/Hero.tsx`에서 placeholder 부분을 주석 처리하고 Image 컴포넌트 주석 해제
-
-### 경력 데이터 수정
-
-`src/data/experiences.ts` 파일에서 경력 정보를 수정할 수 있습니다.
-
-### 색상 변경
-
-`tailwind.config.ts`의 `colors.primary`를 원하는 색상으로 변경하세요.
-
 ## 🚀 Vercel 배포
 
 1. [Vercel](https://vercel.com)에 GitHub 저장소 연결
