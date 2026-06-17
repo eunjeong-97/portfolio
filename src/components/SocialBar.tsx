@@ -9,6 +9,7 @@ const SOCIAL_BAR_ANIMATE = { opacity: 1, x: 0 } as const;
 const TOOLTIP_INITIAL = { opacity: 0, x: -8 } as const;
 const TOOLTIP_ANIMATE = { opacity: 1, x: 0 } as const;
 const TOOLTIP_EXIT = { opacity: 0, x: -8 } as const;
+const LINK_HOVER = { scale: 1.15, x: 3 } as const;
 
 const links = [
   { href: "https://github.com/eunjeong-97", icon: Github, label: "GitHub", external: true },
@@ -47,7 +48,7 @@ export default function SocialBar() {
             target={external ? "_blank" : undefined}
             rel={external ? "noopener noreferrer" : undefined}
             aria-label={external ? `${label} (새 탭에서 열림)` : label}
-            whileHover={{ scale: 1.15, x: 3 }}
+            whileHover={LINK_HOVER}
             onMouseEnter={() => setHoveredLabel(label)}
             onMouseLeave={() => setHoveredLabel(null)}
             onFocus={() => setHoveredLabel(label)}

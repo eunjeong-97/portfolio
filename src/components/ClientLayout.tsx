@@ -6,6 +6,9 @@ import { ThemeProvider } from "./ThemeProvider";
 import Navigation from "./Navigation";
 import ReadingProgress from "./ReadingProgress";
 
+const LAYOUT_INITIAL = { opacity: 0 } as const;
+const LAYOUT_ANIMATE = { opacity: 1 } as const;
+
 const ChatBot = dynamic(() => import("./ChatBot"), { ssr: false });
 const ScrollToTop = dynamic(() => import("./ScrollToTop"), { ssr: false });
 const KeyboardShortcuts = dynamic(() => import("./KeyboardShortcuts"), { ssr: false });
@@ -29,8 +32,8 @@ export default function ClientLayout({
       <ReadingProgress />
       <Navigation />
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        initial={LAYOUT_INITIAL}
+        animate={LAYOUT_ANIMATE}
         transition={{ duration: 0.4 }}
       >
         {children}
