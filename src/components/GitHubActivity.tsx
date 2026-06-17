@@ -44,7 +44,8 @@ export default function GitHubActivity() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetch("/api/github")
+    const controller = new AbortController();
+    fetch("/api/github", { signal: controller.signal })
       .then((r) => {
         if (!r.ok) throw new Error("fetch failed");
         return r.json();
@@ -54,10 +55,12 @@ export default function GitHubActivity() {
         setStats(data.stats || null);
         setLoading(false);
       })
-      .catch(() => {
+      .catch((err) => {
+        if (err.name === "AbortError") return;
         setError(true);
         setLoading(false);
       });
+    return () => controller.abort();
   }, []);
 
   const dailyActivity = useMemo(() => {
@@ -74,6 +77,7 @@ export default function GitHubActivity() {
 
   return (
     <section id="github" className="py-24 px-6 bg-section-bg" ref={ref} aria-busy={loading}>
+      {loading && <span className="sr-only" role="status">GitHub 활동 로딩 중...</span>}
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

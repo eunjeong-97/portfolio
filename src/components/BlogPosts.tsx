@@ -40,7 +40,8 @@ export default function BlogPosts() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetch("/api/blog")
+    const controller = new AbortController();
+    fetch("/api/blog", { signal: controller.signal })
       .then((r) => {
         if (!r.ok) throw new Error("fetch failed");
         return r.json();
@@ -49,14 +50,17 @@ export default function BlogPosts() {
         setPosts(data.posts || []);
         setLoading(false);
       })
-      .catch(() => {
+      .catch((err) => {
+        if (err.name === "AbortError") return;
         setError(true);
         setLoading(false);
       });
+    return () => controller.abort();
   }, []);
 
   return (
     <section id="blog" className="py-24 px-6" ref={ref} aria-busy={loading}>
+      {loading && <span className="sr-only" role="status">블로그 글 로딩 중...</span>}
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -144,7 +148,7 @@ export default function BlogPosts() {
 
                 {/* New badge on recent posts */}
                 {index === 0 && isRecent(post.pubDate) && (
-                  <div className="absolute top-3 right-3 px-1.5 py-0.5 bg-primary text-white text-[10px] font-semibold rounded-full" aria-label="최신 글">
+                  <div className="absolute top-3 right-3 px-1.5 py-0.5 bg-primary text-white text-[10px] font-semibold rounded-full" aria-hidden="true">
                     NEW
                   </div>
                 )}
