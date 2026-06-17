@@ -221,7 +221,7 @@ export default function Contact() {
                       <div className="flex items-center justify-between mb-1.5">
                         <label htmlFor="contact-name" className="text-xs text-muted-foreground">이름</label>
                         {fieldStatus.name === "error" && (
-                          <span className="flex items-center gap-1 text-[10px] text-red-400">
+                          <span id="name-error" className="flex items-center gap-1 text-[10px] text-red-400" role="alert">
                             <AlertCircle size={10} aria-hidden="true" /> 2자 이상 입력해주세요
                           </span>
                         )}
@@ -235,6 +235,8 @@ export default function Contact() {
                         onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                         onBlur={() => setTouched(t => ({ ...t, name: true }))}
                         placeholder="홍길동"
+                        aria-invalid={fieldStatus.name === "error"}
+                        aria-describedby={fieldStatus.name === "error" ? "name-error" : undefined}
                         className={`w-full bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors ${
                           fieldStatus.name === "error" ? "border-red-400/50" : fieldStatus.name === "valid" ? "border-green-400/50" : "border-border"
                         }`}
@@ -244,7 +246,7 @@ export default function Contact() {
                       <div className="flex items-center justify-between mb-1.5">
                         <label htmlFor="contact-email" className="text-xs text-muted-foreground">이메일</label>
                         {fieldStatus.email === "error" && (
-                          <span className="flex items-center gap-1 text-[10px] text-red-400">
+                          <span id="email-error" className="flex items-center gap-1 text-[10px] text-red-400" role="alert">
                             <AlertCircle size={10} aria-hidden="true" /> 올바른 이메일 형식
                           </span>
                         )}
@@ -258,6 +260,8 @@ export default function Contact() {
                         onChange={(e) => setFormState({ ...formState, email: e.target.value })}
                         onBlur={() => setTouched(t => ({ ...t, email: true }))}
                         placeholder="example@email.com"
+                        aria-invalid={fieldStatus.email === "error"}
+                        aria-describedby={fieldStatus.email === "error" ? "email-error" : undefined}
                         className={`w-full bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors ${
                           fieldStatus.email === "error" ? "border-red-400/50" : fieldStatus.email === "valid" ? "border-green-400/50" : "border-border"
                         }`}
@@ -270,16 +274,17 @@ export default function Contact() {
                         <label htmlFor="contact-message" className="text-xs text-muted-foreground">메시지</label>
                         {fieldStatus.message === "valid" && <Check size={12} className="text-green-400" aria-hidden="true" />}
                         {fieldStatus.message === "error" && (
-                          <span className="flex items-center gap-1 text-[10px] text-red-400">
+                          <span id="message-error" className="flex items-center gap-1 text-[10px] text-red-400" role="alert">
                             <AlertCircle size={10} aria-hidden="true" /> 10자 이상 입력해주세요
                           </span>
                         )}
                       </div>
                       <span
+                        id="message-count"
                         className={`text-xs ${formState.message.length > 450 ? "text-red-400" : "text-muted-foreground/60"}`}
-                        aria-label={`${formState.message.length}자 / 최대 500자`}
                         aria-live="polite"
                         aria-atomic="true"
+                        aria-label={`${formState.message.length}자 / 최대 500자`}
                       >
                         {formState.message.length}/500
                       </span>
@@ -298,6 +303,12 @@ export default function Contact() {
                         }
                       }}
                       placeholder="안녕하세요! 함께 일하고 싶어서 연락드립니다..."
+                      aria-invalid={fieldStatus.message === "error"}
+                      aria-describedby={
+                        fieldStatus.message === "error"
+                          ? "message-error message-count"
+                          : "message-count"
+                      }
                       className={`w-full bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none transition-colors ${
                         fieldStatus.message === "error" ? "border-red-400/50" : fieldStatus.message === "valid" ? "border-green-400/50" : "border-border"
                       }`}
