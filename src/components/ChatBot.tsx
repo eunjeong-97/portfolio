@@ -41,7 +41,7 @@ function TypewriterText({ content, onDone }: { content: string; onDone: () => vo
     return () => clearInterval(interval);
   }, [content, speed]);
   if (done) return <span dangerouslySetInnerHTML={{ __html: renderMarkdown(content) }} />;
-  return <span>{displayed}<span className="inline-block w-0.5 h-3.5 bg-foreground/60 ml-0.5 animate-pulse align-middle" /></span>;
+  return <span>{displayed}<span className="inline-block w-0.5 h-3.5 bg-foreground/60 ml-0.5 animate-pulse align-middle" aria-hidden="true" /></span>;
 }
 
 function renderMarkdown(text: string) {
@@ -201,7 +201,7 @@ export default function ChatBot() {
             {/* Header */}
             <div className="bg-primary px-4 py-3 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Bot size={20} className="text-white" />
+                <Bot size={20} className="text-white" aria-hidden="true" />
                 <div>
                   <div className="flex items-center gap-2">
                     <p className="text-white font-semibold text-sm">
@@ -223,14 +223,14 @@ export default function ChatBot() {
                   aria-label="대화 초기화"
                   title="대화 초기화"
                 >
-                  <RotateCcw size={15} />
+                  <RotateCcw size={15} aria-hidden="true" />
                 </button>
                 <button
                   onClick={() => setIsOpen(false)}
                   className="text-white/80 hover:text-white transition-colors"
                   aria-label="채팅 닫기"
                 >
-                  <X size={20} />
+                  <X size={20} aria-hidden="true" />
                 </button>
               </div>
             </div>
@@ -367,7 +367,7 @@ export default function ChatBot() {
                     aria-label="응답 취소"
                     title="응답 취소"
                   >
-                    <X size={16} />
+                    <X size={16} aria-hidden="true" />
                   </button>
                 ) : (
                   <button
@@ -376,7 +376,7 @@ export default function ChatBot() {
                     className="bg-primary hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed text-white p-2 rounded-xl transition-colors"
                     aria-label="메시지 전송"
                   >
-                    <Send size={16} />
+                    <Send size={16} aria-hidden="true" />
                   </button>
                 )}
               </div>
@@ -401,6 +401,7 @@ export default function ChatBot() {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0 }}
+              aria-hidden="true"
               className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center"
             >
               <span className="w-2.5 h-2.5 bg-red-400 rounded-full animate-ping absolute" />
@@ -416,6 +417,7 @@ export default function ChatBot() {
               animate={{ rotate: 0, opacity: 1 }}
               exit={{ rotate: 90, opacity: 0 }}
               transition={{ duration: 0.15 }}
+              aria-hidden="true"
             >
               <X size={24} />
             </motion.div>
@@ -426,6 +428,7 @@ export default function ChatBot() {
               animate={{ rotate: 0, opacity: 1 }}
               exit={{ rotate: -90, opacity: 0 }}
               transition={{ duration: 0.15 }}
+              aria-hidden="true"
             >
               <MessageCircle size={24} />
             </motion.div>
