@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Experience } from "@/data/experiences";
 import { useEffect, useRef } from "react";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 interface ExperienceModalProps {
   experience: Experience | null;
@@ -14,8 +15,6 @@ interface ExperienceModalProps {
   total?: number;
   direction?: 1 | -1;
 }
-
-const FOCUSABLE = 'button:not([disabled]),[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
 
 export default function ExperienceModal({
   experience,
@@ -29,6 +28,8 @@ export default function ExperienceModal({
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
+  useFocusTrap(modalRef, !!experience);
+
   useEffect(() => {
     if (experience) closeButtonRef.current?.focus();
   }, [experience]);
@@ -38,19 +39,6 @@ export default function ExperienceModal({
       if (e.key === "Escape") { onClose(); return; }
       if (e.key === "ArrowLeft") { onPrev?.(); return; }
       if (e.key === "ArrowRight") { onNext?.(); return; }
-      if (e.key !== "Tab") return;
-
-      const modal = modalRef.current;
-      if (!modal) return;
-      const focusable = Array.from(modal.querySelectorAll<HTMLElement>(FOCUSABLE));
-      if (!focusable.length) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (e.shiftKey) {
-        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
-      } else {
-        if (document.activeElement === last) { e.preventDefault(); first.focus(); }
-      }
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);

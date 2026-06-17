@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, Bot, User, RotateCcw, Mail, Copy, Check } from "lucide-react";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 interface Message {
   role: "user" | "assistant";
@@ -12,8 +13,6 @@ interface Message {
 }
 
 const MAX_INPUT = 200;
-const FOCUSABLE =
-  'button:not([disabled]),[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
 
 const SUGGESTIONS = [
   "가장 자랑스러운 프로젝트는?",
@@ -95,6 +94,8 @@ export default function ChatBot() {
   const abortRef = useRef<AbortController | null>(null);
   const chatModalRef = useRef<HTMLDivElement>(null);
 
+  useFocusTrap(chatModalRef, isOpen);
+
   useEffect(() => {
     if (messages.length > 1) {
       try {
@@ -133,26 +134,6 @@ export default function ChatBot() {
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
   }, []);
-
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleTab = (e: KeyboardEvent) => {
-      if (e.key !== "Tab") return;
-      const modal = chatModalRef.current;
-      if (!modal) return;
-      const focusable = Array.from(modal.querySelectorAll<HTMLElement>(FOCUSABLE));
-      if (!focusable.length) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (e.shiftKey) {
-        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
-      } else {
-        if (document.activeElement === last) { e.preventDefault(); first.focus(); }
-      }
-    };
-    window.addEventListener("keydown", handleTab);
-    return () => window.removeEventListener("keydown", handleTab);
-  }, [isOpen]);
 
   const cancelMessage = () => {
     abortRef.current?.abort();
