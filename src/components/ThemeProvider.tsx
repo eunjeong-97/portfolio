@@ -16,18 +16,20 @@ const THEME_COLORS: Record<Theme, string> = {
   light: "#fafafa",
 };
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("dark");
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
+function readStoredTheme(): Theme {
+  if (typeof window === "undefined") return "dark";
+  try {
     const saved = localStorage.getItem("theme") as Theme | null;
-    if (saved === "light" || saved === "dark") setTheme(saved);
-  }, []);
+    return saved === "light" || saved === "dark" ? saved : "dark";
+  } catch {
+    return "dark";
+  }
+}
+
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setTheme] = useState<Theme>(readStoredTheme);
 
   useEffect(() => {
-    if (!mounted) return;
     document.documentElement.classList.remove("light", "dark");
     document.documentElement.classList.add(theme);
     localStorage.setItem("theme", theme);
@@ -39,7 +41,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       document.head.appendChild(metaThemeColor);
     }
     metaThemeColor.content = THEME_COLORS[theme];
-  }, [theme, mounted]);
+  }, [theme]);
 
   const toggleTheme = useCallback(() =>
     setTheme((prev) => (prev === "dark" ? "light" : "dark")), []);
