@@ -376,6 +376,7 @@ export default function ChatBot() {
                     ref={inputRef}
                     type="text"
                     value={input}
+                    maxLength={MAX_INPUT}
                     onChange={(e) => setInput(e.target.value.slice(0, MAX_INPUT))}
                     onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                     placeholder="메시지를 입력하세요..."
@@ -384,7 +385,11 @@ export default function ChatBot() {
                     aria-disabled={loading}
                   />
                   {input.length > MAX_INPUT * 0.8 && (
-                    <span className={`absolute right-2 bottom-2 text-[10px] ${input.length >= MAX_INPUT ? "text-red-400" : "text-muted-foreground/60"}`}>
+                    <span
+                      className={`absolute right-2 bottom-2 text-[10px] ${input.length >= MAX_INPUT ? "text-red-400" : "text-muted-foreground/60"}`}
+                      aria-live="polite"
+                      aria-label={`${input.length}자 / 최대 ${MAX_INPUT}자`}
+                    >
                       {input.length}/{MAX_INPUT}
                     </span>
                   )}

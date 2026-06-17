@@ -233,6 +233,7 @@ export default function Contact() {
                         id="contact-name"
                         type="text"
                         required
+                        maxLength={50}
                         value={formState.name}
                         onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                         onBlur={() => setTouched(t => ({ ...t, name: true }))}
@@ -258,6 +259,7 @@ export default function Contact() {
                         id="contact-email"
                         type="email"
                         required
+                        maxLength={100}
                         value={formState.email}
                         onChange={(e) => setFormState({ ...formState, email: e.target.value })}
                         onBlur={() => setTouched(t => ({ ...t, email: true }))}

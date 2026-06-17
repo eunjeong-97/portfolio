@@ -35,7 +35,8 @@ export async function GET() {
     }
 
     return NextResponse.json({ posts: items });
-  } catch {
+  } catch (err) {
+    console.error("[blog API]", err);
     return NextResponse.json({ posts: [] }, { headers: { "Cache-Control": "no-store" } });
   }
 }

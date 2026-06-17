@@ -61,7 +61,8 @@ export async function GET() {
     };
 
     return NextResponse.json({ events: pushEvents, stats });
-  } catch {
+  } catch (err) {
+    console.error("[github API]", err);
     return NextResponse.json(
       { events: [], stats: null },
       { headers: { "Cache-Control": "no-store" } }

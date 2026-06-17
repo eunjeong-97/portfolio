@@ -12,6 +12,26 @@ interface Post {
   description: string;
 }
 
+function formatDate(dateStr: string): string {
+  try {
+    return new Date(dateStr).toLocaleDateString("ko-KR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  } catch {
+    return dateStr;
+  }
+}
+
+function isRecent(dateStr: string): boolean {
+  try {
+    return Date.now() - new Date(dateStr).getTime() < 1000 * 60 * 60 * 24 * 30;
+  } catch {
+    return false;
+  }
+}
+
 export default function BlogPosts() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -34,27 +54,6 @@ export default function BlogPosts() {
         setLoading(false);
       });
   }, []);
-
-  const formatDate = (dateStr: string) => {
-    try {
-      return new Date(dateStr).toLocaleDateString("ko-KR", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
-    } catch {
-      return dateStr;
-    }
-  };
-
-  const isRecent = (dateStr: string) => {
-    try {
-      const diff = Date.now() - new Date(dateStr).getTime();
-      return diff < 1000 * 60 * 60 * 24 * 30;
-    } catch {
-      return false;
-    }
-  };
 
   return (
     <section id="blog" className="py-24 px-6" ref={ref} aria-busy={loading}>

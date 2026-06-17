@@ -121,7 +121,8 @@ export async function POST(req: Request) {
     const text = result.response.text();
 
     return NextResponse.json({ message: text });
-  } catch {
+  } catch (err) {
+    console.error("[chat API]", err);
     return NextResponse.json(
       { error: "답변을 생성하지 못했습니다. 다시 시도해주세요." },
       { status: 500 }
