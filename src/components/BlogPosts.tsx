@@ -19,6 +19,7 @@ const POST_CARD_INITIAL = { opacity: 0, y: 20 } as const;
 const POST_CARD_ANIMATE_IN = { opacity: 1, y: 0 } as const;
 const POST_BADGE_INITIAL = { opacity: 0, scale: 0.8 } as const;
 const POST_BADGE_ANIMATE = { opacity: 1, scale: 1 } as const;
+const POST_HEADER_TRANSITION = { duration: 0.5 } as const;
 
 function formatDate(dateStr: string): string {
   try {
@@ -73,7 +74,7 @@ export default function BlogPosts() {
         <motion.div
           initial={POST_HEADER_INITIAL}
           animate={isInView ? POST_HEADER_ANIMATE_IN : {}}
-          transition={{ duration: 0.5 }}
+          transition={POST_HEADER_TRANSITION}
           className="mb-12"
         >
           <span className="text-sm text-primary uppercase tracking-wider">

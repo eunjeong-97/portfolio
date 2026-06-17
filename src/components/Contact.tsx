@@ -25,6 +25,11 @@ const CONTACT_LINK_INITIAL = { opacity: 0, x: -20 } as const;
 const CONTACT_LEFT_INITIAL = { opacity: 0, x: -30 } as const;
 const CONTACT_RIGHT_INITIAL = { opacity: 0, x: 30 } as const;
 const CONTACT_ANIMATE_IN = { opacity: 1, x: 0 } as const;
+const CONTACT_HEADER_TRANSITION = { duration: 0.5 } as const;
+const CONTACT_LEFT_TRANSITION = { duration: 0.5, delay: 0.2 } as const;
+const CONTACT_RIGHT_TRANSITION = { duration: 0.5, delay: 0.4 } as const;
+const SUCCESS_SPRING_TRANSITION = { duration: 0.4, type: "spring" } as const;
+const SUCCESS_ICON_TRANSITION = { duration: 0.5, delay: 0.1, type: "spring", stiffness: 200 } as const;
 const INITIAL_FORM = { name: "", email: "", message: "" };
 const INITIAL_TOUCHED = { name: false, email: false, message: false };
 
@@ -111,7 +116,7 @@ export default function Contact() {
         <motion.div
           initial={CONTACT_HEADER_INITIAL}
           animate={isInView ? CONTACT_HEADER_ANIMATE_IN : {}}
-          transition={{ duration: 0.5 }}
+          transition={CONTACT_HEADER_TRANSITION}
         >
           <span className="text-sm text-primary uppercase tracking-wider">
             Contact
@@ -126,7 +131,7 @@ export default function Contact() {
           <motion.div
             initial={CONTACT_LEFT_INITIAL}
             animate={isInView ? CONTACT_ANIMATE_IN : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={CONTACT_LEFT_TRANSITION}
           >
             <h3 className="text-2xl font-semibold mb-4">
               함께 일하고 싶으시다면
@@ -187,7 +192,7 @@ export default function Contact() {
           <motion.div
             initial={CONTACT_RIGHT_INITIAL}
             animate={isInView ? CONTACT_ANIMATE_IN : {}}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            transition={CONTACT_RIGHT_TRANSITION}
             className="space-y-4"
           >
             {/* 구직 상태 카드 */}
@@ -205,14 +210,14 @@ export default function Contact() {
                 <motion.div
                   initial={SUCCESS_INITIAL}
                   animate={SUCCESS_ANIMATE}
-                  transition={{ duration: 0.4, type: "spring" }}
+                  transition={SUCCESS_SPRING_TRANSITION}
                   role="status"
                   className="text-center py-8"
                 >
                   <motion.div
                     initial={SUCCESS_ICON_INITIAL}
                     animate={SUCCESS_ICON_ANIMATE}
-                    transition={{ duration: 0.5, delay: 0.1, type: "spring", stiffness: 200 }}
+                    transition={SUCCESS_ICON_TRANSITION}
                     className="w-16 h-16 bg-green-500/10 border border-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4"
                     aria-hidden="true"
                   >
