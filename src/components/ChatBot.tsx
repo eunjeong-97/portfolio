@@ -438,7 +438,7 @@ export default function ChatBot() {
         className="w-14 h-14 bg-primary hover:bg-primary-dark text-white rounded-full shadow-lg flex items-center justify-center transition-colors relative"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        aria-label={isOpen ? "채팅 닫기" : "채팅 도우미 열기"}
+        aria-label={isOpen ? "채팅 닫기" : showNotification ? "채팅 도우미 열기 (새 알림)" : "채팅 도우미 열기"}
         aria-expanded={isOpen}
         aria-haspopup="dialog"
       >
