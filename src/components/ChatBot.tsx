@@ -23,6 +23,7 @@ const SUGGESTIONS = [
 function TypewriterText({ content, onDone }: { content: string; onDone: () => void }) {
   const [displayed, setDisplayed] = useState("");
   const [done, setDone] = useState(false);
+  const speed = Math.max(4, Math.min(18, Math.round(3000 / content.length)));
   useEffect(() => {
     let i = 0;
     const interval = setInterval(() => {
@@ -33,9 +34,9 @@ function TypewriterText({ content, onDone }: { content: string; onDone: () => vo
         setDone(true);
         onDone();
       }
-    }, 12);
+    }, speed);
     return () => clearInterval(interval);
-  }, [content, onDone]);
+  }, [content, onDone, speed]);
   if (done) return <span dangerouslySetInnerHTML={{ __html: renderMarkdown(content) }} />;
   return <span>{displayed}<span className="inline-block w-0.5 h-3.5 bg-foreground/60 ml-0.5 animate-pulse align-middle" /></span>;
 }

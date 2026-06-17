@@ -138,8 +138,12 @@ export default function ExperienceTimeline() {
                 {/* Content Card */}
                 <motion.div
                   onClick={() => setSelectedIndex(index)}
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedIndex(index); } }}
+                  tabIndex={0}
+                  role="button"
+                  aria-label={`${exp.title} 상세 보기`}
                   whileHover={{ x: 6, transition: { duration: 0.2 } }}
-                  className="bg-section-bg p-6 rounded-xl border border-border hover:border-primary transition-colors cursor-pointer group"
+                  className="bg-section-bg p-6 rounded-xl border border-border hover:border-primary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors cursor-pointer group"
                 >
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <div className="flex items-center gap-2 flex-wrap">
