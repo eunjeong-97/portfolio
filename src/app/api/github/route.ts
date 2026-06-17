@@ -14,13 +14,18 @@ interface GitHubEvent {
 
 export async function GET() {
   try {
+    const headers: Record<string, string> = {
+      Accept: "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+    };
+    if (process.env.GITHUB_TOKEN) {
+      headers["Authorization"] = `Bearer ${process.env.GITHUB_TOKEN}`;
+    }
+
     const res = await fetch(
       "https://api.github.com/users/eunjeong-97/events/public?per_page=30",
       {
-        headers: {
-          Accept: "application/vnd.github+json",
-          "X-GitHub-Api-Version": "2022-11-28",
-        },
+        headers,
         next: { revalidate: 3600 },
       }
     );
