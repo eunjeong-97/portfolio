@@ -10,6 +10,32 @@ const inter = Inter({
 
 const BASE_URL = "https://eunjeong.vercel.app";
 
+const JSONLD_SCHEMA = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "박은정",
+  alternateName: "Eunjeong Park",
+  jobTitle: "Frontend & Mobile Developer",
+  description: "React · React Native로 웹과 앱을 함께 개발하는 크로스플랫폼 개발자. SDK 연동, 네이티브 모듈, 크로스플랫폼 개발 경험 3년+.",
+  email: "beanlove97@gmail.com",
+  url: BASE_URL,
+  sameAs: [
+    "https://github.com/eunjeong-97",
+    "https://velog.io/@beanlove97",
+  ],
+  knowsAbout: [
+    "React",
+    "React Native",
+    "TypeScript",
+    "Next.js",
+    "JavaScript",
+    "Native Module",
+    "SDK Integration",
+    "Java",
+    "Swift",
+  ],
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: "박은정 | Frontend & Mobile Developer",
@@ -81,33 +107,7 @@ export default function RootLayout({
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Person",
-              name: "박은정",
-              alternateName: "Eunjeong Park",
-              jobTitle: "Frontend & Mobile Developer",
-              description: "React · React Native로 웹과 앱을 함께 개발하는 크로스플랫폼 개발자. SDK 연동, 네이티브 모듈, 크로스플랫폼 개발 경험 3년+.",
-              email: "beanlove97@gmail.com",
-              url: BASE_URL,
-              sameAs: [
-                "https://github.com/eunjeong-97",
-                "https://velog.io/@beanlove97",
-              ],
-              knowsAbout: [
-                "React",
-                "React Native",
-                "TypeScript",
-                "Next.js",
-                "JavaScript",
-                "Native Module",
-                "SDK Integration",
-                "Java",
-                "Swift",
-              ],
-            }),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSONLD_SCHEMA }}
         />
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
