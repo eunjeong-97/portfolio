@@ -11,37 +11,33 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+const THEME_COLORS: Record<Theme, string> = {
+  dark: "#0a0a0a",
+  light: "#fafafa",
+};
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>("dark");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const savedTheme = localStorage.getItem("theme") as Theme | null;
-    if (savedTheme) {
-      setTheme(savedTheme);
-    }
+    const saved = localStorage.getItem("theme") as Theme | null;
+    if (saved === "light" || saved === "dark") setTheme(saved);
   }, []);
 
   useEffect(() => {
-    if (mounted) {
-      document.documentElement.classList.remove("light", "dark");
-      document.documentElement.classList.add(theme);
-      localStorage.setItem("theme", theme);
+    if (!mounted) return;
+    document.documentElement.classList.remove("light", "dark");
+    document.documentElement.classList.add(theme);
+    localStorage.setItem("theme", theme);
 
-      if (theme === "light") {
-        document.documentElement.style.setProperty("--background", "#fafafa");
-        document.documentElement.style.setProperty("--foreground", "#0a0a0a");
-      } else {
-        document.documentElement.style.setProperty("--background", "#0a0a0a");
-        document.documentElement.style.setProperty("--foreground", "#fafafa");
-      }
-    }
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) metaThemeColor.setAttribute("content", THEME_COLORS[theme]);
   }, [theme, mounted]);
 
-  const toggleTheme = () => {
+  const toggleTheme = () =>
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-  };
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
