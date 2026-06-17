@@ -24,6 +24,7 @@ export default function GitHubActivity() {
   const [events, setEvents] = useState<CommitEvent[]>([]);
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     fetch("/api/github")
@@ -36,7 +37,10 @@ export default function GitHubActivity() {
         setStats(data.stats || null);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(() => {
+        setError(true);
+        setLoading(false);
+      });
   }, []);
 
   const formatDate = (dateStr: string) => {
@@ -91,7 +95,7 @@ export default function GitHubActivity() {
               rel="noopener noreferrer"
               className="flex items-center gap-1 text-sm text-primary hover:text-primary-light transition-colors"
             >
-              <Github size={14} /> GitHub 보기 <ExternalLink size={14} />
+              <Github size={14} aria-hidden="true" /> GitHub 보기 <ExternalLink size={14} aria-hidden="true" />
             </a>
           </div>
           <p className="text-muted-foreground mt-3">
@@ -123,10 +127,11 @@ export default function GitHubActivity() {
               <div
                 key={s.label}
                 className="bg-background border border-border rounded-xl p-4 text-center hover:border-primary/40 transition-colors group"
+                aria-label={`${s.label}: ${s.value}`}
               >
-                <s.icon size={16} className="text-primary/50 group-hover:text-primary transition-colors mx-auto mb-2" />
-                <div className="text-2xl font-bold text-primary mb-1">{s.value}</div>
-                <div className="text-xs text-muted-foreground">{s.label}</div>
+                <s.icon size={16} className="text-primary/50 group-hover:text-primary transition-colors mx-auto mb-2" aria-hidden="true" />
+                <div className="text-2xl font-bold text-primary mb-1" aria-hidden="true">{s.value}</div>
+                <div className="text-xs text-muted-foreground" aria-hidden="true">{s.label}</div>
               </div>
             ))
           ) : null}
@@ -201,9 +206,9 @@ export default function GitHubActivity() {
               </div>
             ))}
           </div>
-        ) : events.length === 0 ? (
-          <div className="text-center py-16 text-muted-foreground">
-            <Github size={40} className="mx-auto mb-4 opacity-30" />
+        ) : error ? (
+          <div className="text-center py-16 text-muted-foreground" role="alert">
+            <Github size={40} className="mx-auto mb-4 opacity-30" aria-hidden="true" />
             <p>GitHub 활동을 불러오는 중 오류가 발생했습니다.</p>
           </div>
         ) : (
@@ -219,7 +224,7 @@ export default function GitHubActivity() {
               >
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <Github size={14} className="text-primary" />
+                    <Github size={14} className="text-primary" aria-hidden="true" />
                     <a
                       href={`https://github.com/eunjeong-97/${event.repo}`}
                       target="_blank"
@@ -246,6 +251,7 @@ export default function GitHubActivity() {
                       <GitCommitHorizontal
                         size={14}
                         className="text-muted-foreground mt-0.5 flex-shrink-0"
+                        aria-hidden="true"
                       />
                       <span className="text-muted-foreground leading-snug flex-1">
                         {commit.message}

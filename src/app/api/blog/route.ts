@@ -7,7 +7,7 @@ export async function GET() {
     const res = await fetch("https://v2.velog.io/rss/@beanlove97", {
       next: { revalidate: 3600 },
     });
-    if (!res.ok) return NextResponse.json({ posts: [] });
+    if (!res.ok) return NextResponse.json({ posts: [] }, { headers: { "Cache-Control": "no-store" } });
     const xml = await res.text();
 
     const items: { title: string; link: string; pubDate: string; description: string }[] = [];
@@ -30,6 +30,6 @@ export async function GET() {
 
     return NextResponse.json({ posts: items });
   } catch {
-    return NextResponse.json({ posts: [] });
+    return NextResponse.json({ posts: [] }, { headers: { "Cache-Control": "no-store" } });
   }
 }
