@@ -13,6 +13,7 @@ const MESSAGE_TEMPLATES = [
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const CONTACT_LINK_INITIAL = { opacity: 0, x: -20 } as const;
 const INITIAL_FORM = { name: "", email: "", message: "" };
 const INITIAL_TOUCHED = { name: false, email: false, message: false };
 
@@ -130,7 +131,7 @@ export default function Contact() {
               {contactLinks.map((link, index) => (
                 <motion.div
                   key={link.label}
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={CONTACT_LINK_INITIAL}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
                   className="flex items-center gap-4 p-4 bg-section-bg rounded-xl border border-border hover:border-primary transition-colors group"

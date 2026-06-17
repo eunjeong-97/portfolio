@@ -12,6 +12,8 @@ interface Post {
   description: string;
 }
 
+const POST_CARD_HOVER = { y: -4 } as const;
+
 function formatDate(dateStr: string): string {
   try {
     return new Date(dateStr).toLocaleDateString("ko-KR", {
@@ -142,7 +144,7 @@ export default function BlogPosts() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
-                whileHover={{ y: -4 }}
+                whileHover={POST_CARD_HOVER}
                 className="group bg-section-bg border border-border rounded-xl p-6 hover:border-primary/50 hover:shadow-lg transition-all block relative overflow-hidden"
               >
                 {/* hover shimmer line */}

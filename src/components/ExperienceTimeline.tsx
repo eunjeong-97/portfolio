@@ -47,6 +47,11 @@ const GANTT_YEAR_DIVIDERS = [33.3, 66.6];
 
 const TIMELINE_BORDER_STYLE = { borderImage: "linear-gradient(to bottom, var(--primary), var(--border)) 1" } as const;
 const ARROW_NUDGE_ANIM = { x: [0, 4, 0] };
+const ITEM_INITIAL = { opacity: 0, x: -30 } as const;
+const ITEM_ANIMATE_IN = { opacity: 1, x: 0 } as const;
+const DOT_INITIAL = { scale: 0 } as const;
+const DOT_ANIMATE_IN = { scale: 1 } as const;
+const CARD_HOVER = { x: 6, transition: { duration: 0.2 } };
 
 export default function ExperienceTimeline() {
   const ref = useRef(null);
@@ -150,8 +155,8 @@ export default function ExperienceTimeline() {
             return (
               <motion.div
                 key={exp.id}
-                initial={{ opacity: 0, x: -30 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                initial={ITEM_INITIAL}
+                animate={isInView ? ITEM_ANIMATE_IN : {}}
                 transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
                 className="relative pb-12 last:pb-0"
               >
@@ -166,8 +171,8 @@ export default function ExperienceTimeline() {
                 <motion.div
                   aria-hidden="true"
                   className="absolute -left-[25px] top-0 w-3 h-3 bg-primary rounded-full ring-2 ring-background"
-                  initial={{ scale: 0 }}
-                  animate={isInView ? { scale: 1 } : {}}
+                  initial={DOT_INITIAL}
+                  animate={isInView ? DOT_ANIMATE_IN : {}}
                   transition={{ duration: 0.3, delay: 0.3 + index * 0.1 }}
                 />
 
@@ -179,7 +184,7 @@ export default function ExperienceTimeline() {
                   tabIndex={0}
                   role="button"
                   aria-label={`${exp.title} 상세 보기`}
-                  whileHover={{ x: 6, transition: { duration: 0.2 } }}
+                  whileHover={CARD_HOVER}
                   className="bg-section-bg p-6 rounded-xl border border-border hover:border-primary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors cursor-pointer group"
                 >
                   <div className="flex items-center justify-between gap-2 mb-2">

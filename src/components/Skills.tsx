@@ -86,14 +86,23 @@ const LEVEL_BAR_BG: Record<Level, string> = {
   1: "rgba(59,130,246,0.2)",
 };
 
+const BADGE_INITIAL = { opacity: 0, y: 8 } as const;
+const BADGE_ANIMATE_IN = { opacity: 1, y: 0 } as const;
+const TOOLTIP_INITIAL = { opacity: 0, y: 4 } as const;
+const TOOLTIP_ANIMATE = { opacity: 1, y: 0 } as const;
+const TOOLTIP_EXIT = { opacity: 0, y: 4 } as const;
+const CATEGORY_INITIAL = { opacity: 0, y: 30 } as const;
+const CATEGORY_ANIMATE_IN = { opacity: 1, y: 0 } as const;
+const CATEGORY_HOVER = { y: -4, transition: { duration: 0.2 } };
+
 function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: boolean; delay?: number }) {
   const [visible, setVisible] = useState(false);
   const barWidth = (level / 3) * 100;
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      initial={BADGE_INITIAL}
+      animate={isInView ? BADGE_ANIMATE_IN : {}}
       transition={{ duration: 0.3, delay }}
       className="px-3 py-2 bg-muted rounded-lg hover:bg-primary/10 transition-colors group cursor-default relative"
       tabIndex={0}
@@ -139,9 +148,9 @@ function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: bo
       <AnimatePresence>
         {visible && (
           <motion.div
-            initial={{ opacity: 0, y: 4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 4 }}
+            initial={TOOLTIP_INITIAL}
+            animate={TOOLTIP_ANIMATE}
+            exit={TOOLTIP_EXIT}
             transition={{ duration: 0.15 }}
             aria-hidden="true"
             className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1.5 bg-card border border-border rounded-lg text-xs text-muted-foreground whitespace-nowrap shadow-xl z-10 pointer-events-none"
@@ -217,10 +226,10 @@ export default function Skills() {
           {skillCategories.map((category, index) => (
             <motion.div
               key={category.title}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              initial={CATEGORY_INITIAL}
+              animate={isInView ? CATEGORY_ANIMATE_IN : {}}
               transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-              whileHover={{ y: -4, transition: { duration: 0.2 } }}
+              whileHover={CATEGORY_HOVER}
               className="bg-section-bg p-6 rounded-2xl border border-border hover:border-primary transition-colors group"
             >
               <div className="flex items-center gap-3 mb-4">

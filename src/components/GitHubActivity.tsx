@@ -19,6 +19,7 @@ interface Stats {
 }
 
 const HEATMAP_LEGEND_OPACITIES = [0, 0.3, 0.6, 1] as const;
+const EVENT_CARD_HOVER = { x: 4, transition: { duration: 0.15 } };
 
 function formatDate(dateStr: string): string {
   const date = new Date(dateStr);
@@ -224,7 +225,7 @@ export default function GitHubActivity() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.4, delay: 0.2 + index * 0.08 }}
-                whileHover={{ x: 4, transition: { duration: 0.15 } }}
+                whileHover={EVENT_CARD_HOVER}
                 className="bg-background border border-border rounded-xl p-5 hover:border-primary/40 transition-colors group"
               >
                 <div className="flex items-center justify-between mb-3">

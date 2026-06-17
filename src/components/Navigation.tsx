@@ -19,6 +19,12 @@ const navItems = [
 
 const NAV_SECTION_IDS = navItems.map((i) => i.href.slice(1));
 
+const ICON_ANIMATE_IN = { rotate: 0, opacity: 1 } as const;
+const SUN_INITIAL = { rotate: -90, opacity: 0 } as const;
+const SUN_EXIT = { rotate: 90, opacity: 0 } as const;
+const MOON_INITIAL = { rotate: 90, opacity: 0 } as const;
+const MOON_EXIT = { rotate: -90, opacity: 0 } as const;
+
 export default function Navigation() {
   const { theme, toggleTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -149,9 +155,9 @@ export default function Navigation() {
               {theme === "dark" ? (
                 <motion.div
                   key="sun"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
+                  initial={SUN_INITIAL}
+                  animate={ICON_ANIMATE_IN}
+                  exit={SUN_EXIT}
                   transition={{ duration: 0.2 }}
                   aria-hidden="true"
                 >
@@ -160,9 +166,9 @@ export default function Navigation() {
               ) : (
                 <motion.div
                   key="moon"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
+                  initial={MOON_INITIAL}
+                  animate={ICON_ANIMATE_IN}
+                  exit={MOON_EXIT}
                   transition={{ duration: 0.2 }}
                   aria-hidden="true"
                 >

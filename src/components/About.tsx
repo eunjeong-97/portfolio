@@ -6,6 +6,8 @@ import React, { useRef, useState, useEffect } from "react";
 import { Calendar, LayoutGrid, Cpu, Globe, Search, BookOpen, Lightbulb, Layers, ArrowRight } from "lucide-react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
+const STAT_CARD_HOVER = { y: -3, transition: { duration: 0.2 } };
+
 const PRINCIPLES = [
   { label: "근본 원인 파악", icon: Search },
   { label: "공식 문서 우선", icon: BookOpen },
@@ -67,7 +69,7 @@ function StatCard({
       initial={{ opacity: 0, y: 20 }}
       animate={isActive ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay }}
-      whileHover={{ y: -3, transition: { duration: 0.2 } }}
+      whileHover={STAT_CARD_HOVER}
       role="img"
       className="bg-section-bg p-5 rounded-xl border border-border hover:border-primary/50 transition-colors group cursor-default"
       aria-label={`${label}: ${value}${suffix} - ${context}`}
