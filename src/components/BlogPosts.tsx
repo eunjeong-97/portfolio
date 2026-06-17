@@ -92,7 +92,16 @@ export default function BlogPosts() {
         ) : posts.length === 0 ? (
           <div className="text-center py-16 text-muted-foreground">
             <FileText size={40} className="mx-auto mb-4 opacity-30" />
-            <p>블로그 글을 불러오는 중 오류가 발생했습니다.</p>
+            <p className="mb-4">블로그 글을 불러오는 중 오류가 발생했습니다.</p>
+            <a
+              href="https://velog.io/@beanlove97"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-border hover:border-primary text-sm text-muted-foreground hover:text-primary rounded-lg transition-colors"
+            >
+              <ExternalLink size={14} />
+              Velog에서 직접 보기
+            </a>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

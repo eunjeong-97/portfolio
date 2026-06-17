@@ -35,9 +35,12 @@ export default function ExperienceTimeline() {
           <span className="text-sm text-primary uppercase tracking-wider">
             Experience
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold mt-2 mb-4">
-            Work Experience
-          </h2>
+          <div className="flex items-end gap-3 mt-2 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold">Work Experience</h2>
+            <span className="text-sm text-muted-foreground mb-1.5">
+              <span className="text-primary font-semibold">{experiences.length}</span>개 프로젝트
+            </span>
+          </div>
           <p className="text-muted-foreground mb-12">
             ㈜트러스트체인에서 마일벌스 서비스 관련 홈페이지, 앱, 어드민 개발을
             담당했습니다.

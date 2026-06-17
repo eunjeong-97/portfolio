@@ -173,7 +173,24 @@ export default function Contact() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  <h4 className="font-semibold text-base mb-4">메시지 보내기</h4>
+                  <div>
+                    <h4 className="font-semibold text-base mb-2">메시지 보내기</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {[
+                        { label: "채용 문의", text: "안녕하세요! 채용 포지션과 관련하여 연락드립니다. 박은정님의 경력과 포트폴리오에 관심이 생겨서요." },
+                        { label: "협업 제안", text: "안녕하세요! 프로젝트 협업을 제안드리고 싶어서 연락드립니다." },
+                      ].map(({ label, text }) => (
+                        <button
+                          key={label}
+                          type="button"
+                          onClick={() => { setFormState(f => ({ ...f, message: text })); setTouched(t => ({ ...t, message: true })); }}
+                          className="text-xs px-2.5 py-1 bg-muted hover:bg-primary/10 hover:text-primary border border-border hover:border-primary/40 rounded-full transition-colors"
+                        >
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                   <div className="grid sm:grid-cols-2 gap-3">
                     <div>
                       <div className="flex items-center justify-between mb-1.5">
