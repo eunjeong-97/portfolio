@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState, useMemo } from "react";
 import { Mail, Github, FileText, Send, Copy, Check, Loader2, AlertCircle } from "lucide-react";
+import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 
 const contactLinks = [
   {
@@ -29,7 +30,7 @@ const contactLinks = [
 export default function Contact() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [copied, setCopied] = useState(false);
+  const { copied, copy: copyEmail } = useCopyToClipboard();
   const [formState, setFormState] = useState({ name: "", email: "", message: "" });
   const [touched, setTouched] = useState({ name: false, email: false, message: false });
   const [sending, setSending] = useState(false);
@@ -43,12 +44,6 @@ export default function Contact() {
     email: touched.email ? (emailValid ? "valid" : "error") : "idle",
     message: touched.message ? (formState.message.length >= 10 ? "valid" : "error") : "idle",
   }), [touched, formState.name, formState.message, emailValid]);
-
-  const copyEmail = async () => {
-    await navigator.clipboard.writeText("beanlove97@gmail.com");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -141,7 +136,7 @@ export default function Contact() {
                   {link.label === "Email" && (
                     <>
                       <button
-                        onClick={copyEmail}
+                        onClick={() => copyEmail("beanlove97@gmail.com")}
                         className="flex-shrink-0 p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-primary"
                         aria-label={copied ? "이메일 복사 완료" : "이메일 복사"}
                       >
