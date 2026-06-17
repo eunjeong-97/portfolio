@@ -55,17 +55,18 @@ function StatCard({
       transition={{ duration: 0.5, delay }}
       whileHover={{ y: -3, transition: { duration: 0.2 } }}
       className="bg-section-bg p-5 rounded-xl border border-border hover:border-primary/50 transition-colors group cursor-default"
+      aria-label={`${label}: ${value}${suffix} - ${context}`}
     >
       <div className="flex items-start justify-between mb-3">
-        <div className="text-3xl md:text-4xl font-bold text-primary">
+        <div className="text-3xl md:text-4xl font-bold text-primary" aria-hidden="true">
           {count}{suffix}
         </div>
-        <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+        <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition-colors" aria-hidden="true">
           <Icon size={16} className="text-primary" />
         </div>
       </div>
-      <div className="text-sm font-medium text-foreground/80">{label}</div>
-      <div className="text-xs text-muted-foreground mt-1">{context}</div>
+      <div className="text-sm font-medium text-foreground/80" aria-hidden="true">{label}</div>
+      <div className="text-xs text-muted-foreground mt-1" aria-hidden="true">{context}</div>
     </motion.div>
   );
 }

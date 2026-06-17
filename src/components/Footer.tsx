@@ -21,7 +21,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="py-12 px-6 border-t border-border">
+    <footer className="py-12 px-6 border-t border-border" aria-label="사이트 하단 정보">
       <div className="max-w-6xl mx-auto">
         <div className="grid md:grid-cols-3 gap-8 mb-10">
           {/* Brand */}
@@ -40,7 +40,7 @@ export default function Footer() {
           </div>
 
           {/* Quick Nav */}
-          <div>
+          <nav aria-label="빠른 이동">
             <p className="text-xs text-muted-foreground uppercase tracking-wider mb-3">Navigation</p>
             <ul className="grid grid-cols-2 gap-1.5">
               {navLinks.map(({ href, label }) => (
@@ -58,7 +58,7 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
           {/* Links */}
           <div>
