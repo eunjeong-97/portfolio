@@ -1,14 +1,16 @@
 "use client";
 
 import { motion, MotionConfig } from "framer-motion";
+import dynamic from "next/dynamic";
 import { ThemeProvider } from "./ThemeProvider";
 import Navigation from "./Navigation";
-import ChatBot from "./ChatBot";
-import ScrollToTop from "./ScrollToTop";
 import ReadingProgress from "./ReadingProgress";
-import KeyboardShortcuts from "./KeyboardShortcuts";
-import SectionDots from "./SectionDots";
-import SocialBar from "./SocialBar";
+
+const ChatBot = dynamic(() => import("./ChatBot"), { ssr: false });
+const ScrollToTop = dynamic(() => import("./ScrollToTop"), { ssr: false });
+const KeyboardShortcuts = dynamic(() => import("./KeyboardShortcuts"), { ssr: false });
+const SectionDots = dynamic(() => import("./SectionDots"), { ssr: false });
+const SocialBar = dynamic(() => import("./SocialBar"), { ssr: false });
 
 export default function ClientLayout({
   children,
