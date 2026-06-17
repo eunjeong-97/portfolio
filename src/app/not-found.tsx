@@ -20,6 +20,7 @@ const TERMINAL_ANIMATE = { opacity: 1, y: 0 } as const;
 const LINE_INITIAL = { opacity: 0, x: -10 } as const;
 const LINE_ANIMATE_IN = { opacity: 1, x: 0 } as const;
 const CURSOR_BLINK_ANIM = { opacity: [1, 0] };
+const CURSOR_BLINK_TRANSITION = { duration: 0.8, repeat: Infinity } as const;
 
 const GRADIENT_404_STYLE = {
   background: "linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)",
@@ -83,7 +84,7 @@ export default function NotFound() {
           <motion.span
             className="inline-block w-2 h-4 bg-primary ml-0.5 mt-1 motion-reduce:animate-none"
             animate={CURSOR_BLINK_ANIM}
-            transition={{ duration: 0.8, repeat: Infinity }}
+            transition={CURSOR_BLINK_TRANSITION}
           />
         </motion.div>
 
