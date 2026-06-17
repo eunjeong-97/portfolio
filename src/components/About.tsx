@@ -59,6 +59,7 @@ function StatCard({
       animate={isActive ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay }}
       whileHover={{ y: -3, transition: { duration: 0.2 } }}
+      role="img"
       className="bg-section-bg p-5 rounded-xl border border-border hover:border-primary/50 transition-colors group cursor-default"
       aria-label={`${label}: ${value}${suffix} - ${context}`}
     >

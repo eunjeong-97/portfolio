@@ -124,6 +124,7 @@ export default function GitHubActivity() {
             ].map((s) => (
               <div
                 key={s.label}
+                role="img"
                 className="bg-background border border-border rounded-xl p-4 text-center hover:border-primary/40 transition-colors group"
                 aria-label={`${s.label}: ${s.value}`}
               >
