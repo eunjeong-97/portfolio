@@ -24,7 +24,7 @@ export async function GET() {
         title: get("title"),
         link: get("link"),
         pubDate: get("pubDate"),
-        description: (() => { const d = get("description").replace(/<[^>]+>/g, ""); return d.length > 120 ? d.slice(0, 120) + "..." : d; })(),
+        description: (() => { const d = get("description").replace(/<[^>]+>/g, ""); return d.length > 200 ? d.slice(0, 200) + "..." : d; })(),
       });
     }
 

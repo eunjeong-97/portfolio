@@ -86,8 +86,12 @@ export default function Hero() {
               <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
               구직 중 · Open to Work
             </span>
-            <span className="inline-flex items-center px-4 py-2 bg-muted rounded-full text-sm text-primary-light border border-border font-mono min-w-[220px]">
-              {role}<span className="ml-0.5 animate-pulse">|</span>
+            <span
+              className="inline-flex items-center px-4 py-2 bg-muted rounded-full text-sm text-primary-light border border-border font-mono min-w-[220px]"
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              {role}<span className="ml-0.5 animate-pulse" aria-hidden="true">|</span>
             </span>
           </motion.div>
 
