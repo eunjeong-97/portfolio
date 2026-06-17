@@ -29,6 +29,7 @@ export default function SocialBar() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -8 }}
                 transition={{ duration: 0.15 }}
+                aria-hidden="true"
                 className="absolute right-full mr-2 text-xs font-medium text-foreground bg-section-bg border border-border px-2 py-1 rounded-lg shadow-md whitespace-nowrap"
               >
                 {label}
