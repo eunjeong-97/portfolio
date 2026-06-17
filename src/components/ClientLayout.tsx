@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, MotionConfig } from "framer-motion";
 import { ThemeProvider } from "./ThemeProvider";
 import Navigation from "./Navigation";
 import ChatBot from "./ChatBot";
@@ -17,6 +17,7 @@ export default function ClientLayout({
 }) {
   return (
     <ThemeProvider>
+      <MotionConfig reducedMotion="user">
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-lg focus:outline-none"
@@ -38,6 +39,7 @@ export default function ClientLayout({
       <ScrollToTop />
       <SectionDots />
       <KeyboardShortcuts />
+      </MotionConfig>
     </ThemeProvider>
   );
 }
