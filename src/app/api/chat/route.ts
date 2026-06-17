@@ -1,7 +1,7 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 
-const client = new Anthropic();
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 const SYSTEM_PROMPT = `당신은 박은정의 포트폴리오 도우미입니다. 방문자가 박은정의 경력, 기술 스택, 프로젝트에 대해 질문하면 아래 정보를 바탕으로 친절하고 간결하게 답변해주세요. 한국어로 답변하세요. 포트폴리오에 없는 내용은 "해당 정보는 직접 연락해 주세요(beanlove97@gmail.com)"라고 안내하세요.
 
@@ -36,19 +36,23 @@ export async function POST(req: Request) {
   try {
     const { messages } = await req.json();
 
-    const response = await client.messages.create({
-      model: "claude-haiku-4-5-20251001",
-      max_tokens: 500,
-      system: SYSTEM_PROMPT,
-      messages,
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.0-flash",
+      systemInstruction: SYSTEM_PROMPT,
     });
 
-    const content = response.content[0];
-    if (content.type !== "text") {
-      return NextResponse.json({ error: "Unexpected response" }, { status: 500 });
-    }
+    const history = messages.slice(0, -1).map((m: { role: string; content: string }) => ({
+      role: m.role === "assistant" ? "model" : "user",
+      parts: [{ text: m.content }],
+    }));
 
-    return NextResponse.json({ message: content.text });
+    const lastMessage = messages[messages.length - 1].content;
+
+    const chat = model.startChat({ history });
+    const result = await chat.sendMessage(lastMessage);
+    const text = result.response.text();
+
+    return NextResponse.json({ message: text });
   } catch {
     return NextResponse.json(
       { error: "답변을 생성하지 못했습니다. 다시 시도해주세요." },
