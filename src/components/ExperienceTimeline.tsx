@@ -55,6 +55,7 @@ const CARD_HOVER = { x: 6, transition: { duration: 0.2 } };
 const GANTT_BAR_INITIAL = { scaleX: 0 } as const;
 const GANTT_BAR_ANIMATE_IN = { scaleX: 1 } as const;
 const GANTT_BAR_HIDDEN = { scaleX: 0 } as const;
+const ARROW_NUDGE_TRANSITION = { duration: 1.5, repeat: Infinity, ease: "easeInOut" } as const;
 const SECTION_HEADER_INITIAL = { opacity: 0, y: 20 } as const;
 const SECTION_HEADER_ANIMATE_IN = { opacity: 1, y: 0 } as const;
 const GANTT_SECTION_INITIAL = { opacity: 0, y: 10 } as const;
@@ -232,7 +233,7 @@ export default function ExperienceTimeline() {
                     <motion.span
                       aria-hidden="true"
                       animate={ARROW_NUDGE_ANIM}
-                      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                      transition={ARROW_NUDGE_TRANSITION}
                       className="inline-block"
                     >
                       →

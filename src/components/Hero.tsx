@@ -33,7 +33,12 @@ const CORE_STACK = [
 
 const FLOAT_ANIM = { y: [0, -10, 0] };
 const SCROLL_ANIM = { y: [0, 8, 0] };
-const FLOAT_CARD_HOVER = { scale: 1.05, borderColor: "var(--primary)" };
+const FLOAT_CARD_HOVER = { scale: 1.05, borderColor: "var(--primary)" } as const;
+const FLOAT_CARD_TRANSITION_0 = { duration: 3, repeat: Infinity, ease: "easeInOut" } as const;
+const FLOAT_CARD_TRANSITION_1 = { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 } as const;
+const FLOAT_CARD_TRANSITION_2 = { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 } as const;
+const SCROLL_FADE_TRANSITION = { delay: 1 } as const;
+const SCROLL_BOUNCE_TRANSITION = { duration: 1.5, repeat: Infinity } as const;
 const HERO_LEFT_INITIAL = { opacity: 0, x: -50 } as const;
 const HERO_LEFT_ANIMATE = { opacity: 1, x: 0 } as const;
 const HERO_RIGHT_INITIAL = { opacity: 0, x: 50 } as const;
@@ -259,7 +264,7 @@ export default function Hero() {
             <motion.div
               aria-hidden="true"
               animate={FLOAT_ANIM}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              transition={FLOAT_CARD_TRANSITION_0}
               whileHover={FLOAT_CARD_HOVER}
               className="absolute top-4 -right-4 md:top-8 md:right-0 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl cursor-default"
             >
@@ -274,12 +279,7 @@ export default function Hero() {
             <motion.div
               aria-hidden="true"
               animate={FLOAT_ANIM}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 0.5,
-              }}
+              transition={FLOAT_CARD_TRANSITION_1}
               whileHover={FLOAT_CARD_HOVER}
               className="absolute bottom-24 -left-8 md:bottom-28 md:-left-12 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl cursor-default"
             >
@@ -301,12 +301,7 @@ export default function Hero() {
             <motion.div
               aria-hidden="true"
               animate={FLOAT_ANIM}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 1,
-              }}
+              transition={FLOAT_CARD_TRANSITION_2}
               whileHover={FLOAT_CARD_HOVER}
               className="absolute -bottom-2 right-4 md:bottom-0 md:right-8 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl cursor-default"
             >
@@ -326,14 +321,14 @@ export default function Hero() {
         onClick={(e) => { e.preventDefault(); document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" }); }}
         initial={FADE_IN_INITIAL}
         animate={FADE_IN_ANIMATE}
-        transition={{ delay: 1 }}
+        transition={SCROLL_FADE_TRANSITION}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-neutral-600 hover:text-primary transition-colors cursor-pointer group"
         aria-label="프로젝트 섹션으로 이동"
       >
         <span className="text-xs group-hover:text-primary transition-colors" aria-hidden="true">Projects</span>
         <motion.div
           animate={SCROLL_ANIM}
-          transition={{ duration: 1.5, repeat: Infinity }}
+          transition={SCROLL_BOUNCE_TRANSITION}
           aria-hidden="true"
         >
           <ArrowDown size={16} />
