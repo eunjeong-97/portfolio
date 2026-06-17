@@ -12,6 +12,7 @@ interface ExperienceModalProps {
   onNext?: () => void;
   currentIndex?: number;
   total?: number;
+  direction?: 1 | -1;
 }
 
 export default function ExperienceModal({
@@ -21,6 +22,7 @@ export default function ExperienceModal({
   onNext,
   currentIndex,
   total,
+  direction = 1,
 }: ExperienceModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -117,7 +119,7 @@ export default function ExperienceModal({
             <div className="flex-1 overflow-y-auto p-6">
               <motion.div
                 key={experience.id}
-                initial={{ opacity: 0, x: 10 }}
+                initial={{ opacity: 0, x: direction * 16 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.2 }}
               >

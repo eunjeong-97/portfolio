@@ -66,6 +66,23 @@ export default function FeaturedProjects() {
 
         <div className="space-y-8">
           <AnimatePresence mode="popLayout">
+          {filteredProjects.length === 0 && (
+            <motion.div
+              key="empty"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="text-center py-16 text-muted-foreground"
+            >
+              <p className="mb-3">해당 기술을 사용한 프로젝트가 없습니다.</p>
+              <button
+                onClick={() => setActiveFilter("전체")}
+                className="text-sm text-primary hover:text-primary-light underline underline-offset-2 transition-colors"
+              >
+                전체 보기
+              </button>
+            </motion.div>
+          )}
           {filteredProjects.map((project, index) => {
             return (
             <motion.div

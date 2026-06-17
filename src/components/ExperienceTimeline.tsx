@@ -38,7 +38,11 @@ export default function ExperienceTimeline() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [direction, setDirection] = useState<1 | -1>(1);
   const selectedExperience = selectedIndex !== null ? experiences[selectedIndex] : null;
+
+  const goNext = () => { setDirection(1); setSelectedIndex((prev) => (prev !== null ? prev + 1 : null)); };
+  const goPrev = () => { setDirection(-1); setSelectedIndex((prev) => (prev !== null ? prev - 1 : null)); };
 
   return (
     <section id="experience" className="py-24 px-6" ref={ref}>
@@ -227,10 +231,11 @@ export default function ExperienceTimeline() {
       <ExperienceModal
         experience={selectedExperience}
         onClose={() => setSelectedIndex(null)}
-        onPrev={selectedIndex !== null && selectedIndex > 0 ? () => setSelectedIndex(selectedIndex - 1) : undefined}
-        onNext={selectedIndex !== null && selectedIndex < experiences.length - 1 ? () => setSelectedIndex(selectedIndex + 1) : undefined}
+        onPrev={selectedIndex !== null && selectedIndex > 0 ? goPrev : undefined}
+        onNext={selectedIndex !== null && selectedIndex < experiences.length - 1 ? goNext : undefined}
         currentIndex={selectedIndex ?? undefined}
         total={experiences.length}
+        direction={direction}
       />
     </section>
   );
