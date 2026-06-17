@@ -18,6 +18,8 @@ interface Stats {
   reposActive: number;
 }
 
+const HEATMAP_LEGEND_OPACITIES = [0, 0.3, 0.6, 1] as const;
+
 function formatDate(dateStr: string): string {
   const date = new Date(dateStr);
   const now = new Date();
@@ -151,7 +153,7 @@ export default function GitHubActivity() {
               <div className="text-xs text-muted-foreground">최근 30일 Push 활동</div>
               <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground" aria-hidden="true">
                 <span>적음</span>
-                {[0, 0.3, 0.6, 1].map((opacity, i) => (
+                {HEATMAP_LEGEND_OPACITIES.map((opacity, i) => (
                   <span
                     key={i}
                     className="w-2.5 h-2.5 rounded-sm"

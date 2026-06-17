@@ -80,6 +80,12 @@ const LEVEL_DESC: Record<Level, string> = {
 const LEVELS_DESC: Level[] = [3, 2, 1];
 const LEVELS_ASC: Level[] = [1, 2, 3];
 
+const LEVEL_BAR_BG: Record<Level, string> = {
+  3: "var(--primary)",
+  2: "rgba(59,130,246,0.5)",
+  1: "rgba(59,130,246,0.2)",
+};
+
 function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: boolean; delay?: number }) {
   const [visible, setVisible] = useState(false);
   const barWidth = (level / 3) * 100;
@@ -198,9 +204,7 @@ export default function Skills() {
               <motion.div
                 key={level}
                 className="h-full rounded-full"
-                style={{
-                  background: level === 3 ? "var(--primary)" : level === 2 ? "rgba(59,130,246,0.5)" : "rgba(59,130,246,0.2)",
-                }}
+                style={{ background: LEVEL_BAR_BG[level] }}
                 initial={{ width: 0 }}
                 animate={isInView ? { width: `${(levelCounts[level] / totalSkills) * 100}%` } : { width: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 + (3 - level) * 0.1, ease: "easeOut" }}
