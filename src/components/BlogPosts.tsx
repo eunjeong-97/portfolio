@@ -135,8 +135,8 @@ export default function BlogPosts() {
                 {/* hover shimmer line */}
                 <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                {/* New badge on first post */}
-                {index === 0 && (
+                {/* New badge on recent posts */}
+                {index === 0 && isRecent(post.pubDate) && (
                   <div className="absolute top-3 right-3 px-1.5 py-0.5 bg-primary text-white text-[10px] font-semibold rounded-full">
                     NEW
                   </div>

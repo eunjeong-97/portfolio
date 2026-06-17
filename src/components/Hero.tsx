@@ -130,12 +130,14 @@ export default function Hero() {
           >
             <a
               href="#projects"
+              onClick={(e) => { e.preventDefault(); document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" }); }}
               className="px-6 py-3 bg-primary hover:bg-primary-light rounded-lg font-medium transition-colors text-white"
             >
               프로젝트 보기
             </a>
             <a
               href="#contact"
+              onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }}
               className="px-6 py-3 border border-neutral-600 hover:border-foreground rounded-lg font-medium transition-colors text-foreground"
             >
               연락하기

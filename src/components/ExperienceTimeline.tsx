@@ -229,6 +229,8 @@ export default function ExperienceTimeline() {
         onClose={() => setSelectedIndex(null)}
         onPrev={selectedIndex !== null && selectedIndex > 0 ? () => setSelectedIndex(selectedIndex - 1) : undefined}
         onNext={selectedIndex !== null && selectedIndex < experiences.length - 1 ? () => setSelectedIndex(selectedIndex + 1) : undefined}
+        currentIndex={selectedIndex ?? undefined}
+        total={experiences.length}
       />
     </section>
   );

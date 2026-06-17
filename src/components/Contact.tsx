@@ -36,6 +36,7 @@ export default function Contact() {
   const [sent, setSent] = useState(false);
 
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.email);
+  const isFormValid = formState.name.length >= 2 && emailValid && formState.message.length >= 10;
   const fieldStatus = {
     name: touched.name ? (formState.name.length >= 2 ? "valid" : "error") : "idle",
     email: touched.email ? (emailValid ? "valid" : "error") : "idle",
@@ -289,7 +290,7 @@ export default function Contact() {
                   <div className="flex items-center gap-3">
                     <button
                       type="submit"
-                      disabled={sending}
+                      disabled={sending || !isFormValid}
                       className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-primary hover:bg-primary-light disabled:opacity-60 disabled:cursor-not-allowed rounded-lg font-medium transition-colors text-white text-sm"
                     >
                       {sending ? (

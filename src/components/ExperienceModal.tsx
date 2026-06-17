@@ -10,6 +10,8 @@ interface ExperienceModalProps {
   onClose: () => void;
   onPrev?: () => void;
   onNext?: () => void;
+  currentIndex?: number;
+  total?: number;
 }
 
 export default function ExperienceModal({
@@ -17,6 +19,8 @@ export default function ExperienceModal({
   onClose,
   onPrev,
   onNext,
+  currentIndex,
+  total,
 }: ExperienceModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -70,10 +74,17 @@ export default function ExperienceModal({
             {/* Header */}
             <div className="flex items-start justify-between p-6 border-b border-border">
               <div className="flex-1 min-w-0">
-                <span className="text-sm text-primary font-medium">
-                  {experience.period}
-                </span>
-                <h3 className="text-2xl font-bold mt-1">{experience.title}</h3>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-sm text-primary font-medium">
+                    {experience.period}
+                  </span>
+                  {currentIndex !== undefined && total !== undefined && (
+                    <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+                      {currentIndex + 1} / {total}
+                    </span>
+                  )}
+                </div>
+                <h3 className="text-2xl font-bold">{experience.title}</h3>
               </div>
               <div className="flex items-center gap-1 ml-4 flex-shrink-0">
                 <button
