@@ -97,7 +97,8 @@ export async function POST(req: Request) {
         typeof msg !== "object" || msg === null ||
         !VALID_ROLES.has(msg.role) ||
         typeof msg.content !== "string" ||
-        msg.content.length > 2000
+        msg.content.length === 0 ||
+        msg.content.length > 500
       ) {
         return NextResponse.json({ error: "올바르지 않은 메시지 형식입니다." }, { status: 400 });
       }
