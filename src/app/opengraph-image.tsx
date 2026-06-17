@@ -1,6 +1,14 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
+
+const OG_STATS = [
+  { num: "3+", label: "Years Exp" },
+  { num: "5", label: "SDK Integrations" },
+  { num: "60+", label: "Pages Built" },
+];
+
+const OG_TECH = ["React.js", "TypeScript", "React Native", "Next.js", "Java / Swift"];
 export const alt = "박은정 | Frontend & Mobile Developer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -121,11 +129,7 @@ export default function OgImage() {
 
           {/* Stats */}
           <div style={{ display: "flex", gap: "40px" }}>
-            {[
-              { num: "3+", label: "Years Exp" },
-              { num: "5", label: "SDK Integrations" },
-              { num: "60+", label: "Pages Built" },
-            ].map((stat) => (
+            {OG_STATS.map((stat) => (
               <div
                 key={stat.label}
                 style={{ display: "flex", flexDirection: "column", gap: "4px" }}
@@ -157,13 +161,7 @@ export default function OgImage() {
             zIndex: 1,
           }}
         >
-          {[
-            "React.js",
-            "TypeScript",
-            "React Native",
-            "Next.js",
-            "Java / Swift",
-          ].map((tech) => (
+          {OG_TECH.map((tech) => (
             <div
               key={tech}
               style={{
