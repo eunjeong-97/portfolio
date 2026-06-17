@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Mail, Github, FileText, Send, Copy, Check, Loader2 } from "lucide-react";
+import { Mail, Github, FileText, Send, Copy, Check, Loader2, AlertCircle } from "lucide-react";
 
 const contactLinks = [
   {
@@ -31,8 +31,16 @@ export default function Contact() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [copied, setCopied] = useState(false);
   const [formState, setFormState] = useState({ name: "", email: "", message: "" });
+  const [touched, setTouched] = useState({ name: false, email: false, message: false });
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
+
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.email);
+  const fieldStatus = {
+    name: touched.name ? (formState.name.length >= 2 ? "valid" : "error") : "idle",
+    email: touched.email ? (emailValid ? "valid" : "error") : "idle",
+    message: touched.message ? (formState.message.length >= 10 ? "valid" : "error") : "idle",
+  };
 
   const copyEmail = async () => {
     await navigator.clipboard.writeText("beanlove97@gmail.com");
@@ -168,31 +176,61 @@ export default function Contact() {
                   <h4 className="font-semibold text-base mb-4">메시지 보내기</h4>
                   <div className="grid sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="text-xs text-muted-foreground mb-1.5 block">이름</label>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <label className="text-xs text-muted-foreground">이름</label>
+                        {fieldStatus.name === "error" && (
+                          <span className="flex items-center gap-1 text-[10px] text-red-400">
+                            <AlertCircle size={10} /> 2자 이상 입력해주세요
+                          </span>
+                        )}
+                        {fieldStatus.name === "valid" && <Check size={12} className="text-green-400" />}
+                      </div>
                       <input
                         type="text"
                         required
                         value={formState.name}
                         onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+                        onBlur={() => setTouched(t => ({ ...t, name: true }))}
                         placeholder="홍길동"
-                        className="w-full bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
+                        className={`w-full bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors ${
+                          fieldStatus.name === "error" ? "border-red-400/50" : fieldStatus.name === "valid" ? "border-green-400/50" : "border-border"
+                        }`}
                       />
                     </div>
                     <div>
-                      <label className="text-xs text-muted-foreground mb-1.5 block">이메일</label>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <label className="text-xs text-muted-foreground">이메일</label>
+                        {fieldStatus.email === "error" && (
+                          <span className="flex items-center gap-1 text-[10px] text-red-400">
+                            <AlertCircle size={10} /> 올바른 이메일 형식
+                          </span>
+                        )}
+                        {fieldStatus.email === "valid" && <Check size={12} className="text-green-400" />}
+                      </div>
                       <input
                         type="email"
                         required
                         value={formState.email}
                         onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+                        onBlur={() => setTouched(t => ({ ...t, email: true }))}
                         placeholder="example@email.com"
-                        className="w-full bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
+                        className={`w-full bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors ${
+                          fieldStatus.email === "error" ? "border-red-400/50" : fieldStatus.email === "valid" ? "border-green-400/50" : "border-border"
+                        }`}
                       />
                     </div>
                   </div>
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
-                      <label className="text-xs text-muted-foreground">메시지</label>
+                      <div className="flex items-center gap-1.5">
+                        <label className="text-xs text-muted-foreground">메시지</label>
+                        {fieldStatus.message === "valid" && <Check size={12} className="text-green-400" />}
+                        {fieldStatus.message === "error" && (
+                          <span className="flex items-center gap-1 text-[10px] text-red-400">
+                            <AlertCircle size={10} /> 10자 이상 입력해주세요
+                          </span>
+                        )}
+                      </div>
                       <span className={`text-xs ${formState.message.length > 450 ? "text-red-400" : "text-muted-foreground/60"}`}>
                         {formState.message.length}/500
                       </span>
@@ -203,8 +241,11 @@ export default function Contact() {
                       maxLength={500}
                       value={formState.message}
                       onChange={(e) => setFormState({ ...formState, message: e.target.value })}
+                      onBlur={() => setTouched(t => ({ ...t, message: true }))}
                       placeholder="안녕하세요! 함께 일하고 싶어서 연락드립니다..."
-                      className="w-full bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none"
+                      className={`w-full bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none transition-colors ${
+                        fieldStatus.message === "error" ? "border-red-400/50" : fieldStatus.message === "valid" ? "border-green-400/50" : "border-border"
+                      }`}
                     />
                   </div>
                   <button

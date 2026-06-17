@@ -115,6 +115,33 @@ export default function ExperienceTimeline() {
             );
           })}
         </div>
+        {/* Career summary card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.8 }}
+          className="mt-8 bg-primary/5 border border-primary/20 rounded-xl p-4 flex flex-wrap items-center gap-4"
+        >
+          <div className="flex-1 min-w-[200px]">
+            <div className="text-xs text-primary uppercase tracking-wider mb-1">총 경력</div>
+            <div className="text-lg font-bold text-foreground">
+              ㈜트러스트체인 · 2022.03 – 2024.10
+            </div>
+            <div className="text-sm text-muted-foreground mt-0.5">약 2년 8개월 · {experiences.length}개 주요 프로젝트</div>
+          </div>
+          <div className="flex gap-3">
+            {[
+              { label: "웹", sub: "React.js" },
+              { label: "앱", sub: "React Native" },
+              { label: "어드민", sub: "React.js" },
+            ].map(({ label, sub }) => (
+              <div key={label} className="text-center">
+                <div className="text-sm font-semibold text-foreground">{label}</div>
+                <div className="text-xs text-muted-foreground">{sub}</div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
       </div>
 
       {/* Modal */}

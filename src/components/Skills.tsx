@@ -128,6 +128,11 @@ function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: bo
   );
 }
 
+const allSkills = skillCategories.flatMap(c => c.skills);
+const totalSkills = allSkills.length;
+const levelCounts: Record<Level, number> = { 3: 0, 2: 0, 1: 0 };
+allSkills.forEach(s => levelCounts[s.level]++);
+
 export default function Skills() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -143,10 +148,13 @@ export default function Skills() {
           <span className="text-sm text-primary uppercase tracking-wider">
             Skills
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold mt-2 mb-3">
-            Tech Stack
-          </h2>
-          <div className="flex items-center gap-4 text-xs text-muted-foreground mb-10">
+          <div className="flex items-end justify-between mt-2 mb-3">
+            <h2 className="text-3xl md:text-4xl font-bold">Tech Stack</h2>
+            <span className="text-sm text-muted-foreground mb-1">
+              총 <span className="text-primary font-bold">{totalSkills}</span>가지 기술
+            </span>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground mb-4">
             {([3, 2, 1] as Level[]).map((level) => (
               <span key={level} className="flex items-center gap-1.5">
                 <span className="flex gap-0.5">
@@ -158,7 +166,23 @@ export default function Skills() {
                   ))}
                 </span>
                 {LEVEL_LABEL[level]}
+                <span className="text-muted-foreground/50">({levelCounts[level]})</span>
               </span>
+            ))}
+          </div>
+          {/* Distribution bar */}
+          <div className="flex h-1.5 rounded-full overflow-hidden w-full max-w-xs mb-10 gap-0.5">
+            {([3, 2, 1] as Level[]).map((level) => (
+              <motion.div
+                key={level}
+                className="h-full rounded-full"
+                style={{
+                  background: level === 3 ? "var(--primary)" : level === 2 ? "rgba(59,130,246,0.5)" : "rgba(59,130,246,0.2)",
+                }}
+                initial={{ width: 0 }}
+                animate={isInView ? { width: `${(levelCounts[level] / totalSkills) * 100}%` } : { width: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 + (3 - level) * 0.1, ease: "easeOut" }}
+              />
             ))}
           </div>
         </motion.div>
