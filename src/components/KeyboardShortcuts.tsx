@@ -29,11 +29,19 @@ export default function KeyboardShortcuts() {
   const [isOpen, setIsOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const triggerButtonRef = useRef<HTMLButtonElement>(null);
+
+  const wasOpenRef = useRef(false);
 
   useFocusTrap(modalRef, isOpen);
 
   useEffect(() => {
-    if (isOpen) closeButtonRef.current?.focus();
+    if (isOpen) {
+      wasOpenRef.current = true;
+      closeButtonRef.current?.focus();
+    } else if (wasOpenRef.current) {
+      triggerButtonRef.current?.focus();
+    }
   }, [isOpen]);
 
   useEffect(() => {
@@ -61,6 +69,7 @@ export default function KeyboardShortcuts() {
   return (
     <>
       <button
+        ref={triggerButtonRef}
         onClick={() => setIsOpen(true)}
         className="hidden md:flex fixed bottom-[8.5rem] right-6 z-40 items-center gap-1.5 px-2.5 py-1.5 bg-section-bg border border-border rounded-lg text-xs text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors shadow-md"
         title="키보드 단축키 (? 키)"
