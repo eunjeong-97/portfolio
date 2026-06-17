@@ -81,3 +81,21 @@ body {
 ::selection {
   background: rgba(59, 130, 246, 0.3);
 }
+
+/* Print styles */
+@media print {
+  nav,
+  footer,
+  .fixed,
+  #chatbot {
+    display: none !important;
+  }
+  body {
+    background: white;
+    color: black;
+  }
+  section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}

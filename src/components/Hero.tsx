@@ -6,7 +6,14 @@ import Image from "next/image";
 
 export default function Hero() {
   return (
-    <section className="min-h-screen flex items-center px-6 pt-20">
+    <section
+      className="min-h-screen flex items-center px-6 pt-20 relative overflow-hidden"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px)",
+        backgroundSize: "60px 60px",
+      }}
+    >
       <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
         {/* Left Content */}
         <motion.div
@@ -140,14 +147,6 @@ export default function Hero() {
 
             {/* Profile Frame */}
             <div className="relative w-[280px] h-[350px] md:w-[320px] md:h-[400px] bg-gradient-to-br from-muted to-card rounded-3xl border border-border overflow-hidden mx-auto">
-              {/* Placeholder - 나중에 실제 이미지로 교체 */}
-              {/* <div className="w-full h-full flex flex-col items-center justify-center gap-4"> */}
-              {/* <div className="w-24 h-24 md:w-32 md:h-32 border-border rounded-full flex items-center justify-center"> */}
-              {/* <div className="w-12 h-12 md:w-16 md:h-16 bg-neutral-600 rounded-full" /> */}
-              {/* </div> */}
-              {/* <span className="text-neutral-600 text-sm">프로필 이미지</span> */}
-              {/* </div> */}
-              {/* 실제 이미지 사용 시 아래 주석 해제 */}
               <Image
                 src="/images/profile.jpg"
                 alt="박은정"
