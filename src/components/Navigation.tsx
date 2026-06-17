@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Moon, Sun, Menu, X, Download } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 const navItems = [
   { href: "#projects", label: "Projects" },
@@ -23,6 +24,9 @@ export default function Navigation() {
   const firstMobileMenuItemRef = useRef<HTMLAnchorElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const wasMenuOpenRef = useRef(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  useFocusTrap(mobileMenuRef, isMobileMenuOpen);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -205,6 +209,7 @@ export default function Navigation() {
               className="fixed inset-0 top-[289px] md:hidden z-40"
             />
             <motion.div
+              ref={mobileMenuRef}
               id="mobile-menu"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}

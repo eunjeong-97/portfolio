@@ -235,8 +235,9 @@ export default function Hero() {
               />
             </div>
 
-            {/* Floating Cards */}
+            {/* Floating Cards (decorative, info available in About section) */}
             <motion.div
+              aria-hidden="true"
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               whileHover={{ scale: 1.05, borderColor: "var(--primary)" }}
@@ -251,6 +252,7 @@ export default function Hero() {
             </motion.div>
 
             <motion.div
+              aria-hidden="true"
               animate={{ y: [0, -10, 0] }}
               transition={{
                 duration: 3,
@@ -281,6 +283,7 @@ export default function Hero() {
             </motion.div>
 
             <motion.div
+              aria-hidden="true"
               animate={{ y: [0, -10, 0] }}
               transition={{
                 duration: 3,
