@@ -17,8 +17,10 @@ const socialLinks = [
   { href: "mailto:beanlove97@gmail.com", label: "Email", icon: Mail, external: false },
 ];
 
+const CURRENT_YEAR = new Date().getFullYear();
+
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
+  const currentYear = CURRENT_YEAR;
 
   return (
     <footer className="py-12 px-6 border-t border-border" aria-label="사이트 하단 정보">

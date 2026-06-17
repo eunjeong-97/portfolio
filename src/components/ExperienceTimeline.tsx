@@ -57,8 +57,14 @@ export default function ExperienceTimeline() {
   }, [selectedIndex]);
 
   const closeModal = useCallback(() => setSelectedIndex(null), []);
-  const goNext = useCallback(() => { setDirection(1); setSelectedIndex((prev) => (prev !== null ? prev + 1 : null)); }, []);
-  const goPrev = useCallback(() => { setDirection(-1); setSelectedIndex((prev) => (prev !== null ? prev - 1 : null)); }, []);
+  const goNext = useCallback(() => {
+    setDirection(1);
+    setSelectedIndex((prev) => (prev !== null && prev < experiences.length - 1 ? prev + 1 : prev));
+  }, []);
+  const goPrev = useCallback(() => {
+    setDirection(-1);
+    setSelectedIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : prev));
+  }, []);
 
   return (
     <section id="experience" className="py-24 px-6" ref={ref}>

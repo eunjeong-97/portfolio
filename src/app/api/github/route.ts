@@ -47,7 +47,7 @@ export async function GET() {
         repo: e.repo.name.replace("eunjeong-97/", ""),
         branch: e.payload.ref?.replace("refs/heads/", "") ?? "main",
         commits: (e.payload.commits ?? []).slice(0, 2).map((c) => ({
-          message: c.message.split("\n")[0].slice(0, 60),
+          message: (() => { const first = c.message.split("\n")[0]; return first.length > 60 ? first.slice(0, 60) + "…" : first; })(),
           sha: c.sha.slice(0, 7),
         })),
         date: e.created_at,
