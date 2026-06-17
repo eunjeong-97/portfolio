@@ -89,6 +89,11 @@ body {
   border-radius: 4px;
 }
 
+/* Ensure sections clear the fixed navigation when scrolled to */
+section[id] {
+  scroll-margin-top: 4.5rem;
+}
+
 /* Reduce motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

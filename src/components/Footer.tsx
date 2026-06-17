@@ -1,5 +1,7 @@
 "use client";
 
+import { Github, FileText, Mail, Download } from "lucide-react";
+
 const navLinks = [
   { href: "#projects", label: "Projects" },
   { href: "#about", label: "About" },
@@ -10,9 +12,9 @@ const navLinks = [
 ];
 
 const socialLinks = [
-  { href: "https://github.com/eunjeong-97", label: "GitHub", external: true },
-  { href: "https://velog.io/@beanlove97", label: "Blog", external: true },
-  { href: "mailto:beanlove97@gmail.com", label: "Email", external: false },
+  { href: "https://github.com/eunjeong-97", label: "GitHub", icon: Github, external: true },
+  { href: "https://velog.io/@beanlove97", label: "Blog", icon: FileText, external: true },
+  { href: "mailto:beanlove97@gmail.com", label: "Email", icon: Mail, external: false },
 ];
 
 export default function Footer() {
@@ -61,15 +63,16 @@ export default function Footer() {
           {/* Links */}
           <div>
             <p className="text-xs text-muted-foreground uppercase tracking-wider mb-3">Links</p>
-            <ul className="space-y-1.5">
-              {socialLinks.map(({ href, label, external }) => (
+            <ul className="space-y-2">
+              {socialLinks.map(({ href, label, icon: Icon, external }) => (
                 <li key={href}>
                   <a
                     href={href}
                     target={external ? "_blank" : undefined}
                     rel={external ? "noopener noreferrer" : undefined}
-                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                    className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors group"
                   >
+                    <Icon size={13} className="text-muted-foreground/50 group-hover:text-primary transition-colors" />
                     {label}
                   </a>
                 </li>
@@ -78,8 +81,9 @@ export default function Footer() {
                 <a
                   href="/resume.pdf"
                   download="박은정_이력서.pdf"
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors group"
                 >
+                  <Download size={13} className="text-muted-foreground/50 group-hover:text-primary transition-colors" />
                   이력서 다운로드
                 </a>
               </li>
