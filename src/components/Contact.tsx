@@ -291,6 +291,7 @@ export default function Contact() {
                     <button
                       type="submit"
                       disabled={sending || !isFormValid}
+                      title={!isFormValid ? "모든 필드를 올바르게 입력해주세요" : undefined}
                       className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-primary hover:bg-primary-light disabled:opacity-60 disabled:cursor-not-allowed rounded-lg font-medium transition-colors text-white text-sm"
                     >
                       {sending ? (

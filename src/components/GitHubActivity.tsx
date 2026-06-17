@@ -100,14 +100,22 @@ export default function GitHubActivity() {
         </motion.div>
 
         {/* Stats */}
-        {stats && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="grid grid-cols-3 gap-4 mb-10"
-          >
-            {[
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="grid grid-cols-3 gap-4 mb-10"
+        >
+          {loading ? (
+            [1, 2, 3].map((i) => (
+              <div key={i} className="bg-background border border-border rounded-xl p-4 text-center animate-pulse">
+                <div className="w-4 h-4 bg-muted rounded mx-auto mb-2" />
+                <div className="h-7 bg-muted rounded w-12 mx-auto mb-1" />
+                <div className="h-3 bg-muted rounded w-16 mx-auto" />
+              </div>
+            ))
+          ) : stats ? (
+            [
               { label: "최근 이벤트", value: stats.totalEvents + "+", icon: Activity },
               { label: "푸시 횟수", value: stats.pushCount, icon: GitBranch },
               { label: "활성 레포", value: stats.reposActive, icon: FolderGit2 },
@@ -120,9 +128,9 @@ export default function GitHubActivity() {
                 <div className="text-2xl font-bold text-primary mb-1">{s.value}</div>
                 <div className="text-xs text-muted-foreground">{s.label}</div>
               </div>
-            ))}
-          </motion.div>
-        )}
+            ))
+          ) : null}
+        </motion.div>
 
         {/* 30-day activity heatmap */}
         {!loading && events.length > 0 && (
