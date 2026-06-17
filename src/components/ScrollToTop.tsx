@@ -7,6 +7,9 @@ import { ArrowUp } from "lucide-react";
 const RADIUS = 16;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 const TRACK_STYLE = { stroke: "var(--border)" } as const;
+const BTN_INITIAL = { opacity: 0, y: 10 } as const;
+const BTN_ANIMATE = { opacity: 1, y: 0 } as const;
+const BTN_EXIT = { opacity: 0, y: 10 } as const;
 
 export default function ScrollToTop() {
   const [visible, setVisible] = useState(false);
@@ -23,9 +26,9 @@ export default function ScrollToTop() {
     <AnimatePresence>
       {visible && (
         <motion.button
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 10 }}
+          initial={BTN_INITIAL}
+          animate={BTN_ANIMATE}
+          exit={BTN_EXIT}
           transition={{ duration: 0.2 }}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="fixed bottom-24 right-6 z-40 w-10 h-10 bg-muted hover:bg-primary/10 text-muted-foreground hover:text-primary rounded-full flex items-center justify-center transition-colors shadow-lg"

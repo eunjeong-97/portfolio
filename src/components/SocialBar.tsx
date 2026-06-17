@@ -4,6 +4,12 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Github, FileText, Mail } from "lucide-react";
 
+const SOCIAL_BAR_INITIAL = { opacity: 0, x: -20 } as const;
+const SOCIAL_BAR_ANIMATE = { opacity: 1, x: 0 } as const;
+const TOOLTIP_INITIAL = { opacity: 0, x: -8 } as const;
+const TOOLTIP_ANIMATE = { opacity: 1, x: 0 } as const;
+const TOOLTIP_EXIT = { opacity: 0, x: -8 } as const;
+
 const links = [
   { href: "https://github.com/eunjeong-97", icon: Github, label: "GitHub", external: true },
   { href: "https://velog.io/@beanlove97", icon: FileText, label: "Blog", external: true },
@@ -15,8 +21,8 @@ export default function SocialBar() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
+      initial={SOCIAL_BAR_INITIAL}
+      animate={SOCIAL_BAR_ANIMATE}
       transition={{ duration: 0.5, delay: 1 }}
       className="hidden lg:flex fixed left-5 bottom-1/3 z-40 flex-col items-center gap-3"
     >
@@ -25,9 +31,9 @@ export default function SocialBar() {
           <AnimatePresence>
             {hoveredLabel === label && (
               <motion.span
-                initial={{ opacity: 0, x: -8 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -8 }}
+                initial={TOOLTIP_INITIAL}
+                animate={TOOLTIP_ANIMATE}
+                exit={TOOLTIP_EXIT}
                 transition={{ duration: 0.15 }}
                 aria-hidden="true"
                 className="absolute right-full mr-2 text-xs font-medium text-foreground bg-section-bg border border-border px-2 py-1 rounded-lg shadow-md whitespace-nowrap"

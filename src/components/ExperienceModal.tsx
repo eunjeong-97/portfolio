@@ -6,6 +6,13 @@ import { Experience } from "@/data/experiences";
 import { useEffect, useRef, useState } from "react";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 
+const BACKDROP_INITIAL = { opacity: 0 } as const;
+const BACKDROP_ANIMATE = { opacity: 1 } as const;
+const BACKDROP_EXIT = { opacity: 0 } as const;
+const MODAL_INITIAL = { opacity: 0, scale: 0.95, y: 20 } as const;
+const MODAL_ANIMATE = { opacity: 1, scale: 1, y: 0 } as const;
+const MODAL_EXIT = { opacity: 0, scale: 0.95, y: 20 } as const;
+
 interface ExperienceModalProps {
   experience: Experience | null;
   onClose: () => void;
@@ -62,18 +69,18 @@ export default function ExperienceModal({
         <>
           {/* Backdrop */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={BACKDROP_INITIAL}
+            animate={BACKDROP_ANIMATE}
+            exit={BACKDROP_EXIT}
             onClick={onClose}
             className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
           />
 
           {/* Modal */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            initial={MODAL_INITIAL}
+            animate={MODAL_ANIMATE}
+            exit={MODAL_EXIT}
             transition={{ type: "spring", duration: 0.5 }}
             ref={modalRef}
             tabIndex={-1}
