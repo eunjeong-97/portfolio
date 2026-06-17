@@ -194,6 +194,7 @@ export default function Skills() {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
               className="bg-section-bg p-6 rounded-2xl border border-border hover:border-primary transition-colors group"
             >
               <div className="flex items-center gap-3 mb-4">

@@ -53,7 +53,8 @@ function StatCard({
       initial={{ opacity: 0, y: 20 }}
       animate={isActive ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay }}
-      className="bg-section-bg p-5 rounded-xl border border-border hover:border-primary/50 transition-colors group"
+      whileHover={{ y: -3, transition: { duration: 0.2 } }}
+      className="bg-section-bg p-5 rounded-xl border border-border hover:border-primary/50 transition-colors group cursor-default"
     >
       <div className="flex items-start justify-between mb-3">
         <div className="text-3xl md:text-4xl font-bold text-primary">

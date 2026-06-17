@@ -47,7 +47,15 @@ export default function ChatBot() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!isOpen) setShowNotification(true);
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, [isOpen]);
 
   const copyEmail = async () => {
     await navigator.clipboard.writeText("beanlove97@gmail.com");
@@ -274,11 +282,24 @@ export default function ChatBot() {
 
       {/* Toggle Button */}
       <motion.button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 bg-primary hover:bg-primary-dark text-white rounded-full shadow-lg flex items-center justify-center transition-colors"
+        onClick={() => { setIsOpen(!isOpen); setShowNotification(false); }}
+        className="w-14 h-14 bg-primary hover:bg-primary-dark text-white rounded-full shadow-lg flex items-center justify-center transition-colors relative"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
+        <AnimatePresence>
+          {showNotification && !isOpen && (
+            <motion.span
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0 }}
+              className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center"
+            >
+              <span className="w-2.5 h-2.5 bg-red-400 rounded-full animate-ping absolute" />
+              <span className="w-1.5 h-1.5 bg-white rounded-full relative z-10" />
+            </motion.span>
+          )}
+        </AnimatePresence>
         <AnimatePresence mode="wait">
           {isOpen ? (
             <motion.div
