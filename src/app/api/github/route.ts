@@ -44,7 +44,6 @@ export async function GET() {
 
     const data: GitHubEvent[] = await res.json();
 
-    // PushEvent만 필터링하여 최근 커밋 추출
     const pushEvents = data
       .filter((e) => e.type === "PushEvent")
       .slice(0, 6)
@@ -58,7 +57,6 @@ export async function GET() {
         date: e.created_at,
       }));
 
-    // 활동 통계
     const stats = {
       totalEvents: data.length,
       pushCount: data.filter((e) => e.type === "PushEvent").length,
