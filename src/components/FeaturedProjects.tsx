@@ -42,6 +42,7 @@ export default function FeaturedProjects() {
                   key={tag}
                   onClick={() => setActiveFilter(tag)}
                   aria-pressed={activeFilter === tag}
+                  aria-label={`${tag} (${count}개)`}
                   className={`px-3 py-1.5 rounded-lg text-sm transition-all flex items-center gap-1.5 ${
                     activeFilter === tag
                       ? "bg-primary text-white"
@@ -168,6 +169,7 @@ export default function FeaturedProjects() {
                       key={tag}
                       onClick={() => setActiveFilter(tag)}
                       aria-pressed={activeFilter === tag}
+                      aria-label={`${tag}로 필터링`}
                       className={`px-2 py-1 rounded text-xs transition-colors bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary ${activeFilter === tag ? "bg-primary/10 text-primary" : ""}`}
                     >
                       {tag}
