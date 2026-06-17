@@ -214,8 +214,9 @@ export default function Hero() {
             <div className="relative w-[280px] h-[350px] md:w-[320px] md:h-[400px] bg-gradient-to-br from-muted to-card rounded-3xl border border-border overflow-hidden mx-auto">
               <Image
                 src="/images/profile.jpg"
-                alt="박은정"
+                alt="박은정 프로필 사진"
                 fill
+                sizes="(max-width: 768px) 280px, 320px"
                 className="object-cover"
                 priority
               />

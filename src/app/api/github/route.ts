@@ -26,7 +26,10 @@ export async function GET() {
     );
 
     if (!res.ok) {
-      return NextResponse.json({ events: [], stats: null });
+      return NextResponse.json(
+        { events: [], stats: null },
+        { headers: { "Cache-Control": "no-store" } }
+      );
     }
 
     const data: GitHubEvent[] = await res.json();
@@ -54,6 +57,9 @@ export async function GET() {
 
     return NextResponse.json({ events: pushEvents, stats });
   } catch {
-    return NextResponse.json({ events: [], stats: null });
+    return NextResponse.json(
+      { events: [], stats: null },
+      { headers: { "Cache-Control": "no-store" } }
+    );
   }
 }
