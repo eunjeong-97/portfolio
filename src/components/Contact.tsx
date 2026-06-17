@@ -211,7 +211,7 @@ export default function Contact() {
                   <div className="grid sm:grid-cols-2 gap-3">
                     <div>
                       <div className="flex items-center justify-between mb-1.5">
-                        <label className="text-xs text-muted-foreground">이름</label>
+                        <label htmlFor="contact-name" className="text-xs text-muted-foreground">이름</label>
                         {fieldStatus.name === "error" && (
                           <span className="flex items-center gap-1 text-[10px] text-red-400">
                             <AlertCircle size={10} /> 2자 이상 입력해주세요
@@ -220,6 +220,7 @@ export default function Contact() {
                         {fieldStatus.name === "valid" && <Check size={12} className="text-green-400" />}
                       </div>
                       <input
+                        id="contact-name"
                         type="text"
                         required
                         value={formState.name}
@@ -233,7 +234,7 @@ export default function Contact() {
                     </div>
                     <div>
                       <div className="flex items-center justify-between mb-1.5">
-                        <label className="text-xs text-muted-foreground">이메일</label>
+                        <label htmlFor="contact-email" className="text-xs text-muted-foreground">이메일</label>
                         {fieldStatus.email === "error" && (
                           <span className="flex items-center gap-1 text-[10px] text-red-400">
                             <AlertCircle size={10} /> 올바른 이메일 형식
@@ -242,6 +243,7 @@ export default function Contact() {
                         {fieldStatus.email === "valid" && <Check size={12} className="text-green-400" />}
                       </div>
                       <input
+                        id="contact-email"
                         type="email"
                         required
                         value={formState.email}
@@ -257,7 +259,7 @@ export default function Contact() {
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
                       <div className="flex items-center gap-1.5">
-                        <label className="text-xs text-muted-foreground">메시지</label>
+                        <label htmlFor="contact-message" className="text-xs text-muted-foreground">메시지</label>
                         {fieldStatus.message === "valid" && <Check size={12} className="text-green-400" />}
                         {fieldStatus.message === "error" && (
                           <span className="flex items-center gap-1 text-[10px] text-red-400">
@@ -270,6 +272,7 @@ export default function Contact() {
                       </span>
                     </div>
                     <textarea
+                      id="contact-message"
                       required
                       rows={4}
                       maxLength={500}
