@@ -141,11 +141,17 @@ export default function ChatBot() {
   }, [isOpen]);
 
   useEffect(() => {
+    if (isOpen) setShowNotification(false);
+  }, [isOpen]);
+
+  useEffect(() => {
     if (isOpen) messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isOpen]);
 
   useEffect(() => {
-    if (isOpen) setTimeout(() => inputRef.current?.focus(), 100);
+    if (!isOpen) return;
+    const timer = setTimeout(() => inputRef.current?.focus(), 100);
+    return () => clearTimeout(timer);
   }, [isOpen]);
 
   useEffect(() => {

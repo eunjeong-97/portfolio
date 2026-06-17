@@ -130,7 +130,9 @@ export default function BlogPosts() {
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {posts.map((post, index) => (
+            {posts.map((post, index) => {
+              const recent = isRecent(post.pubDate);
+              return (
               <motion.a
                 key={post.link}
                 href={post.link}
@@ -147,14 +149,14 @@ export default function BlogPosts() {
                 <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                 {/* New badge on recent posts */}
-                {index === 0 && isRecent(post.pubDate) && (
+                {index === 0 && recent && (
                   <div className="absolute top-3 right-3 px-1.5 py-0.5 bg-primary text-white text-[10px] font-semibold rounded-full" aria-hidden="true">
                     NEW
                   </div>
                 )}
 
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  {isRecent(post.pubDate) ? (
+                  {recent ? (
                     <span className="inline-flex items-center gap-1 text-xs text-green-400 bg-green-400/10 px-2 py-0.5 rounded-full">
                       <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" aria-hidden="true" />
                       최신
@@ -182,7 +184,8 @@ export default function BlogPosts() {
                   {post.description}
                 </p>
               </motion.a>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

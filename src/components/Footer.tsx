@@ -20,8 +20,6 @@ const socialLinks = [
 const CURRENT_YEAR = new Date().getFullYear();
 
 export default function Footer() {
-  const currentYear = CURRENT_YEAR;
-
   return (
     <footer className="py-12 px-6 border-t border-border" aria-label="사이트 하단 정보">
       <div className="max-w-6xl mx-auto">
@@ -96,7 +94,7 @@ export default function Footer() {
 
         <div className="border-t border-border pt-6 flex flex-col sm:flex-row justify-between items-center gap-3">
           <p className="text-muted-foreground text-sm">
-            © {currentYear} 박은정. All rights reserved.
+            © {CURRENT_YEAR} 박은정. All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground/60">
             Built with Next.js · Tailwind CSS · Deployed on Vercel
