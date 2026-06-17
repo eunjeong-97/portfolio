@@ -19,6 +19,11 @@ const CASE_STUDY_COLS = [
   { dot: "bg-green-400", label: "Impact", key: "impact", bg: "bg-green-400/5" },
 ] as const;
 
+const PROJ_INITIAL = { opacity: 0, y: 20, scale: 0.98 } as const;
+const PROJ_ANIMATE_IN = { opacity: 1, y: 0, scale: 1 } as const;
+const PROJ_ANIMATE_HIDDEN = { opacity: 0, y: 20, scale: 0.98 } as const;
+const PROJ_EXIT = { opacity: 0, y: -10, scale: 0.97 } as const;
+
 export default function FeaturedProjects() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -105,9 +110,9 @@ export default function FeaturedProjects() {
             <motion.div
               key={project.id}
               layout
-              initial={{ opacity: 0, y: 20, scale: 0.98 }}
-              animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 20, scale: 0.98 }}
-              exit={{ opacity: 0, y: -10, scale: 0.97 }}
+              initial={PROJ_INITIAL}
+              animate={isInView ? PROJ_ANIMATE_IN : PROJ_ANIMATE_HIDDEN}
+              exit={PROJ_EXIT}
               transition={{ duration: 0.3, delay: index * 0.07 }}
               className="bg-background border border-border rounded-2xl p-8 transition-colors group hover:border-primary/50"
             >
