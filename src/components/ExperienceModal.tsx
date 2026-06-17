@@ -173,6 +173,7 @@ export default function ExperienceModal({
                       className="w-full h-full object-contain"
                       playsInline
                       muted
+                      title={`${experience.title} 실행 영상`}
                     >
                       브라우저가 비디오 태그를 지원하지 않습니다.
                     </video>
