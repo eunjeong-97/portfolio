@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { projects } from "@/data/projects";
 
@@ -11,6 +10,7 @@ export default function FeaturedProjects() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [activeFilter, setActiveFilter] = useState("전체");
+  const filteredProjects = activeFilter === "전체" ? projects : projects.filter(p => p.tags.includes(activeFilter));
 
   return (
     <section id="projects" className="py-24 px-6 bg-section-bg" ref={ref}>
@@ -59,17 +59,17 @@ export default function FeaturedProjects() {
         </motion.div>
 
         <div className="space-y-8">
-          {projects.map((project, index) => {
-            const isMatch = activeFilter === "전체" || project.tags.includes(activeFilter);
+          <AnimatePresence mode="popLayout">
+          {filteredProjects.map((project, index) => {
             return (
             <motion.div
               key={project.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: isMatch ? 1 : 0.3, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.2 + index * 0.15 }}
-              className={`bg-background border border-border rounded-2xl p-8 transition-all group ${
-                isMatch ? "hover:border-primary/50" : "pointer-events-none"
-              }`}
+              layout
+              initial={{ opacity: 0, y: 20, scale: 0.98 }}
+              animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 20, scale: 0.98 }}
+              exit={{ opacity: 0, y: -10, scale: 0.97 }}
+              transition={{ duration: 0.3, delay: index * 0.07 }}
+              className="bg-background border border-border rounded-2xl p-8 transition-colors group hover:border-primary/50"
             >
               {/* Header */}
               <div className="flex flex-col sm:flex-row sm:items-start gap-4 mb-6">
@@ -149,6 +149,7 @@ export default function FeaturedProjects() {
             </motion.div>
             );
           })}
+          </AnimatePresence>
         </div>
 
         {/* GitHub CTA */}

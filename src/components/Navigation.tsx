@@ -189,7 +189,7 @@ export default function Navigation() {
               exit={{ opacity: 0, height: 0 }}
               className="md:hidden bg-section-bg backdrop-blur-md border-b border-border"
             >
-              <ul className="flex flex-col">
+              <ul className="flex flex-col py-2">
                 {navItems.map((item) => {
                   const isActive = activeSection === item.href.slice(1);
                   return (
@@ -197,27 +197,38 @@ export default function Navigation() {
                       <a
                         href={item.href}
                         onClick={(e) => handleLinkClick(e, item.href)}
-                        className={`transition-colors text-lg block w-full px-6 py-2 ${
+                        className={`flex items-center gap-3 text-base w-full px-6 py-3 border-l-2 transition-all ${
                           isActive
-                            ? "text-primary"
-                            : "text-muted-foreground hover:text-foreground"
+                            ? "text-primary border-primary bg-primary/5"
+                            : "text-muted-foreground hover:text-foreground border-transparent"
                         }`}
                       >
                         {item.label}
+                        {isActive && (
+                          <span className="ml-auto text-xs text-primary/60 font-mono">●</span>
+                        )}
                       </a>
                     </li>
                   );
                 })}
-                <li>
-                  <button
-                    onClick={toggleTheme}
-                    className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors w-full px-6 py-2"
-                  >
-                    {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-                    {theme === "dark" ? "Light Mode" : "Dark Mode"}
-                  </button>
-                </li>
               </ul>
+              <div className="flex items-center gap-3 px-6 py-4 border-t border-border">
+                <a
+                  href="/resume.pdf"
+                  download="박은정_이력서.pdf"
+                  className="flex-1 flex items-center justify-center gap-2 py-2 border border-primary/40 hover:border-primary hover:bg-primary/5 rounded-lg text-sm text-primary transition-colors"
+                >
+                  <Download size={14} />
+                  이력서 다운로드
+                </a>
+                <button
+                  onClick={toggleTheme}
+                  className="p-2 rounded-lg bg-muted hover:border-border transition-colors"
+                  aria-label="Toggle theme"
+                >
+                  {theme === "dark" ? <Sun size={18} className="text-yellow-400" /> : <Moon size={18} className="text-primary" />}
+                </button>
+              </div>
             </motion.div>
           </>
         )}

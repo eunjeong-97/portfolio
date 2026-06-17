@@ -6,6 +6,18 @@ import { useRef, useState } from "react";
 import { experiences } from "@/data/experiences";
 import ExperienceModal from "./ExperienceModal";
 
+function getDuration(period: string): string {
+  const parts = period.split(" - ").map(s => s.trim());
+  if (parts.length < 2) return "";
+  const [sy, sm] = parts[0].split(".").map(Number);
+  const [ey, em] = parts[1].split(".").map(Number);
+  const totalMonths = (ey - sy) * 12 + (em - sm) + 1;
+  if (totalMonths < 12) return `${totalMonths}개월`;
+  const years = Math.floor(totalMonths / 12);
+  const months = totalMonths % 12;
+  return months > 0 ? `${years}년 ${months}개월` : `${years}년`;
+}
+
 export default function ExperienceTimeline() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -67,10 +79,15 @@ export default function ExperienceTimeline() {
                   className="bg-section-bg p-6 rounded-xl border border-border hover:border-primary transition-all cursor-pointer group hover:translate-x-2"
                 >
                   <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="text-sm text-primary font-medium">
-                      {exp.period}
-                    </span>
-                    <span className="text-xs text-muted-foreground px-2 py-0.5 bg-muted rounded-full">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-sm text-primary font-medium">
+                        {exp.period}
+                      </span>
+                      <span className="text-xs text-primary/60 bg-primary/5 border border-primary/20 px-2 py-0.5 rounded-full font-medium">
+                        {getDuration(exp.period)}
+                      </span>
+                    </div>
+                    <span className="text-xs text-muted-foreground px-2 py-0.5 bg-muted rounded-full flex-shrink-0">
                       ㈜트러스트체인
                     </span>
                   </div>

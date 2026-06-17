@@ -62,6 +62,12 @@ export default function GitHubActivity() {
     return counts;
   };
 
+  const getDayLabel = (daysAgo: number) => {
+    const d = new Date();
+    d.setDate(d.getDate() - daysAgo);
+    return d.toLocaleDateString("ko-KR", { month: "numeric", day: "numeric" });
+  };
+
   const dailyActivity = getDailyActivity();
   const maxActivity = Math.max(...dailyActivity, 1);
 
@@ -143,12 +149,13 @@ export default function GitHubActivity() {
             </div>
             <div className="grid gap-1" style={{ gridTemplateColumns: `repeat(${Math.ceil(dailyActivity.length / 5)}, 1fr)` }}>
               {dailyActivity.map((count, i) => {
+                const daysAgo = dailyActivity.length - 1 - i;
                 const intensity = count === 0 ? 0 : Math.min(1, 0.2 + (count / maxActivity) * 0.8);
                 return (
                   <motion.div
                     key={i}
-                    title={`${count}건`}
-                    className="h-3 rounded-sm"
+                    title={`${getDayLabel(daysAgo)}: ${count > 0 ? `${count}건의 Push` : "활동 없음"}`}
+                    className="h-3 rounded-sm cursor-default"
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={isInView ? { opacity: 1, scale: 1 } : {}}
                     transition={{ duration: 0.3, delay: 0.3 + i * 0.015 }}
