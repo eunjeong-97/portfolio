@@ -242,15 +242,19 @@ export default function Hero() {
               className="absolute bottom-24 -left-8 md:bottom-28 md:-left-12 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl cursor-default"
             >
               <div className="text-xs text-muted-foreground mb-2">
-                Tech Stack
+                Core Stack
               </div>
-              <div className="flex gap-2">
-                {["JS", "TS", "RN"].map((tech) => (
+              <div className="flex gap-1.5">
+                {[
+                  { label: "TS", color: "bg-blue-500/20 text-blue-400 border-blue-500/30" },
+                  { label: "RN", color: "bg-cyan-500/20 text-cyan-400 border-cyan-500/30" },
+                  { label: "RQ", color: "bg-purple-500/20 text-purple-400 border-purple-500/30" },
+                ].map(({ label, color }) => (
                   <div
-                    key={tech}
-                    className="w-8 h-8 bg-muted rounded-lg flex items-center justify-center text-xs font-semibold text-primary-light"
+                    key={label}
+                    className={`w-8 h-8 border rounded-lg flex items-center justify-center text-xs font-bold ${color}`}
                   >
-                    {tech}
+                    {label}
                   </div>
                 ))}
               </div>

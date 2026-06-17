@@ -200,7 +200,8 @@ export default function GitHubActivity() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.4, delay: 0.2 + index * 0.08 }}
-                className="bg-background border border-border rounded-xl p-5 hover:border-primary/40 transition-colors"
+                whileHover={{ x: 4, transition: { duration: 0.15 } }}
+                className="bg-background border border-border rounded-xl p-5 hover:border-primary/40 transition-colors group"
               >
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
