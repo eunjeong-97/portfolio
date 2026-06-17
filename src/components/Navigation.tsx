@@ -86,6 +86,7 @@ export default function Navigation() {
 
   return (
     <motion.nav
+      aria-label="주 내비게이션"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
