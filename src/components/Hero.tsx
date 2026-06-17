@@ -19,6 +19,18 @@ const HERO_BG_STYLE = {
   backgroundSize: "60px 60px",
 };
 
+const HERO_GRADIENT_STYLE = {
+  backgroundImage: "linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)",
+};
+
+const TECH_TAGS = ["React", "TypeScript", "React Native", "Next.js", "Java/Kotlin", "Swift"];
+
+const CORE_STACK = [
+  { label: "TS", color: "bg-blue-500/20 text-blue-400 border-blue-500/30" },
+  { label: "RN", color: "bg-cyan-500/20 text-cyan-400 border-cyan-500/30" },
+  { label: "RQ", color: "bg-purple-500/20 text-purple-400 border-purple-500/30" },
+];
+
 function useTypewriter(words: string[], speed = 90, pause = 2000) {
   const [index, setIndex] = useState(0);
   const [displayed, setDisplayed] = useState("");
@@ -113,7 +125,7 @@ export default function Hero() {
             <br />
             <span
               className="bg-clip-text text-transparent"
-              style={{ backgroundImage: "linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)" }}
+              style={HERO_GRADIENT_STYLE}
             >
               하나의 코드베이스
             </span>로
@@ -170,7 +182,7 @@ export default function Hero() {
             transition={{ delay: 0.55 }}
             className="flex flex-wrap gap-2 mb-8"
           >
-            {["React", "TypeScript", "React Native", "Next.js", "Java/Kotlin", "Swift"].map((tech) => (
+            {TECH_TAGS.map((tech) => (
               <span
                 key={tech}
                 className="px-3 py-1 bg-muted border border-border rounded-full text-xs text-muted-foreground"
@@ -264,11 +276,7 @@ export default function Hero() {
                 Core Stack
               </div>
               <div className="flex gap-1.5">
-                {[
-                  { label: "TS", color: "bg-blue-500/20 text-blue-400 border-blue-500/30" },
-                  { label: "RN", color: "bg-cyan-500/20 text-cyan-400 border-cyan-500/30" },
-                  { label: "RQ", color: "bg-purple-500/20 text-purple-400 border-purple-500/30" },
-                ].map(({ label, color }) => (
+                {CORE_STACK.map(({ label, color }) => (
                   <div
                     key={label}
                     className={`w-8 h-8 border rounded-lg flex items-center justify-center text-xs font-bold ${color}`}

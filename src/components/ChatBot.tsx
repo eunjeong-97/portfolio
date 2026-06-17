@@ -25,12 +25,12 @@ const SUGGESTIONS = [
 ];
 
 function TypewriterText({ content, onDone }: { content: string; onDone: () => void }) {
-  const [displayed, setDisplayed] = useState("");
-  const [done, setDone] = useState(false);
-  const speed = Math.max(4, Math.min(18, Math.round(3000 / content.length)));
   const onDoneRef = useRef(onDone);
   onDoneRef.current = onDone;
   const reducedMotion = useReducedMotion();
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(() => reducedMotion);
+  const speed = Math.max(4, Math.min(18, Math.round(3000 / content.length)));
 
   useEffect(() => {
     if (reducedMotion) {
