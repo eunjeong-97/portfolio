@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState, useEffect, useMemo, useCallback } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { experiences } from "@/data/experiences";
 import ExperienceModal from "./ExperienceModal";
 
@@ -34,6 +34,9 @@ function getBarProps(period: string) {
   };
 }
 
+const expWithMeta = experiences.map(exp => ({ ...exp, duration: getDuration(exp.period), barProps: getBarProps(exp.period) }));
+const expWithMetaReversed = [...expWithMeta].reverse();
+
 export default function ExperienceTimeline() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -42,12 +45,6 @@ export default function ExperienceTimeline() {
   const selectedExperience = selectedIndex !== null ? experiences[selectedIndex] : null;
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const lastSelectedIndex = useRef<number | null>(null);
-
-  const expWithMeta = useMemo(
-    () => experiences.map(exp => ({ ...exp, duration: getDuration(exp.period), barProps: getBarProps(exp.period) })),
-    []
-  );
-  const expWithMetaReversed = useMemo(() => [...expWithMeta].reverse(), [expWithMeta]);
 
   useEffect(() => {
     if (selectedIndex === null && lastSelectedIndex.current !== null) {

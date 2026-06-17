@@ -29,7 +29,7 @@ export async function GET() {
           if (d.length <= 200) return d;
           const cut = d.slice(0, 201);
           const lastSpace = cut.lastIndexOf(" ");
-          return (lastSpace > 0 ? cut.slice(0, lastSpace) : cut.slice(0, 200)) + "...";
+          return (lastSpace > 0 ? cut.slice(0, lastSpace) : cut.slice(0, 200)) + "…";
         })(),
       });
     }

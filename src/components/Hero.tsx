@@ -13,6 +13,12 @@ const ROLES = [
   "Cross-platform 개발자",
 ];
 
+const HERO_BG_STYLE = {
+  backgroundImage:
+    "linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px)",
+  backgroundSize: "60px 60px",
+};
+
 function useTypewriter(words: string[], speed = 90, pause = 2000) {
   const [index, setIndex] = useState(0);
   const [displayed, setDisplayed] = useState("");
@@ -65,11 +71,7 @@ export default function Hero() {
     <section
       className="min-h-screen flex items-center px-6 pt-20 relative overflow-hidden"
       onMouseMove={handleMouseMove}
-      style={{
-        backgroundImage:
-          "linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px)",
-        backgroundSize: "60px 60px",
-      }}
+      style={HERO_BG_STYLE}
     >
       {/* Cursor spotlight */}
       <div

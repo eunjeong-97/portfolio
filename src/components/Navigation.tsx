@@ -86,6 +86,7 @@ export default function Navigation() {
         {/* Logo */}
         <motion.a
           href="#"
+          onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
           className="flex items-center gap-3 text-xl font-bold text-foreground"
           whileHover={{ scale: 1.02 }}
         >

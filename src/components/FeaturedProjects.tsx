@@ -11,6 +11,8 @@ const TAG_COUNTS: Record<string, number> = Object.fromEntries(
   FILTER_TAGS.map(tag => [tag, tag === "전체" ? projects.length : projects.filter(p => p.tags.includes(tag)).length])
 );
 
+const FILTERABLE_TAGS = new Set(FILTER_TAGS.filter(t => t !== "전체"));
+
 export default function FeaturedProjects() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -170,7 +172,7 @@ export default function FeaturedProjects() {
               {/* Tags */}
               <div className="flex flex-wrap gap-2 mt-6 pt-6 border-t border-border">
                 {project.tags.map((tag) => {
-                  const isFilterable = FILTER_TAGS.includes(tag) && tag !== "전체";
+                  const isFilterable = FILTERABLE_TAGS.has(tag);
                   return isFilterable ? (
                     <button
                       key={tag}
