@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Experience } from "@/data/experiences";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 interface ExperienceModalProps {
   experience: Experience | null;
@@ -18,6 +18,12 @@ export default function ExperienceModal({
   onPrev,
   onNext,
 }: ExperienceModalProps) {
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (experience) modalRef.current?.focus();
+  }, [experience]);
+
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -54,7 +60,12 @@ export default function ExperienceModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: "spring", duration: 0.5 }}
-            className="fixed inset-4 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-2xl md:max-h-[85vh] bg-section-bg rounded-2xl border border-border z-50 overflow-hidden flex flex-col"
+            ref={modalRef}
+            tabIndex={-1}
+            role="dialog"
+            aria-modal="true"
+            aria-label={experience.title}
+            className="fixed inset-4 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-2xl md:max-h-[85vh] bg-section-bg rounded-2xl border border-border z-50 overflow-hidden flex flex-col outline-none"
           >
             {/* Header */}
             <div className="flex items-start justify-between p-6 border-b border-border">

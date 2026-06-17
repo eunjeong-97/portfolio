@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Bot, User } from "lucide-react";
+import { MessageCircle, X, Send, Bot, User, RotateCcw } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
@@ -16,15 +16,15 @@ const SUGGESTIONS = [
   "연락하려면 어떻게 하나요?",
 ];
 
+const WELCOME: Message = {
+  role: "assistant",
+  content:
+    "안녕하세요! 박은정의 포트폴리오 도우미입니다. 경력, 기술 스택, 프로젝트에 대해 무엇이든 물어보세요! 😊",
+};
+
 export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "assistant",
-      content:
-        "안녕하세요! 박은정의 포트폴리오 도우미입니다. 경력, 기술 스택, 프로젝트에 대해 무엇이든 물어보세요! 😊",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([WELCOME]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -108,12 +108,22 @@ export default function ChatBot() {
                   </p>
                 </div>
               </div>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-white/80 hover:text-white transition-colors"
-              >
-                <X size={20} />
-              </button>
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={() => { setMessages([WELCOME]); setInput(""); }}
+                  className="text-white/60 hover:text-white transition-colors p-1"
+                  aria-label="대화 초기화"
+                  title="대화 초기화"
+                >
+                  <RotateCcw size={15} />
+                </button>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="text-white/80 hover:text-white transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
             </div>
 
             {/* Messages */}
