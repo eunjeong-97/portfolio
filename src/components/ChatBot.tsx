@@ -243,7 +243,7 @@ export default function ChatBot() {
                   className={`flex gap-2 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                 >
                   {msg.role === "assistant" && (
-                    <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center flex-shrink-0 mt-1" aria-hidden="true">
                       <Bot size={14} className="text-white" />
                     </div>
                   )}
@@ -272,7 +272,7 @@ export default function ChatBot() {
                     )}
                   </div>
                   {msg.role === "user" && (
-                    <div className="w-7 h-7 rounded-full bg-muted flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-7 h-7 rounded-full bg-muted flex items-center justify-center flex-shrink-0 mt-1" aria-hidden="true">
                       <User size={14} className="text-muted-foreground" />
                     </div>
                   )}
@@ -300,11 +300,11 @@ export default function ChatBot() {
               )}
 
               {loading && (
-                <div className="flex gap-2 justify-start">
-                  <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                <div className="flex gap-2 justify-start" role="status" aria-label="응답 생성 중">
+                  <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center flex-shrink-0" aria-hidden="true">
                     <Bot size={14} className="text-white" />
                   </div>
-                  <div className="bg-muted px-3 py-2 rounded-2xl rounded-tl-sm">
+                  <div className="bg-muted px-3 py-2 rounded-2xl rounded-tl-sm" aria-hidden="true">
                     <div className="flex gap-1">
                       <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce [animation-delay:0ms]" />
                       <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce [animation-delay:150ms]" />
@@ -323,16 +323,18 @@ export default function ChatBot() {
                 <div className="flex items-center gap-2 mb-2 pb-2 border-b border-border/50">
                   <button
                     onClick={copyEmail}
+                    aria-label={copied ? "이메일 복사 완료" : "이메일 주소 복사"}
                     className="flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs text-muted-foreground hover:text-primary bg-muted hover:bg-primary/10 rounded-lg transition-colors"
                   >
-                    {copied ? <Check size={12} className="text-green-400" /> : <Copy size={12} />}
+                    {copied ? <Check size={12} className="text-green-400" aria-hidden="true" /> : <Copy size={12} aria-hidden="true" />}
                     {copied ? "복사됨!" : "이메일 복사"}
                   </button>
                   <a
                     href="mailto:beanlove97@gmail.com"
+                    aria-label="이메일 앱으로 보내기"
                     className="flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs text-muted-foreground hover:text-primary bg-muted hover:bg-primary/10 rounded-lg transition-colors"
                   >
-                    <Mail size={12} />
+                    <Mail size={12} aria-hidden="true" />
                     이메일 보내기
                   </a>
                 </div>
