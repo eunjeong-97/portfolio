@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { experiences } from "@/data/experiences";
 import ExperienceModal from "./ExperienceModal";
 
@@ -40,6 +40,15 @@ export default function ExperienceTimeline() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [direction, setDirection] = useState<1 | -1>(1);
   const selectedExperience = selectedIndex !== null ? experiences[selectedIndex] : null;
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const lastSelectedIndex = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (selectedIndex === null && lastSelectedIndex.current !== null) {
+      cardRefs.current[lastSelectedIndex.current]?.focus();
+    }
+    if (selectedIndex !== null) lastSelectedIndex.current = selectedIndex;
+  }, [selectedIndex]);
 
   const goNext = () => { setDirection(1); setSelectedIndex((prev) => (prev !== null ? prev + 1 : null)); };
   const goPrev = () => { setDirection(-1); setSelectedIndex((prev) => (prev !== null ? prev - 1 : null)); };
@@ -145,6 +154,7 @@ export default function ExperienceTimeline() {
 
                 {/* Content Card */}
                 <motion.div
+                  ref={(el) => { cardRefs.current[index] = el as HTMLDivElement | null; }}
                   onClick={() => setSelectedIndex(index)}
                   onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedIndex(index); } }}
                   tabIndex={0}

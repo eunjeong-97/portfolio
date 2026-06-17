@@ -89,6 +89,7 @@ export default function ChatBot() {
   const [copied, setCopied] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
@@ -117,6 +118,7 @@ export default function ChatBot() {
   useEffect(() => {
     if (isOpen) {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      setTimeout(() => inputRef.current?.focus(), 100);
     }
   }, [messages, isOpen]);
 
@@ -340,6 +342,7 @@ export default function ChatBot() {
                   <label htmlFor="chatbot-input" className="sr-only">메시지 입력</label>
                   <input
                     id="chatbot-input"
+                    ref={inputRef}
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value.slice(0, MAX_INPUT))}
