@@ -77,6 +77,9 @@ const LEVEL_DESC: Record<Level, string> = {
   1: "기본 이해 및 사용 경험",
 };
 
+const LEVELS_DESC: Level[] = [3, 2, 1];
+const LEVELS_ASC: Level[] = [1, 2, 3];
+
 function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: boolean; delay?: number }) {
   const [visible, setVisible] = useState(false);
   const barWidth = (level / 3) * 100;
@@ -103,7 +106,7 @@ function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: bo
           <span className="text-xs text-muted-foreground/60 group-hover:text-primary transition-colors mr-0.5">
             {LEVEL_LABEL[level]}
           </span>
-          {([1, 2, 3] as Level[]).map((i) => (
+          {LEVELS_ASC.map((i) => (
             <span
               key={i}
               className={`w-1.5 h-1.5 rounded-full transition-colors ${
@@ -174,10 +177,10 @@ export default function Skills() {
             </span>
           </div>
           <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground mb-4" aria-hidden="true">
-            {([3, 2, 1] as Level[]).map((level) => (
+            {LEVELS_DESC.map((level) => (
               <span key={level} className="flex items-center gap-1.5">
                 <span className="flex gap-0.5">
-                  {([1, 2, 3] as Level[]).map((i) => (
+                  {LEVELS_ASC.map((i) => (
                     <span
                       key={i}
                       className={`w-1.5 h-1.5 rounded-full ${i <= level ? "bg-primary" : "bg-border"}`}
@@ -191,7 +194,7 @@ export default function Skills() {
           </div>
           {/* Distribution bar (decorative) */}
           <div className="flex h-1.5 rounded-full overflow-hidden w-full max-w-xs mb-10 gap-0.5" aria-hidden="true">
-            {([3, 2, 1] as Level[]).map((level) => (
+            {LEVELS_DESC.map((level) => (
               <motion.div
                 key={level}
                 className="h-full rounded-full"

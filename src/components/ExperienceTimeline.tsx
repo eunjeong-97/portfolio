@@ -43,6 +43,8 @@ const CAREER_DOMAINS = [
   { label: "어드민", sub: "React.js" },
 ];
 
+const GANTT_YEAR_DIVIDERS = [33.3, 66.6];
+
 export default function ExperienceTimeline() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -109,7 +111,7 @@ export default function ExperienceTimeline() {
               className="relative h-7 bg-muted rounded-lg overflow-hidden"
             >
               {/* Year dividers */}
-              {[33.3, 66.6].map((pct) => (
+              {GANTT_YEAR_DIVIDERS.map((pct) => (
                 <div key={pct} className="absolute top-0 bottom-0 w-px bg-border/50" style={{ left: `${pct}%` }} />
               ))}
               {/* Experience bars (reversed: oldest → newest) */}
