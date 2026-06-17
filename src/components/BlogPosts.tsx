@@ -43,9 +43,13 @@ export default function BlogPosts() {
     }
   };
 
-  const readingTime = (text: string) => {
-    const words = text.trim().split(/\s+/).length;
-    return Math.max(1, Math.round(words / 150));
+  const isRecent = (dateStr: string) => {
+    try {
+      const diff = Date.now() - new Date(dateStr).getTime();
+      return diff < 1000 * 60 * 60 * 24 * 30;
+    } catch {
+      return false;
+    }
   };
 
   return (
@@ -139,10 +143,17 @@ export default function BlogPosts() {
                 )}
 
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="inline-flex items-center gap-1 text-xs text-primary bg-primary/10 px-2 py-0.5 rounded-full">
-                    <FileText size={10} />
-                    약 {readingTime(post.description)}분
-                  </span>
+                  {isRecent(post.pubDate) ? (
+                    <span className="inline-flex items-center gap-1 text-xs text-green-400 bg-green-400/10 px-2 py-0.5 rounded-full">
+                      <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+                      최신
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 text-xs text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+                      <FileText size={10} />
+                      블로그
+                    </span>
+                  )}
                   <span className="text-xs text-muted-foreground">{formatDate(post.pubDate)}</span>
                 </div>
 
