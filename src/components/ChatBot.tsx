@@ -125,7 +125,8 @@ export default function ChatBot() {
   useEffect(() => {
     if (messages.length > 1) {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+        // Strip isNew so messages don't re-animate on next visit
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(messages.map(({ isNew: _, ...m }) => m)));
       } catch {
         // ignore storage errors
       }
