@@ -3,40 +3,93 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Code2, Smartphone, Palette } from "lucide-react";
+import { Code2, Smartphone, Palette, Wrench } from "lucide-react";
 
-const skillCategories = [
+type Level = 1 | 2 | 3;
+
+interface Skill {
+  name: string;
+  level: Level;
+}
+
+const skillCategories: {
+  title: string;
+  icon: React.ElementType;
+  skills: Skill[];
+}[] = [
   {
     title: "Frontend",
     icon: Code2,
     skills: [
-      "JavaScript",
-      "TypeScript",
-      "React.js",
-      "Next.js",
-      "Redux",
-      "Zustand",
-      "React Query",
+      { name: "JavaScript", level: 3 },
+      { name: "TypeScript", level: 3 },
+      { name: "React.js", level: 3 },
+      { name: "Next.js", level: 2 },
+      { name: "Redux", level: 2 },
+      { name: "Zustand", level: 2 },
+      { name: "React Query", level: 2 },
     ],
   },
   {
-    title: "Mobile",
+    title: "Mobile & Native",
     icon: Smartphone,
     skills: [
-      "React Native",
-      "React Navigation",
-      "Java",
-      "Kotlin",
-      "Swift",
-      "Objective-C",
+      { name: "React Native", level: 3 },
+      { name: "React Navigation", level: 2 },
+      { name: "Java", level: 2 },
+      { name: "Swift", level: 2 },
+      { name: "Kotlin", level: 1 },
+      { name: "Objective-C", level: 1 },
     ],
   },
   {
     title: "UI & Styling",
     icon: Palette,
-    skills: ["HTML5", "CSS/SCSS", "Tailwind CSS", "Chakra UI", "Ag-Grid"],
+    skills: [
+      { name: "HTML5", level: 3 },
+      { name: "CSS/SCSS", level: 3 },
+      { name: "Tailwind CSS", level: 2 },
+      { name: "Chakra UI", level: 2 },
+      { name: "Ag-Grid", level: 2 },
+    ],
+  },
+  {
+    title: "Tools",
+    icon: Wrench,
+    skills: [
+      { name: "Git / GitHub", level: 3 },
+      { name: "Figma", level: 2 },
+      { name: "Jira", level: 2 },
+      { name: "Notion", level: 2 },
+    ],
   },
 ];
+
+const LEVEL_LABEL: Record<Level, string> = {
+  3: "주요",
+  2: "활용",
+  1: "경험",
+};
+
+function SkillBadge({ name, level }: Skill) {
+  return (
+    <div className="flex items-center justify-between gap-3 px-3 py-2 bg-muted rounded-lg hover:bg-primary/10 transition-colors group cursor-default">
+      <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+        {name}
+      </span>
+      <div className="flex gap-0.5 flex-shrink-0">
+        {([1, 2, 3] as Level[]).map((i) => (
+          <span
+            key={i}
+            className={`w-1.5 h-1.5 rounded-full transition-colors ${
+              i <= level ? "bg-primary" : "bg-border"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function Skills() {
   const ref = useRef(null);
@@ -53,12 +106,27 @@ export default function Skills() {
           <span className="text-sm text-primary uppercase tracking-wider">
             Skills
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold mt-2 mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mt-2 mb-3">
             Tech Stack
           </h2>
+          <div className="flex items-center gap-4 text-xs text-muted-foreground mb-10">
+            {([3, 2, 1] as Level[]).map((level) => (
+              <span key={level} className="flex items-center gap-1.5">
+                <span className="flex gap-0.5">
+                  {([1, 2, 3] as Level[]).map((i) => (
+                    <span
+                      key={i}
+                      className={`w-1.5 h-1.5 rounded-full ${i <= level ? "bg-primary" : "bg-border"}`}
+                    />
+                  ))}
+                </span>
+                {LEVEL_LABEL[level]}
+              </span>
+            ))}
+          </div>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {skillCategories.map((category, index) => (
             <motion.div
               key={category.title}
@@ -67,22 +135,17 @@ export default function Skills() {
               transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
               className="bg-section-bg p-6 rounded-2xl border border-border hover:border-primary transition-colors group"
             >
-              <div className="flex items-center gap-3 mb-6">
+              <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center group-hover:bg-primary/30 transition-colors">
                   <category.icon size={20} className="text-primary" />
                 </div>
-                <h3 className="text-lg font-semibold text-primary">
+                <h3 className="text-base font-semibold text-primary">
                   {category.title}
                 </h3>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-col gap-1.5">
                 {category.skills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-3 py-1.5 bg-muted rounded-lg text-sm text-muted-foreground hover:bg-primary hover:text-foreground transition-colors cursor-default"
-                  >
-                    {skill}
-                  </span>
+                  <SkillBadge key={skill.name} {...skill} />
                 ))}
               </div>
             </motion.div>

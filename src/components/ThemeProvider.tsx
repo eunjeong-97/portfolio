@@ -43,13 +43,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   };
 
-  // ✅ 항상 Provider로 감싸서 반환
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {/* 테마 관련 스타일만 mounted 후에 적용 */}
-      <div style={{ visibility: mounted ? "visible" : "hidden" }}>
-        {children}
-      </div>
+      {children}
     </ThemeContext.Provider>
   );
 }

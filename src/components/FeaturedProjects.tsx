@@ -36,27 +36,43 @@ export default function FeaturedProjects() {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.2 + index * 0.15 }}
-              className="bg-background border border-border rounded-2xl p-8 hover:border-primary/50 transition-all"
+              className="bg-background border border-border rounded-2xl p-8 hover:border-primary/50 transition-all group"
             >
               {/* Header */}
-              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-6">
-                <div>
-                  <h3 className="text-xl font-bold text-foreground mb-1">
-                    {project.title}
-                  </h3>
-                  <span className="text-sm text-primary font-medium">
-                    {project.period}
+              <div className="flex flex-col sm:flex-row sm:items-start gap-4 mb-6">
+                {/* Number Badge */}
+                <div className="flex-shrink-0 w-12 h-12 bg-primary/10 border border-primary/20 rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                  <span className="text-primary font-bold text-sm">
+                    {String(index + 1).padStart(2, "0")}
                   </span>
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  {project.highlights.map((h) => (
-                    <span
-                      key={h}
-                      className="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full border border-primary/20"
-                    >
-                      {h}
-                    </span>
-                  ))}
+
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                    <div>
+                      <h3 className="text-xl font-bold text-foreground mb-1">
+                        {project.title}
+                      </h3>
+                      <span className="text-sm text-primary font-medium">
+                        {project.period}
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {project.highlights.map((h) => (
+                        <span
+                          key={h}
+                          className="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full border border-primary/20"
+                        >
+                          {h}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Role */}
+                  <p className="mt-3 text-sm text-foreground/80 font-medium leading-relaxed border-l-2 border-primary/40 pl-3">
+                    {project.role}
+                  </p>
                 </div>
               </div>
 

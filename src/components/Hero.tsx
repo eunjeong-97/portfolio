@@ -15,14 +15,20 @@ export default function Hero() {
           transition={{ duration: 0.6 }}
           className="max-w-xl"
         >
-          <motion.span
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="inline-block px-4 py-2 bg-muted rounded-full text-sm text-primary-light mb-6 border border-border"
+            transition={{ delay: 0.1 }}
+            className="flex flex-wrap gap-3 mb-6"
           >
-            Frontend & Mobile Developer
-          </motion.span>
+            <span className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/30 rounded-full text-sm text-green-400">
+              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+              구직 중 · Open to Work
+            </span>
+            <span className="inline-block px-4 py-2 bg-muted rounded-full text-sm text-primary-light border border-border">
+              Frontend & Mobile Developer
+            </span>
+          </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
