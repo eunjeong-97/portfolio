@@ -29,7 +29,6 @@ export default function ClientLayout({
       <ReadingProgress />
       <Navigation />
       <motion.div
-        id="main-content"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.4 }}
