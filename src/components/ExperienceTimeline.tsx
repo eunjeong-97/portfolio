@@ -33,7 +33,7 @@ export default function ExperienceTimeline() {
         </motion.div>
 
         {/* Timeline */}
-        <div className="relative pl-8 border-l-2 border-border">
+        <div className="relative pl-8 border-l-2 border-border" style={{ borderImage: "linear-gradient(to bottom, var(--primary), var(--border)) 1" }}>
           {experiences.map((exp, index) => {
             const year = exp.period.slice(0, 4);
             const prevYear = index > 0 ? experiences[index - 1].period.slice(0, 4) : null;
@@ -54,7 +54,12 @@ export default function ExperienceTimeline() {
                 )}
 
                 {/* Timeline Dot */}
-                <div className="absolute -left-[25px] top-0 w-3 h-3 bg-primary rounded-full ring-2 ring-background" />
+                <motion.div
+                  className="absolute -left-[25px] top-0 w-3 h-3 bg-primary rounded-full ring-2 ring-background"
+                  initial={{ scale: 0 }}
+                  animate={isInView ? { scale: 1 } : {}}
+                  transition={{ duration: 0.3, delay: 0.3 + index * 0.1 }}
+                />
 
                 {/* Content Card */}
                 <div

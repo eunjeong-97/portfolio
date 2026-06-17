@@ -99,7 +99,12 @@ export default function Hero() {
           >
             웹과 앱,
             <br />
-            <span className="text-primary">하나의 코드베이스</span>로
+            <span
+              className="bg-clip-text text-transparent"
+              style={{ backgroundImage: "linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)" }}
+            >
+              하나의 코드베이스
+            </span>로
             <br />
             만드는 개발자입니다
           </motion.h1>

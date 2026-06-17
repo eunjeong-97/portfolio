@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Bot, User, RotateCcw } from "lucide-react";
+import { MessageCircle, X, Send, Bot, User, RotateCcw, Mail, Copy, Check } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
@@ -46,7 +46,14 @@ export default function ChatBot() {
   const [messages, setMessages] = useState<Message[]>([WELCOME]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const copyEmail = async () => {
+    await navigator.clipboard.writeText("beanlove97@gmail.com");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -217,6 +224,24 @@ export default function ChatBot() {
 
             {/* Input */}
             <div className="p-3 border-t border-border">
+              {messages.length > 2 && (
+                <div className="flex items-center gap-2 mb-2 pb-2 border-b border-border/50">
+                  <button
+                    onClick={copyEmail}
+                    className="flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs text-muted-foreground hover:text-primary bg-muted hover:bg-primary/10 rounded-lg transition-colors"
+                  >
+                    {copied ? <Check size={12} className="text-green-400" /> : <Copy size={12} />}
+                    {copied ? "복사됨!" : "이메일 복사"}
+                  </button>
+                  <a
+                    href="mailto:beanlove97@gmail.com"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs text-muted-foreground hover:text-primary bg-muted hover:bg-primary/10 rounded-lg transition-colors"
+                  >
+                    <Mail size={12} />
+                    이메일 보내기
+                  </a>
+                </div>
+              )}
               <div className="flex gap-2">
                 <div className="flex-1 relative">
                   <input
