@@ -16,6 +16,7 @@ interface Message {
 
 const MAX_INPUT = 200;
 const MAX_HISTORY = 20;
+const CHAT_PANEL_STYLE = { height: "500px" } as const;
 
 const SUGGESTIONS = [
   "가장 자랑스러운 프로젝트는?",
@@ -236,7 +237,7 @@ export default function ChatBot() {
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
             className="mb-4 w-80 sm:w-96 bg-section-bg border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden"
-            style={{ height: "500px" }}
+            style={CHAT_PANEL_STYLE}
           >
             {/* Header */}
             <div className="bg-primary px-4 py-3 flex items-center justify-between">

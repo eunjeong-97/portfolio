@@ -6,6 +6,7 @@ import { ArrowUp } from "lucide-react";
 
 const RADIUS = 16;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+const TRACK_STYLE = { stroke: "var(--border)" } as const;
 
 export default function ScrollToTop() {
   const [visible, setVisible] = useState(false);
@@ -41,7 +42,7 @@ export default function ScrollToTop() {
               cx="18" cy="18" r={RADIUS}
               fill="none"
               strokeWidth="2"
-              style={{ stroke: "var(--border)" }}
+              style={TRACK_STYLE}
             />
             <motion.circle
               cx="18" cy="18" r={RADIUS}

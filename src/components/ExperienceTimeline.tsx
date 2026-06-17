@@ -45,6 +45,8 @@ const CAREER_DOMAINS = [
 
 const GANTT_YEAR_DIVIDERS = [33.3, 66.6];
 
+const TIMELINE_BORDER_STYLE = { borderImage: "linear-gradient(to bottom, var(--primary), var(--border)) 1" } as const;
+
 export default function ExperienceTimeline() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -139,7 +141,7 @@ export default function ExperienceTimeline() {
         </motion.div>
 
         {/* Timeline */}
-        <div className="relative pl-8 border-l-2 border-border" style={{ borderImage: "linear-gradient(to bottom, var(--primary), var(--border)) 1" }}>
+        <div className="relative pl-8 border-l-2 border-border" style={TIMELINE_BORDER_STYLE}>
           {expWithMeta.map((exp, index) => {
             const year = exp.period.slice(0, 4);
             const prevYear = index > 0 ? expWithMeta[index - 1].period.slice(0, 4) : null;
