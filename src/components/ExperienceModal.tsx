@@ -181,6 +181,7 @@ export default function ExperienceModal({
                       <video
                         src={experience.videoUrl}
                         controls
+                        preload="metadata"
                         className="w-full h-full object-contain"
                         playsInline
                         muted

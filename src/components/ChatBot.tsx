@@ -15,6 +15,7 @@ interface Message {
 }
 
 const MAX_INPUT = 200;
+const MAX_HISTORY = 20;
 
 const SUGGESTIONS = [
   "가장 자랑스러운 프로젝트는?",
@@ -184,7 +185,6 @@ export default function ChatBot() {
     abortRef.current = controller;
 
     try {
-      const MAX_HISTORY = 20;
       const apiMessages = newMessages.slice(-MAX_HISTORY).map((m) => ({ role: m.role, content: m.content }));
       const res = await fetch("/api/chat", {
         method: "POST",
