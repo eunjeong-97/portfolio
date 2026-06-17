@@ -7,6 +7,7 @@ import ScrollToTop from "./ScrollToTop";
 import ReadingProgress from "./ReadingProgress";
 import KeyboardShortcuts from "./KeyboardShortcuts";
 import SectionDots from "./SectionDots";
+import SocialBar from "./SocialBar";
 
 export default function ClientLayout({
   children,
@@ -24,6 +25,7 @@ export default function ClientLayout({
       <ReadingProgress />
       <Navigation />
       <div id="main-content">{children}</div>
+      <SocialBar />
       <ChatBot />
       <ScrollToTop />
       <SectionDots />
