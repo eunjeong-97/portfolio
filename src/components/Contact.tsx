@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
-import { Mail, Github, FileText, Send } from "lucide-react";
+import { useRef, useState } from "react";
+import { Mail, Github, FileText, Send, Copy, Check } from "lucide-react";
 
 const contactLinks = [
   {
@@ -29,6 +29,13 @@ const contactLinks = [
 export default function Contact() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [copied, setCopied] = useState(false);
+
+  const copyEmail = async () => {
+    await navigator.clipboard.writeText("beanlove97@gmail.com");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <section id="contact" className="py-24 px-6 bg-section-bg" ref={ref}>
@@ -65,32 +72,41 @@ export default function Contact() {
 
             <div className="space-y-4">
               {contactLinks.map((link, index) => (
-                <motion.a
+                <motion.div
                   key={link.label}
-                  href={link.href}
-                  target={link.href.startsWith("http") ? "_blank" : undefined}
-                  rel={
-                    link.href.startsWith("http")
-                      ? "noopener noreferrer"
-                      : undefined
-                  }
                   initial={{ opacity: 0, x: -20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
                   className="flex items-center gap-4 p-4 bg-section-bg rounded-xl border border-border hover:border-primary transition-colors group"
                 >
-                  <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                    <link.icon size={20} className="text-primary" />
-                  </div>
-                  <div>
-                    <div className="text-sm font-semibold text-foreground">
-                      {link.label}
+                  <a
+                    href={link.href}
+                    target={link.href.startsWith("http") ? "_blank" : undefined}
+                    rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    className="flex items-center gap-4 flex-1 min-w-0"
+                  >
+                    <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition-colors flex-shrink-0">
+                      <link.icon size={20} className="text-primary" />
                     </div>
-                    <div className="text-muted-foreground group-hover:text-primary transition-colors">
-                      {link.value}
+                    <div className="min-w-0">
+                      <div className="text-sm font-semibold text-foreground">
+                        {link.label}
+                      </div>
+                      <div className="text-muted-foreground group-hover:text-primary transition-colors truncate">
+                        {link.value}
+                      </div>
                     </div>
-                  </div>
-                </motion.a>
+                  </a>
+                  {link.label === "Email" && (
+                    <button
+                      onClick={copyEmail}
+                      className="flex-shrink-0 p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-primary"
+                      aria-label="이메일 복사"
+                    >
+                      {copied ? <Check size={16} className="text-green-400" /> : <Copy size={16} />}
+                    </button>
+                  )}
+                </motion.div>
               ))}
             </div>
           </motion.div>
