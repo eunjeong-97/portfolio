@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Mail, Github, FileText, Send, Copy, Check } from "lucide-react";
+import { Mail, Github, FileText, Send, Copy, Check, Loader2 } from "lucide-react";
 
 const contactLinks = [
   {
@@ -30,11 +30,37 @@ export default function Contact() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [copied, setCopied] = useState(false);
+  const [formState, setFormState] = useState({ name: "", email: "", message: "" });
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
 
   const copyEmail = async () => {
     await navigator.clipboard.writeText("beanlove97@gmail.com");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSending(true);
+    try {
+      const res = await fetch("https://formsubmit.co/ajax/beanlove97@gmail.com", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          name: formState.name,
+          email: formState.email,
+          message: formState.message,
+          _subject: `포트폴리오 문의: ${formState.name}`,
+        }),
+      });
+      if (res.ok) setSent(true);
+    } catch {
+      // Fall back to mailto
+      window.location.href = `mailto:beanlove97@gmail.com?subject=${encodeURIComponent(`포트폴리오 문의: ${formState.name}`)}&body=${encodeURIComponent(formState.message)}`;
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -111,7 +137,7 @@ export default function Contact() {
             </div>
           </motion.div>
 
-          {/* Right - CTA Card */}
+          {/* Right - Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -119,58 +145,75 @@ export default function Contact() {
             className="space-y-4"
           >
             {/* 구직 상태 카드 */}
-            <div className="bg-green-500/5 border border-green-500/20 rounded-2xl p-6 flex items-center gap-4">
-              <div className="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                <span className="w-3 h-3 bg-green-400 rounded-full animate-pulse" />
-              </div>
+            <div className="bg-green-500/5 border border-green-500/20 rounded-2xl p-4 flex items-center gap-3">
+              <span className="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse flex-shrink-0" />
               <div>
-                <p className="font-semibold text-green-400">현재 구직 중입니다</p>
-                <p className="text-sm text-muted-foreground mt-0.5">
-                  새로운 기회에 열려 있으며 빠르게 합류 가능합니다
-                </p>
+                <p className="font-semibold text-green-400 text-sm">현재 구직 중 · 즉시 합류 가능</p>
+                <p className="text-xs text-muted-foreground mt-0.5">📬 24시간 이내 답변드립니다</p>
               </div>
             </div>
 
-            {/* CTA 카드 */}
-            <div className="bg-section-bg p-8 rounded-2xl border border-border text-center">
-              <div className="w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <Send size={28} className="text-primary" />
-              </div>
-              <h4 className="text-xl font-semibold mb-3">
-                프로젝트를 함께 하고 싶으신가요?
-              </h4>
-              <p className="text-muted-foreground mb-2">
-                이메일로 편하게 연락 주세요
-              </p>
-              <p className="text-xs text-muted-foreground mb-6">
-                📬 24시간 이내 답변드립니다
-              </p>
-              <a
-                href="mailto:beanlove97@gmail.com"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary-light rounded-lg font-medium transition-colors text-white"
-              >
-                <Mail size={18} />
-                이메일 보내기
-              </a>
-
-              <div className="flex justify-center gap-4 mt-8 pt-6 border-t border-border">
-                <a
-                  href="https://github.com/eunjeong-97"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 bg-muted hover:border-border rounded-lg text-sm transition-colors"
-                >
-                  GitHub
-                </a>
-                <a
-                  href="https://velog.io/@beanlove97"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 bg-muted hover:border-border rounded-lg text-sm transition-colors"
-                >
-                  Blog
-                </a>
-              </div>
+            {/* Form */}
+            <div className="bg-section-bg p-6 rounded-2xl border border-border">
+              {sent ? (
+                <div className="text-center py-8">
+                  <div className="w-14 h-14 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Check size={28} className="text-green-400" />
+                  </div>
+                  <h4 className="font-semibold mb-2">메시지를 보냈습니다!</h4>
+                  <p className="text-sm text-muted-foreground">빠르게 답변드리겠습니다.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <h4 className="font-semibold text-base mb-4">메시지 보내기</h4>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs text-muted-foreground mb-1.5 block">이름</label>
+                      <input
+                        type="text"
+                        required
+                        value={formState.name}
+                        onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+                        placeholder="홍길동"
+                        className="w-full bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs text-muted-foreground mb-1.5 block">이메일</label>
+                      <input
+                        type="email"
+                        required
+                        value={formState.email}
+                        onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+                        placeholder="example@email.com"
+                        className="w-full bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-xs text-muted-foreground mb-1.5 block">메시지</label>
+                    <textarea
+                      required
+                      rows={4}
+                      value={formState.message}
+                      onChange={(e) => setFormState({ ...formState, message: e.target.value })}
+                      placeholder="안녕하세요! 함께 일하고 싶어서 연락드립니다..."
+                      className="w-full bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={sending}
+                    className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary hover:bg-primary-light disabled:opacity-60 disabled:cursor-not-allowed rounded-lg font-medium transition-colors text-white text-sm"
+                  >
+                    {sending ? (
+                      <><Loader2 size={16} className="animate-spin" /> 전송 중...</>
+                    ) : (
+                      <><Send size={16} /> 메시지 보내기</>
+                    )}
+                  </button>
+                </form>
+              )}
             </div>
           </motion.div>
         </div>
