@@ -131,6 +131,7 @@ export default function BlogPosts() {
                 href={post.link}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`${post.title} (새 탭에서 열림)`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}

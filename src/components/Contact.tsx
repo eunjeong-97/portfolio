@@ -294,6 +294,7 @@ export default function Contact() {
                       id="contact-message"
                       required
                       rows={4}
+                      minLength={10}
                       maxLength={500}
                       value={formState.message}
                       onChange={(e) => setFormState({ ...formState, message: e.target.value })}
