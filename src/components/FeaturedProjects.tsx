@@ -25,9 +25,12 @@ export default function FeaturedProjects() {
           <span className="text-sm text-primary uppercase tracking-wider">
             Featured Projects
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold mt-2 mb-4">
-            대표 프로젝트
-          </h2>
+          <div className="flex items-end gap-3 mt-2 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold">대표 프로젝트</h2>
+            <span className="text-sm text-muted-foreground mb-1.5">
+              <span className="text-primary font-semibold">{projects.length}</span>개 주요 프로젝트
+            </span>
+          </div>
           <p className="text-muted-foreground">
             어떤 문제를 해결했고, 어떤 결정을 내렸으며, 어떤 결과를 만들었는지 정리했습니다.
           </p>
