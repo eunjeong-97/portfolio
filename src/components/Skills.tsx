@@ -175,7 +175,7 @@ export default function Skills() {
               총 <span className="text-primary font-bold">{totalSkills}</span>가지 기술
             </span>
           </div>
-          <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground mb-4">
+          <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground mb-4" aria-hidden="true">
             {([3, 2, 1] as Level[]).map((level) => (
               <span key={level} className="flex items-center gap-1.5">
                 <span className="flex gap-0.5">
@@ -191,8 +191,8 @@ export default function Skills() {
               </span>
             ))}
           </div>
-          {/* Distribution bar */}
-          <div className="flex h-1.5 rounded-full overflow-hidden w-full max-w-xs mb-10 gap-0.5">
+          {/* Distribution bar (decorative) */}
+          <div className="flex h-1.5 rounded-full overflow-hidden w-full max-w-xs mb-10 gap-0.5" aria-hidden="true">
             {([3, 2, 1] as Level[]).map((level) => (
               <motion.div
                 key={level}

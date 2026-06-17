@@ -17,6 +17,7 @@ export default function BlogPosts() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     fetch("/api/blog")
@@ -28,7 +29,10 @@ export default function BlogPosts() {
         setPosts(data.posts || []);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(() => {
+        setError(true);
+        setLoading(false);
+      });
   }, []);
 
   const formatDate = (dateStr: string) => {
@@ -105,9 +109,9 @@ export default function BlogPosts() {
               </div>
             ))}
           </div>
-        ) : posts.length === 0 ? (
-          <div className="text-center py-16 text-muted-foreground">
-            <FileText size={40} className="mx-auto mb-4 opacity-30" />
+        ) : error ? (
+          <div className="text-center py-16 text-muted-foreground" role="alert">
+            <FileText size={40} className="mx-auto mb-4 opacity-30" aria-hidden="true" />
             <p className="mb-4">블로그 글을 불러오는 중 오류가 발생했습니다.</p>
             <a
               href="https://velog.io/@beanlove97"
@@ -115,7 +119,7 @@ export default function BlogPosts() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2 border border-border hover:border-primary text-sm text-muted-foreground hover:text-primary rounded-lg transition-colors"
             >
-              <ExternalLink size={14} />
+              <ExternalLink size={14} aria-hidden="true" />
               Velog에서 직접 보기
             </a>
           </div>
@@ -138,7 +142,7 @@ export default function BlogPosts() {
 
                 {/* New badge on recent posts */}
                 {index === 0 && isRecent(post.pubDate) && (
-                  <div className="absolute top-3 right-3 px-1.5 py-0.5 bg-primary text-white text-[10px] font-semibold rounded-full">
+                  <div className="absolute top-3 right-3 px-1.5 py-0.5 bg-primary text-white text-[10px] font-semibold rounded-full" aria-label="최신 글">
                     NEW
                   </div>
                 )}
@@ -165,6 +169,7 @@ export default function BlogPosts() {
                   <ExternalLink
                     size={14}
                     className="text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0 mt-1"
+                    aria-hidden="true"
                   />
                 </div>
                 <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
