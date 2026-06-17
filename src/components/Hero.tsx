@@ -46,6 +46,14 @@ const FADE_UP_INITIAL = { opacity: 0, y: 20 } as const;
 const FADE_UP_ANIMATE = { opacity: 1, y: 0 } as const;
 const FADE_IN_INITIAL = { opacity: 0 } as const;
 const FADE_IN_ANIMATE = { opacity: 1 } as const;
+const HERO_LEFT_TRANSITION = { duration: 0.6 } as const;
+const HERO_RIGHT_TRANSITION = { duration: 0.6, delay: 0.3 } as const;
+const FADE_UP_DELAY_01 = { delay: 0.1 } as const;
+const FADE_UP_DELAY_03 = { delay: 0.3 } as const;
+const FADE_UP_DELAY_04 = { delay: 0.4 } as const;
+const FADE_UP_DELAY_05 = { delay: 0.5 } as const;
+const FADE_UP_DELAY_055 = { delay: 0.55 } as const;
+const FADE_UP_DELAY_06 = { delay: 0.6 } as const;
 
 function useTypewriter(words: string[], speed = 90, pause = 2000) {
   const [index, setIndex] = useState(0);
@@ -112,13 +120,13 @@ export default function Hero() {
         <motion.div
           initial={HERO_LEFT_INITIAL}
           animate={HERO_LEFT_ANIMATE}
-          transition={{ duration: 0.6 }}
+          transition={HERO_LEFT_TRANSITION}
           className="max-w-xl"
         >
           <motion.div
             initial={FADE_UP_INITIAL}
             animate={FADE_UP_ANIMATE}
-            transition={{ delay: 0.1 }}
+            transition={FADE_UP_DELAY_01}
             className="flex flex-wrap gap-3 mb-6"
           >
             <span className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/30 rounded-full text-sm text-green-400">
@@ -134,7 +142,7 @@ export default function Hero() {
           <motion.h1
             initial={FADE_UP_INITIAL}
             animate={FADE_UP_ANIMATE}
-            transition={{ delay: 0.3 }}
+            transition={FADE_UP_DELAY_03}
             className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
           >
             웹과 앱,
@@ -152,7 +160,7 @@ export default function Hero() {
           <motion.p
             initial={FADE_UP_INITIAL}
             animate={FADE_UP_ANIMATE}
-            transition={{ delay: 0.4 }}
+            transition={FADE_UP_DELAY_04}
             className="text-lg text-muted-foreground mb-8 leading-relaxed"
           >
             React · React Native로 웹과 앱을 함께 개발하며,
@@ -165,7 +173,7 @@ export default function Hero() {
           <motion.div
             initial={FADE_UP_INITIAL}
             animate={FADE_UP_ANIMATE}
-            transition={{ delay: 0.5 }}
+            transition={FADE_UP_DELAY_05}
             className="flex flex-wrap gap-4 mb-8"
           >
             <a
@@ -195,7 +203,7 @@ export default function Hero() {
           <motion.div
             initial={FADE_UP_INITIAL}
             animate={FADE_UP_ANIMATE}
-            transition={{ delay: 0.55 }}
+            transition={FADE_UP_DELAY_055}
             className="flex flex-wrap gap-2 mb-8"
           >
             {TECH_TAGS.map((tech) => (
@@ -211,7 +219,7 @@ export default function Hero() {
           <motion.div
             initial={FADE_UP_INITIAL}
             animate={FADE_UP_ANIMATE}
-            transition={{ delay: 0.6 }}
+            transition={FADE_UP_DELAY_06}
             className="flex gap-6"
           >
             <a
@@ -241,7 +249,7 @@ export default function Hero() {
         <motion.div
           initial={HERO_RIGHT_INITIAL}
           animate={HERO_LEFT_ANIMATE}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={HERO_RIGHT_TRANSITION}
           className="relative flex justify-center items-center"
         >
           <div className="relative w-[320px] h-[400px] md:w-[380px] md:h-[480px]">

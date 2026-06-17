@@ -28,6 +28,8 @@ const HEADER_ANIMATE_IN = { opacity: 1, y: 0 } as const;
 const EMPTY_INITIAL = { opacity: 0, y: 10 } as const;
 const EMPTY_ANIMATE_IN = { opacity: 1, y: 0 } as const;
 const EMPTY_EXIT = { opacity: 0, y: -10 } as const;
+const HEADER_TRANSITION = { duration: 0.5 } as const;
+const CTA_TRANSITION = { duration: 0.5, delay: 0.7 } as const;
 
 export default function FeaturedProjects() {
   const ref = useRef(null);
@@ -44,7 +46,7 @@ export default function FeaturedProjects() {
         <motion.div
           initial={HEADER_INITIAL}
           animate={isInView ? HEADER_ANIMATE_IN : {}}
-          transition={{ duration: 0.5 }}
+          transition={HEADER_TRANSITION}
           className="mb-12"
         >
           <span className="text-sm text-primary uppercase tracking-wider">
@@ -215,7 +217,7 @@ export default function FeaturedProjects() {
         <motion.div
           initial={HEADER_INITIAL}
           animate={isInView ? HEADER_ANIMATE_IN : {}}
-          transition={{ duration: 0.5, delay: 0.7 }}
+          transition={CTA_TRANSITION}
           className="mt-10 text-center"
         >
           <a
