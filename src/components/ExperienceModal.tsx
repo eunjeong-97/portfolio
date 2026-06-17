@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Experience } from "@/data/experiences";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 interface ExperienceModalProps {
@@ -27,11 +27,15 @@ export default function ExperienceModal({
 }: ExperienceModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const [videoError, setVideoError] = useState(false);
 
   useFocusTrap(modalRef, !!experience);
 
   useEffect(() => {
-    if (experience) closeButtonRef.current?.focus();
+    if (experience) {
+      closeButtonRef.current?.focus();
+      setVideoError(false);
+    }
   }, [experience]);
 
   useEffect(() => {
@@ -167,20 +171,25 @@ export default function ExperienceModal({
                 <div>
                   <h4 className="text-lg font-semibold mb-4">실행 영상</h4>
                   <div className="relative bg-muted rounded-xl overflow-hidden aspect-video">
-                    <video
-                      src={experience.videoUrl}
-                      controls
-                      className="w-full h-full object-contain"
-                      playsInline
-                      muted
-                      title={`${experience.title} 실행 영상`}
-                    >
-                      브라우저가 비디오 태그를 지원하지 않습니다.
-                    </video>
+                    {videoError ? (
+                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-muted-foreground" role="alert">
+                        <span className="text-sm">영상을 불러올 수 없습니다.</span>
+                        <span className="text-xs opacity-60">네트워크 상태를 확인해주세요.</span>
+                      </div>
+                    ) : (
+                      <video
+                        src={experience.videoUrl}
+                        controls
+                        className="w-full h-full object-contain"
+                        playsInline
+                        muted
+                        aria-label={`${experience.title} 실행 영상`}
+                        onError={() => setVideoError(true)}
+                      >
+                        브라우저가 비디오 태그를 지원하지 않습니다.
+                      </video>
+                    )}
                   </div>
-                  <p className="text-xs text-neutral-500 mt-2">
-                    * 영상이 로드되지 않을 경우 네트워크 상태를 확인해주세요.
-                  </p>
                 </div>
               )}
               </motion.div>
