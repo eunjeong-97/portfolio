@@ -23,6 +23,11 @@ const PROJ_INITIAL = { opacity: 0, y: 20, scale: 0.98 } as const;
 const PROJ_ANIMATE_IN = { opacity: 1, y: 0, scale: 1 } as const;
 const PROJ_ANIMATE_HIDDEN = { opacity: 0, y: 20, scale: 0.98 } as const;
 const PROJ_EXIT = { opacity: 0, y: -10, scale: 0.97 } as const;
+const HEADER_INITIAL = { opacity: 0, y: 20 } as const;
+const HEADER_ANIMATE_IN = { opacity: 1, y: 0 } as const;
+const EMPTY_INITIAL = { opacity: 0, y: 10 } as const;
+const EMPTY_ANIMATE_IN = { opacity: 1, y: 0 } as const;
+const EMPTY_EXIT = { opacity: 0, y: -10 } as const;
 
 export default function FeaturedProjects() {
   const ref = useRef(null);
@@ -37,8 +42,8 @@ export default function FeaturedProjects() {
     <section id="projects" className="py-24 px-6 bg-section-bg" ref={ref} aria-label="대표 프로젝트">
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={HEADER_INITIAL}
+          animate={isInView ? HEADER_ANIMATE_IN : {}}
           transition={{ duration: 0.5 }}
           className="mb-12"
         >
@@ -91,9 +96,9 @@ export default function FeaturedProjects() {
           {filteredProjects.length === 0 && (
             <motion.div
               key="empty"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
+              initial={EMPTY_INITIAL}
+              animate={EMPTY_ANIMATE_IN}
+              exit={EMPTY_EXIT}
               className="text-center py-16 text-muted-foreground"
             >
               <p className="mb-3">해당 기술을 사용한 프로젝트가 없습니다.</p>
@@ -208,8 +213,8 @@ export default function FeaturedProjects() {
 
         {/* GitHub CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={HEADER_INITIAL}
+          animate={isInView ? HEADER_ANIMATE_IN : {}}
           transition={{ duration: 0.5, delay: 0.7 }}
           className="mt-10 text-center"
         >

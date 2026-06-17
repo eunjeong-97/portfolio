@@ -20,6 +20,11 @@ interface Stats {
 
 const HEATMAP_LEGEND_OPACITIES = [0, 0.3, 0.6, 1] as const;
 const EVENT_CARD_HOVER = { x: 4, transition: { duration: 0.15 } };
+const HEATMAP_CELL_INITIAL = { opacity: 0, scale: 0.5 } as const;
+const HEATMAP_CELL_ANIMATE_IN = { opacity: 1, scale: 1 } as const;
+const HEATMAP_CELL_HIDDEN = {} as const;
+const EVENT_CARD_INITIAL = { opacity: 0, x: -20 } as const;
+const EVENT_CARD_ANIMATE_IN = { opacity: 1, x: 0 } as const;
 
 function formatDate(dateStr: string): string {
   const date = new Date(dateStr);
@@ -181,8 +186,8 @@ export default function GitHubActivity() {
                     title={`${getDayLabel(daysAgo)}: ${count > 0 ? `${count}건의 Push` : "활동 없음"}`}
                     aria-hidden="true"
                     className="h-3 rounded-sm cursor-default"
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    initial={HEATMAP_CELL_INITIAL}
+                    animate={isInView ? HEATMAP_CELL_ANIMATE_IN : HEATMAP_CELL_HIDDEN}
                     transition={{ duration: 0.3, delay: 0.3 + i * 0.015 }}
                     style={{
                       background: count === 0 ? "var(--border)" : `rgba(59,130,246,${intensity})`,
@@ -222,8 +227,8 @@ export default function GitHubActivity() {
             {events.map((event, index) => (
               <motion.div
                 key={`${event.repo}-${event.date}`}
-                initial={{ opacity: 0, x: -20 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                initial={EVENT_CARD_INITIAL}
+                animate={isInView ? EVENT_CARD_ANIMATE_IN : {}}
                 transition={{ duration: 0.4, delay: 0.2 + index * 0.08 }}
                 whileHover={EVENT_CARD_HOVER}
                 className="bg-background border border-border rounded-xl p-5 hover:border-primary/40 transition-colors group"
