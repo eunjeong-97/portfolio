@@ -103,11 +103,12 @@ export default function Navigation() {
         <motion.a
           href="#"
           onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+          aria-label="박은정 포트폴리오 — 맨 위로 이동"
           className="flex items-center gap-3 text-xl font-bold text-foreground"
           whileHover={LOGO_HOVER}
         >
-          EunJeong<span className="text-primary">.</span>
-          <span className="hidden sm:flex items-center gap-1.5 text-xs px-2.5 py-1 bg-green-500/10 border border-green-500/20 rounded-full text-green-400 font-normal">
+          <span aria-hidden="true">EunJeong<span className="text-primary">.</span></span>
+          <span className="hidden sm:flex items-center gap-1.5 text-xs px-2.5 py-1 bg-green-500/10 border border-green-500/20 rounded-full text-green-400 font-normal" aria-hidden="true">
             <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse motion-reduce:animate-none" aria-hidden="true" />
             Open to Work
           </span>
