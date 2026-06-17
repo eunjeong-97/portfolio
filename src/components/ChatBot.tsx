@@ -18,6 +18,18 @@ const MAX_INPUT = 200;
 const MAX_HISTORY = 20;
 const CHAT_PANEL_STYLE = { height: "500px" } as const;
 
+const CHAT_PANEL_INITIAL = { opacity: 0, y: 20, scale: 0.95 } as const;
+const CHAT_PANEL_ANIMATE = { opacity: 1, y: 0, scale: 1 } as const;
+const CHAT_PANEL_EXIT = { opacity: 0, y: 20, scale: 0.95 } as const;
+const BADGE_SCALE_INITIAL = { scale: 0 } as const;
+const BADGE_SCALE_ANIMATE = { scale: 1 } as const;
+const BADGE_SCALE_EXIT = { scale: 0 } as const;
+const CLOSE_ICON_INITIAL = { rotate: -90, opacity: 0 } as const;
+const OPEN_ICON_INITIAL = { rotate: 90, opacity: 0 } as const;
+const ICON_ANIMATE_IN = { rotate: 0, opacity: 1 } as const;
+const CLOSE_ICON_EXIT = { rotate: 90, opacity: 0 } as const;
+const OPEN_ICON_EXIT = { rotate: -90, opacity: 0 } as const;
+
 const SUGGESTIONS = [
   "가장 자랑스러운 프로젝트는?",
   "언제부터 합류 가능한가요?",
@@ -232,9 +244,9 @@ export default function ChatBot() {
             role="dialog"
             aria-modal="true"
             aria-label="포트폴리오 도우미 채팅"
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            initial={CHAT_PANEL_INITIAL}
+            animate={CHAT_PANEL_ANIMATE}
+            exit={CHAT_PANEL_EXIT}
             transition={{ duration: 0.2 }}
             className="mb-4 w-80 sm:w-96 bg-section-bg border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden"
             style={CHAT_PANEL_STYLE}
@@ -446,9 +458,9 @@ export default function ChatBot() {
         <AnimatePresence>
           {showNotification && !isOpen && (
             <motion.span
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0 }}
+              initial={BADGE_SCALE_INITIAL}
+              animate={BADGE_SCALE_ANIMATE}
+              exit={BADGE_SCALE_EXIT}
               aria-hidden="true"
               className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center"
             >
@@ -461,9 +473,9 @@ export default function ChatBot() {
           {isOpen ? (
             <motion.div
               key="close"
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
+              initial={CLOSE_ICON_INITIAL}
+              animate={ICON_ANIMATE_IN}
+              exit={CLOSE_ICON_EXIT}
               transition={{ duration: 0.15 }}
               aria-hidden="true"
             >
@@ -472,9 +484,9 @@ export default function ChatBot() {
           ) : (
             <motion.div
               key="open"
-              initial={{ rotate: 90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: -90, opacity: 0 }}
+              initial={OPEN_ICON_INITIAL}
+              animate={ICON_ANIMATE_IN}
+              exit={OPEN_ICON_EXIT}
               transition={{ duration: 0.15 }}
               aria-hidden="true"
             >
