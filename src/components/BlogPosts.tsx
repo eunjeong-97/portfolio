@@ -43,6 +43,11 @@ export default function BlogPosts() {
     }
   };
 
+  const readingTime = (text: string) => {
+    const words = text.trim().split(/\s+/).length;
+    return Math.max(1, Math.round(words / 150));
+  };
+
   return (
     <section id="blog" className="py-24 px-6" ref={ref}>
       <div className="max-w-6xl mx-auto">
@@ -114,9 +119,11 @@ export default function BlogPosts() {
                 <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 mb-4">
                   {post.description}
                 </p>
-                <span className="text-xs text-muted-foreground">
-                  {formatDate(post.pubDate)}
-                </span>
+                <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                  <span>{formatDate(post.pubDate)}</span>
+                  <span>·</span>
+                  <span>약 {readingTime(post.description)}분</span>
+                </div>
               </motion.a>
             ))}
           </div>

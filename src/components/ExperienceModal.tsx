@@ -1,35 +1,35 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Play } from "lucide-react";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Experience } from "@/data/experiences";
 import { useEffect } from "react";
 
 interface ExperienceModalProps {
   experience: Experience | null;
   onClose: () => void;
+  onPrev?: () => void;
+  onNext?: () => void;
 }
 
 export default function ExperienceModal({
   experience,
   onClose,
+  onPrev,
+  onNext,
 }: ExperienceModalProps) {
-  // ESC 키로 모달 닫기
   useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
+    const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft") onPrev?.();
+      if (e.key === "ArrowRight") onNext?.();
     };
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
-  }, [onClose]);
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [onClose, onPrev, onNext]);
 
-  // 모달 열릴 때 스크롤 방지
   useEffect(() => {
-    if (experience) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    document.body.style.overflow = experience ? "hidden" : "unset";
     return () => {
       document.body.style.overflow = "unset";
     };
@@ -58,19 +58,37 @@ export default function ExperienceModal({
           >
             {/* Header */}
             <div className="flex items-start justify-between p-6 border-b border-border">
-              <div>
+              <div className="flex-1 min-w-0">
                 <span className="text-sm text-primary font-medium">
                   {experience.period}
                 </span>
                 <h3 className="text-2xl font-bold mt-1">{experience.title}</h3>
               </div>
-              <button
-                onClick={onClose}
-                className="p-2 hover:bg-muted rounded-lg transition-colors"
-                aria-label="Close modal"
-              >
-                <X size={20} />
-              </button>
+              <div className="flex items-center gap-1 ml-4 flex-shrink-0">
+                <button
+                  onClick={onPrev}
+                  disabled={!onPrev}
+                  className="p-2 hover:bg-muted rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                  aria-label="이전 경험"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                <button
+                  onClick={onNext}
+                  disabled={!onNext}
+                  className="p-2 hover:bg-muted rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                  aria-label="다음 경험"
+                >
+                  <ChevronRight size={20} />
+                </button>
+                <button
+                  onClick={onClose}
+                  className="p-2 hover:bg-muted rounded-lg transition-colors ml-1"
+                  aria-label="닫기"
+                >
+                  <X size={20} />
+                </button>
+              </div>
             </div>
 
             {/* Content */}
@@ -79,7 +97,6 @@ export default function ExperienceModal({
                 {experience.description}
               </p>
 
-              {/* Details */}
               <div className="mb-6">
                 <h4 className="text-lg font-semibold mb-4">주요 내용</h4>
                 <ul className="space-y-3">
@@ -88,14 +105,13 @@ export default function ExperienceModal({
                       key={index}
                       className="flex gap-3 text-muted-foreground"
                     >
-                      <span className="text-primary mt-1">•</span>
+                      <span className="text-primary mt-1 flex-shrink-0">•</span>
                       <span>{detail}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              {/* Tags */}
               <div className="mb-6">
                 <h4 className="text-lg font-semibold mb-4">사용 기술</h4>
                 <div className="flex flex-wrap gap-2">
@@ -110,7 +126,6 @@ export default function ExperienceModal({
                 </div>
               </div>
 
-              {/* Video */}
               {experience.videoUrl && (
                 <div>
                   <h4 className="text-lg font-semibold mb-4">실행 영상</h4>
@@ -133,6 +148,15 @@ export default function ExperienceModal({
                 </div>
               )}
             </div>
+
+            {/* Footer nav hint */}
+            {(onPrev || onNext) && (
+              <div className="px-6 py-3 border-t border-border flex justify-between text-xs text-muted-foreground">
+                <span>{onPrev ? "← 이전" : ""}</span>
+                <span className="opacity-60">← → 키보드로 이동</span>
+                <span>{onNext ? "다음 →" : ""}</span>
+              </div>
+            )}
           </motion.div>
         </>
       )}
