@@ -16,6 +16,7 @@ function useTypewriter(words: string[], speed = 90, pause = 2000) {
   const [index, setIndex] = useState(0);
   const [displayed, setDisplayed] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+  const [completedWord, setCompletedWord] = useState("");
 
   useEffect(() => {
     const current = words[index % words.length];
@@ -24,6 +25,7 @@ function useTypewriter(words: string[], speed = 90, pause = 2000) {
       if (displayed.length < current.length) {
         timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length + 1)), speed);
       } else {
+        setCompletedWord(current);
         timeout = setTimeout(() => setIsDeleting(true), pause);
       }
     } else {
@@ -37,11 +39,11 @@ function useTypewriter(words: string[], speed = 90, pause = 2000) {
     return () => clearTimeout(timeout);
   }, [displayed, isDeleting, index, words, speed, pause]);
 
-  return displayed;
+  return { displayed, completedWord };
 }
 
 export default function Hero() {
-  const role = useTypewriter(ROLES);
+  const { displayed: role, completedWord: roleCompleted } = useTypewriter(ROLES);
   const spotlightRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
@@ -85,12 +87,9 @@ export default function Hero() {
               <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
               구직 중 · Open to Work
             </span>
-            <span
-              className="inline-flex items-center px-4 py-2 bg-muted rounded-full text-sm text-primary-light border border-border font-mono min-w-[220px]"
-              aria-live="polite"
-              aria-atomic="true"
-            >
-              {role}<span className="ml-0.5 animate-pulse" aria-hidden="true">|</span>
+            <span className="inline-flex items-center px-4 py-2 bg-muted rounded-full text-sm text-primary-light border border-border font-mono min-w-[220px]">
+              <span className="sr-only" aria-live="polite" aria-atomic="true">{roleCompleted}</span>
+              <span aria-hidden="true">{role}<span className="ml-0.5 animate-pulse">|</span></span>
             </span>
           </motion.div>
 
