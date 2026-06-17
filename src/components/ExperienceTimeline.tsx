@@ -73,12 +73,16 @@ export default function ExperienceTimeline() {
             transition={{ duration: 0.5, delay: 0.15 }}
             className="mb-10 bg-muted/50 border border-border rounded-xl p-4"
           >
-            <div className="flex justify-between text-[10px] text-muted-foreground mb-2">
+            <div className="flex justify-between text-[10px] text-muted-foreground mb-2" aria-hidden="true">
               <span>2022.03</span>
               <span>2023</span>
               <span>2024.10</span>
             </div>
-            <div className="relative h-7 bg-muted rounded-lg overflow-hidden">
+            <div
+              role="img"
+              aria-label={`경력 타임라인: 2022년 3월부터 2024년 10월까지 ${experiences.length}개 프로젝트`}
+              className="relative h-7 bg-muted rounded-lg overflow-hidden"
+            >
               {/* Year dividers */}
               {[33.3, 66.6].map((pct) => (
                 <div key={pct} className="absolute top-0 bottom-0 w-px bg-border/50" style={{ left: `${pct}%` }} />

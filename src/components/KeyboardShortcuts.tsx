@@ -56,6 +56,9 @@ export default function KeyboardShortcuts() {
         onClick={() => setIsOpen(true)}
         className="hidden md:flex fixed bottom-[8.5rem] right-6 z-40 items-center gap-1.5 px-2.5 py-1.5 bg-section-bg border border-border rounded-lg text-xs text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors shadow-md"
         title="키보드 단축키 (? 키)"
+        aria-label="키보드 단축키 목록 열기"
+        aria-expanded={isOpen}
+        aria-haspopup="dialog"
       >
         <Keyboard size={12} />
         <span className="font-mono">?</span>
@@ -72,6 +75,9 @@ export default function KeyboardShortcuts() {
               className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
             />
             <motion.div
+              role="dialog"
+              aria-modal="true"
+              aria-label="키보드 단축키 목록"
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
@@ -86,6 +92,7 @@ export default function KeyboardShortcuts() {
                 <button
                   onClick={() => setIsOpen(false)}
                   className="text-muted-foreground hover:text-foreground transition-colors p-1 rounded-lg hover:bg-muted"
+                  aria-label="단축키 목록 닫기"
                 >
                   <X size={16} />
                 </button>
