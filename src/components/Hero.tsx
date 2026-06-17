@@ -199,6 +199,7 @@ export default function Hero() {
             >
               <Github size={18} aria-hidden="true" />
               <span>GitHub</span>
+              <span className="sr-only">(새 탭에서 열림)</span>
             </a>
             <a
               href="https://velog.io/@beanlove97"
@@ -208,6 +209,7 @@ export default function Hero() {
             >
               <FileText size={18} aria-hidden="true" />
               <span>Blog</span>
+              <span className="sr-only">(새 탭에서 열림)</span>
             </a>
           </motion.div>
         </motion.div>

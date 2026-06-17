@@ -91,6 +91,7 @@ export default function GitHubActivity() {
               href="https://github.com/eunjeong-97"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="GitHub 프로필 보기 (새 탭에서 열림)"
               className="flex items-center gap-1 text-sm text-primary hover:text-primary-light transition-colors"
             >
               <Github size={14} aria-hidden="true" /> GitHub 보기 <ExternalLink size={14} aria-hidden="true" />
@@ -230,6 +231,7 @@ export default function GitHubActivity() {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
+                      aria-label={`${event.repo} 저장소 (새 탭에서 열림)`}
                       className="font-medium text-sm text-foreground hover:text-primary transition-colors"
                     >
                       {event.repo}
@@ -261,7 +263,7 @@ export default function GitHubActivity() {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        aria-label={`커밋 ${commit.sha} GitHub에서 보기`}
+                        aria-label={`커밋 ${commit.sha} GitHub에서 보기 (새 탭에서 열림)`}
                         className="text-xs text-primary/60 hover:text-primary font-mono flex-shrink-0 transition-colors"
                       >
                         {commit.sha}
