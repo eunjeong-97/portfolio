@@ -24,6 +24,7 @@ export default function NotFound() {
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.4 }}
+          aria-hidden="true"
           className="text-8xl md:text-[10rem] font-bold leading-none mb-4 select-none"
           style={{
             background: "linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)",
@@ -46,6 +47,7 @@ export default function NotFound() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.2 }}
+          aria-hidden="true"
           className="bg-card border border-border rounded-xl p-4 mb-8 text-left font-mono text-sm"
         >
           <div className="flex items-center gap-2 mb-3 pb-2 border-b border-border">
@@ -76,7 +78,7 @@ export default function NotFound() {
           href="/"
           className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary-light text-white rounded-lg transition-colors font-medium"
         >
-          <ArrowLeft size={18} />
+          <ArrowLeft size={18} aria-hidden="true" />
           홈으로 돌아가기
         </Link>
       </motion.div>

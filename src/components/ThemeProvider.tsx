@@ -32,8 +32,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.classList.add(theme);
     localStorage.setItem("theme", theme);
 
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor) metaThemeColor.setAttribute("content", THEME_COLORS[theme]);
+    let metaThemeColor = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]:not([media])');
+    if (!metaThemeColor) {
+      metaThemeColor = document.createElement("meta");
+      metaThemeColor.name = "theme-color";
+      document.head.appendChild(metaThemeColor);
+    }
+    metaThemeColor.content = THEME_COLORS[theme];
   }, [theme, mounted]);
 
   const toggleTheme = () =>

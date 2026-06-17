@@ -22,7 +22,7 @@ export default function Error({
         animate={{ opacity: 1, y: 0 }}
         className="text-center max-w-md"
       >
-        <div className="w-16 h-16 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+        <div className="w-16 h-16 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6" aria-hidden="true">
           <AlertTriangle size={28} className="text-red-400" />
         </div>
         <h2 className="text-2xl font-bold mb-3">오류가 발생했습니다</h2>
@@ -35,7 +35,7 @@ export default function Error({
           onClick={reset}
           className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary-light rounded-lg font-medium transition-colors text-white"
         >
-          <RefreshCw size={16} />
+          <RefreshCw size={16} aria-hidden="true" />
           다시 시도
         </button>
       </motion.div>
