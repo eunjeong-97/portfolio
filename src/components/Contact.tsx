@@ -261,6 +261,7 @@ export default function Contact() {
                         id="contact-name"
                         type="text"
                         required
+                        autoComplete="name"
                         maxLength={50}
                         value={formState.name}
                         onChange={(e) => setFormState(f => ({ ...f, name: e.target.value }))}
@@ -287,6 +288,7 @@ export default function Contact() {
                         id="contact-email"
                         type="email"
                         required
+                        autoComplete="email"
                         maxLength={100}
                         value={formState.email}
                         onChange={(e) => setFormState(f => ({ ...f, email: e.target.value }))}
