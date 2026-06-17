@@ -34,6 +34,7 @@ export default function Contact() {
   const [touched, setTouched] = useState({ name: false, email: false, message: false });
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
+  const [sendError, setSendError] = useState(false);
 
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.email);
   const isFormValid = formState.name.length >= 2 && emailValid && formState.message.length >= 10;
@@ -52,6 +53,7 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSending(true);
+    setSendError(false);
     try {
       const res = await fetch("https://formsubmit.co/ajax/beanlove97@gmail.com", {
         method: "POST",
@@ -63,10 +65,13 @@ export default function Contact() {
           _subject: `포트폴리오 문의: ${formState.name}`,
         }),
       });
-      if (res.ok) setSent(true);
+      if (res.ok) {
+        setSent(true);
+      } else {
+        setSendError(true);
+      }
     } catch {
-      // Fall back to mailto
-      window.location.href = `mailto:beanlove97@gmail.com?subject=${encodeURIComponent(`포트폴리오 문의: ${formState.name}`)}&body=${encodeURIComponent(formState.message)}`;
+      setSendError(true);
     } finally {
       setSending(false);
     }
@@ -309,6 +314,25 @@ export default function Contact() {
                       <kbd className="font-mono bg-muted border border-border px-1 py-0.5 rounded text-[9px]">↵</kbd>
                     </span>
                   </div>
+                  {sendError && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex items-center justify-between gap-2 text-xs bg-red-400/10 border border-red-400/20 rounded-lg px-3 py-2"
+                      role="alert"
+                    >
+                      <div className="flex items-center gap-1.5 text-red-400">
+                        <AlertCircle size={12} />
+                        <span>전송에 실패했습니다. 이메일로 직접 보내주세요.</span>
+                      </div>
+                      <a
+                        href={`mailto:beanlove97@gmail.com?subject=${encodeURIComponent(`포트폴리오 문의: ${formState.name}`)}&body=${encodeURIComponent(formState.message)}`}
+                        className="text-primary hover:text-primary-light underline underline-offset-2 whitespace-nowrap flex-shrink-0 transition-colors"
+                      >
+                        이메일 앱 열기
+                      </a>
+                    </motion.div>
+                  )}
                 </form>
               )}
             </div>
