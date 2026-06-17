@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Code2, Smartphone, Palette, Wrench } from "lucide-react";
 
 type Level = 1 | 2 | 3;
@@ -71,21 +71,39 @@ const LEVEL_LABEL: Record<Level, string> = {
   1: "경험",
 };
 
-function SkillBadge({ name, level }: Skill) {
+function SkillBadge({ name, level, isInView }: Skill & { isInView: boolean }) {
+  const [hovered, setHovered] = useState(false);
+  const barWidth = (level / 3) * 100;
+
   return (
-    <div className="flex items-center justify-between gap-3 px-3 py-2 bg-muted rounded-lg hover:bg-primary/10 transition-colors group cursor-default">
-      <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-        {name}
-      </span>
-      <div className="flex gap-0.5 flex-shrink-0">
-        {([1, 2, 3] as Level[]).map((i) => (
-          <span
-            key={i}
-            className={`w-1.5 h-1.5 rounded-full transition-colors ${
-              i <= level ? "bg-primary" : "bg-border"
-            }`}
-          />
-        ))}
+    <div
+      className="px-3 py-2 bg-muted rounded-lg hover:bg-primary/10 transition-colors group cursor-default"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div className="flex items-center justify-between mb-1.5">
+        <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+          {name}
+        </span>
+        <div className="flex gap-0.5 flex-shrink-0">
+          {([1, 2, 3] as Level[]).map((i) => (
+            <span
+              key={i}
+              className={`w-1.5 h-1.5 rounded-full transition-colors ${
+                i <= level ? "bg-primary" : "bg-border"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+      <div className="h-0.5 bg-border rounded-full overflow-hidden">
+        <motion.div
+          className="h-full bg-primary rounded-full"
+          initial={{ width: 0 }}
+          animate={{ width: isInView ? `${barWidth}%` : 0 }}
+          transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+          style={{ opacity: hovered ? 1 : 0.5 }}
+        />
       </div>
     </div>
   );
@@ -145,7 +163,7 @@ export default function Skills() {
               </div>
               <div className="flex flex-col gap-1.5">
                 {category.skills.map((skill) => (
-                  <SkillBadge key={skill.name} {...skill} />
+                  <SkillBadge key={skill.name} {...skill} isInView={isInView} />
                 ))}
               </div>
             </motion.div>
