@@ -217,12 +217,8 @@ export default function ChatBot() {
       }
       const data = await res.json();
 
-      const ts = new Date();
-      if (data.error) {
-        setMessages([...newMessages, { role: "assistant", content: data.error, timestamp: ts, isNew: true }]);
-      } else {
-        setMessages([...newMessages, { role: "assistant", content: data.message, timestamp: ts, isNew: true }]);
-      }
+      const content: string = data.error || data.message;
+      setMessages([...newMessages, { role: "assistant", content, timestamp: new Date(), isNew: true }]);
     } catch (err) {
       if (err instanceof Error && err.name === "AbortError") return;
       setMessages([
