@@ -2,6 +2,7 @@
 
 import { ThemeProvider } from "./ThemeProvider";
 import Navigation from "./Navigation";
+import ChatBot from "./ChatBot";
 
 export default function ClientLayout({
   children,
@@ -12,6 +13,7 @@ export default function ClientLayout({
     <ThemeProvider>
       <Navigation />
       {children}
+      <ChatBot />
     </ThemeProvider>
   );
 }

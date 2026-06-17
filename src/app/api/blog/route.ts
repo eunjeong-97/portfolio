@@ -1,0 +1,34 @@
+import { NextResponse } from "next/server";
+
+export const revalidate = 3600; // 1시간마다 갱신
+
+export async function GET() {
+  try {
+    const res = await fetch("https://v2.velog.io/rss/@beanlove97", {
+      next: { revalidate: 3600 },
+    });
+    const xml = await res.text();
+
+    const items: { title: string; link: string; pubDate: string; description: string }[] = [];
+    const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+    let match;
+
+    while ((match = itemRegex.exec(xml)) !== null && items.length < 4) {
+      const block = match[1];
+      const get = (tag: string) => {
+        const m = block.match(new RegExp(`<${tag}[^>]*><!\\[CDATA\\[([\\s\\S]*?)\\]\\]><\\/${tag}>|<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`));
+        return m ? (m[1] ?? m[2] ?? "").trim() : "";
+      };
+      items.push({
+        title: get("title"),
+        link: get("link"),
+        pubDate: get("pubDate"),
+        description: get("description").replace(/<[^>]+>/g, "").slice(0, 120) + "...",
+      });
+    }
+
+    return NextResponse.json({ posts: items });
+  } catch {
+    return NextResponse.json({ posts: [] });
+  }
+}

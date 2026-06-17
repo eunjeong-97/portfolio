@@ -3,6 +3,8 @@ import FeaturedProjects from "@/components/FeaturedProjects";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
 import ExperienceTimeline from "@/components/ExperienceTimeline";
+import GitHubActivity from "@/components/GitHubActivity";
+import BlogPosts from "@/components/BlogPosts";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
@@ -14,6 +16,8 @@ export default function Home() {
       <About />
       <Skills />
       <ExperienceTimeline />
+      <GitHubActivity />
+      <BlogPosts />
       <Contact />
       <Footer />
     </main>
