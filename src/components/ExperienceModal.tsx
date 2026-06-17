@@ -111,7 +111,7 @@ export default function ExperienceModal({
                   className="p-2 hover:bg-muted rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                   aria-label="이전 경험"
                 >
-                  <ChevronLeft size={20} />
+                  <ChevronLeft size={20} aria-hidden="true" />
                 </button>
                 <button
                   onClick={onNext}
@@ -119,7 +119,7 @@ export default function ExperienceModal({
                   className="p-2 hover:bg-muted rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                   aria-label="다음 경험"
                 >
-                  <ChevronRight size={20} />
+                  <ChevronRight size={20} aria-hidden="true" />
                 </button>
                 <button
                   ref={closeButtonRef}
@@ -127,7 +127,7 @@ export default function ExperienceModal({
                   className="p-2 hover:bg-muted rounded-lg transition-colors ml-1"
                   aria-label="닫기"
                 >
-                  <X size={20} />
+                  <X size={20} aria-hidden="true" />
                 </button>
               </div>
             </div>
@@ -201,7 +201,7 @@ export default function ExperienceModal({
             {(onPrev || onNext) && (
               <div className="border-t border-border">
                 {currentIndex !== undefined && total !== undefined && (
-                  <div className="h-1 bg-muted">
+                  <div className="h-1 bg-muted" aria-hidden="true">
                     <motion.div
                       className="h-full bg-primary rounded-r-full"
                       initial={{ width: 0 }}

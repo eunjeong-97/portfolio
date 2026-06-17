@@ -219,7 +219,7 @@ export default function Skills() {
               className="bg-section-bg p-6 rounded-2xl border border-border hover:border-primary transition-colors group"
             >
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center group-hover:bg-primary/30 transition-colors">
+                <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center group-hover:bg-primary/30 transition-colors" aria-hidden="true">
                   <category.icon size={20} className="text-primary" />
                 </div>
                 <h3 className="text-base font-semibold text-primary">
@@ -243,7 +243,7 @@ export default function Skills() {
           className="mt-8 bg-primary/5 border border-primary/20 rounded-2xl p-5"
         >
           <div className="flex items-center gap-2 mb-3">
-            <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+            <span className="w-2 h-2 bg-primary rounded-full animate-pulse" aria-hidden="true" />
             <span className="text-xs font-semibold text-primary uppercase tracking-wider">Currently Learning</span>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -252,7 +252,7 @@ export default function Skills() {
                 key={item}
                 className="flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 border border-primary/30 rounded-lg text-xs text-primary"
               >
-                <span className="w-1.5 h-1.5 border border-primary rounded-full" />
+                <span className="w-1.5 h-1.5 border border-primary rounded-full" aria-hidden="true" />
                 {item}
               </span>
             ))}

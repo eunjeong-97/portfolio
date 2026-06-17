@@ -138,7 +138,7 @@ export default function About() {
                 onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }}
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary-light text-white text-sm font-medium rounded-lg transition-colors"
               >
-                함께 일해요 <ArrowRight size={14} />
+                함께 일해요 <ArrowRight size={14} aria-hidden="true" />
               </a>
               <a
                 href="#projects"
@@ -172,7 +172,7 @@ export default function About() {
               className="col-span-2 bg-primary/5 border border-primary/20 rounded-xl p-4 mt-2"
             >
               <div className="flex items-center gap-2 mb-2">
-                <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
+                <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" aria-hidden="true" />
                 <span className="text-xs text-primary uppercase tracking-wider font-semibold">개발 원칙</span>
               </div>
               <div className="grid grid-cols-2 gap-2 mb-3">
@@ -183,13 +183,13 @@ export default function About() {
                   { label: "웹·앱 경계 없는 개발", icon: Layers },
                 ].map(({ label, icon: PIcon }) => (
                   <div key={label} className="flex items-center gap-1.5">
-                    <PIcon size={13} className="text-primary flex-shrink-0" />
+                    <PIcon size={13} className="text-primary flex-shrink-0" aria-hidden="true" />
                     <span className="text-xs text-foreground/80">{label}</span>
                   </div>
                 ))}
               </div>
               <div className="flex items-center gap-2 pt-2 border-t border-primary/10">
-                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" aria-hidden="true" />
                 <span className="text-sm text-green-400 font-medium">현재 구직 중 · 즉시 합류 가능합니다</span>
               </div>
             </motion.div>

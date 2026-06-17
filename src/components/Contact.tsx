@@ -125,7 +125,7 @@ export default function Contact() {
                     rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
                     className="flex items-center gap-4 flex-1 min-w-0"
                   >
-                    <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition-colors flex-shrink-0">
+                    <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition-colors flex-shrink-0" aria-hidden="true">
                       <link.icon size={20} className="text-primary" />
                     </div>
                     <div className="min-w-0">
@@ -144,7 +144,7 @@ export default function Contact() {
                       aria-label={copied ? "이메일 복사 완료" : "이메일 복사"}
                       aria-live="polite"
                     >
-                      {copied ? <Check size={16} className="text-green-400" /> : <Copy size={16} />}
+                      {copied ? <Check size={16} className="text-green-400" aria-hidden="true" /> : <Copy size={16} aria-hidden="true" />}
                     </button>
                   )}
                 </motion.div>
@@ -161,7 +161,7 @@ export default function Contact() {
           >
             {/* 구직 상태 카드 */}
             <div className="bg-green-500/5 border border-green-500/20 rounded-2xl p-4 flex items-center gap-3">
-              <span className="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse flex-shrink-0" />
+              <span className="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse flex-shrink-0" aria-hidden="true" />
               <div>
                 <p className="font-semibold text-green-400 text-sm">현재 구직 중 · 즉시 합류 가능</p>
                 <p className="text-xs text-muted-foreground mt-0.5">📬 24시간 이내 답변드립니다</p>
@@ -182,6 +182,7 @@ export default function Contact() {
                     animate={{ scale: 1 }}
                     transition={{ duration: 0.5, delay: 0.1, type: "spring", stiffness: 200 }}
                     className="w-16 h-16 bg-green-500/10 border border-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4"
+                    aria-hidden="true"
                   >
                     <Check size={30} className="text-green-400" />
                   </motion.div>
@@ -221,10 +222,10 @@ export default function Contact() {
                         <label htmlFor="contact-name" className="text-xs text-muted-foreground">이름</label>
                         {fieldStatus.name === "error" && (
                           <span className="flex items-center gap-1 text-[10px] text-red-400">
-                            <AlertCircle size={10} /> 2자 이상 입력해주세요
+                            <AlertCircle size={10} aria-hidden="true" /> 2자 이상 입력해주세요
                           </span>
                         )}
-                        {fieldStatus.name === "valid" && <Check size={12} className="text-green-400" />}
+                        {fieldStatus.name === "valid" && <Check size={12} className="text-green-400" aria-hidden="true" />}
                       </div>
                       <input
                         id="contact-name"
@@ -244,10 +245,10 @@ export default function Contact() {
                         <label htmlFor="contact-email" className="text-xs text-muted-foreground">이메일</label>
                         {fieldStatus.email === "error" && (
                           <span className="flex items-center gap-1 text-[10px] text-red-400">
-                            <AlertCircle size={10} /> 올바른 이메일 형식
+                            <AlertCircle size={10} aria-hidden="true" /> 올바른 이메일 형식
                           </span>
                         )}
-                        {fieldStatus.email === "valid" && <Check size={12} className="text-green-400" />}
+                        {fieldStatus.email === "valid" && <Check size={12} className="text-green-400" aria-hidden="true" />}
                       </div>
                       <input
                         id="contact-email"
@@ -267,10 +268,10 @@ export default function Contact() {
                     <div className="flex items-center justify-between mb-1.5">
                       <div className="flex items-center gap-1.5">
                         <label htmlFor="contact-message" className="text-xs text-muted-foreground">메시지</label>
-                        {fieldStatus.message === "valid" && <Check size={12} className="text-green-400" />}
+                        {fieldStatus.message === "valid" && <Check size={12} className="text-green-400" aria-hidden="true" />}
                         {fieldStatus.message === "error" && (
                           <span className="flex items-center gap-1 text-[10px] text-red-400">
-                            <AlertCircle size={10} /> 10자 이상 입력해주세요
+                            <AlertCircle size={10} aria-hidden="true" /> 10자 이상 입력해주세요
                           </span>
                         )}
                       </div>
@@ -310,9 +311,9 @@ export default function Contact() {
                       className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-primary hover:bg-primary-light disabled:opacity-60 disabled:cursor-not-allowed rounded-lg font-medium transition-colors text-white text-sm"
                     >
                       {sending ? (
-                        <><Loader2 size={16} className="animate-spin" /> 전송 중...</>
+                        <><Loader2 size={16} className="animate-spin" aria-hidden="true" /> 전송 중...</>
                       ) : (
-                        <><Send size={16} /> 메시지 보내기</>
+                        <><Send size={16} aria-hidden="true" /> 메시지 보내기</>
                       )}
                     </button>
                     <span className="hidden sm:flex items-center gap-1 text-[10px] text-muted-foreground/60 whitespace-nowrap flex-shrink-0">
@@ -329,7 +330,7 @@ export default function Contact() {
                       role="alert"
                     >
                       <div className="flex items-center gap-1.5 text-red-400">
-                        <AlertCircle size={12} />
+                        <AlertCircle size={12} aria-hidden="true" />
                         <span>전송에 실패했습니다. 이메일로 직접 보내주세요.</span>
                       </div>
                       <a

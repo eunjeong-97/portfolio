@@ -142,12 +142,12 @@ export default function FeaturedProjects() {
                 ].map(({ dot, label, text, bg }, i) => (
                   <div key={label} className={`relative p-4 ${bg} ${i < 2 ? "md:border-r border-b md:border-b-0 border-border" : ""}`}>
                     {i > 0 && (
-                      <div className="hidden md:flex absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-section-bg border border-border rounded-full items-center justify-center z-10 text-xs text-muted-foreground">
+                      <div aria-hidden="true" className="hidden md:flex absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-section-bg border border-border rounded-full items-center justify-center z-10 text-xs text-muted-foreground">
                         →
                       </div>
                     )}
                     <div className="flex items-center gap-2 mb-2">
-                      <div className={`w-2 h-2 ${dot} rounded-full`} />
+                      <div className={`w-2 h-2 ${dot} rounded-full`} aria-hidden="true" />
                       <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                         {label}
                       </span>
@@ -201,7 +201,7 @@ export default function FeaturedProjects() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 border border-border hover:border-primary text-muted-foreground hover:text-primary rounded-xl transition-colors text-sm"
           >
-            <Github size={16} />
+            <Github size={16} aria-hidden="true" />
             더 많은 프로젝트는 GitHub에서 확인하세요
           </a>
         </motion.div>
