@@ -99,12 +99,12 @@ export default function About() {
           >
             <p className="text-muted-foreground text-lg leading-relaxed">
               2022년, 레거시 jQuery 홈페이지를{" "}
-              <strong className="text-foreground">React로 리팩토링</strong>하는
+              <strong className="text-foreground font-semibold underline decoration-primary/40 decoration-2 underline-offset-2">React로 리팩토링</strong>하는
               일을 시작으로 개발에 입문했습니다. 이후{" "}
-              <strong className="text-foreground">React Native</strong>로 앱을
+              <strong className="text-foreground font-semibold underline decoration-primary/40 decoration-2 underline-offset-2">React Native</strong>로 앱을
               처음부터 다시 만들고, 광고 SDK를 네이티브 코드 레벨에서 직접
               연동하면서 — 웹과 앱,{" "}
-              <strong className="text-foreground">
+              <strong className="text-foreground font-semibold underline decoration-primary/40 decoration-2 underline-offset-2">
                 JavaScript와 Java/Swift
               </strong>
               를 경계 없이 다루게 됐습니다.
@@ -112,21 +112,21 @@ export default function About() {
             <p className="text-muted-foreground text-lg leading-relaxed">
               저는 &apos;이 오류는 왜 발생하는가&apos;를 끝까지 파고듭니다.
               국내 사례가 없는{" "}
-              <strong className="text-foreground">AdMob Bidding 시스템</strong>
+              <strong className="text-foreground font-semibold underline decoration-primary/40 decoration-2 underline-offset-2">AdMob Bidding 시스템</strong>
               을 도입할 때도, 구글 담당자에게 직접 이메일을 보내고 공식 문서를
               분석하며 스스로 답을 찾았습니다. 라이브러리를 교체하는 것이
               아니라,{" "}
-              <strong className="text-foreground">
+              <strong className="text-foreground font-semibold underline decoration-primary/40 decoration-2 underline-offset-2">
                 근본 원인을 이해하고 해결
               </strong>
               하는 것이 제 방식입니다.
             </p>
             <p className="text-muted-foreground text-lg leading-relaxed">
               팀에 합류하면 빠르게{" "}
-              <strong className="text-foreground">컨텍스트를 파악</strong>하고,
+              <strong className="text-foreground font-semibold underline decoration-primary/40 decoration-2 underline-offset-2">컨텍스트를 파악</strong>하고,
               모르는 기술도 스스로 익혀서 실행에 옮깁니다. 크로스플랫폼 경험을
               바탕으로{" "}
-              <strong className="text-foreground">웹과 앱을 함께 다루는 팀</strong>
+              <strong className="text-foreground font-semibold underline decoration-primary/40 decoration-2 underline-offset-2">웹과 앱을 함께 다루는 팀</strong>
               에서 특히 강점을 발휘할 수 있습니다.
             </p>
           </motion.div>
