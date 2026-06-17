@@ -29,6 +29,11 @@ function TypewriterText({ content, onDone }: { content: string; onDone: () => vo
   onDoneRef.current = onDone;
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setDone(true);
+      onDoneRef.current();
+      return;
+    }
     let i = 0;
     const interval = setInterval(() => {
       i++;
