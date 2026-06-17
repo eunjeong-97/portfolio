@@ -12,6 +12,8 @@ const BACKDROP_EXIT = { opacity: 0 } as const;
 const MODAL_INITIAL = { opacity: 0, scale: 0.95, y: 20 } as const;
 const MODAL_ANIMATE = { opacity: 1, scale: 1, y: 0 } as const;
 const MODAL_EXIT = { opacity: 0, scale: 0.95, y: 20 } as const;
+const CONTENT_ANIMATE_IN = { opacity: 1, x: 0 } as const;
+const PROGRESS_BAR_INITIAL = { width: 0 } as const;
 
 interface ExperienceModalProps {
   experience: Experience | null;
@@ -137,7 +139,7 @@ export default function ExperienceModal({
               <motion.div
                 key={experience.id}
                 initial={{ opacity: 0, x: direction * 16 }}
-                animate={{ opacity: 1, x: 0 }}
+                animate={CONTENT_ANIMATE_IN}
                 transition={{ duration: 0.2 }}
               >
               <p className="text-muted-foreground mb-6 leading-relaxed whitespace-pre-line">
@@ -211,7 +213,7 @@ export default function ExperienceModal({
                   <div className="h-1 bg-muted" aria-hidden="true">
                     <motion.div
                       className="h-full bg-primary rounded-r-full"
-                      initial={{ width: 0 }}
+                      initial={PROGRESS_BAR_INITIAL}
                       animate={{ width: `${((currentIndex + 1) / total) * 100}%` }}
                       transition={{ duration: 0.3, ease: "easeOut" }}
                     />

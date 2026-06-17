@@ -33,6 +33,7 @@ const CORE_STACK = [
 
 const FLOAT_ANIM = { y: [0, -10, 0] };
 const SCROLL_ANIM = { y: [0, 8, 0] };
+const FLOAT_CARD_HOVER = { scale: 1.05, borderColor: "var(--primary)" };
 const HERO_LEFT_INITIAL = { opacity: 0, x: -50 } as const;
 const HERO_LEFT_ANIMATE = { opacity: 1, x: 0 } as const;
 const HERO_RIGHT_INITIAL = { opacity: 0, x: 50 } as const;
@@ -259,7 +260,7 @@ export default function Hero() {
               aria-hidden="true"
               animate={FLOAT_ANIM}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              whileHover={{ scale: 1.05, borderColor: "var(--primary)" }}
+              whileHover={FLOAT_CARD_HOVER}
               className="absolute top-4 -right-4 md:top-8 md:right-0 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl cursor-default"
             >
               <div className="text-xs text-muted-foreground mb-1">
@@ -279,7 +280,7 @@ export default function Hero() {
                 ease: "easeInOut",
                 delay: 0.5,
               }}
-              whileHover={{ scale: 1.05, borderColor: "var(--primary)" }}
+              whileHover={FLOAT_CARD_HOVER}
               className="absolute bottom-24 -left-8 md:bottom-28 md:-left-12 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl cursor-default"
             >
               <div className="text-xs text-muted-foreground mb-2">
@@ -306,7 +307,7 @@ export default function Hero() {
                 ease: "easeInOut",
                 delay: 1,
               }}
-              whileHover={{ scale: 1.05, borderColor: "var(--primary)" }}
+              whileHover={FLOAT_CARD_HOVER}
               className="absolute -bottom-2 right-4 md:bottom-0 md:right-8 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl cursor-default"
             >
               <div className="text-xs text-muted-foreground mb-1">앱 재개발</div>
