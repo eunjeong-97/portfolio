@@ -33,6 +33,13 @@ const CORE_STACK = [
 
 const FLOAT_ANIM = { y: [0, -10, 0] };
 const SCROLL_ANIM = { y: [0, 8, 0] };
+const HERO_LEFT_INITIAL = { opacity: 0, x: -50 } as const;
+const HERO_LEFT_ANIMATE = { opacity: 1, x: 0 } as const;
+const HERO_RIGHT_INITIAL = { opacity: 0, x: 50 } as const;
+const FADE_UP_INITIAL = { opacity: 0, y: 20 } as const;
+const FADE_UP_ANIMATE = { opacity: 1, y: 0 } as const;
+const FADE_IN_INITIAL = { opacity: 0 } as const;
+const FADE_IN_ANIMATE = { opacity: 1 } as const;
 
 function useTypewriter(words: string[], speed = 90, pause = 2000) {
   const [index, setIndex] = useState(0);
@@ -97,14 +104,14 @@ export default function Hero() {
       <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
         {/* Left Content */}
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={HERO_LEFT_INITIAL}
+          animate={HERO_LEFT_ANIMATE}
           transition={{ duration: 0.6 }}
           className="max-w-xl"
         >
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={FADE_UP_INITIAL}
+            animate={FADE_UP_ANIMATE}
             transition={{ delay: 0.1 }}
             className="flex flex-wrap gap-3 mb-6"
           >
@@ -119,8 +126,8 @@ export default function Hero() {
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={FADE_UP_INITIAL}
+            animate={FADE_UP_ANIMATE}
             transition={{ delay: 0.3 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
           >
@@ -137,8 +144,8 @@ export default function Hero() {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={FADE_UP_INITIAL}
+            animate={FADE_UP_ANIMATE}
             transition={{ delay: 0.4 }}
             className="text-lg text-muted-foreground mb-8 leading-relaxed"
           >
@@ -150,8 +157,8 @@ export default function Hero() {
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={FADE_UP_INITIAL}
+            animate={FADE_UP_ANIMATE}
             transition={{ delay: 0.5 }}
             className="flex flex-wrap gap-4 mb-8"
           >
@@ -180,8 +187,8 @@ export default function Hero() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={FADE_UP_INITIAL}
+            animate={FADE_UP_ANIMATE}
             transition={{ delay: 0.55 }}
             className="flex flex-wrap gap-2 mb-8"
           >
@@ -196,8 +203,8 @@ export default function Hero() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={FADE_UP_INITIAL}
+            animate={FADE_UP_ANIMATE}
             transition={{ delay: 0.6 }}
             className="flex gap-6"
           >
@@ -226,8 +233,8 @@ export default function Hero() {
 
         {/* Right Visual */}
         <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={HERO_RIGHT_INITIAL}
+          animate={HERO_LEFT_ANIMATE}
           transition={{ duration: 0.6, delay: 0.3 }}
           className="relative flex justify-center items-center"
         >
@@ -316,8 +323,8 @@ export default function Hero() {
       <motion.a
         href="#projects"
         onClick={(e) => { e.preventDefault(); document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" }); }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        initial={FADE_IN_INITIAL}
+        animate={FADE_IN_ANIMATE}
         transition={{ delay: 1 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-neutral-600 hover:text-primary transition-colors cursor-pointer group"
         aria-label="프로젝트 섹션으로 이동"
