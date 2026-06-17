@@ -63,7 +63,6 @@ export default function ExperienceTimeline() {
                   {exp.tags.map((tag) => (
                     <span
                       key={tag}
-                      // className="px-2 py-1 bg-muted rounded text-xs text-muted-foreground"
                       className="px-2 py-1 bg-muted rounded text-xs text-muted-foreground"
                     >
                       {tag}

@@ -20,7 +20,10 @@ export default function BlogPosts() {
 
   useEffect(() => {
     fetch("/api/blog")
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error("fetch failed");
+        return r.json();
+      })
       .then((data) => {
         setPosts(data.posts || []);
         setLoading(false);

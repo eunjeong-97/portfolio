@@ -27,7 +27,10 @@ export default function GitHubActivity() {
 
   useEffect(() => {
     fetch("/api/github")
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error("fetch failed");
+        return r.json();
+      })
       .then((data) => {
         setEvents(data.events || []);
         setStats(data.stats || null);
