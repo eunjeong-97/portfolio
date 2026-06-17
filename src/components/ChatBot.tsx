@@ -69,12 +69,12 @@ function renderMarkdown(text: string) {
     .replace(/\n/g, "<br/>");
 }
 
-const WELCOME: Message = {
-  role: "assistant",
-  content:
-    "안녕하세요! 박은정의 포트폴리오 도우미입니다. 경력, 기술 스택, 프로젝트에 대해 무엇이든 물어보세요! 😊",
-  timestamp: new Date(),
-};
+const WELCOME_CONTENT =
+  "안녕하세요! 박은정의 포트폴리오 도우미입니다. 경력, 기술 스택, 프로젝트에 대해 무엇이든 물어보세요! 😊";
+
+function makeWelcome(): Message {
+  return { role: "assistant", content: WELCOME_CONTENT, timestamp: new Date() };
+}
 
 function formatTime(date?: Date) {
   if (!date) return "";
@@ -84,15 +84,15 @@ function formatTime(date?: Date) {
 const STORAGE_KEY = "chatbot_messages";
 
 function loadMessages(): Message[] {
-  if (typeof window === "undefined") return [WELCOME];
+  if (typeof window === "undefined") return [makeWelcome()];
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return [WELCOME];
+    if (!raw) return [makeWelcome()];
     const parsed = JSON.parse(raw) as Array<Omit<Message, "timestamp"> & { timestamp?: string }>;
-    if (!Array.isArray(parsed) || parsed.length === 0) return [WELCOME];
+    if (!Array.isArray(parsed) || parsed.length === 0) return [makeWelcome()];
     return parsed.map((m) => ({ ...m, timestamp: m.timestamp ? new Date(m.timestamp) : undefined }));
   } catch {
-    return [WELCOME];
+    return [makeWelcome()];
   }
 }
 
@@ -243,7 +243,7 @@ export default function ChatBot() {
               </div>
               <div className="flex items-center gap-1">
                 <button
-                  onClick={() => { setMessages([WELCOME]); setInput(""); localStorage.removeItem(STORAGE_KEY); }}
+                  onClick={() => { setMessages([makeWelcome()]); setInput(""); localStorage.removeItem(STORAGE_KEY); }}
                   className="text-white/60 hover:text-white transition-colors p-1"
                   aria-label="대화 초기화"
                   title="대화 초기화"
