@@ -97,6 +97,10 @@ const TOOLTIP_EXIT = { opacity: 0, y: 4 } as const;
 const CATEGORY_INITIAL = { opacity: 0, y: 30 } as const;
 const CATEGORY_ANIMATE_IN = { opacity: 1, y: 0 } as const;
 const CATEGORY_HOVER = { y: -4, transition: { duration: 0.2 } };
+const SKILLS_HEADER_TRANSITION = { duration: 0.5 } as const;
+const BAR_ANIMATE_TRANSITION = { duration: 0.8, ease: "easeOut", delay: 0.2 } as const;
+const BADGE_TOOLTIP_TRANSITION = { duration: 0.15 } as const;
+const LEARNING_TRANSITION = { duration: 0.5, delay: 0.7 } as const;
 
 function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: boolean; delay?: number }) {
   const [visible, setVisible] = useState(false);
@@ -142,7 +146,7 @@ function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: bo
           className={`h-full rounded-full ${level === 3 ? "bg-primary" : level === 2 ? "bg-primary/70" : "bg-primary/40"}`}
           initial={WIDTH_ZERO}
           animate={{ width: isInView ? `${barWidth}%` : 0 }}
-          transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+          transition={BAR_ANIMATE_TRANSITION}
           style={{ opacity: visible ? 1 : 0.6 }}
         />
       </div>
@@ -154,7 +158,7 @@ function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: bo
             initial={TOOLTIP_INITIAL}
             animate={TOOLTIP_ANIMATE}
             exit={TOOLTIP_EXIT}
-            transition={{ duration: 0.15 }}
+            transition={BADGE_TOOLTIP_TRANSITION}
             aria-hidden="true"
             className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1.5 bg-card border border-border rounded-lg text-xs text-muted-foreground whitespace-nowrap shadow-xl z-10 pointer-events-none"
           >
@@ -183,7 +187,7 @@ export default function Skills() {
         <motion.div
           initial={SKILLS_HEADER_INITIAL}
           animate={isInView ? SKILLS_HEADER_ANIMATE_IN : {}}
-          transition={{ duration: 0.5 }}
+          transition={SKILLS_HEADER_TRANSITION}
         >
           <span className="text-sm text-primary uppercase tracking-wider">
             Skills
@@ -256,7 +260,7 @@ export default function Skills() {
         <motion.div
           initial={SKILLS_HEADER_INITIAL}
           animate={isInView ? SKILLS_HEADER_ANIMATE_IN : {}}
-          transition={{ duration: 0.5, delay: 0.7 }}
+          transition={LEARNING_TRANSITION}
           className="mt-8 bg-primary/5 border border-primary/20 rounded-2xl p-5"
         >
           <div className="flex items-center gap-2 mb-3">

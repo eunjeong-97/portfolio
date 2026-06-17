@@ -29,6 +29,9 @@ const GITHUB_HEADER_INITIAL = { opacity: 0, y: 20 } as const;
 const GITHUB_HEADER_ANIMATE_IN = { opacity: 1, y: 0 } as const;
 const GITHUB_STATS_INITIAL = { opacity: 0, y: 20 } as const;
 const GITHUB_HEATMAP_INITIAL = { opacity: 0, y: 10 } as const;
+const GITHUB_HEADER_TRANSITION = { duration: 0.5 } as const;
+const GITHUB_STATS_TRANSITION = { duration: 0.5, delay: 0.1 } as const;
+const GITHUB_HEATMAP_TRANSITION = { duration: 0.5, delay: 0.2 } as const;
 
 function formatDate(dateStr: string): string {
   const date = new Date(dateStr);
@@ -93,7 +96,7 @@ export default function GitHubActivity() {
         <motion.div
           initial={GITHUB_HEADER_INITIAL}
           animate={isInView ? GITHUB_HEADER_ANIMATE_IN : {}}
-          transition={{ duration: 0.5 }}
+          transition={GITHUB_HEADER_TRANSITION}
           className="mb-12"
         >
           <span className="text-sm text-primary uppercase tracking-wider">
@@ -120,7 +123,7 @@ export default function GitHubActivity() {
         <motion.div
           initial={GITHUB_STATS_INITIAL}
           animate={isInView ? GITHUB_HEADER_ANIMATE_IN : {}}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          transition={GITHUB_STATS_TRANSITION}
           className="grid grid-cols-3 gap-4 mb-10"
         >
           {loading ? (
@@ -156,7 +159,7 @@ export default function GitHubActivity() {
           <motion.div
             initial={GITHUB_HEATMAP_INITIAL}
             animate={isInView ? GITHUB_HEADER_ANIMATE_IN : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={GITHUB_HEATMAP_TRANSITION}
             className="mb-8 bg-background border border-border rounded-xl p-4"
           >
             <div className="flex items-center justify-between mb-3">
