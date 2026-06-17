@@ -14,6 +14,9 @@ const MESSAGE_TEMPLATES = [
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const CONTACT_LINK_INITIAL = { opacity: 0, x: -20 } as const;
+const CONTACT_LEFT_INITIAL = { opacity: 0, x: -30 } as const;
+const CONTACT_RIGHT_INITIAL = { opacity: 0, x: 30 } as const;
+const CONTACT_ANIMATE_IN = { opacity: 1, x: 0 } as const;
 const INITIAL_FORM = { name: "", email: "", message: "" };
 const INITIAL_TOUCHED = { name: false, email: false, message: false };
 
@@ -113,8 +116,8 @@ export default function Contact() {
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Left - Info */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            initial={CONTACT_LEFT_INITIAL}
+            animate={isInView ? CONTACT_ANIMATE_IN : {}}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <h3 className="text-2xl font-semibold mb-4">
@@ -132,7 +135,7 @@ export default function Contact() {
                 <motion.div
                   key={link.label}
                   initial={CONTACT_LINK_INITIAL}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  animate={isInView ? CONTACT_ANIMATE_IN : {}}
                   transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
                   className="flex items-center gap-4 p-4 bg-section-bg rounded-xl border border-border hover:border-primary transition-colors group"
                 >
@@ -174,8 +177,8 @@ export default function Contact() {
 
           {/* Right - Contact Form */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            initial={CONTACT_RIGHT_INITIAL}
+            animate={isInView ? CONTACT_ANIMATE_IN : {}}
             transition={{ duration: 0.5, delay: 0.4 }}
             className="space-y-4"
           >
