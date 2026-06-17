@@ -24,7 +24,13 @@ export async function GET() {
         title: get("title"),
         link: get("link"),
         pubDate: get("pubDate"),
-        description: (() => { const d = get("description").replace(/<[^>]+>/g, ""); return d.length > 200 ? d.slice(0, 200) + "..." : d; })(),
+        description: (() => {
+          const d = get("description").replace(/<[^>]+>/g, "");
+          if (d.length <= 200) return d;
+          const cut = d.slice(0, 201);
+          const lastSpace = cut.lastIndexOf(" ");
+          return (lastSpace > 0 ? cut.slice(0, lastSpace) : cut.slice(0, 200)) + "...";
+        })(),
       });
     }
 

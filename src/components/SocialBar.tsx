@@ -40,7 +40,7 @@ export default function SocialBar() {
             href={href}
             target={external ? "_blank" : undefined}
             rel={external ? "noopener noreferrer" : undefined}
-            aria-label={label}
+            aria-label={external ? `${label} (새 탭에서 열림)` : label}
             whileHover={{ scale: 1.15, x: 3 }}
             onMouseEnter={() => setHoveredLabel(label)}
             onMouseLeave={() => setHoveredLabel(null)}

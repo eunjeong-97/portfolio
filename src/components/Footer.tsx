@@ -74,6 +74,7 @@ export default function Footer() {
                   >
                     <Icon size={13} className="text-muted-foreground/50 group-hover:text-primary transition-colors" aria-hidden="true" />
                     {label}
+                    {external && <span className="sr-only">(새 탭에서 열림)</span>}
                   </a>
                 </li>
               ))}
