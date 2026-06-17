@@ -8,6 +8,7 @@ interface Message {
   role: "user" | "assistant";
   content: string;
   timestamp?: Date;
+  isNew?: boolean;
 }
 
 const MAX_INPUT = 200;
@@ -18,6 +19,26 @@ const SUGGESTIONS = [
   "React Native 경험이 있나요?",
   "이력서 다운로드 위치는?",
 ];
+
+function TypewriterText({ content, onDone }: { content: string; onDone: () => void }) {
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
+  useEffect(() => {
+    let i = 0;
+    const interval = setInterval(() => {
+      i++;
+      setDisplayed(content.slice(0, i));
+      if (i >= content.length) {
+        clearInterval(interval);
+        setDone(true);
+        onDone();
+      }
+    }, 12);
+    return () => clearInterval(interval);
+  }, [content, onDone]);
+  if (done) return <span dangerouslySetInnerHTML={{ __html: renderMarkdown(content) }} />;
+  return <span>{displayed}<span className="inline-block w-0.5 h-3.5 bg-foreground/60 ml-0.5 animate-pulse align-middle" /></span>;
+}
 
 function renderMarkdown(text: string) {
   return text
@@ -140,15 +161,15 @@ export default function ChatBot() {
 
       const ts = new Date();
       if (data.error) {
-        setMessages([...newMessages, { role: "assistant", content: data.error, timestamp: ts }]);
+        setMessages([...newMessages, { role: "assistant", content: data.error, timestamp: ts, isNew: true }]);
       } else {
-        setMessages([...newMessages, { role: "assistant", content: data.message, timestamp: ts }]);
+        setMessages([...newMessages, { role: "assistant", content: data.message, timestamp: ts, isNew: true }]);
       }
     } catch (err) {
       if (err instanceof Error && err.name === "AbortError") return;
       setMessages([
         ...newMessages,
-        { role: "assistant", content: "죄송합니다. 오류가 발생했습니다. 다시 시도해주세요.", timestamp: new Date() },
+        { role: "assistant", content: "죄송합니다. 오류가 발생했습니다. 다시 시도해주세요.", timestamp: new Date(), isNew: true },
       ]);
     } finally {
       abortRef.current = null;
@@ -222,11 +243,24 @@ export default function ChatBot() {
                         ? "bg-primary text-white rounded-tr-sm"
                         : "bg-muted text-foreground rounded-tl-sm"
                     }`}
-                    {...(msg.role === "assistant"
-                      ? { dangerouslySetInnerHTML: { __html: renderMarkdown(msg.content) } }
-                      : { children: msg.content }
+                  >
+                    {msg.role === "assistant" ? (
+                      msg.isNew ? (
+                        <TypewriterText
+                          content={msg.content}
+                          onDone={() =>
+                            setMessages((prev) =>
+                              prev.map((m, idx) => idx === i ? { ...m, isNew: false } : m)
+                            )
+                          }
+                        />
+                      ) : (
+                        <span dangerouslySetInnerHTML={{ __html: renderMarkdown(msg.content) }} />
+                      )
+                    ) : (
+                      msg.content
                     )}
-                  />
+                  </div>
                   {msg.role === "user" && (
                     <div className="w-7 h-7 rounded-full bg-muted flex items-center justify-center flex-shrink-0 mt-1">
                       <User size={14} className="text-muted-foreground" />
