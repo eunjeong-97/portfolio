@@ -13,6 +13,14 @@ const MESSAGE_TEMPLATES = [
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const CONTACT_HEADER_INITIAL = { opacity: 0, y: 20 } as const;
+const CONTACT_HEADER_ANIMATE_IN = { opacity: 1, y: 0 } as const;
+const SUCCESS_INITIAL = { opacity: 0, scale: 0.9 } as const;
+const SUCCESS_ANIMATE = { opacity: 1, scale: 1 } as const;
+const SUCCESS_ICON_INITIAL = { scale: 0 } as const;
+const SUCCESS_ICON_ANIMATE = { scale: 1 } as const;
+const ERROR_TOAST_INITIAL = { opacity: 0, y: -4 } as const;
+const ERROR_TOAST_ANIMATE = { opacity: 1, y: 0 } as const;
 const CONTACT_LINK_INITIAL = { opacity: 0, x: -20 } as const;
 const CONTACT_LEFT_INITIAL = { opacity: 0, x: -30 } as const;
 const CONTACT_RIGHT_INITIAL = { opacity: 0, x: 30 } as const;
@@ -101,8 +109,8 @@ export default function Contact() {
     <section id="contact" className="py-24 px-6 bg-section-bg" ref={ref} aria-label="연락하기">
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={CONTACT_HEADER_INITIAL}
+          animate={isInView ? CONTACT_HEADER_ANIMATE_IN : {}}
           transition={{ duration: 0.5 }}
         >
           <span className="text-sm text-primary uppercase tracking-wider">
@@ -187,7 +195,7 @@ export default function Contact() {
               <span className="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse motion-reduce:animate-none flex-shrink-0" aria-hidden="true" />
               <div>
                 <p className="font-semibold text-green-400 text-sm">현재 구직 중 · 즉시 합류 가능</p>
-                <p className="text-xs text-muted-foreground mt-0.5">📬 24시간 이내 답변드립니다</p>
+                <p className="text-xs text-muted-foreground mt-0.5"><span aria-hidden="true">📬</span> 24시간 이내 답변드립니다</p>
               </div>
             </div>
 
@@ -195,15 +203,15 @@ export default function Contact() {
             <div className="bg-section-bg p-6 rounded-2xl border border-border">
               {sent ? (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
+                  initial={SUCCESS_INITIAL}
+                  animate={SUCCESS_ANIMATE}
                   transition={{ duration: 0.4, type: "spring" }}
                   role="status"
                   className="text-center py-8"
                 >
                   <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
+                    initial={SUCCESS_ICON_INITIAL}
+                    animate={SUCCESS_ICON_ANIMATE}
                     transition={{ duration: 0.5, delay: 0.1, type: "spring", stiffness: 200 }}
                     className="w-16 h-16 bg-green-500/10 border border-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4"
                     aria-hidden="true"
@@ -347,7 +355,7 @@ export default function Contact() {
                       className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-primary hover:bg-primary-light disabled:opacity-60 disabled:cursor-not-allowed rounded-lg font-medium transition-colors text-white text-sm"
                     >
                       {sending ? (
-                        <><Loader2 size={16} className="animate-spin" aria-hidden="true" /> 전송 중...</>
+                        <><Loader2 size={16} className="animate-spin motion-reduce:animate-none" aria-hidden="true" /> 전송 중...</>
                       ) : (
                         <><Send size={16} aria-hidden="true" /> 메시지 보내기</>
                       )}
@@ -360,8 +368,8 @@ export default function Contact() {
                   </div>
                   {sendError && (
                     <motion.div
-                      initial={{ opacity: 0, y: -4 }}
-                      animate={{ opacity: 1, y: 0 }}
+                      initial={ERROR_TOAST_INITIAL}
+                      animate={ERROR_TOAST_ANIMATE}
                       className="flex items-center justify-between gap-2 text-xs bg-red-400/10 border border-red-400/20 rounded-lg px-3 py-2"
                       role="alert"
                     >

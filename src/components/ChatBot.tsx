@@ -64,7 +64,7 @@ function TypewriterText({ content, onDone }: { content: string; onDone: () => vo
     return () => clearInterval(interval);
   }, [content, speed, reducedMotion]);
   if (done) return <span dangerouslySetInnerHTML={{ __html: renderMarkdown(content) }} />;
-  return <span>{displayed}<span className="inline-block w-0.5 h-3.5 bg-foreground/60 ml-0.5 animate-pulse align-middle" aria-hidden="true" /></span>;
+  return <span>{displayed}<span className="inline-block w-0.5 h-3.5 bg-foreground/60 ml-0.5 animate-pulse motion-reduce:animate-none align-middle" aria-hidden="true" /></span>;
 }
 
 function escapeHtml(str: string) {
