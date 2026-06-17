@@ -143,11 +143,12 @@ export default function ChatBot() {
   };
 
   useEffect(() => {
-    if (isOpen) {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-      setTimeout(() => inputRef.current?.focus(), 100);
-    }
+    if (isOpen) messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isOpen]);
+
+  useEffect(() => {
+    if (isOpen) setTimeout(() => inputRef.current?.focus(), 100);
+  }, [isOpen]);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
