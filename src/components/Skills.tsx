@@ -78,7 +78,7 @@ const LEVEL_DESC: Record<Level, string> = {
 };
 
 function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: boolean; delay?: number }) {
-  const [hovered, setHovered] = useState(false);
+  const [visible, setVisible] = useState(false);
   const barWidth = (level / 3) * 100;
 
   return (
@@ -87,14 +87,19 @@ function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: bo
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.3, delay }}
       className="px-3 py-2 bg-muted rounded-lg hover:bg-primary/10 transition-colors group cursor-default relative"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      tabIndex={0}
+      role="img"
+      aria-label={`${name}: ${LEVEL_LABEL[level]} (${LEVEL_DESC[level]})`}
+      onMouseEnter={() => setVisible(true)}
+      onMouseLeave={() => setVisible(false)}
+      onFocus={() => setVisible(true)}
+      onBlur={() => setVisible(false)}
     >
       <div className="flex items-center justify-between mb-1.5">
         <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
           {name}
         </span>
-        <div className="flex items-center gap-1 flex-shrink-0">
+        <div className="flex items-center gap-1 flex-shrink-0" aria-hidden="true">
           <span className="text-xs text-muted-foreground/60 group-hover:text-primary transition-colors mr-0.5">
             {LEVEL_LABEL[level]}
           </span>
@@ -108,24 +113,32 @@ function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: bo
           ))}
         </div>
       </div>
-      <div className="h-0.5 bg-border rounded-full overflow-hidden">
+      <div
+        role="progressbar"
+        aria-valuenow={barWidth}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label={`${name} 숙련도 ${barWidth}%`}
+        className="h-0.5 bg-border rounded-full overflow-hidden"
+      >
         <motion.div
           className={`h-full rounded-full ${level === 3 ? "bg-primary" : level === 2 ? "bg-primary/70" : "bg-primary/40"}`}
           initial={{ width: 0 }}
           animate={{ width: isInView ? `${barWidth}%` : 0 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          style={{ opacity: hovered ? 1 : 0.6 }}
+          style={{ opacity: visible ? 1 : 0.6 }}
         />
       </div>
 
       {/* Tooltip */}
       <AnimatePresence>
-        {hovered && (
+        {visible && (
           <motion.div
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 4 }}
             transition={{ duration: 0.15 }}
+            role="tooltip"
             className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1.5 bg-card border border-border rounded-lg text-xs text-muted-foreground whitespace-nowrap shadow-xl z-10 pointer-events-none"
           >
             {LEVEL_DESC[level]}

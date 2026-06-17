@@ -43,6 +43,8 @@ export default function SocialBar() {
             whileHover={{ scale: 1.15, x: 3 }}
             onMouseEnter={() => setHoveredLabel(label)}
             onMouseLeave={() => setHoveredLabel(null)}
+            onFocus={() => setHoveredLabel(label)}
+            onBlur={() => setHoveredLabel(null)}
             className="w-9 h-9 bg-section-bg border border-border hover:border-primary rounded-lg flex items-center justify-center text-muted-foreground hover:text-primary transition-colors shadow-sm"
           >
             <Icon size={15} />
