@@ -7,7 +7,10 @@ import { MessageCircle, X, Send, Bot, User, RotateCcw } from "lucide-react";
 interface Message {
   role: "user" | "assistant";
   content: string;
+  timestamp?: Date;
 }
+
+const MAX_INPUT = 200;
 
 const SUGGESTIONS = [
   "어떤 기술 스택을 사용하나요?",
@@ -30,7 +33,13 @@ const WELCOME: Message = {
   role: "assistant",
   content:
     "안녕하세요! 박은정의 포트폴리오 도우미입니다. 경력, 기술 스택, 프로젝트에 대해 무엇이든 물어보세요! 😊",
+  timestamp: new Date(),
 };
+
+function formatTime(date?: Date) {
+  if (!date) return "";
+  return date.toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" });
+}
 
 export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -58,7 +67,7 @@ export default function ChatBot() {
     const messageText = text || input.trim();
     if (!messageText || loading) return;
 
-    const userMessage: Message = { role: "user", content: messageText };
+    const userMessage: Message = { role: "user", content: messageText, timestamp: new Date() };
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInput("");
@@ -78,24 +87,16 @@ export default function ChatBot() {
       }
       const data = await res.json();
 
+      const ts = new Date();
       if (data.error) {
-        setMessages([
-          ...newMessages,
-          { role: "assistant", content: data.error },
-        ]);
+        setMessages([...newMessages, { role: "assistant", content: data.error, timestamp: ts }]);
       } else {
-        setMessages([
-          ...newMessages,
-          { role: "assistant", content: data.message },
-        ]);
+        setMessages([...newMessages, { role: "assistant", content: data.message, timestamp: ts }]);
       }
     } catch {
       setMessages([
         ...newMessages,
-        {
-          role: "assistant",
-          content: "죄송합니다. 오류가 발생했습니다. 다시 시도해주세요.",
-        },
+        { role: "assistant", content: "죄송합니다. 오류가 발생했습니다. 다시 시도해주세요.", timestamp: new Date() },
       ]);
     } finally {
       setLoading(false);
@@ -173,6 +174,11 @@ export default function ChatBot() {
                       <User size={14} className="text-muted-foreground" />
                     </div>
                   )}
+                  {msg.timestamp && (
+                    <span className={`text-[10px] text-muted-foreground/50 self-end mb-1 ${msg.role === "user" ? "order-first" : ""}`}>
+                      {formatTime(msg.timestamp)}
+                    </span>
+                  )}
                 </div>
               ))}
 
@@ -212,15 +218,22 @@ export default function ChatBot() {
             {/* Input */}
             <div className="p-3 border-t border-border">
               <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-                  placeholder="메시지를 입력하세요..."
-                  className="flex-1 bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-xl border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
-                  disabled={loading}
-                />
+                <div className="flex-1 relative">
+                  <input
+                    type="text"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value.slice(0, MAX_INPUT))}
+                    onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+                    placeholder="메시지를 입력하세요..."
+                    className="w-full bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-xl border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    disabled={loading}
+                  />
+                  {input.length > MAX_INPUT * 0.8 && (
+                    <span className={`absolute right-2 bottom-2 text-[10px] ${input.length >= MAX_INPUT ? "text-red-400" : "text-muted-foreground/60"}`}>
+                      {input.length}/{MAX_INPUT}
+                    </span>
+                  )}
+                </div>
                 <button
                   onClick={() => sendMessage()}
                   disabled={!input.trim() || loading}
