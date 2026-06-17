@@ -57,7 +57,7 @@ export default function SectionDots() {
               aria-hidden="true"
               animate={{
                 width: isActive ? 20 : 6,
-                height: isActive ? 6 : 6,
+                height: 6,
               }}
               transition={{ duration: 0.25, ease: "easeInOut" }}
               className={`rounded-full transition-colors ${
