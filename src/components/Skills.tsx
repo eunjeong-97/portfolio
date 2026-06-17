@@ -77,12 +77,15 @@ const LEVEL_DESC: Record<Level, string> = {
   1: "기본 이해 및 사용 경험",
 };
 
-function SkillBadge({ name, level, isInView }: Skill & { isInView: boolean }) {
+function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: boolean; delay?: number }) {
   const [hovered, setHovered] = useState(false);
   const barWidth = (level / 3) * 100;
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.3, delay }}
       className="px-3 py-2 bg-muted rounded-lg hover:bg-primary/10 transition-colors group cursor-default relative"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -121,7 +124,7 @@ function SkillBadge({ name, level, isInView }: Skill & { isInView: boolean }) {
           {LEVEL_DESC[level]}
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }
 
@@ -178,8 +181,8 @@ export default function Skills() {
                 </h3>
               </div>
               <div className="flex flex-col gap-1.5">
-                {category.skills.map((skill) => (
-                  <SkillBadge key={skill.name} {...skill} isInView={isInView} />
+                {category.skills.map((skill, skillIdx) => (
+                  <SkillBadge key={skill.name} {...skill} isInView={isInView} delay={0.3 + index * 0.1 + skillIdx * 0.05} />
                 ))}
               </div>
             </motion.div>
