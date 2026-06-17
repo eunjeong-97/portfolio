@@ -34,7 +34,7 @@ export default function Footer() {
               크로스플랫폼 개발자입니다.
             </p>
             <div className="flex items-center gap-1.5 mt-3">
-              <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+              <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" aria-hidden="true" />
               <span className="text-xs text-green-400">현재 구직 중</span>
             </div>
           </div>
@@ -72,7 +72,7 @@ export default function Footer() {
                     rel={external ? "noopener noreferrer" : undefined}
                     className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors group"
                   >
-                    <Icon size={13} className="text-muted-foreground/50 group-hover:text-primary transition-colors" />
+                    <Icon size={13} className="text-muted-foreground/50 group-hover:text-primary transition-colors" aria-hidden="true" />
                     {label}
                   </a>
                 </li>
@@ -83,7 +83,7 @@ export default function Footer() {
                   download="박은정_이력서.pdf"
                   className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors group"
                 >
-                  <Download size={13} className="text-muted-foreground/50 group-hover:text-primary transition-colors" />
+                  <Download size={13} className="text-muted-foreground/50 group-hover:text-primary transition-colors" aria-hidden="true" />
                   이력서 다운로드
                 </a>
               </li>

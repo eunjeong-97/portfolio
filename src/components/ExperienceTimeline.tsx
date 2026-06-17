@@ -112,7 +112,7 @@ export default function ExperienceTimeline() {
                 );
               })}
             </div>
-            <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2">
+            <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2" aria-hidden="true">
               {[...experiences].reverse().map((exp, i) => (
                 <span key={exp.id} className="flex items-center gap-1 text-[10px] text-muted-foreground">
                   <span className={`w-2 h-2 rounded-sm ${EXP_COLORS[i]} opacity-70`} />
@@ -139,13 +139,14 @@ export default function ExperienceTimeline() {
               >
                 {/* Year Marker */}
                 {showYearMarker && (
-                  <div className="absolute -left-[52px] top-0 text-xs font-bold text-primary/60 tabular-nums">
+                  <div aria-hidden="true" className="absolute -left-[52px] top-0 text-xs font-bold text-primary/60 tabular-nums">
                     {year}
                   </div>
                 )}
 
                 {/* Timeline Dot */}
                 <motion.div
+                  aria-hidden="true"
                   className="absolute -left-[25px] top-0 w-3 h-3 bg-primary rounded-full ring-2 ring-background"
                   initial={{ scale: 0 }}
                   animate={isInView ? { scale: 1 } : {}}
@@ -200,6 +201,7 @@ export default function ExperienceTimeline() {
                   <div className="mt-4 text-sm text-muted-foreground group-hover:text-primary transition-colors flex items-center gap-1">
                     <span>자세히 보기</span>
                     <motion.span
+                      aria-hidden="true"
                       animate={{ x: [0, 4, 0] }}
                       transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                       className="inline-block"

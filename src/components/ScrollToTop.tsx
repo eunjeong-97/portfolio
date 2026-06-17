@@ -55,7 +55,7 @@ export default function ScrollToTop() {
               }}
             />
           </svg>
-          <ArrowUp size={16} className="relative z-10" />
+          <ArrowUp size={16} className="relative z-10" aria-hidden="true" />
         </motion.button>
       )}
     </AnimatePresence>

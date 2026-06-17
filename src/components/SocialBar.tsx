@@ -47,11 +47,11 @@ export default function SocialBar() {
             onBlur={() => setHoveredLabel(null)}
             className="w-9 h-9 bg-section-bg border border-border hover:border-primary rounded-lg flex items-center justify-center text-muted-foreground hover:text-primary transition-colors shadow-sm"
           >
-            <Icon size={15} />
+            <Icon size={15} aria-hidden="true" />
           </motion.a>
         </div>
       ))}
-      <div className="w-px h-12 bg-border mt-1" />
+      <div className="w-px h-12 bg-border mt-1" aria-hidden="true" />
     </motion.div>
   );
 }

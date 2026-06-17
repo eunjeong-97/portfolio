@@ -58,6 +58,7 @@ export default function SectionDots() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 8 }}
                   transition={{ duration: 0.15 }}
+                  aria-hidden="true"
                   className="mr-2 text-xs font-medium text-foreground bg-section-bg border border-border px-2 py-1 rounded-lg shadow-md whitespace-nowrap"
                 >
                   {label}
@@ -67,6 +68,7 @@ export default function SectionDots() {
 
             {/* Dot */}
             <motion.div
+              aria-hidden="true"
               animate={{
                 width: isActive ? 20 : 6,
                 height: isActive ? 6 : 6,
