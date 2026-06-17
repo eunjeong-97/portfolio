@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
-import { Github, GitCommitHorizontal, ExternalLink } from "lucide-react";
+import { Github, GitCommitHorizontal, ExternalLink, Activity, GitBranch, FolderGit2 } from "lucide-react";
 
 interface CommitEvent {
   repo: string;
@@ -108,14 +108,15 @@ export default function GitHubActivity() {
             className="grid grid-cols-3 gap-4 mb-10"
           >
             {[
-              { label: "최근 이벤트", value: stats.totalEvents + "+" },
-              { label: "푸시 횟수", value: stats.pushCount },
-              { label: "활성 레포", value: stats.reposActive },
+              { label: "최근 이벤트", value: stats.totalEvents + "+", icon: Activity },
+              { label: "푸시 횟수", value: stats.pushCount, icon: GitBranch },
+              { label: "활성 레포", value: stats.reposActive, icon: FolderGit2 },
             ].map((s) => (
               <div
                 key={s.label}
-                className="bg-background border border-border rounded-xl p-4 text-center"
+                className="bg-background border border-border rounded-xl p-4 text-center hover:border-primary/40 transition-colors group"
               >
+                <s.icon size={16} className="text-primary/50 group-hover:text-primary transition-colors mx-auto mb-2" />
                 <div className="text-2xl font-bold text-primary mb-1">{s.value}</div>
                 <div className="text-xs text-muted-foreground">{s.label}</div>
               </div>

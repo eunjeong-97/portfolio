@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import React, { useRef, useState, useEffect } from "react";
-import { Calendar, LayoutGrid, Cpu, Globe, Search, BookOpen, Lightbulb, Layers } from "lucide-react";
+import { Calendar, LayoutGrid, Cpu, Globe, Search, BookOpen, Lightbulb, Layers, ArrowRight } from "lucide-react";
 
 const highlights = [
   { value: 3, suffix: "+", label: "Years of Experience", context: "2022년부터 웹·앱 풀사이클", icon: Calendar },
@@ -129,6 +129,22 @@ export default function About() {
               <strong className="text-foreground font-semibold underline decoration-primary/40 decoration-2 underline-offset-2">웹과 앱을 함께 다루는 팀</strong>
               에서 특히 강점을 발휘할 수 있습니다.
             </p>
+            <div className="flex flex-wrap gap-3 pt-2">
+              <a
+                href="#contact"
+                onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }}
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary-light text-white text-sm font-medium rounded-lg transition-colors"
+              >
+                함께 일해요 <ArrowRight size={14} />
+              </a>
+              <a
+                href="#projects"
+                onClick={(e) => { e.preventDefault(); document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" }); }}
+                className="inline-flex items-center gap-2 px-5 py-2.5 border border-border hover:border-primary text-muted-foreground hover:text-primary text-sm font-medium rounded-lg transition-colors"
+              >
+                프로젝트 보기
+              </a>
+            </div>
           </motion.div>
 
           {/* Highlights Grid */}

@@ -51,9 +51,14 @@ export default function FeaturedProjects() {
               );
             })}
             {activeFilter !== "전체" && (
-              <span className="text-sm text-muted-foreground ml-1">
-                {projects.filter(p => p.tags.includes(activeFilter)).length}/{projects.length} 프로젝트
-              </span>
+              <motion.span
+                key={activeFilter}
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-sm text-muted-foreground ml-1"
+              >
+                {filteredProjects.length}/{projects.length} 프로젝트
+              </motion.span>
             )}
           </div>
         </motion.div>
