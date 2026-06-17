@@ -11,6 +11,8 @@ const MESSAGE_TEMPLATES = [
   { label: "협업 제안", text: "안녕하세요! 프로젝트 협업을 제안드리고 싶어서 연락드립니다." },
 ];
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 const contactLinks = [
   {
     icon: Mail,
@@ -53,7 +55,7 @@ export default function Contact() {
     }
   }, [sent]);
 
-  const emailValid = useMemo(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.email), [formState.email]);
+  const emailValid = useMemo(() => EMAIL_REGEX.test(formState.email), [formState.email]);
   const isFormValid = formState.name.length >= 2 && emailValid && formState.message.length >= 10;
   const fieldStatus = useMemo(() => ({
     name: touched.name ? (formState.name.length >= 2 ? "valid" : "error") : "idle",
@@ -246,7 +248,7 @@ export default function Contact() {
                         required
                         maxLength={50}
                         value={formState.name}
-                        onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+                        onChange={(e) => setFormState(f => ({ ...f, name: e.target.value }))}
                         onBlur={() => setTouched(t => ({ ...t, name: true }))}
                         placeholder="홍길동"
                         aria-invalid={fieldStatus.name === "error"}
@@ -272,7 +274,7 @@ export default function Contact() {
                         required
                         maxLength={100}
                         value={formState.email}
-                        onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+                        onChange={(e) => setFormState(f => ({ ...f, email: e.target.value }))}
                         onBlur={() => setTouched(t => ({ ...t, email: true }))}
                         placeholder="example@email.com"
                         aria-invalid={fieldStatus.email === "error"}
@@ -311,7 +313,7 @@ export default function Contact() {
                       minLength={10}
                       maxLength={500}
                       value={formState.message}
-                      onChange={(e) => setFormState({ ...formState, message: e.target.value })}
+                      onChange={(e) => setFormState(f => ({ ...f, message: e.target.value }))}
                       onBlur={() => setTouched(t => ({ ...t, message: true }))}
                       onKeyDown={(e) => {
                         if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
