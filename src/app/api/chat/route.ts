@@ -74,6 +74,8 @@ A: 포트폴리오 우측 상단의 '이력서' 버튼이나 Hero 섹션의 '이
 - 즉시 합류 가능
 - 이력서: 포트폴리오 다운로드 버튼`;
 
+const VALID_ROLES = new Set(["user", "assistant"]);
+
 export async function POST(req: Request) {
   try {
     if (!genAI) {
@@ -83,10 +85,22 @@ export async function POST(req: Request) {
       );
     }
 
-    const { messages } = await req.json();
+    const body = await req.json();
+    const { messages } = body;
 
-    if (!messages || messages.length === 0) {
+    if (!Array.isArray(messages) || messages.length === 0 || messages.length > 20) {
       return NextResponse.json({ error: "메시지를 입력해주세요." }, { status: 400 });
+    }
+
+    for (const msg of messages) {
+      if (
+        typeof msg !== "object" || msg === null ||
+        !VALID_ROLES.has(msg.role) ||
+        typeof msg.content !== "string" ||
+        msg.content.length > 2000
+      ) {
+        return NextResponse.json({ error: "올바르지 않은 메시지 형식입니다." }, { status: 400 });
+      }
     }
 
     const model = genAI.getGenerativeModel({

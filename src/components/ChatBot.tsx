@@ -98,8 +98,18 @@ export default function ChatBot() {
   const inputRef = useRef<HTMLInputElement>(null);
   const abortRef = useRef<AbortController | null>(null);
   const chatModalRef = useRef<HTMLDivElement>(null);
+  const toggleButtonRef = useRef<HTMLButtonElement>(null);
+  const wasOpenRef = useRef(false);
 
   useFocusTrap(chatModalRef, isOpen);
+
+  useEffect(() => {
+    if (isOpen) {
+      wasOpenRef.current = true;
+    } else if (wasOpenRef.current) {
+      toggleButtonRef.current?.focus();
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (messages.length > 1) {
@@ -397,6 +407,7 @@ export default function ChatBot() {
 
       {/* Toggle Button */}
       <motion.button
+        ref={toggleButtonRef}
         onClick={() => { setIsOpen(!isOpen); setShowNotification(false); }}
         className="w-14 h-14 bg-primary hover:bg-primary-dark text-white rounded-full shadow-lg flex items-center justify-center transition-colors relative"
         whileHover={{ scale: 1.05 }}

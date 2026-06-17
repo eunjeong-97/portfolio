@@ -21,6 +21,8 @@ export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const firstMobileMenuItemRef = useRef<HTMLAnchorElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const wasMenuOpenRef = useRef(false);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -31,7 +33,10 @@ export default function Navigation() {
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
     if (isMobileMenuOpen) {
+      wasMenuOpenRef.current = true;
       setTimeout(() => firstMobileMenuItemRef.current?.focus(), 100);
+    } else if (wasMenuOpenRef.current) {
+      menuButtonRef.current?.focus();
     }
     return () => { document.body.style.overflow = ""; };
   }, [isMobileMenuOpen]);
@@ -110,7 +115,7 @@ export default function Navigation() {
                   <a
                     href={item.href}
                     onClick={(e) => handleLinkClick(e, item.href)}
-                    aria-current={isActive ? "true" : undefined}
+                    aria-current={isActive ? "location" : undefined}
                     className={`transition-colors text-sm font-medium relative ${
                       isActive
                         ? "text-primary"
@@ -177,6 +182,7 @@ export default function Navigation() {
 
         {/* Mobile Menu Button */}
         <button
+          ref={menuButtonRef}
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="md:hidden p-2 text-foreground"
           aria-label={isMobileMenuOpen ? "메뉴 닫기" : "메뉴 열기"}
@@ -214,7 +220,7 @@ export default function Navigation() {
                         ref={i === 0 ? firstMobileMenuItemRef : undefined}
                         href={item.href}
                         onClick={(e) => handleLinkClick(e, item.href)}
-                        aria-current={isActive ? "true" : undefined}
+                        aria-current={isActive ? "location" : undefined}
                         className={`flex items-center gap-3 text-base w-full px-6 py-3 border-l-2 transition-all ${
                           isActive
                             ? "text-primary border-primary bg-primary/5"

@@ -47,7 +47,7 @@ export default function SectionDots() {
             onFocus={() => setHovered(id)}
             onBlur={() => setHovered(null)}
             aria-label={`${label} 섹션으로 이동`}
-            aria-current={isActive ? "true" : undefined}
+            aria-current={isActive ? "location" : undefined}
             className="relative flex items-center justify-end group"
           >
             {/* Label tooltip */}
