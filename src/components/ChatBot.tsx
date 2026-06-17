@@ -24,6 +24,9 @@ function TypewriterText({ content, onDone }: { content: string; onDone: () => vo
   const [displayed, setDisplayed] = useState("");
   const [done, setDone] = useState(false);
   const speed = Math.max(4, Math.min(18, Math.round(3000 / content.length)));
+  const onDoneRef = useRef(onDone);
+  onDoneRef.current = onDone;
+
   useEffect(() => {
     let i = 0;
     const interval = setInterval(() => {
@@ -32,11 +35,11 @@ function TypewriterText({ content, onDone }: { content: string; onDone: () => vo
       if (i >= content.length) {
         clearInterval(interval);
         setDone(true);
-        onDone();
+        onDoneRef.current();
       }
     }, speed);
     return () => clearInterval(interval);
-  }, [content, onDone, speed]);
+  }, [content, speed]);
   if (done) return <span dangerouslySetInnerHTML={{ __html: renderMarkdown(content) }} />;
   return <span>{displayed}<span className="inline-block w-0.5 h-3.5 bg-foreground/60 ml-0.5 animate-pulse align-middle" /></span>;
 }
