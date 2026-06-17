@@ -77,7 +77,7 @@ export default function BlogPosts() {
         </motion.div>
 
         {loading ? (
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
@@ -95,7 +95,7 @@ export default function BlogPosts() {
             <p>블로그 글을 불러오는 중 오류가 발생했습니다.</p>
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {posts.map((post, index) => (
               <motion.a
                 key={post.link}

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Moon, Sun, Menu, X } from "lucide-react";
+import { Moon, Sun, Menu, X, Download } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 
 const navItems = [
@@ -118,6 +118,16 @@ export default function Navigation() {
               );
             })}
           </ul>
+
+          {/* Resume Download */}
+          <a
+            href="/resume.pdf"
+            download="박은정_이력서.pdf"
+            className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 border border-primary/40 hover:border-primary hover:bg-primary/5 rounded-lg text-xs text-primary transition-colors"
+          >
+            <Download size={12} />
+            이력서
+          </a>
 
           {/* Theme Toggle */}
           <button

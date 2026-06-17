@@ -14,7 +14,7 @@ export async function GET() {
     const itemRegex = /<item>([\s\S]*?)<\/item>/g;
     let match;
 
-    while ((match = itemRegex.exec(xml)) !== null && items.length < 4) {
+    while ((match = itemRegex.exec(xml)) !== null && items.length < 6) {
       const block = match[1];
       const get = (tag: string) => {
         const m = block.match(new RegExp(`<${tag}[^>]*><!\\[CDATA\\[([\\s\\S]*?)\\]\\]><\\/${tag}>|<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`));
