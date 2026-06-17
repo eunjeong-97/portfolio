@@ -67,6 +67,7 @@ export default function Hero() {
       {/* Cursor spotlight */}
       <div
         ref={spotlightRef}
+        aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-0 md:opacity-100 transition-opacity"
       />
       <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
@@ -84,7 +85,7 @@ export default function Hero() {
             className="flex flex-wrap gap-3 mb-6"
           >
             <span className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/30 rounded-full text-sm text-green-400">
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" aria-hidden="true" />
               구직 중 · Open to Work
             </span>
             <span className="inline-flex items-center px-4 py-2 bg-muted rounded-full text-sm text-primary-light border border-border font-mono min-w-[220px]">
@@ -149,7 +150,7 @@ export default function Hero() {
               download="박은정_이력서.pdf"
               className="flex items-center gap-2 px-6 py-3 border border-primary/50 hover:border-primary hover:bg-primary/5 rounded-lg font-medium transition-colors text-primary"
             >
-              <Download size={16} />
+              <Download size={16} aria-hidden="true" />
               이력서 다운로드
             </a>
           </motion.div>
@@ -182,7 +183,7 @@ export default function Hero() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
             >
-              <Github size={18} />
+              <Github size={18} aria-hidden="true" />
               <span>GitHub</span>
             </a>
             <a
@@ -191,7 +192,7 @@ export default function Hero() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
             >
-              <FileText size={18} />
+              <FileText size={18} aria-hidden="true" />
               <span>Blog</span>
             </a>
           </motion.div>
@@ -206,7 +207,7 @@ export default function Hero() {
         >
           <div className="relative w-[320px] h-[400px] md:w-[380px] md:h-[480px]">
             {/* Glow Effect */}
-            <div className="absolute w-[300px] h-[300px] bg-primary blur-[150px] opacity-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full" />
+            <div aria-hidden="true" className="absolute w-[300px] h-[300px] bg-primary blur-[150px] opacity-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full" />
 
             {/* Profile Frame */}
             <div className="relative w-[280px] h-[350px] md:w-[320px] md:h-[400px] bg-gradient-to-br from-muted to-card rounded-3xl border border-border overflow-hidden mx-auto">
@@ -296,10 +297,11 @@ export default function Hero() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-neutral-600 hover:text-primary transition-colors cursor-pointer group"
         aria-label="프로젝트 섹션으로 이동"
       >
-        <span className="text-xs group-hover:text-primary transition-colors">Projects</span>
+        <span className="text-xs group-hover:text-primary transition-colors" aria-hidden="true">Projects</span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.5, repeat: Infinity }}
+          aria-hidden="true"
         >
           <ArrowDown size={16} />
         </motion.div>
