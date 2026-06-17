@@ -110,8 +110,7 @@ section[id] {
 @media print {
   nav,
   footer,
-  .fixed,
-  #chatbot {
+  .fixed {
     display: none !important;
   }
   body {
