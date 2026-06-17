@@ -28,13 +28,14 @@ export default function ScrollToTop() {
           transition={{ duration: 0.2 }}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="fixed bottom-24 right-6 z-40 w-10 h-10 bg-muted hover:bg-primary/10 text-muted-foreground hover:text-primary rounded-full flex items-center justify-center transition-colors shadow-lg"
-          aria-label="Scroll to top"
+          aria-label="맨 위로 이동"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
           <svg
             className="absolute inset-0 w-full h-full -rotate-90"
             viewBox="0 0 36 36"
+            aria-hidden="true"
           >
             <circle
               cx="18" cy="18" r={RADIUS}

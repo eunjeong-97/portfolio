@@ -44,7 +44,10 @@ export default function SectionDots() {
             onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })}
             onMouseEnter={() => setHovered(id)}
             onMouseLeave={() => setHovered(null)}
-            aria-label={label}
+            onFocus={() => setHovered(id)}
+            onBlur={() => setHovered(null)}
+            aria-label={`${label} 섹션으로 이동`}
+            aria-current={isActive ? "true" : undefined}
             className="relative flex items-center justify-end group"
           >
             {/* Label tooltip */}
