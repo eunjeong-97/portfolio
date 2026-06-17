@@ -6,10 +6,10 @@ import React, { useRef, useState, useEffect } from "react";
 import { Calendar, LayoutGrid, Cpu, Globe, Search, BookOpen, Lightbulb, Layers, ArrowRight } from "lucide-react";
 
 const highlights = [
-  { value: 3, suffix: "+", label: "Years of Experience", context: "2022년부터 웹·앱 풀사이클", icon: Calendar },
-  { value: 60, suffix: "+", label: "Pages Developed", context: "앱 재개발 3개월 단독 담당", icon: LayoutGrid },
-  { value: 5, suffix: "+", label: "SDK Integrations", context: "광고사 Native Module 직접 연동", icon: Cpu },
-  { value: 2, suffix: "", label: "Platforms", context: "Web (React) + App (React Native)", icon: Globe },
+  { value: 3, suffix: "+", label: "Years of Experience", context: "웹·앱 크로스플랫폼 실무 개발", icon: Calendar },
+  { value: 60, suffix: "+", label: "Pages Developed", context: "3개월 혼자 완료 · 해상도 유틸 직접 개발", icon: LayoutGrid },
+  { value: 5, suffix: "", label: "Ad SDK Integrations", context: "Java·Swift 네이티브 레이어 직접 작성", icon: Cpu },
+  { value: 2, suffix: "", label: "Platforms", context: "React (Web) + React Native (App)", icon: Globe },
 ];
 
 function useCountUp(target: number, isActive: boolean, duration = 1200) {

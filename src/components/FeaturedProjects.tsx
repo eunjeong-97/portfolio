@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Github } from "lucide-react";
+import { Github, ChevronDown } from "lucide-react";
 import { projects } from "@/data/projects";
 
 const FILTER_TAGS = ["전체", "React Native", "Native Module", "SDK Integration", "TypeScript"];

@@ -275,23 +275,35 @@ export default function Contact() {
                       value={formState.message}
                       onChange={(e) => setFormState({ ...formState, message: e.target.value })}
                       onBlur={() => setTouched(t => ({ ...t, message: true }))}
+                      onKeyDown={(e) => {
+                        if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+                          e.currentTarget.form?.requestSubmit();
+                        }
+                      }}
                       placeholder="안녕하세요! 함께 일하고 싶어서 연락드립니다..."
                       className={`w-full bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none transition-colors ${
                         fieldStatus.message === "error" ? "border-red-400/50" : fieldStatus.message === "valid" ? "border-green-400/50" : "border-border"
                       }`}
                     />
                   </div>
-                  <button
-                    type="submit"
-                    disabled={sending}
-                    className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary hover:bg-primary-light disabled:opacity-60 disabled:cursor-not-allowed rounded-lg font-medium transition-colors text-white text-sm"
-                  >
-                    {sending ? (
-                      <><Loader2 size={16} className="animate-spin" /> 전송 중...</>
-                    ) : (
-                      <><Send size={16} /> 메시지 보내기</>
-                    )}
-                  </button>
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="submit"
+                      disabled={sending}
+                      className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-primary hover:bg-primary-light disabled:opacity-60 disabled:cursor-not-allowed rounded-lg font-medium transition-colors text-white text-sm"
+                    >
+                      {sending ? (
+                        <><Loader2 size={16} className="animate-spin" /> 전송 중...</>
+                      ) : (
+                        <><Send size={16} /> 메시지 보내기</>
+                      )}
+                    </button>
+                    <span className="hidden sm:flex items-center gap-1 text-[10px] text-muted-foreground/60 whitespace-nowrap flex-shrink-0">
+                      <kbd className="font-mono bg-muted border border-border px-1 py-0.5 rounded text-[9px]">Ctrl</kbd>
+                      +
+                      <kbd className="font-mono bg-muted border border-border px-1 py-0.5 rounded text-[9px]">↵</kbd>
+                    </span>
+                  </div>
                 </form>
               )}
             </div>

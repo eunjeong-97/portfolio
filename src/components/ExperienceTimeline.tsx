@@ -149,6 +149,11 @@ export default function ExperienceTimeline() {
                       <span className="text-xs text-primary/60 bg-primary/5 border border-primary/20 px-2 py-0.5 rounded-full font-medium">
                         {getDuration(exp.period)}
                       </span>
+                      {index === 0 && (
+                        <span className="text-[10px] bg-primary text-white px-1.5 py-0.5 rounded-full font-semibold tracking-wide">
+                          최신
+                        </span>
+                      )}
                     </div>
                     <span className="text-xs text-muted-foreground px-2 py-0.5 bg-muted rounded-full flex-shrink-0">
                       ㈜트러스트체인

@@ -9,6 +9,8 @@ const shortcuts = [
   { key: "T", description: "다크/라이트 모드 전환" },
   { key: "C", description: "챗봇 열기/닫기" },
   { key: "ESC", description: "모달/메뉴 닫기" },
+  { key: "Ctrl+↵", description: "메시지 전송 (Contact 폼)" },
+  { key: "← →", description: "이전/다음 경험 이동" },
 ];
 
 const navShortcuts = [
