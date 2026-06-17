@@ -11,6 +11,15 @@ const errorLines = [
   { text: "→ Found: /  (portfolio home)", color: "text-green-400" },
 ];
 
+const NOTFOUND_INITIAL = { opacity: 0, y: 30 } as const;
+const NOTFOUND_ANIMATE = { opacity: 1, y: 0 } as const;
+const SCALE_UP_INITIAL = { scale: 0.8, opacity: 0 } as const;
+const SCALE_UP_ANIMATE = { scale: 1, opacity: 1 } as const;
+const TERMINAL_INITIAL = { opacity: 0, y: 10 } as const;
+const TERMINAL_ANIMATE = { opacity: 1, y: 0 } as const;
+const LINE_INITIAL = { opacity: 0, x: -10 } as const;
+const LINE_ANIMATE_IN = { opacity: 1, x: 0 } as const;
+
 const GRADIENT_404_STYLE = {
   background: "linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)",
   WebkitBackgroundClip: "text",
@@ -24,14 +33,14 @@ export default function NotFound() {
   return (
     <main className="min-h-screen flex items-center justify-center px-6">
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={NOTFOUND_INITIAL}
+        animate={NOTFOUND_ANIMATE}
         transition={{ duration: 0.5 }}
         className="text-center max-w-lg w-full"
       >
         <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
+          initial={SCALE_UP_INITIAL}
+          animate={SCALE_UP_ANIMATE}
           transition={{ duration: 0.4 }}
           aria-hidden="true"
           className="text-8xl md:text-[10rem] font-bold leading-none mb-4 select-none"
@@ -47,8 +56,8 @@ export default function NotFound() {
 
         {/* Terminal-style error card */}
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={TERMINAL_INITIAL}
+          animate={TERMINAL_ANIMATE}
           transition={{ duration: 0.4, delay: 0.2 }}
           aria-hidden="true"
           className="bg-card border border-border rounded-xl p-4 mb-8 text-left font-mono text-sm"
@@ -62,8 +71,8 @@ export default function NotFound() {
           {errorLines.map((line, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={LINE_INITIAL}
+              animate={LINE_ANIMATE_IN}
               transition={{ duration: 0.3, delay: 0.3 + i * 0.15 }}
               className={`${line.color} leading-relaxed`}
             >
@@ -71,7 +80,7 @@ export default function NotFound() {
             </motion.div>
           ))}
           <motion.span
-            className="inline-block w-2 h-4 bg-primary ml-0.5 mt-1"
+            className="inline-block w-2 h-4 bg-primary ml-0.5 mt-1 motion-reduce:animate-none"
             animate={{ opacity: [1, 0] }}
             transition={{ duration: 0.8, repeat: Infinity }}
           />

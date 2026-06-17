@@ -4,6 +4,9 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { AlertTriangle, RefreshCw } from "lucide-react";
 
+const ERROR_INITIAL = { opacity: 0, y: 20 } as const;
+const ERROR_ANIMATE = { opacity: 1, y: 0 } as const;
+
 export default function Error({
   error,
   reset,
@@ -18,8 +21,8 @@ export default function Error({
   return (
     <div className="min-h-screen flex items-center justify-center px-6">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={ERROR_INITIAL}
+        animate={ERROR_ANIMATE}
         className="text-center max-w-md"
       >
         <div className="w-16 h-16 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6" aria-hidden="true">
