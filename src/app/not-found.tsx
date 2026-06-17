@@ -4,13 +4,22 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, Terminal } from "lucide-react";
 
+const errorLines = [
+  { text: "$ navigate /requested-page", color: "text-muted-foreground" },
+  { text: "Error: Route not found (404)", color: "text-red-400" },
+  { text: "$ searching for alternative routes...", color: "text-muted-foreground" },
+  { text: "→ Found: /  (portfolio home)", color: "text-green-400" },
+];
+
+const GRADIENT_404_STYLE = {
+  background: "linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)",
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  backgroundClip: "text",
+  opacity: 0.25,
+} as const;
+
 export default function NotFound() {
-  const errorLines = [
-    { text: "$ navigate /requested-page", color: "text-muted-foreground" },
-    { text: "Error: Route not found (404)", color: "text-red-400" },
-    { text: "$ searching for alternative routes...", color: "text-muted-foreground" },
-    { text: "→ Found: /  (portfolio home)", color: "text-green-400" },
-  ];
 
   return (
     <main className="min-h-screen flex items-center justify-center px-6">
@@ -26,13 +35,7 @@ export default function NotFound() {
           transition={{ duration: 0.4 }}
           aria-hidden="true"
           className="text-8xl md:text-[10rem] font-bold leading-none mb-4 select-none"
-          style={{
-            background: "linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-            opacity: 0.25,
-          }}
+          style={GRADIENT_404_STYLE}
         >
           404
         </motion.div>
