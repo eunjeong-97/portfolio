@@ -2,14 +2,64 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 
 const highlights = [
-  { number: "3+", label: "Years of Experience", context: "2022년부터 웹·앱 풀사이클" },
-  { number: "60+", label: "Pages Developed", context: "앱 재개발 3개월 단독 담당" },
-  { number: "5+", label: "SDK Integrations", context: "광고사 Native Module 직접 연동" },
-  { number: "2", label: "Platforms", context: "Web (React) + App (React Native)" },
+  { value: 3, suffix: "+", label: "Years of Experience", context: "2022년부터 웹·앱 풀사이클" },
+  { value: 60, suffix: "+", label: "Pages Developed", context: "앱 재개발 3개월 단독 담당" },
+  { value: 5, suffix: "+", label: "SDK Integrations", context: "광고사 Native Module 직접 연동" },
+  { value: 2, suffix: "", label: "Platforms", context: "Web (React) + App (React Native)" },
 ];
+
+function useCountUp(target: number, isActive: boolean, duration = 1200) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!isActive) return;
+    let frame = 0;
+    const totalFrames = Math.round(duration / 16);
+    const timer = setInterval(() => {
+      frame++;
+      const progress = frame / totalFrames;
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(eased * target));
+      if (frame >= totalFrames) clearInterval(timer);
+    }, 16);
+    return () => clearInterval(timer);
+  }, [isActive, target, duration]);
+  return count;
+}
+
+function StatCard({
+  value,
+  suffix,
+  label,
+  context,
+  isActive,
+  delay,
+}: {
+  value: number;
+  suffix: string;
+  label: string;
+  context: string;
+  isActive: boolean;
+  delay: number;
+}) {
+  const count = useCountUp(value, isActive);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={isActive ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay }}
+      className="bg-section-bg p-6 rounded-xl border border-border hover:border-primary/50 transition-colors"
+    >
+      <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
+        {count}{suffix}
+      </div>
+      <div className="text-sm text-muted-foreground">{label}</div>
+      <div className="text-xs text-primary/70 mt-1">{context}</div>
+    </motion.div>
+  );
+}
 
 export default function About() {
   const ref = useRef(null);
@@ -81,21 +131,12 @@ export default function About() {
             className="grid grid-cols-2 gap-4"
           >
             {highlights.map((item, index) => (
-              <motion.div
+              <StatCard
                 key={item.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                className="bg-section-bg p-6 rounded-xl border border-border hover:border-primary/50 transition-colors"
-              >
-                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
-                  {item.number}
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  {item.label}
-                </div>
-                <div className="text-xs text-primary/70 mt-1">{item.context}</div>
-              </motion.div>
+                {...item}
+                isActive={isInView}
+                delay={0.5 + index * 0.1}
+              />
             ))}
             <motion.div
               initial={{ opacity: 0, y: 20 }}

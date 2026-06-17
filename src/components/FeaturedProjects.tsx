@@ -2,12 +2,15 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { projects } from "@/data/projects";
+
+const FILTER_TAGS = ["전체", "React Native", "Native Module", "SDK Integration", "TypeScript"];
 
 export default function FeaturedProjects() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [activeFilter, setActiveFilter] = useState("전체");
 
   return (
     <section id="projects" className="py-24 px-6 bg-section-bg" ref={ref}>
@@ -27,16 +30,35 @@ export default function FeaturedProjects() {
           <p className="text-muted-foreground">
             어떤 문제를 해결했고, 어떤 결정을 내렸으며, 어떤 결과를 만들었는지 정리했습니다.
           </p>
+          <div className="flex flex-wrap gap-2 mt-6">
+            {FILTER_TAGS.map((tag) => (
+              <button
+                key={tag}
+                onClick={() => setActiveFilter(tag)}
+                className={`px-3 py-1.5 rounded-lg text-sm transition-all ${
+                  activeFilter === tag
+                    ? "bg-primary text-white"
+                    : "bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                }`}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
         </motion.div>
 
         <div className="space-y-8">
-          {projects.map((project, index) => (
+          {projects.map((project, index) => {
+            const isMatch = activeFilter === "전체" || project.tags.includes(activeFilter);
+            return (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              animate={isInView ? { opacity: isMatch ? 1 : 0.3, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.2 + index * 0.15 }}
-              className="bg-background border border-border rounded-2xl p-8 hover:border-primary/50 transition-all group"
+              className={`bg-background border border-border rounded-2xl p-8 transition-all group ${
+                isMatch ? "hover:border-primary/50" : "pointer-events-none"
+              }`}
             >
               {/* Header */}
               <div className="flex flex-col sm:flex-row sm:items-start gap-4 mb-6">
@@ -127,7 +149,8 @@ export default function FeaturedProjects() {
                 ))}
               </div>
             </motion.div>
-          ))}
+            );
+          })}
         </div>
 
         {/* GitHub CTA */}
