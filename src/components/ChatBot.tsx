@@ -183,6 +183,9 @@ export default function ChatBot() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label="포트폴리오 도우미 채팅"
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -220,6 +223,7 @@ export default function ChatBot() {
                 <button
                   onClick={() => setIsOpen(false)}
                   className="text-white/80 hover:text-white transition-colors"
+                  aria-label="채팅 닫기"
                 >
                   <X size={20} />
                 </button>
@@ -227,7 +231,7 @@ export default function ChatBot() {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-3">
+            <div className="flex-1 overflow-y-auto p-4 space-y-3" role="log" aria-live="polite" aria-label="대화 내용" aria-busy={loading}>
               {messages.map((msg, i) => (
                 <div
                   key={i}
@@ -330,7 +334,9 @@ export default function ChatBot() {
               )}
               <div className="flex gap-2">
                 <div className="flex-1 relative">
+                  <label htmlFor="chatbot-input" className="sr-only">메시지 입력</label>
                   <input
+                    id="chatbot-input"
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value.slice(0, MAX_INPUT))}
@@ -338,6 +344,7 @@ export default function ChatBot() {
                     placeholder="메시지를 입력하세요..."
                     className="w-full bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-xl border border-border focus:outline-none focus:ring-2 focus:ring-primary/50"
                     disabled={loading}
+                    aria-disabled={loading}
                   />
                   {input.length > MAX_INPUT * 0.8 && (
                     <span className={`absolute right-2 bottom-2 text-[10px] ${input.length >= MAX_INPUT ? "text-red-400" : "text-muted-foreground/60"}`}>
@@ -359,6 +366,7 @@ export default function ChatBot() {
                     onClick={() => sendMessage()}
                     disabled={!input.trim()}
                     className="bg-primary hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed text-white p-2 rounded-xl transition-colors"
+                    aria-label="메시지 전송"
                   >
                     <Send size={16} />
                   </button>
@@ -375,6 +383,9 @@ export default function ChatBot() {
         className="w-14 h-14 bg-primary hover:bg-primary-dark text-white rounded-full shadow-lg flex items-center justify-center transition-colors relative"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
+        aria-label={isOpen ? "채팅 닫기" : "채팅 도우미 열기"}
+        aria-expanded={isOpen}
+        aria-haspopup="dialog"
       >
         <AnimatePresence>
           {showNotification && !isOpen && (
