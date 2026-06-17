@@ -17,8 +17,22 @@ function useTypewriter(words: string[], speed = 90, pause = 2000) {
   const [displayed, setDisplayed] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [completedWord, setCompletedWord] = useState("");
+  const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setDisplayed(words[0]);
+      setCompletedWord(words[0]);
+      return;
+    }
     const current = words[index % words.length];
     let timeout: ReturnType<typeof setTimeout>;
     if (!isDeleting) {
@@ -37,7 +51,7 @@ function useTypewriter(words: string[], speed = 90, pause = 2000) {
       }
     }
     return () => clearTimeout(timeout);
-  }, [displayed, isDeleting, index, words, speed, pause]);
+  }, [displayed, isDeleting, index, words, speed, pause, reducedMotion]);
 
   return { displayed, completedWord };
 }

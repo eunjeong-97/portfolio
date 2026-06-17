@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useMemo } from "react";
 import { Github, GitCommitHorizontal, ExternalLink, Activity, GitBranch, FolderGit2 } from "lucide-react";
 
 interface CommitEvent {
@@ -55,7 +55,13 @@ export default function GitHubActivity() {
     return `${Math.floor(diffDays / 30)}달 전`;
   };
 
-  const getDailyActivity = () => {
+  const getDayLabel = (daysAgo: number) => {
+    const d = new Date();
+    d.setDate(d.getDate() - daysAgo);
+    return d.toLocaleDateString("ko-KR", { month: "numeric", day: "numeric" });
+  };
+
+  const dailyActivity = useMemo(() => {
     const days = 30;
     const counts: number[] = Array(days).fill(0);
     const now = new Date();
@@ -64,15 +70,7 @@ export default function GitHubActivity() {
       if (diff >= 0 && diff < days) counts[days - 1 - diff]++;
     });
     return counts;
-  };
-
-  const getDayLabel = (daysAgo: number) => {
-    const d = new Date();
-    d.setDate(d.getDate() - daysAgo);
-    return d.toLocaleDateString("ko-KR", { month: "numeric", day: "numeric" });
-  };
-
-  const dailyActivity = getDailyActivity();
+  }, [events]);
   const maxActivity = Math.max(...dailyActivity, 1);
 
   return (
