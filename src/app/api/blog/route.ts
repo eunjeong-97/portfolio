@@ -1,6 +1,14 @@
 import { NextResponse } from "next/server";
 
-export const revalidate = 3600; // 1시간마다 갱신
+export const revalidate = 3600;
+
+function truncateDescription(text: string, max = 200): string {
+  const plain = text.replace(/<[^>]+>/g, "");
+  if (plain.length <= max) return plain;
+  const cut = plain.slice(0, max + 1);
+  const lastSpace = cut.lastIndexOf(" ");
+  return (lastSpace > 0 ? cut.slice(0, lastSpace) : cut.slice(0, max)) + "…";
+}
 
 export async function GET() {
   try {
@@ -24,13 +32,7 @@ export async function GET() {
         title: get("title"),
         link: get("link"),
         pubDate: get("pubDate"),
-        description: (() => {
-          const d = get("description").replace(/<[^>]+>/g, "");
-          if (d.length <= 200) return d;
-          const cut = d.slice(0, 201);
-          const lastSpace = cut.lastIndexOf(" ");
-          return (lastSpace > 0 ? cut.slice(0, lastSpace) : cut.slice(0, 200)) + "…";
-        })(),
+        description: truncateDescription(get("description")),
       });
     }
 

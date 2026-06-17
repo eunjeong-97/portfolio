@@ -145,6 +145,8 @@ function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: bo
   );
 }
 
+const LEARNING_ITEMS = ["Next.js App Router (심화)", "Expo Router", "React Native New Architecture"];
+
 const allSkills = skillCategories.flatMap(c => c.skills);
 const totalSkills = allSkills.length;
 const levelCounts: Record<Level, number> = { 3: 0, 2: 0, 1: 0 };
@@ -243,7 +245,7 @@ export default function Skills() {
             <span className="text-xs font-semibold text-primary uppercase tracking-wider">Currently Learning</span>
           </div>
           <div className="flex flex-wrap gap-2">
-            {["Next.js App Router (심화)", "Expo Router", "React Native New Architecture"].map((item) => (
+            {LEARNING_ITEMS.map((item) => (
               <span
                 key={item}
                 className="flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 border border-primary/30 rounded-lg text-xs text-primary"

@@ -2,9 +2,14 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState, useMemo } from "react";
+import { useRef, useState, useMemo, useEffect } from "react";
 import { Mail, Github, FileText, Send, Copy, Check, Loader2, AlertCircle } from "lucide-react";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
+
+const MESSAGE_TEMPLATES = [
+  { label: "채용 문의", text: "안녕하세요! 채용 포지션과 관련하여 연락드립니다. 박은정님의 경력과 포트폴리오에 관심이 생겨서요." },
+  { label: "협업 제안", text: "안녕하세요! 프로젝트 협업을 제안드리고 싶어서 연락드립니다." },
+];
 
 const contactLinks = [
   {
@@ -36,6 +41,17 @@ export default function Contact() {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [sendError, setSendError] = useState(false);
+
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const hadSentRef = useRef(false);
+
+  useEffect(() => {
+    if (sent) {
+      hadSentRef.current = true;
+    } else if (hadSentRef.current) {
+      nameInputRef.current?.focus();
+    }
+  }, [sent]);
 
   const emailValid = useMemo(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.email), [formState.email]);
   const isFormValid = formState.name.length >= 2 && emailValid && formState.message.length >= 10;
@@ -199,10 +215,7 @@ export default function Contact() {
                   <div>
                     <h4 className="font-semibold text-base mb-2">메시지 보내기</h4>
                     <div className="flex flex-wrap gap-2">
-                      {[
-                        { label: "채용 문의", text: "안녕하세요! 채용 포지션과 관련하여 연락드립니다. 박은정님의 경력과 포트폴리오에 관심이 생겨서요." },
-                        { label: "협업 제안", text: "안녕하세요! 프로젝트 협업을 제안드리고 싶어서 연락드립니다." },
-                      ].map(({ label, text }) => (
+                      {MESSAGE_TEMPLATES.map(({ label, text }) => (
                         <button
                           key={label}
                           type="button"
@@ -227,6 +240,7 @@ export default function Contact() {
                         {fieldStatus.name === "valid" && <Check size={12} className="text-green-400" aria-hidden="true" />}
                       </div>
                       <input
+                        ref={nameInputRef}
                         id="contact-name"
                         type="text"
                         required

@@ -13,6 +13,12 @@ const TAG_COUNTS: Record<string, number> = Object.fromEntries(
 
 const FILTERABLE_TAGS = new Set(FILTER_TAGS.filter(t => t !== "전체"));
 
+const CASE_STUDY_COLS = [
+  { dot: "bg-red-400", label: "Problem", key: "problem", bg: "bg-red-400/5" },
+  { dot: "bg-yellow-400", label: "Decision", key: "decision", bg: "bg-yellow-400/5" },
+  { dot: "bg-green-400", label: "Impact", key: "impact", bg: "bg-green-400/5" },
+] as const;
+
 export default function FeaturedProjects() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -145,11 +151,7 @@ export default function FeaturedProjects() {
 
               {/* Case Study Grid */}
               <div className="grid md:grid-cols-3 gap-0 rounded-xl overflow-hidden border border-border">
-                {[
-                  { dot: "bg-red-400", label: "Problem", text: project.problem, bg: "bg-red-400/5" },
-                  { dot: "bg-yellow-400", label: "Decision", text: project.decision, bg: "bg-yellow-400/5" },
-                  { dot: "bg-green-400", label: "Impact", text: project.impact, bg: "bg-green-400/5" },
-                ].map(({ dot, label, text, bg }, i) => (
+                {CASE_STUDY_COLS.map(({ dot, label, key, bg }, i) => (
                   <div key={label} className={`relative p-4 ${bg} ${i < 2 ? "md:border-r border-b md:border-b-0 border-border" : ""}`}>
                     {i > 0 && (
                       <div aria-hidden="true" className="hidden md:flex absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-section-bg border border-border rounded-full items-center justify-center z-10 text-xs text-muted-foreground">
@@ -163,7 +165,7 @@ export default function FeaturedProjects() {
                       </span>
                     </div>
                     <p className="text-sm text-muted-foreground leading-relaxed">
-                      {text}
+                      {project[key]}
                     </p>
                   </div>
                 ))}

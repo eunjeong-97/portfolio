@@ -6,6 +6,13 @@ import React, { useRef, useState, useEffect } from "react";
 import { Calendar, LayoutGrid, Cpu, Globe, Search, BookOpen, Lightbulb, Layers, ArrowRight } from "lucide-react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
+const PRINCIPLES = [
+  { label: "근본 원인 파악", icon: Search },
+  { label: "공식 문서 우선", icon: BookOpen },
+  { label: "자기주도적 문제 해결", icon: Lightbulb },
+  { label: "웹·앱 경계 없는 개발", icon: Layers },
+];
+
 const highlights = [
   { value: 3, suffix: "+", label: "Years of Experience", context: "웹·앱 크로스플랫폼 실무 개발", icon: Calendar },
   { value: 60, suffix: "+", label: "Pages Developed", context: "3개월 혼자 완료 · 해상도 유틸 직접 개발", icon: LayoutGrid },
@@ -183,12 +190,7 @@ export default function About() {
                 <span className="text-xs text-primary uppercase tracking-wider font-semibold">개발 원칙</span>
               </div>
               <div className="grid grid-cols-2 gap-2 mb-3">
-                {[
-                  { label: "근본 원인 파악", icon: Search },
-                  { label: "공식 문서 우선", icon: BookOpen },
-                  { label: "자기주도적 문제 해결", icon: Lightbulb },
-                  { label: "웹·앱 경계 없는 개발", icon: Layers },
-                ].map(({ label, icon: PIcon }) => (
+                {PRINCIPLES.map(({ label, icon: PIcon }) => (
                   <div key={label} className="flex items-center gap-1.5">
                     <PIcon size={13} className="text-primary flex-shrink-0" aria-hidden="true" />
                     <span className="text-xs text-foreground/80">{label}</span>

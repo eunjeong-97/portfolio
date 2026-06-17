@@ -63,7 +63,7 @@ export default function GitHubActivity() {
     return () => controller.abort();
   }, []);
 
-  const dailyActivity = useMemo(() => {
+  const { dailyActivity, maxActivity } = useMemo(() => {
     const days = 30;
     const counts: number[] = Array(days).fill(0);
     const now = new Date();
@@ -71,9 +71,8 @@ export default function GitHubActivity() {
       const diff = Math.floor((now.getTime() - new Date(e.date).getTime()) / 86400000);
       if (diff >= 0 && diff < days) counts[days - 1 - diff]++;
     });
-    return counts;
+    return { dailyActivity: counts, maxActivity: Math.max(...counts, 1) };
   }, [events]);
-  const maxActivity = Math.max(...dailyActivity, 1);
 
   return (
     <section id="github" className="py-24 px-6 bg-section-bg" ref={ref} aria-busy={loading}>
