@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Github, ChevronDown } from "lucide-react";
+import { Github } from "lucide-react";
 import { projects } from "@/data/projects";
 
 const FILTER_TAGS = ["전체", "React Native", "Native Module", "SDK Integration", "TypeScript"];
@@ -143,14 +143,22 @@ export default function FeaturedProjects() {
 
               {/* Tags */}
               <div className="flex flex-wrap gap-2 mt-6 pt-6 border-t border-border">
-                {project.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-2 py-1 bg-muted rounded text-xs text-muted-foreground"
-                  >
-                    {tag}
-                  </span>
-                ))}
+                {project.tags.map((tag) => {
+                  const isFilterable = FILTER_TAGS.includes(tag) && tag !== "전체";
+                  return (
+                    <button
+                      key={tag}
+                      onClick={() => isFilterable ? setActiveFilter(tag) : undefined}
+                      className={`px-2 py-1 rounded text-xs transition-colors ${
+                        isFilterable
+                          ? "bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary cursor-pointer"
+                          : "bg-muted text-muted-foreground cursor-default"
+                      } ${activeFilter === tag ? "bg-primary/10 text-primary" : ""}`}
+                    >
+                      {tag}
+                    </button>
+                  );
+                })}
               </div>
             </motion.div>
             );

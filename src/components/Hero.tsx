@@ -282,20 +282,23 @@ export default function Hero() {
       </div>
 
       {/* Scroll Indicator */}
-      <motion.div
+      <motion.a
+        href="#projects"
+        onClick={(e) => { e.preventDefault(); document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" }); }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-neutral-600"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-neutral-600 hover:text-primary transition-colors cursor-pointer group"
+        aria-label="프로젝트 섹션으로 이동"
       >
-        <span className="text-xs">Scroll</span>
+        <span className="text-xs group-hover:text-primary transition-colors">Projects</span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.5, repeat: Infinity }}
         >
           <ArrowDown size={16} />
         </motion.div>
-      </motion.div>
+      </motion.a>
     </section>
   );
 }

@@ -206,9 +206,15 @@ export default function GitHubActivity() {
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <Github size={14} className="text-primary" />
-                    <span className="font-medium text-sm text-foreground">
+                    <a
+                      href={`https://github.com/eunjeong-97/${event.repo}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="font-medium text-sm text-foreground hover:text-primary transition-colors"
+                    >
                       {event.repo}
-                    </span>
+                    </a>
                     <span className="text-xs bg-muted px-2 py-0.5 rounded-full text-muted-foreground">
                       {event.branch}
                     </span>
@@ -227,12 +233,18 @@ export default function GitHubActivity() {
                         size={14}
                         className="text-muted-foreground mt-0.5 flex-shrink-0"
                       />
-                      <span className="text-muted-foreground leading-snug">
+                      <span className="text-muted-foreground leading-snug flex-1">
                         {commit.message}
                       </span>
-                      <span className="text-xs text-primary/60 font-mono flex-shrink-0">
+                      <a
+                        href={`https://github.com/eunjeong-97/${event.repo}/commit/${commit.sha}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="text-xs text-primary/60 hover:text-primary font-mono flex-shrink-0 transition-colors"
+                      >
                         {commit.sha}
-                      </span>
+                      </a>
                     </div>
                   ))}
                 </div>
