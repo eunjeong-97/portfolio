@@ -52,7 +52,7 @@ export default function KeyboardShortcuts() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="hidden md:flex fixed bottom-24 right-6 z-40 items-center gap-1.5 px-2.5 py-1.5 bg-section-bg border border-border rounded-lg text-xs text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors shadow-md"
+        className="hidden md:flex fixed bottom-[8.5rem] right-6 z-40 items-center gap-1.5 px-2.5 py-1.5 bg-section-bg border border-border rounded-lg text-xs text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors shadow-md"
         title="키보드 단축키 (? 키)"
       >
         <Keyboard size={12} />
