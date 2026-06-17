@@ -19,11 +19,12 @@ const navShortcuts = [
   { key: "2", description: "About 섹션으로 이동" },
   { key: "3", description: "Skills 섹션으로 이동" },
   { key: "4", description: "Experience 섹션으로 이동" },
-  { key: "5", description: "Blog 섹션으로 이동" },
-  { key: "6", description: "Contact 섹션으로 이동" },
+  { key: "5", description: "GitHub 섹션으로 이동" },
+  { key: "6", description: "Blog 섹션으로 이동" },
+  { key: "7", description: "Contact 섹션으로 이동" },
 ];
 
-const NAV_SECTIONS = ["projects", "about", "skills", "experience", "blog", "contact"];
+const NAV_SECTIONS = ["projects", "about", "skills", "experience", "github", "blog", "contact"];
 
 export default function KeyboardShortcuts() {
   const [isOpen, setIsOpen] = useState(false);
