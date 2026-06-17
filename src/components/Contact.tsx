@@ -141,7 +141,8 @@ export default function Contact() {
                     <button
                       onClick={copyEmail}
                       className="flex-shrink-0 p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-primary"
-                      aria-label="이메일 복사"
+                      aria-label={copied ? "이메일 복사 완료" : "이메일 복사"}
+                      aria-live="polite"
                     >
                       {copied ? <Check size={16} className="text-green-400" /> : <Copy size={16} />}
                     </button>
@@ -205,6 +206,7 @@ export default function Contact() {
                         <button
                           key={label}
                           type="button"
+                          aria-label={`${label} 템플릿으로 메시지 채우기`}
                           onClick={() => { setFormState(f => ({ ...f, message: text })); setTouched(t => ({ ...t, message: true })); }}
                           className="text-xs px-2.5 py-1 bg-muted hover:bg-primary/10 hover:text-primary border border-border hover:border-primary/40 rounded-full transition-colors"
                         >
@@ -272,7 +274,12 @@ export default function Contact() {
                           </span>
                         )}
                       </div>
-                      <span className={`text-xs ${formState.message.length > 450 ? "text-red-400" : "text-muted-foreground/60"}`}>
+                      <span
+                        className={`text-xs ${formState.message.length > 450 ? "text-red-400" : "text-muted-foreground/60"}`}
+                        aria-label={`${formState.message.length}자 / 최대 500자`}
+                        aria-live="polite"
+                        aria-atomic="true"
+                      >
                         {formState.message.length}/500
                       </span>
                     </div>
