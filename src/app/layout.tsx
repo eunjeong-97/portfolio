@@ -72,7 +72,8 @@ export default function RootLayout({
   return (
     <html lang="ko" suppressHydrationWarning>
       <head>
-        <meta name="theme-color" content="#0a0a0a" />
+        <meta name="theme-color" content="#f5f5f5" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem('theme');document.documentElement.classList.add(t||'dark');}catch(e){document.documentElement.classList.add('dark');}})();`,
@@ -85,7 +86,9 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               name: "박은정",
+              alternateName: "Eunjeong Park",
               jobTitle: "Frontend & Mobile Developer",
+              description: "React · React Native로 웹과 앱을 함께 개발하는 크로스플랫폼 개발자. SDK 연동, 네이티브 모듈, 크로스플랫폼 개발 경험 3년+.",
               email: "beanlove97@gmail.com",
               url: BASE_URL,
               sameAs: [
