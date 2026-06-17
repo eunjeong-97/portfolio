@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Moon, Sun, Menu, X, Download } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
@@ -20,6 +20,7 @@ export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const firstMobileMenuItemRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -29,6 +30,9 @@ export default function Navigation() {
 
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
+    if (isMobileMenuOpen) {
+      setTimeout(() => firstMobileMenuItemRef.current?.focus(), 100);
+    }
     return () => { document.body.style.overflow = ""; };
   }, [isMobileMenuOpen]);
 
@@ -106,6 +110,7 @@ export default function Navigation() {
                   <a
                     href={item.href}
                     onClick={(e) => handleLinkClick(e, item.href)}
+                    aria-current={isActive ? "true" : undefined}
                     className={`transition-colors text-sm font-medium relative ${
                       isActive
                         ? "text-primary"
@@ -117,6 +122,7 @@ export default function Navigation() {
                       <motion.span
                         layoutId="nav-indicator"
                         className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full"
+                        aria-hidden="true"
                       />
                     )}
                   </a>
@@ -139,7 +145,7 @@ export default function Navigation() {
           <button
             onClick={toggleTheme}
             className="p-2 rounded-lg bg-muted hover:border-border transition-colors"
-            aria-label="Toggle theme"
+            aria-label={theme === "dark" ? "라이트 모드로 전환" : "다크 모드로 전환"}
           >
             <AnimatePresence mode="wait">
               {theme === "dark" ? (
@@ -198,13 +204,15 @@ export default function Navigation() {
               className="md:hidden bg-section-bg backdrop-blur-md border-b border-border"
             >
               <ul className="flex flex-col py-2">
-                {navItems.map((item) => {
+                {navItems.map((item, i) => {
                   const isActive = activeSection === item.href.slice(1);
                   return (
                     <li key={item.href}>
                       <a
+                        ref={i === 0 ? firstMobileMenuItemRef : undefined}
                         href={item.href}
                         onClick={(e) => handleLinkClick(e, item.href)}
+                        aria-current={isActive ? "true" : undefined}
                         className={`flex items-center gap-3 text-base w-full px-6 py-3 border-l-2 transition-all ${
                           isActive
                             ? "text-primary border-primary bg-primary/5"
@@ -213,7 +221,7 @@ export default function Navigation() {
                       >
                         {item.label}
                         {isActive && (
-                          <span className="ml-auto text-xs text-primary/60 font-mono">●</span>
+                          <span className="ml-auto text-xs text-primary/60 font-mono" aria-hidden="true">●</span>
                         )}
                       </a>
                     </li>
@@ -232,7 +240,7 @@ export default function Navigation() {
                 <button
                   onClick={toggleTheme}
                   className="p-2 rounded-lg bg-muted hover:border-border transition-colors"
-                  aria-label="Toggle theme"
+                  aria-label={theme === "dark" ? "라이트 모드로 전환" : "다크 모드로 전환"}
                 >
                   {theme === "dark" ? <Sun size={18} className="text-yellow-400" /> : <Moon size={18} className="text-primary" />}
                 </button>
