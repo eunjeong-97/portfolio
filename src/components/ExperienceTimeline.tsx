@@ -37,6 +37,12 @@ function getBarProps(period: string) {
 const expWithMeta = experiences.map(exp => ({ ...exp, duration: getDuration(exp.period), barProps: getBarProps(exp.period) }));
 const expWithMetaReversed = [...expWithMeta].reverse();
 
+const CAREER_DOMAINS = [
+  { label: "웹", sub: "React.js" },
+  { label: "앱", sub: "React Native" },
+  { label: "어드민", sub: "React.js" },
+];
+
 export default function ExperienceTimeline() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -236,11 +242,7 @@ export default function ExperienceTimeline() {
             <div className="text-sm text-muted-foreground mt-0.5">약 2년 8개월 · {experiences.length}개 주요 프로젝트</div>
           </div>
           <div className="flex gap-3">
-            {[
-              { label: "웹", sub: "React.js" },
-              { label: "앱", sub: "React Native" },
-              { label: "어드민", sub: "React.js" },
-            ].map(({ label, sub }) => (
+            {CAREER_DOMAINS.map(({ label, sub }) => (
               <div key={label} className="text-center">
                 <div className="text-sm font-semibold text-foreground">{label}</div>
                 <div className="text-xs text-muted-foreground">{sub}</div>
