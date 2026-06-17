@@ -203,6 +203,7 @@ export default function FeaturedProjects() {
           >
             <Github size={16} aria-hidden="true" />
             더 많은 프로젝트는 GitHub에서 확인하세요
+            <span className="sr-only">(새 탭에서 열림)</span>
           </a>
         </motion.div>
       </div>
