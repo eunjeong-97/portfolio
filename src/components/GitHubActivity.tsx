@@ -51,6 +51,20 @@ export default function GitHubActivity() {
     return `${Math.floor(diffDays / 30)}달 전`;
   };
 
+  const getDailyActivity = () => {
+    const days = 14;
+    const counts: number[] = Array(days).fill(0);
+    const now = new Date();
+    events.forEach((e) => {
+      const diff = Math.floor((now.getTime() - new Date(e.date).getTime()) / 86400000);
+      if (diff >= 0 && diff < days) counts[days - 1 - diff]++;
+    });
+    return counts;
+  };
+
+  const dailyActivity = getDailyActivity();
+  const maxActivity = Math.max(...dailyActivity, 1);
+
   return (
     <section id="github" className="py-24 px-6 bg-section-bg" ref={ref}>
       <div className="max-w-6xl mx-auto">
@@ -100,6 +114,39 @@ export default function GitHubActivity() {
                 <div className="text-xs text-muted-foreground">{s.label}</div>
               </div>
             ))}
+          </motion.div>
+        )}
+
+        {/* 14-day activity bars */}
+        {!loading && events.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mb-8 bg-background border border-border rounded-xl p-4"
+          >
+            <div className="text-xs text-muted-foreground mb-3">최근 14일 Push 활동</div>
+            <div className="flex items-end gap-1 h-10">
+              {dailyActivity.map((count, i) => (
+                <div
+                  key={i}
+                  className="flex-1 flex flex-col justify-end"
+                  title={`${count}건`}
+                >
+                  <motion.div
+                    className={`rounded-sm ${count > 0 ? "bg-primary" : "bg-border"}`}
+                    initial={{ height: 0 }}
+                    animate={isInView ? { height: `${Math.max((count / maxActivity) * 100, count > 0 ? 15 : 4)}%` } : { height: 0 }}
+                    transition={{ duration: 0.5, delay: 0.3 + i * 0.03 }}
+                    style={{ minHeight: count > 0 ? "4px" : "2px" }}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-between text-xs text-muted-foreground mt-1">
+              <span>14일 전</span>
+              <span>오늘</span>
+            </div>
           </motion.div>
         )}
 

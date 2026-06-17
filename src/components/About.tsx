@@ -2,13 +2,14 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { Calendar, LayoutGrid, Cpu, Globe } from "lucide-react";
 
 const highlights = [
-  { value: 3, suffix: "+", label: "Years of Experience", context: "2022년부터 웹·앱 풀사이클" },
-  { value: 60, suffix: "+", label: "Pages Developed", context: "앱 재개발 3개월 단독 담당" },
-  { value: 5, suffix: "+", label: "SDK Integrations", context: "광고사 Native Module 직접 연동" },
-  { value: 2, suffix: "", label: "Platforms", context: "Web (React) + App (React Native)" },
+  { value: 3, suffix: "+", label: "Years of Experience", context: "2022년부터 웹·앱 풀사이클", icon: Calendar },
+  { value: 60, suffix: "+", label: "Pages Developed", context: "앱 재개발 3개월 단독 담당", icon: LayoutGrid },
+  { value: 5, suffix: "+", label: "SDK Integrations", context: "광고사 Native Module 직접 연동", icon: Cpu },
+  { value: 2, suffix: "", label: "Platforms", context: "Web (React) + App (React Native)", icon: Globe },
 ];
 
 function useCountUp(target: number, isActive: boolean, duration = 1200) {
@@ -34,6 +35,7 @@ function StatCard({
   suffix,
   label,
   context,
+  icon: Icon,
   isActive,
   delay,
 }: {
@@ -41,6 +43,7 @@ function StatCard({
   suffix: string;
   label: string;
   context: string;
+  icon: React.ElementType;
   isActive: boolean;
   delay: number;
 }) {
@@ -50,13 +53,18 @@ function StatCard({
       initial={{ opacity: 0, y: 20 }}
       animate={isActive ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay }}
-      className="bg-section-bg p-6 rounded-xl border border-border hover:border-primary/50 transition-colors"
+      className="bg-section-bg p-5 rounded-xl border border-border hover:border-primary/50 transition-colors group"
     >
-      <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
-        {count}{suffix}
+      <div className="flex items-start justify-between mb-3">
+        <div className="text-3xl md:text-4xl font-bold text-primary">
+          {count}{suffix}
+        </div>
+        <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+          <Icon size={16} className="text-primary" />
+        </div>
       </div>
-      <div className="text-sm text-muted-foreground">{label}</div>
-      <div className="text-xs text-primary/70 mt-1">{context}</div>
+      <div className="text-sm font-medium text-foreground/80">{label}</div>
+      <div className="text-xs text-muted-foreground mt-1">{context}</div>
     </motion.div>
   );
 }
