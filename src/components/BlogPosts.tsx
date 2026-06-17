@@ -96,7 +96,7 @@ export default function BlogPosts() {
         </motion.div>
 
         {loading ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" aria-label="블로그 글 불러오는 중">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}

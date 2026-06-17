@@ -50,8 +50,16 @@ function TypewriterText({ content, onDone }: { content: string; onDone: () => vo
   return <span>{displayed}<span className="inline-block w-0.5 h-3.5 bg-foreground/60 ml-0.5 animate-pulse align-middle" aria-hidden="true" /></span>;
 }
 
+function escapeHtml(str: string) {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 function renderMarkdown(text: string) {
-  return text
+  return escapeHtml(text)
     .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
     .replace(/\*(.*?)\*/g, "<em>$1</em>")
     .replace(/`([^`]+)`/g, "<code class=\"bg-black/10 dark:bg-white/10 px-1 py-0.5 rounded text-xs font-mono\">$1</code>")

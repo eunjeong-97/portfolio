@@ -175,6 +175,7 @@ export default function Contact() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4, type: "spring" }}
+                  role="status"
                   className="text-center py-8"
                 >
                   <motion.div
