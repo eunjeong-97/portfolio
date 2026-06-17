@@ -40,7 +40,7 @@ const JSONLD_SCHEMA = JSON.stringify({
       description: "React · React Native로 웹과 앱을 함께 개발하는 크로스플랫폼 개발자. SDK 연동, 네이티브 모듈, 크로스플랫폼 개발 경험 3년+.",
       email: "beanlove97@gmail.com",
       url: BASE_URL,
-      image: `${BASE_URL}/og-image.png`,
+      image: `${BASE_URL}/opengraph-image`,
       sameAs: [
         "https://github.com/eunjeong-97",
         "https://velog.io/@beanlove97",
@@ -99,7 +99,7 @@ export const metadata: Metadata = {
     locale: "ko_KR",
     images: [
       {
-        url: "/og-image.png",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
         alt: "박은정 | Frontend & Mobile Developer",
@@ -111,7 +111,7 @@ export const metadata: Metadata = {
     title: "박은정 | Frontend & Mobile Developer",
     description:
       "React · React Native로 웹과 앱을 함께 개발하는 크로스플랫폼 개발자.",
-    images: ["/og-image.png"],
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,

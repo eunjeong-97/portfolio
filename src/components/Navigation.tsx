@@ -33,6 +33,8 @@ const BACKDROP_EXIT = { opacity: 0 } as const;
 const MOBILE_MENU_INITIAL = { opacity: 0, height: 0 } as const;
 const MOBILE_MENU_ANIMATE = { opacity: 1, height: "auto" } as const;
 const MOBILE_MENU_EXIT = { opacity: 0, height: 0 } as const;
+const NAV_SLIDE_TRANSITION = { duration: 0.5 } as const;
+const ICON_SWAP_TRANSITION = { duration: 0.2 } as const;
 
 export default function Navigation() {
   const { theme, toggleTheme } = useTheme();
@@ -91,7 +93,7 @@ export default function Navigation() {
       aria-label="주 내비게이션"
       initial={NAV_INITIAL}
       animate={NAV_ANIMATE}
-      transition={{ duration: 0.5 }}
+      transition={NAV_SLIDE_TRANSITION}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-section-bg backdrop-blur-md border-b border-border"
@@ -168,7 +170,7 @@ export default function Navigation() {
                   initial={SUN_INITIAL}
                   animate={ICON_ANIMATE_IN}
                   exit={SUN_EXIT}
-                  transition={{ duration: 0.2 }}
+                  transition={ICON_SWAP_TRANSITION}
                   aria-hidden="true"
                 >
                   <Sun size={18} className="text-yellow-400" />
@@ -179,7 +181,7 @@ export default function Navigation() {
                   initial={MOON_INITIAL}
                   animate={ICON_ANIMATE_IN}
                   exit={MOON_EXIT}
-                  transition={{ duration: 0.2 }}
+                  transition={ICON_SWAP_TRANSITION}
                   aria-hidden="true"
                 >
                   <Moon size={18} className="text-primary" />

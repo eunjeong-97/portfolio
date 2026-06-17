@@ -10,6 +10,8 @@ const TOOLTIP_INITIAL = { opacity: 0, x: -8 } as const;
 const TOOLTIP_ANIMATE = { opacity: 1, x: 0 } as const;
 const TOOLTIP_EXIT = { opacity: 0, x: -8 } as const;
 const LINK_HOVER = { scale: 1.15, x: 3 } as const;
+const SOCIAL_BAR_TRANSITION = { duration: 0.5, delay: 1 } as const;
+const TOOLTIP_TRANSITION = { duration: 0.15 } as const;
 
 const links = [
   { href: "https://github.com/eunjeong-97", icon: Github, label: "GitHub", external: true },
@@ -24,7 +26,7 @@ export default function SocialBar() {
     <motion.div
       initial={SOCIAL_BAR_INITIAL}
       animate={SOCIAL_BAR_ANIMATE}
-      transition={{ duration: 0.5, delay: 1 }}
+      transition={SOCIAL_BAR_TRANSITION}
       className="hidden lg:flex fixed left-5 bottom-1/3 z-40 flex-col items-center gap-3"
     >
       {links.map(({ href, icon: Icon, label, external }) => (
@@ -35,7 +37,7 @@ export default function SocialBar() {
                 initial={TOOLTIP_INITIAL}
                 animate={TOOLTIP_ANIMATE}
                 exit={TOOLTIP_EXIT}
-                transition={{ duration: 0.15 }}
+                transition={TOOLTIP_TRANSITION}
                 aria-hidden="true"
                 className="absolute right-full mr-2 text-xs font-medium text-foreground bg-section-bg border border-border px-2 py-1 rounded-lg shadow-md whitespace-nowrap"
               >
