@@ -110,42 +110,29 @@ export default function FeaturedProjects() {
               </div>
 
               {/* Case Study Grid */}
-              <div className="grid md:grid-cols-3 gap-6">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-2 h-2 bg-red-400 rounded-full" />
-                    <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                      Problem
-                    </span>
+              <div className="grid md:grid-cols-3 gap-0 rounded-xl overflow-hidden border border-border">
+                {[
+                  { dot: "bg-red-400", label: "Problem", text: project.problem, bg: "bg-red-400/5" },
+                  { dot: "bg-yellow-400", label: "Decision", text: project.decision, bg: "bg-yellow-400/5" },
+                  { dot: "bg-green-400", label: "Impact", text: project.impact, bg: "bg-green-400/5" },
+                ].map(({ dot, label, text, bg }, i) => (
+                  <div key={label} className={`relative p-4 ${bg} ${i < 2 ? "md:border-r border-b md:border-b-0 border-border" : ""}`}>
+                    {i > 0 && (
+                      <div className="hidden md:flex absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-section-bg border border-border rounded-full items-center justify-center z-10 text-xs text-muted-foreground">
+                        →
+                      </div>
+                    )}
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className={`w-2 h-2 ${dot} rounded-full`} />
+                      <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                        {label}
+                      </span>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {text}
+                    </p>
                   </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {project.problem}
-                  </p>
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-2 h-2 bg-yellow-400 rounded-full" />
-                    <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                      Decision
-                    </span>
-                  </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {project.decision}
-                  </p>
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-2 h-2 bg-green-400 rounded-full" />
-                    <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                      Impact
-                    </span>
-                  </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {project.impact}
-                  </p>
-                </div>
+                ))}
               </div>
 
               {/* Tags */}
