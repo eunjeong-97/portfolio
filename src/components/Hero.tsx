@@ -42,15 +42,32 @@ function useTypewriter(words: string[], speed = 90, pause = 2000) {
 
 export default function Hero() {
   const role = useTypewriter(ROLES);
+  const [mouse, setMouse] = useState({ x: 50, y: 50 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMouse({
+      x: ((e.clientX - rect.left) / rect.width) * 100,
+      y: ((e.clientY - rect.top) / rect.height) * 100,
+    });
+  };
   return (
     <section
       className="min-h-screen flex items-center px-6 pt-20 relative overflow-hidden"
+      onMouseMove={handleMouseMove}
       style={{
         backgroundImage:
           "linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px)",
         backgroundSize: "60px 60px",
       }}
     >
+      {/* Cursor spotlight */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-0 md:opacity-100 transition-opacity"
+        style={{
+          background: `radial-gradient(600px circle at ${mouse.x}% ${mouse.y}%, rgba(59,130,246,0.05), transparent 50%)`,
+        }}
+      />
       <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
         {/* Left Content */}
         <motion.div
