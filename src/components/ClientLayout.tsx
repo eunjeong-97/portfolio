@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { ThemeProvider } from "./ThemeProvider";
 import Navigation from "./Navigation";
 import ChatBot from "./ChatBot";
@@ -24,7 +25,14 @@ export default function ClientLayout({
       </a>
       <ReadingProgress />
       <Navigation />
-      <div id="main-content">{children}</div>
+      <motion.div
+        id="main-content"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4 }}
+      >
+        {children}
+      </motion.div>
       <SocialBar />
       <ChatBot />
       <ScrollToTop />
