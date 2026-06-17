@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, Bot, User, RotateCcw, Mail, Copy, Check } from "lucide-react";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface Message {
   role: "user" | "assistant";
@@ -28,9 +29,10 @@ function TypewriterText({ content, onDone }: { content: string; onDone: () => vo
   const speed = Math.max(4, Math.min(18, Math.round(3000 / content.length)));
   const onDoneRef = useRef(onDone);
   onDoneRef.current = onDone;
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (reducedMotion) {
       setDone(true);
       onDoneRef.current();
       return;
@@ -46,7 +48,7 @@ function TypewriterText({ content, onDone }: { content: string; onDone: () => vo
       }
     }, speed);
     return () => clearInterval(interval);
-  }, [content, speed]);
+  }, [content, speed, reducedMotion]);
   if (done) return <span dangerouslySetInnerHTML={{ __html: renderMarkdown(content) }} />;
   return <span>{displayed}<span className="inline-block w-0.5 h-3.5 bg-foreground/60 ml-0.5 animate-pulse align-middle" aria-hidden="true" /></span>;
 }
