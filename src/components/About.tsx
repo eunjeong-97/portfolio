@@ -16,6 +16,10 @@ function useCountUp(target: number, isActive: boolean, duration = 1200) {
   const [count, setCount] = useState(0);
   useEffect(() => {
     if (!isActive) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setCount(target);
+      return;
+    }
     let startTime: number | null = null;
     let rafId: number;
     const animate = (timestamp: number) => {
