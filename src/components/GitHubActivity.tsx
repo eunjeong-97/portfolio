@@ -142,7 +142,7 @@ export default function GitHubActivity() {
           >
             <div className="flex items-center justify-between mb-3">
               <div className="text-xs text-muted-foreground">최근 30일 Push 활동</div>
-              <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
+              <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground" aria-hidden="true">
                 <span>적음</span>
                 {[0, 0.3, 0.6, 1].map((opacity, i) => (
                   <span
@@ -156,7 +156,12 @@ export default function GitHubActivity() {
                 <span>많음</span>
               </div>
             </div>
-            <div className="grid gap-1" style={{ gridTemplateColumns: `repeat(${Math.ceil(dailyActivity.length / 5)}, 1fr)` }}>
+            <div
+              role="img"
+              aria-label={`최근 30일 Push 활동 히트맵: 총 ${dailyActivity.reduce((a, b) => a + b, 0)}건`}
+              className="grid gap-1"
+              style={{ gridTemplateColumns: `repeat(${Math.ceil(dailyActivity.length / 5)}, 1fr)` }}
+            >
               {dailyActivity.map((count, i) => {
                 const daysAgo = dailyActivity.length - 1 - i;
                 const intensity = count === 0 ? 0 : Math.min(1, 0.2 + (count / maxActivity) * 0.8);
@@ -164,6 +169,7 @@ export default function GitHubActivity() {
                   <motion.div
                     key={i}
                     title={`${getDayLabel(daysAgo)}: ${count > 0 ? `${count}건의 Push` : "활동 없음"}`}
+                    aria-hidden="true"
                     className="h-3 rounded-sm cursor-default"
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={isInView ? { opacity: 1, scale: 1 } : {}}
@@ -175,7 +181,7 @@ export default function GitHubActivity() {
                 );
               })}
             </div>
-            <div className="flex justify-between text-[10px] text-muted-foreground mt-1.5">
+            <div className="flex justify-between text-[10px] text-muted-foreground mt-1.5" aria-hidden="true">
               <span>30일 전</span>
               <span>오늘</span>
             </div>
@@ -249,6 +255,7 @@ export default function GitHubActivity() {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
+                        aria-label={`커밋 ${commit.sha} GitHub에서 보기`}
                         className="text-xs text-primary/60 hover:text-primary font-mono flex-shrink-0 transition-colors"
                       >
                         {commit.sha}

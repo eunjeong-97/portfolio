@@ -53,7 +53,7 @@ export default function BlogPosts() {
   };
 
   return (
-    <section id="blog" className="py-24 px-6" ref={ref}>
+    <section id="blog" className="py-24 px-6" ref={ref} aria-busy={loading}>
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -92,10 +92,11 @@ export default function BlogPosts() {
         </motion.div>
 
         {loading ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" aria-label="블로그 글 불러오는 중">
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
+                aria-hidden="true"
                 className="bg-section-bg border border-border rounded-xl p-6 animate-pulse"
               >
                 <div className="h-4 bg-muted rounded w-3/4 mb-3" />
