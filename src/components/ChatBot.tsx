@@ -16,6 +16,16 @@ const SUGGESTIONS = [
   "연락하려면 어떻게 하나요?",
 ];
 
+function renderMarkdown(text: string) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*(.*?)\*/g, "<em>$1</em>")
+    .replace(/`([^`]+)`/g, "<code class=\"bg-black/10 dark:bg-white/10 px-1 py-0.5 rounded text-xs font-mono\">$1</code>")
+    .replace(/^- (.+)$/gm, "<li class=\"ml-3 list-disc\">$1</li>")
+    .replace(/(<li.*<\/li>\n?)+/g, (m) => `<ul class="space-y-0.5 my-1">${m}</ul>`)
+    .replace(/\n/g, "<br/>");
+}
+
 const WELCOME: Message = {
   role: "assistant",
   content:
@@ -153,9 +163,11 @@ export default function ChatBot() {
                         ? "bg-primary text-white rounded-tr-sm"
                         : "bg-muted text-foreground rounded-tl-sm"
                     }`}
-                  >
-                    {msg.content}
-                  </div>
+                    {...(msg.role === "assistant"
+                      ? { dangerouslySetInnerHTML: { __html: renderMarkdown(msg.content) } }
+                      : { children: msg.content }
+                    )}
+                  />
                   {msg.role === "user" && (
                     <div className="w-7 h-7 rounded-full bg-muted flex items-center justify-center flex-shrink-0 mt-1">
                       <User size={14} className="text-muted-foreground" />
