@@ -3,6 +3,7 @@
 import { ThemeProvider } from "./ThemeProvider";
 import Navigation from "./Navigation";
 import ChatBot from "./ChatBot";
+import ScrollToTop from "./ScrollToTop";
 
 export default function ClientLayout({
   children,
@@ -14,6 +15,7 @@ export default function ClientLayout({
       <Navigation />
       {children}
       <ChatBot />
+      <ScrollToTop />
     </ThemeProvider>
   );
 }
