@@ -221,6 +221,30 @@ export default function Skills() {
             </motion.div>
           ))}
         </div>
+
+        {/* Currently Learning */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.7 }}
+          className="mt-8 bg-primary/5 border border-primary/20 rounded-2xl p-5"
+        >
+          <div className="flex items-center gap-2 mb-3">
+            <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+            <span className="text-xs font-semibold text-primary uppercase tracking-wider">Currently Learning</span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {["Next.js App Router (심화)", "Expo Router", "React Native New Architecture"].map((item) => (
+              <span
+                key={item}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 border border-primary/30 rounded-lg text-xs text-primary"
+              >
+                <span className="w-1.5 h-1.5 border border-primary rounded-full" />
+                {item}
+              </span>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );

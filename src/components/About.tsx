@@ -169,7 +169,10 @@ export default function About() {
               transition={{ duration: 0.5, delay: 0.9 }}
               className="col-span-2 bg-primary/5 border border-primary/20 rounded-xl p-4 mt-2"
             >
-              <div className="text-xs text-primary uppercase tracking-wider mb-2">개발 원칙</div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
+                <span className="text-xs text-primary uppercase tracking-wider font-semibold">개발 원칙</span>
+              </div>
               <div className="grid grid-cols-2 gap-2 mb-3">
                 {[
                   { label: "근본 원인 파악", icon: Search },
