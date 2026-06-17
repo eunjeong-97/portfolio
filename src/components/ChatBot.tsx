@@ -35,6 +35,15 @@ export default function ChatBot() {
     }
   }, [messages, isOpen]);
 
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      if (e.key.toLowerCase() === "c") setIsOpen((prev) => !prev);
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, []);
+
   const sendMessage = async (text?: string) => {
     const messageText = text || input.trim();
     if (!messageText || loading) return;

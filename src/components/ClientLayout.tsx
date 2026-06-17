@@ -5,6 +5,7 @@ import Navigation from "./Navigation";
 import ChatBot from "./ChatBot";
 import ScrollToTop from "./ScrollToTop";
 import ReadingProgress from "./ReadingProgress";
+import KeyboardShortcuts from "./KeyboardShortcuts";
 
 export default function ClientLayout({
   children,
@@ -24,6 +25,7 @@ export default function ClientLayout({
       <div id="main-content">{children}</div>
       <ChatBot />
       <ScrollToTop />
+      <KeyboardShortcuts />
     </ThemeProvider>
   );
 }
