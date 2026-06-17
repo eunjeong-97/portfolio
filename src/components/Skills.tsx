@@ -114,11 +114,7 @@ function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: bo
         </div>
       </div>
       <div
-        role="progressbar"
-        aria-valuenow={barWidth}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-label={`${name} 숙련도 ${barWidth}%`}
+        aria-hidden="true"
         className="h-0.5 bg-border rounded-full overflow-hidden"
       >
         <motion.div
@@ -130,7 +126,7 @@ function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: bo
         />
       </div>
 
-      {/* Tooltip */}
+      {/* Tooltip (aria-hidden: info already in parent aria-label) */}
       <AnimatePresence>
         {visible && (
           <motion.div
@@ -138,7 +134,7 @@ function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: bo
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 4 }}
             transition={{ duration: 0.15 }}
-            role="tooltip"
+            aria-hidden="true"
             className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1.5 bg-card border border-border rounded-lg text-xs text-muted-foreground whitespace-nowrap shadow-xl z-10 pointer-events-none"
           >
             {LEVEL_DESC[level]}
