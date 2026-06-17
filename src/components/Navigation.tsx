@@ -95,7 +95,7 @@ export default function Navigation() {
         >
           EunJeong<span className="text-primary">.</span>
           <span className="hidden sm:flex items-center gap-1.5 text-xs px-2.5 py-1 bg-green-500/10 border border-green-500/20 rounded-full text-green-400 font-normal">
-            <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+            <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" aria-hidden="true" />
             Open to Work
           </span>
         </motion.a>
@@ -137,7 +137,7 @@ export default function Navigation() {
             download="박은정_이력서.pdf"
             className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 border border-primary/40 hover:border-primary hover:bg-primary/5 rounded-lg text-xs text-primary transition-colors"
           >
-            <Download size={12} />
+            <Download size={12} aria-hidden="true" />
             이력서
           </a>
 
@@ -155,6 +155,7 @@ export default function Navigation() {
                   animate={{ rotate: 0, opacity: 1 }}
                   exit={{ rotate: 90, opacity: 0 }}
                   transition={{ duration: 0.2 }}
+                  aria-hidden="true"
                 >
                   <Sun size={18} className="text-yellow-400" />
                 </motion.div>
@@ -165,6 +166,7 @@ export default function Navigation() {
                   animate={{ rotate: 0, opacity: 1 }}
                   exit={{ rotate: -90, opacity: 0 }}
                   transition={{ duration: 0.2 }}
+                  aria-hidden="true"
                 >
                   <Moon size={18} className="text-primary" />
                 </motion.div>
@@ -181,7 +183,7 @@ export default function Navigation() {
           aria-expanded={isMobileMenuOpen}
           aria-controls="mobile-menu"
         >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {isMobileMenuOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
         </button>
       </div>
 
@@ -234,7 +236,7 @@ export default function Navigation() {
                   download="박은정_이력서.pdf"
                   className="flex-1 flex items-center justify-center gap-2 py-2 border border-primary/40 hover:border-primary hover:bg-primary/5 rounded-lg text-sm text-primary transition-colors"
                 >
-                  <Download size={14} />
+                  <Download size={14} aria-hidden="true" />
                   이력서 다운로드
                 </a>
                 <button
@@ -242,7 +244,7 @@ export default function Navigation() {
                   className="p-2 rounded-lg bg-muted hover:border-border transition-colors"
                   aria-label={theme === "dark" ? "라이트 모드로 전환" : "다크 모드로 전환"}
                 >
-                  {theme === "dark" ? <Sun size={18} className="text-yellow-400" /> : <Moon size={18} className="text-primary" />}
+                  {theme === "dark" ? <Sun size={18} className="text-yellow-400" aria-hidden="true" /> : <Moon size={18} className="text-primary" aria-hidden="true" />}
                 </button>
               </div>
             </motion.div>
