@@ -46,12 +46,17 @@ export default function ChatBot() {
     setLoading(true);
 
     try {
+      const MAX_HISTORY = 20;
+      const trimmedMessages = newMessages.slice(-MAX_HISTORY);
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: newMessages }),
+        body: JSON.stringify({ messages: trimmedMessages }),
       });
 
+      if (!res.ok) {
+        throw new Error("API error");
+      }
       const data = await res.json();
 
       if (data.error) {

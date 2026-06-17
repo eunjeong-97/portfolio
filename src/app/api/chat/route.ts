@@ -1,7 +1,8 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+const apiKey = process.env.GEMINI_API_KEY;
+const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
 
 const SYSTEM_PROMPT = `당신은 박은정의 포트폴리오 도우미입니다. 방문자가 박은정의 경력, 기술 스택, 프로젝트에 대해 질문하면 아래 정보를 바탕으로 친절하고 간결하게 답변해주세요. 한국어로 답변하세요. 포트폴리오에 없는 내용은 "해당 정보는 직접 연락해 주세요(beanlove97@gmail.com)"라고 안내하세요.
 
@@ -34,7 +35,18 @@ const SYSTEM_PROMPT = `당신은 박은정의 포트폴리오 도우미입니다
 
 export async function POST(req: Request) {
   try {
+    if (!genAI) {
+      return NextResponse.json(
+        { error: "서비스를 사용할 수 없습니다. 잠시 후 다시 시도해주세요." },
+        { status: 503 }
+      );
+    }
+
     const { messages } = await req.json();
+
+    if (!messages || messages.length === 0) {
+      return NextResponse.json({ error: "메시지를 입력해주세요." }, { status: 400 });
+    }
 
     const model = genAI.getGenerativeModel({
       model: "gemini-2.0-flash",
