@@ -37,12 +37,6 @@ function formatDate(dateStr: string): string {
   return `${Math.floor(diffDays / 30)}달 전`;
 }
 
-function getDayLabel(daysAgo: number): string {
-  const d = new Date();
-  d.setDate(d.getDate() - daysAgo);
-  return d.toLocaleDateString("ko-KR", { month: "numeric", day: "numeric" });
-}
-
 export default function GitHubActivity() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -71,7 +65,7 @@ export default function GitHubActivity() {
     return () => controller.abort();
   }, []);
 
-  const { dailyActivity, maxActivity } = useMemo(() => {
+  const { dailyActivity, maxActivity, dayLabels } = useMemo(() => {
     const days = 30;
     const counts: number[] = Array(days).fill(0);
     const now = new Date();
@@ -79,7 +73,13 @@ export default function GitHubActivity() {
       const diff = Math.floor((now.getTime() - new Date(e.date).getTime()) / 86400000);
       if (diff >= 0 && diff < days) counts[days - 1 - diff]++;
     });
-    return { dailyActivity: counts, maxActivity: Math.max(...counts, 1) };
+    const labels = Array.from({ length: days }, (_, i) => {
+      const daysAgo = days - 1 - i;
+      const d = new Date(now);
+      d.setDate(d.getDate() - daysAgo);
+      return d.toLocaleDateString("ko-KR", { month: "numeric", day: "numeric" });
+    });
+    return { dailyActivity: counts, maxActivity: Math.max(...counts, 1), dayLabels: labels };
   }, [events]);
 
   return (
@@ -178,12 +178,11 @@ export default function GitHubActivity() {
               style={{ gridTemplateColumns: `repeat(${Math.ceil(dailyActivity.length / 5)}, 1fr)` }}
             >
               {dailyActivity.map((count, i) => {
-                const daysAgo = dailyActivity.length - 1 - i;
                 const intensity = count === 0 ? 0 : Math.min(1, 0.2 + (count / maxActivity) * 0.8);
                 return (
                   <motion.div
                     key={i}
-                    title={`${getDayLabel(daysAgo)}: ${count > 0 ? `${count}건의 Push` : "활동 없음"}`}
+                    title={`${dayLabels[i]}: ${count > 0 ? `${count}건의 Push` : "활동 없음"}`}
                     aria-hidden="true"
                     className="h-3 rounded-sm cursor-default"
                     initial={HEATMAP_CELL_INITIAL}

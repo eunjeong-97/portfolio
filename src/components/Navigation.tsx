@@ -24,6 +24,15 @@ const SUN_INITIAL = { rotate: -90, opacity: 0 } as const;
 const SUN_EXIT = { rotate: 90, opacity: 0 } as const;
 const MOON_INITIAL = { rotate: 90, opacity: 0 } as const;
 const MOON_EXIT = { rotate: -90, opacity: 0 } as const;
+const NAV_INITIAL = { y: -100 } as const;
+const NAV_ANIMATE = { y: 0 } as const;
+const LOGO_HOVER = { scale: 1.02 } as const;
+const BACKDROP_INITIAL = { opacity: 0 } as const;
+const BACKDROP_ANIMATE = { opacity: 1 } as const;
+const BACKDROP_EXIT = { opacity: 0 } as const;
+const MOBILE_MENU_INITIAL = { opacity: 0, height: 0 } as const;
+const MOBILE_MENU_ANIMATE = { opacity: 1, height: "auto" } as const;
+const MOBILE_MENU_EXIT = { opacity: 0, height: 0 } as const;
 
 export default function Navigation() {
   const { theme, toggleTheme } = useTheme();
@@ -80,8 +89,8 @@ export default function Navigation() {
   return (
     <motion.nav
       aria-label="주 내비게이션"
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
+      initial={NAV_INITIAL}
+      animate={NAV_ANIMATE}
       transition={{ duration: 0.5 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
@@ -95,7 +104,7 @@ export default function Navigation() {
           href="#"
           onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
           className="flex items-center gap-3 text-xl font-bold text-foreground"
-          whileHover={{ scale: 1.02 }}
+          whileHover={LOGO_HOVER}
         >
           EunJeong<span className="text-primary">.</span>
           <span className="hidden sm:flex items-center gap-1.5 text-xs px-2.5 py-1 bg-green-500/10 border border-green-500/20 rounded-full text-green-400 font-normal">
@@ -197,18 +206,18 @@ export default function Navigation() {
         {isMobileMenuOpen && (
           <>
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              initial={BACKDROP_INITIAL}
+              animate={BACKDROP_ANIMATE}
+              exit={BACKDROP_EXIT}
               onClick={() => setIsMobileMenuOpen(false)}
               className="fixed inset-0 top-[289px] md:hidden z-40"
             />
             <motion.div
               ref={mobileMenuRef}
               id="mobile-menu"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
+              initial={MOBILE_MENU_INITIAL}
+              animate={MOBILE_MENU_ANIMATE}
+              exit={MOBILE_MENU_EXIT}
               className="md:hidden bg-section-bg backdrop-blur-md border-b border-border"
             >
               <ul className="flex flex-col py-2">
