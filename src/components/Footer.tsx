@@ -34,7 +34,7 @@ export default function Footer() {
               크로스플랫폼 개발자입니다.
             </p>
             <div className="flex items-center gap-1.5 mt-3">
-              <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" aria-hidden="true" />
+              <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse motion-reduce:animate-none" aria-hidden="true" />
               <span className="text-xs text-green-400">현재 구직 중</span>
             </div>
           </div>

@@ -248,7 +248,7 @@ export default function Skills() {
           className="mt-8 bg-primary/5 border border-primary/20 rounded-2xl p-5"
         >
           <div className="flex items-center gap-2 mb-3">
-            <span className="w-2 h-2 bg-primary rounded-full animate-pulse" aria-hidden="true" />
+            <span className="w-2 h-2 bg-primary rounded-full animate-pulse motion-reduce:animate-none" aria-hidden="true" />
             <span className="text-xs font-semibold text-primary uppercase tracking-wider">Currently Learning</span>
           </div>
           <div className="flex flex-wrap gap-2">

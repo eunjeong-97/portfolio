@@ -93,7 +93,7 @@ export default function Navigation() {
         >
           EunJeong<span className="text-primary">.</span>
           <span className="hidden sm:flex items-center gap-1.5 text-xs px-2.5 py-1 bg-green-500/10 border border-green-500/20 rounded-full text-green-400 font-normal">
-            <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" aria-hidden="true" />
+            <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse motion-reduce:animate-none" aria-hidden="true" />
             Open to Work
           </span>
         </motion.a>

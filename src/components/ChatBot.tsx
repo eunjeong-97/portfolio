@@ -348,9 +348,9 @@ export default function ChatBot() {
                   </div>
                   <div className="bg-muted px-3 py-2 rounded-2xl rounded-tl-sm" aria-hidden="true">
                     <div className="flex gap-1">
-                      <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce [animation-delay:0ms]" />
-                      <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce [animation-delay:150ms]" />
-                      <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce [animation-delay:300ms]" />
+                      <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce motion-reduce:animate-none [animation-delay:0ms]" />
+                      <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce motion-reduce:animate-none [animation-delay:150ms]" />
+                      <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce motion-reduce:animate-none [animation-delay:300ms]" />
                     </div>
                   </div>
                 </div>
@@ -452,7 +452,7 @@ export default function ChatBot() {
               aria-hidden="true"
               className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center"
             >
-              <span className="w-2.5 h-2.5 bg-red-400 rounded-full animate-ping absolute" />
+              <span className="w-2.5 h-2.5 bg-red-400 rounded-full animate-ping motion-reduce:animate-none absolute" />
               <span className="w-1.5 h-1.5 bg-white rounded-full relative z-10" />
             </motion.span>
           )}

@@ -115,7 +115,7 @@ export default function GitHubActivity() {
         >
           {loading ? (
             [1, 2, 3].map((i) => (
-              <div key={i} aria-hidden="true" className="bg-background border border-border rounded-xl p-4 text-center animate-pulse">
+              <div key={i} aria-hidden="true" className="bg-background border border-border rounded-xl p-4 text-center animate-pulse motion-reduce:animate-none">
                 <div className="w-4 h-4 bg-muted rounded mx-auto mb-2" />
                 <div className="h-7 bg-muted rounded w-12 mx-auto mb-1" />
                 <div className="h-3 bg-muted rounded w-16 mx-auto" />
@@ -204,7 +204,7 @@ export default function GitHubActivity() {
               <div
                 key={i}
                 aria-hidden="true"
-                className="bg-background border border-border rounded-xl p-5 animate-pulse"
+                className="bg-background border border-border rounded-xl p-5 animate-pulse motion-reduce:animate-none"
               >
                 <div className="h-4 bg-muted rounded w-1/3 mb-3" />
                 <div className="h-3 bg-muted rounded w-3/4" />

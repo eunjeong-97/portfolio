@@ -109,12 +109,12 @@ export default function Hero() {
             className="flex flex-wrap gap-3 mb-6"
           >
             <span className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/30 rounded-full text-sm text-green-400">
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" aria-hidden="true" />
+              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse motion-reduce:animate-none" aria-hidden="true" />
               구직 중 · Open to Work
             </span>
             <span className="inline-flex items-center px-4 py-2 bg-muted rounded-full text-sm text-primary-light border border-border font-mono min-w-[220px]">
               <span className="sr-only" aria-live="polite" aria-atomic="true">{roleCompleted}</span>
-              <span aria-hidden="true">{role}<span className="ml-0.5 animate-pulse">|</span></span>
+              <span aria-hidden="true">{role}<span className="ml-0.5 animate-pulse motion-reduce:animate-none">|</span></span>
             </span>
           </motion.div>
 

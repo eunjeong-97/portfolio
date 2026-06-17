@@ -177,7 +177,7 @@ export default function Contact() {
           >
             {/* 구직 상태 카드 */}
             <div className="bg-green-500/5 border border-green-500/20 rounded-2xl p-4 flex items-center gap-3">
-              <span className="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse flex-shrink-0" aria-hidden="true" />
+              <span className="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse motion-reduce:animate-none flex-shrink-0" aria-hidden="true" />
               <div>
                 <p className="font-semibold text-green-400 text-sm">현재 구직 중 · 즉시 합류 가능</p>
                 <p className="text-xs text-muted-foreground mt-0.5">📬 24시간 이내 답변드립니다</p>

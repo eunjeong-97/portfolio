@@ -105,7 +105,7 @@ export default function BlogPosts() {
               <div
                 key={i}
                 aria-hidden="true"
-                className="bg-section-bg border border-border rounded-xl p-6 animate-pulse"
+                className="bg-section-bg border border-border rounded-xl p-6 animate-pulse motion-reduce:animate-none"
               >
                 <div className="h-4 bg-muted rounded w-3/4 mb-3" />
                 <div className="h-3 bg-muted rounded w-full mb-2" />
@@ -158,7 +158,7 @@ export default function BlogPosts() {
                 <div className="flex items-center justify-between gap-2 mb-3">
                   {recent ? (
                     <span className="inline-flex items-center gap-1 text-xs text-green-400 bg-green-400/10 px-2 py-0.5 rounded-full">
-                      <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" aria-hidden="true" />
+                      <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse motion-reduce:animate-none" aria-hidden="true" />
                       최신
                     </span>
                   ) : (
