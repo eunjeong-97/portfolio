@@ -41,7 +41,8 @@ export default function Navigation() {
     document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
     if (isMobileMenuOpen) {
       wasMenuOpenRef.current = true;
-      setTimeout(() => firstMobileMenuItemRef.current?.focus(), 100);
+      const timer = setTimeout(() => firstMobileMenuItemRef.current?.focus(), 100);
+      return () => { clearTimeout(timer); document.body.style.overflow = ""; };
     } else if (wasMenuOpenRef.current) {
       menuButtonRef.current?.focus();
     }
