@@ -86,6 +86,9 @@ const LEVEL_BAR_BG: Record<Level, string> = {
   1: "rgba(59,130,246,0.2)",
 };
 
+const SKILLS_HEADER_INITIAL = { opacity: 0, y: 20 } as const;
+const SKILLS_HEADER_ANIMATE_IN = { opacity: 1, y: 0 } as const;
+const WIDTH_ZERO = { width: 0 } as const;
 const BADGE_INITIAL = { opacity: 0, y: 8 } as const;
 const BADGE_ANIMATE_IN = { opacity: 1, y: 0 } as const;
 const TOOLTIP_INITIAL = { opacity: 0, y: 4 } as const;
@@ -137,7 +140,7 @@ function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: bo
       >
         <motion.div
           className={`h-full rounded-full ${level === 3 ? "bg-primary" : level === 2 ? "bg-primary/70" : "bg-primary/40"}`}
-          initial={{ width: 0 }}
+          initial={WIDTH_ZERO}
           animate={{ width: isInView ? `${barWidth}%` : 0 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
           style={{ opacity: visible ? 1 : 0.6 }}
@@ -178,8 +181,8 @@ export default function Skills() {
     <section id="skills" className="py-24 px-6 bg-section-bg" ref={ref} aria-label="기술 스택">
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={SKILLS_HEADER_INITIAL}
+          animate={isInView ? SKILLS_HEADER_ANIMATE_IN : {}}
           transition={{ duration: 0.5 }}
         >
           <span className="text-sm text-primary uppercase tracking-wider">
@@ -214,8 +217,8 @@ export default function Skills() {
                 key={level}
                 className="h-full rounded-full"
                 style={{ background: LEVEL_BAR_BG[level] }}
-                initial={{ width: 0 }}
-                animate={isInView ? { width: `${(levelCounts[level] / totalSkills) * 100}%` } : { width: 0 }}
+                initial={WIDTH_ZERO}
+                animate={isInView ? { width: `${(levelCounts[level] / totalSkills) * 100}%` } : WIDTH_ZERO}
                 transition={{ duration: 0.8, delay: 0.3 + (3 - level) * 0.1, ease: "easeOut" }}
               />
             ))}
@@ -251,8 +254,8 @@ export default function Skills() {
 
         {/* Currently Learning */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={SKILLS_HEADER_INITIAL}
+          animate={isInView ? SKILLS_HEADER_ANIMATE_IN : {}}
           transition={{ duration: 0.5, delay: 0.7 }}
           className="mt-8 bg-primary/5 border border-primary/20 rounded-2xl p-5"
         >

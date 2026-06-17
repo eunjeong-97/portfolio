@@ -13,6 +13,12 @@ interface Post {
 }
 
 const POST_CARD_HOVER = { y: -4 } as const;
+const POST_HEADER_INITIAL = { opacity: 0, y: 20 } as const;
+const POST_HEADER_ANIMATE_IN = { opacity: 1, y: 0 } as const;
+const POST_CARD_INITIAL = { opacity: 0, y: 20 } as const;
+const POST_CARD_ANIMATE_IN = { opacity: 1, y: 0 } as const;
+const POST_BADGE_INITIAL = { opacity: 0, scale: 0.8 } as const;
+const POST_BADGE_ANIMATE = { opacity: 1, scale: 1 } as const;
 
 function formatDate(dateStr: string): string {
   try {
@@ -65,8 +71,8 @@ export default function BlogPosts() {
       {loading && <span className="sr-only" role="status">블로그 글 로딩 중...</span>}
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={POST_HEADER_INITIAL}
+          animate={isInView ? POST_HEADER_ANIMATE_IN : {}}
           transition={{ duration: 0.5 }}
           className="mb-12"
         >
@@ -78,8 +84,8 @@ export default function BlogPosts() {
               <h2 className="text-3xl md:text-4xl font-bold">기술 블로그</h2>
               {!loading && posts.length > 0 && (
                 <motion.span
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
+                  initial={POST_BADGE_INITIAL}
+                  animate={POST_BADGE_ANIMATE}
                   className="mb-1 text-sm text-muted-foreground"
                 >
                   <span className="text-primary font-bold">{posts.length}</span>개
@@ -141,8 +147,8 @@ export default function BlogPosts() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`${post.title} (새 탭에서 열림)`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                initial={POST_CARD_INITIAL}
+                animate={isInView ? POST_CARD_ANIMATE_IN : {}}
                 transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
                 whileHover={POST_CARD_HOVER}
                 className="group bg-section-bg border border-border rounded-xl p-6 hover:border-primary/50 hover:shadow-lg transition-all block relative overflow-hidden"
