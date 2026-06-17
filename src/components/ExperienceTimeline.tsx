@@ -55,6 +55,9 @@ const CARD_HOVER = { x: 6, transition: { duration: 0.2 } };
 const GANTT_BAR_INITIAL = { scaleX: 0 } as const;
 const GANTT_BAR_ANIMATE_IN = { scaleX: 1 } as const;
 const GANTT_BAR_HIDDEN = { scaleX: 0 } as const;
+const SECTION_HEADER_INITIAL = { opacity: 0, y: 20 } as const;
+const SECTION_HEADER_ANIMATE_IN = { opacity: 1, y: 0 } as const;
+const GANTT_SECTION_INITIAL = { opacity: 0, y: 10 } as const;
 
 export default function ExperienceTimeline() {
   const ref = useRef(null);
@@ -86,8 +89,8 @@ export default function ExperienceTimeline() {
     <section id="experience" className="py-24 px-6" ref={ref} aria-label="업무 경험">
       <div className="max-w-4xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={SECTION_HEADER_INITIAL}
+          animate={isInView ? SECTION_HEADER_ANIMATE_IN : {}}
           transition={{ duration: 0.5 }}
         >
           <span className="text-sm text-primary uppercase tracking-wider">
@@ -106,8 +109,8 @@ export default function ExperienceTimeline() {
 
           {/* Career Gantt chart */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            initial={GANTT_SECTION_INITIAL}
+            animate={isInView ? SECTION_HEADER_ANIMATE_IN : {}}
             transition={{ duration: 0.5, delay: 0.15 }}
             className="mb-10 bg-muted/50 border border-border rounded-xl p-4"
           >
@@ -242,8 +245,8 @@ export default function ExperienceTimeline() {
         </div>
         {/* Career summary card */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={SECTION_HEADER_INITIAL}
+          animate={isInView ? SECTION_HEADER_ANIMATE_IN : {}}
           transition={{ duration: 0.5, delay: 0.8 }}
           className="mt-8 bg-primary/5 border border-primary/20 rounded-xl p-4 flex flex-wrap items-center gap-4"
         >

@@ -29,6 +29,8 @@ const OPEN_ICON_INITIAL = { rotate: 90, opacity: 0 } as const;
 const ICON_ANIMATE_IN = { rotate: 0, opacity: 1 } as const;
 const CLOSE_ICON_EXIT = { rotate: 90, opacity: 0 } as const;
 const OPEN_ICON_EXIT = { rotate: -90, opacity: 0 } as const;
+const TOGGLE_BTN_HOVER = { scale: 1.05 } as const;
+const TOGGLE_BTN_TAP = { scale: 0.95 } as const;
 
 const SUGGESTIONS = [
   "가장 자랑스러운 프로젝트는?",
@@ -445,8 +447,8 @@ export default function ChatBot() {
         ref={toggleButtonRef}
         onClick={() => { setIsOpen(!isOpen); setShowNotification(false); }}
         className="w-14 h-14 bg-primary hover:bg-primary-dark text-white rounded-full shadow-lg flex items-center justify-center transition-colors relative"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        whileHover={TOGGLE_BTN_HOVER}
+        whileTap={TOGGLE_BTN_TAP}
         aria-label={isOpen ? "채팅 닫기" : showNotification ? "채팅 도우미 열기 (새 알림)" : "채팅 도우미 열기"}
         aria-expanded={isOpen}
         aria-haspopup="dialog"

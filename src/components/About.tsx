@@ -9,6 +9,11 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 const STAT_CARD_INITIAL = { opacity: 0, y: 20 } as const;
 const STAT_CARD_ANIMATE_IN = { opacity: 1, y: 0 } as const;
 const STAT_CARD_HOVER = { y: -3, transition: { duration: 0.2 } };
+const ABOUT_SECTION_INITIAL = { opacity: 0, y: 20 } as const;
+const ABOUT_SECTION_ANIMATE_IN = { opacity: 1, y: 0 } as const;
+const ABOUT_LEFT_INITIAL = { opacity: 0, x: -30 } as const;
+const ABOUT_LEFT_ANIMATE_IN = { opacity: 1, x: 0 } as const;
+const ABOUT_RIGHT_INITIAL = { opacity: 0, x: 30 } as const;
 
 const PRINCIPLES = [
   { label: "근본 원인 파악", icon: Search },
@@ -98,8 +103,8 @@ export default function About() {
     <section id="about" className="py-24 px-6" ref={ref} aria-label="About Me">
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={ABOUT_SECTION_INITIAL}
+          animate={isInView ? ABOUT_SECTION_ANIMATE_IN : {}}
           transition={{ duration: 0.5 }}
         >
           <span className="text-sm text-primary uppercase tracking-wider">
@@ -113,8 +118,8 @@ export default function About() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Text Content */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            initial={ABOUT_LEFT_INITIAL}
+            animate={isInView ? ABOUT_LEFT_ANIMATE_IN : {}}
             transition={{ duration: 0.5, delay: 0.2 }}
             className="space-y-6"
           >
@@ -170,8 +175,8 @@ export default function About() {
 
           {/* Highlights Grid */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            initial={ABOUT_RIGHT_INITIAL}
+            animate={isInView ? ABOUT_LEFT_ANIMATE_IN : {}}
             transition={{ duration: 0.5, delay: 0.4 }}
             className="grid grid-cols-2 gap-4"
           >
@@ -184,8 +189,8 @@ export default function About() {
               />
             ))}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              initial={ABOUT_SECTION_INITIAL}
+              animate={isInView ? ABOUT_SECTION_ANIMATE_IN : {}}
               transition={{ duration: 0.5, delay: 0.9 }}
               className="col-span-2 bg-primary/5 border border-primary/20 rounded-xl p-4 mt-2"
             >

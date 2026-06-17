@@ -25,6 +25,10 @@ const HEATMAP_CELL_ANIMATE_IN = { opacity: 1, scale: 1 } as const;
 const HEATMAP_CELL_HIDDEN = {} as const;
 const EVENT_CARD_INITIAL = { opacity: 0, x: -20 } as const;
 const EVENT_CARD_ANIMATE_IN = { opacity: 1, x: 0 } as const;
+const GITHUB_HEADER_INITIAL = { opacity: 0, y: 20 } as const;
+const GITHUB_HEADER_ANIMATE_IN = { opacity: 1, y: 0 } as const;
+const GITHUB_STATS_INITIAL = { opacity: 0, y: 20 } as const;
+const GITHUB_HEATMAP_INITIAL = { opacity: 0, y: 10 } as const;
 
 function formatDate(dateStr: string): string {
   const date = new Date(dateStr);
@@ -87,8 +91,8 @@ export default function GitHubActivity() {
       {loading && <span className="sr-only" role="status">GitHub 활동 로딩 중...</span>}
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={GITHUB_HEADER_INITIAL}
+          animate={isInView ? GITHUB_HEADER_ANIMATE_IN : {}}
           transition={{ duration: 0.5 }}
           className="mb-12"
         >
@@ -114,8 +118,8 @@ export default function GitHubActivity() {
 
         {/* Stats */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={GITHUB_STATS_INITIAL}
+          animate={isInView ? GITHUB_HEADER_ANIMATE_IN : {}}
           transition={{ duration: 0.5, delay: 0.1 }}
           className="grid grid-cols-3 gap-4 mb-10"
         >
@@ -150,8 +154,8 @@ export default function GitHubActivity() {
         {/* 30-day activity heatmap */}
         {!loading && events.length > 0 && (
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            initial={GITHUB_HEATMAP_INITIAL}
+            animate={isInView ? GITHUB_HEADER_ANIMATE_IN : {}}
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mb-8 bg-background border border-border rounded-xl p-4"
           >
