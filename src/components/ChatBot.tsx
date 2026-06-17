@@ -147,6 +147,7 @@ export default function ChatBot() {
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
       if (e.key.toLowerCase() === "c") setIsOpen((prev) => !prev);
     };
@@ -175,11 +176,11 @@ export default function ChatBot() {
 
     try {
       const MAX_HISTORY = 20;
-      const trimmedMessages = newMessages.slice(-MAX_HISTORY);
+      const apiMessages = newMessages.slice(-MAX_HISTORY).map((m) => ({ role: m.role, content: m.content }));
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: trimmedMessages }),
+        body: JSON.stringify({ messages: apiMessages }),
         signal: controller.signal,
       });
 

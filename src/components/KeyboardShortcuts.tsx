@@ -52,8 +52,10 @@ export default function KeyboardShortcuts() {
         e.target instanceof HTMLTextAreaElement
       ) return;
 
-      if (e.key === "?") { e.preventDefault(); setIsOpen((prev) => !prev); return; }
       if (e.key === "Escape") { setIsOpen(false); return; }
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+      if (e.key === "?") { e.preventDefault(); setIsOpen((prev) => !prev); return; }
       if (e.key === "Tab") return;
 
       if (modalRef.current || document.querySelector('[role="dialog"]')) return;
