@@ -114,10 +114,12 @@ export default function ExperienceModal({
                   {experience.details.map((detail, index) => (
                     <li
                       key={index}
-                      className="flex gap-3 text-muted-foreground"
+                      className="flex gap-3"
                     >
-                      <span className="text-primary mt-1 flex-shrink-0">•</span>
-                      <span>{detail}</span>
+                      <span className="flex-shrink-0 w-5 h-5 bg-primary/10 text-primary rounded-full flex items-center justify-center text-xs font-semibold mt-0.5">
+                        {index + 1}
+                      </span>
+                      <span className="text-muted-foreground leading-relaxed">{detail}</span>
                     </li>
                   ))}
                 </ul>
