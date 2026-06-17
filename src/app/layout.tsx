@@ -6,6 +6,7 @@ import ClientLayout from "@/components/ClientLayout";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
 });
 
 const BASE_URL = "https://eunjeong.vercel.app";
