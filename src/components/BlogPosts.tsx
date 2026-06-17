@@ -59,7 +59,7 @@ export default function BlogPosts() {
   }, []);
 
   return (
-    <section id="blog" className="py-24 px-6" ref={ref} aria-busy={loading}>
+    <section id="blog" className="py-24 px-6" ref={ref} aria-busy={loading} aria-label="기술 블로그">
       {loading && <span className="sr-only" role="status">블로그 글 로딩 중...</span>}
       <div className="max-w-6xl mx-auto">
         <motion.div

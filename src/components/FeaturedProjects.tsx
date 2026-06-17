@@ -29,7 +29,7 @@ export default function FeaturedProjects() {
   );
 
   return (
-    <section id="projects" className="py-24 px-6 bg-section-bg" ref={ref}>
+    <section id="projects" className="py-24 px-6 bg-section-bg" ref={ref} aria-label="대표 프로젝트">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

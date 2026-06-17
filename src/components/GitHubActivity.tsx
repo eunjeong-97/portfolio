@@ -75,7 +75,7 @@ export default function GitHubActivity() {
   }, [events]);
 
   return (
-    <section id="github" className="py-24 px-6 bg-section-bg" ref={ref} aria-busy={loading}>
+    <section id="github" className="py-24 px-6 bg-section-bg" ref={ref} aria-busy={loading} aria-label="GitHub 최근 활동">
       {loading && <span className="sr-only" role="status">GitHub 활동 로딩 중...</span>}
       <div className="max-w-6xl mx-auto">
         <motion.div

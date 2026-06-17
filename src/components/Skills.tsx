@@ -157,7 +157,7 @@ export default function Skills() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="skills" className="py-24 px-6 bg-section-bg" ref={ref}>
+    <section id="skills" className="py-24 px-6 bg-section-bg" ref={ref} aria-label="기술 스택">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
