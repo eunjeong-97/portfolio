@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState, useEffect, useMemo } from "react";
+import { useRef, useState, useEffect, useMemo, useCallback } from "react";
 import { experiences } from "@/data/experiences";
 import ExperienceModal from "./ExperienceModal";
 
@@ -56,8 +56,9 @@ export default function ExperienceTimeline() {
     if (selectedIndex !== null) lastSelectedIndex.current = selectedIndex;
   }, [selectedIndex]);
 
-  const goNext = () => { setDirection(1); setSelectedIndex((prev) => (prev !== null ? prev + 1 : null)); };
-  const goPrev = () => { setDirection(-1); setSelectedIndex((prev) => (prev !== null ? prev - 1 : null)); };
+  const closeModal = useCallback(() => setSelectedIndex(null), []);
+  const goNext = useCallback(() => { setDirection(1); setSelectedIndex((prev) => (prev !== null ? prev + 1 : null)); }, []);
+  const goPrev = useCallback(() => { setDirection(-1); setSelectedIndex((prev) => (prev !== null ? prev - 1 : null)); }, []);
 
   return (
     <section id="experience" className="py-24 px-6" ref={ref}>
@@ -249,7 +250,7 @@ export default function ExperienceTimeline() {
       {/* Modal */}
       <ExperienceModal
         experience={selectedExperience}
-        onClose={() => setSelectedIndex(null)}
+        onClose={closeModal}
         onPrev={selectedIndex !== null && selectedIndex > 0 ? goPrev : undefined}
         onNext={selectedIndex !== null && selectedIndex < experiences.length - 1 ? goNext : undefined}
         currentIndex={selectedIndex ?? undefined}
