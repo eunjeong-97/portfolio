@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import React, { useRef, useState, useEffect } from "react";
 import { Calendar, LayoutGrid, Cpu, Globe, Search, BookOpen, Lightbulb, Layers, ArrowRight } from "lucide-react";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const highlights = [
   { value: 3, suffix: "+", label: "Years of Experience", context: "웹·앱 크로스플랫폼 실무 개발", icon: Calendar },
@@ -14,9 +15,10 @@ const highlights = [
 
 function useCountUp(target: number, isActive: boolean, duration = 1200) {
   const [count, setCount] = useState(0);
+  const reducedMotion = useReducedMotion();
   useEffect(() => {
     if (!isActive) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (reducedMotion) {
       setCount(target);
       return;
     }
@@ -31,7 +33,7 @@ function useCountUp(target: number, isActive: boolean, duration = 1200) {
     };
     rafId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(rafId);
-  }, [isActive, target, duration]);
+  }, [isActive, target, duration, reducedMotion]);
   return count;
 }
 

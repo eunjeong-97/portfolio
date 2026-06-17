@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Github, FileText, ArrowDown, Download } from "lucide-react";
 import Image from "next/image";
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const ROLES = [
   "Frontend Developer",
@@ -17,15 +18,7 @@ function useTypewriter(words: string[], speed = 90, pause = 2000) {
   const [displayed, setDisplayed] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [completedWord, setCompletedWord] = useState("");
-  const [reducedMotion, setReducedMotion] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
     if (reducedMotion) {

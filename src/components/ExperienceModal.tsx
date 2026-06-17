@@ -39,6 +39,7 @@ export default function ExperienceModal({
   }, [experience]);
 
   useEffect(() => {
+    if (!experience) return;
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") { onClose(); return; }
       if (e.key === "ArrowLeft") { onPrev?.(); return; }
@@ -46,7 +47,7 @@ export default function ExperienceModal({
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [onClose, onPrev, onNext]);
+  }, [experience, onClose, onPrev, onNext]);
 
   useEffect(() => {
     document.body.style.overflow = experience ? "hidden" : "";

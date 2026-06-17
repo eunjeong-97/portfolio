@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useActiveSection } from "@/hooks/useActiveSection";
 
 const sections = [
   { id: "projects", label: "Projects" },
@@ -13,26 +14,11 @@ const sections = [
   { id: "contact", label: "Contact" },
 ];
 
-export default function SectionDots() {
-  const [activeSection, setActiveSection] = useState("");
-  const [hovered, setHovered] = useState<string | null>(null);
+const SECTION_IDS = sections.map((s) => s.id);
 
-  useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-    sections.forEach(({ id }) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting) setActiveSection(id);
-        },
-        { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
-      );
-      observer.observe(el);
-      observers.push(observer);
-    });
-    return () => observers.forEach((obs) => obs.disconnect());
-  }, []);
+export default function SectionDots() {
+  const activeSection = useActiveSection(SECTION_IDS);
+  const [hovered, setHovered] = useState<string | null>(null);
 
   return (
     <div className="hidden lg:flex fixed right-5 top-1/2 -translate-y-1/2 z-40 flex-col gap-3">

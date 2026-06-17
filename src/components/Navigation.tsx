@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Moon, Sun, Menu, X, Download } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
+import { useActiveSection } from "@/hooks/useActiveSection";
 
 const navItems = [
   { href: "#projects", label: "Projects" },
@@ -16,11 +17,13 @@ const navItems = [
   { href: "#contact", label: "Contact" },
 ];
 
+const NAV_SECTION_IDS = navItems.map((i) => i.href.slice(1));
+
 export default function Navigation() {
   const { theme, toggleTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
+  const activeSection = useActiveSection(NAV_SECTION_IDS);
   const firstMobileMenuItemRef = useRef<HTMLAnchorElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const wasMenuOpenRef = useRef(false);
@@ -30,7 +33,7 @@ export default function Navigation() {
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -54,24 +57,6 @@ export default function Navigation() {
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
   }, [toggleTheme]);
-
-  useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-    navItems.forEach(({ href }) => {
-      const id = href.slice(1);
-      const el = document.getElementById(id);
-      if (!el) return;
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting) setActiveSection(id);
-        },
-        { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
-      );
-      observer.observe(el);
-      observers.push(observer);
-    });
-    return () => observers.forEach((obs) => obs.disconnect());
-  }, []);
 
   const handleLinkClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
