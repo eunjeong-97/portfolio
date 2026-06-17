@@ -87,6 +87,7 @@ export default function BlogPosts() {
               className="flex items-center gap-1 text-sm text-primary hover:text-primary-light transition-colors"
             >
               전체 보기 <ExternalLink size={14} aria-hidden="true" />
+              <span className="sr-only">(새 탭에서 열림)</span>
             </a>
           </div>
           <p className="text-muted-foreground mt-3">
@@ -120,6 +121,7 @@ export default function BlogPosts() {
             >
               <ExternalLink size={14} aria-hidden="true" />
               Velog에서 직접 보기
+              <span className="sr-only">(새 탭에서 열림)</span>
             </a>
           </div>
         ) : (

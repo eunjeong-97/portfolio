@@ -1,17 +1,24 @@
 "use client";
 
 import { motion, AnimatePresence, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useMemo } from "react";
 import { Github } from "lucide-react";
 import { projects } from "@/data/projects";
 
 const FILTER_TAGS = ["전체", "React Native", "Native Module", "SDK Integration", "TypeScript"];
 
+const TAG_COUNTS: Record<string, number> = Object.fromEntries(
+  FILTER_TAGS.map(tag => [tag, tag === "전체" ? projects.length : projects.filter(p => p.tags.includes(tag)).length])
+);
+
 export default function FeaturedProjects() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [activeFilter, setActiveFilter] = useState("전체");
-  const filteredProjects = activeFilter === "전체" ? projects : projects.filter(p => p.tags.includes(activeFilter));
+  const filteredProjects = useMemo(
+    () => activeFilter === "전체" ? projects : projects.filter(p => p.tags.includes(activeFilter)),
+    [activeFilter]
+  );
 
   return (
     <section id="projects" className="py-24 px-6 bg-section-bg" ref={ref}>
@@ -36,7 +43,7 @@ export default function FeaturedProjects() {
           </p>
           <div className="flex flex-wrap items-center gap-2 mt-6" role="group" aria-label="기술 스택 필터">
             {FILTER_TAGS.map((tag) => {
-              const count = tag === "전체" ? projects.length : projects.filter(p => p.tags.includes(tag)).length;
+              const count = TAG_COUNTS[tag];
               return (
                 <button
                   key={tag}

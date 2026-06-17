@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useMemo } from "react";
 import { Mail, Github, FileText, Send, Copy, Check, Loader2, AlertCircle } from "lucide-react";
 
 const contactLinks = [
@@ -36,13 +36,13 @@ export default function Contact() {
   const [sent, setSent] = useState(false);
   const [sendError, setSendError] = useState(false);
 
-  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.email);
+  const emailValid = useMemo(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.email), [formState.email]);
   const isFormValid = formState.name.length >= 2 && emailValid && formState.message.length >= 10;
-  const fieldStatus = {
+  const fieldStatus = useMemo(() => ({
     name: touched.name ? (formState.name.length >= 2 ? "valid" : "error") : "idle",
     email: touched.email ? (emailValid ? "valid" : "error") : "idle",
     message: touched.message ? (formState.message.length >= 10 ? "valid" : "error") : "idle",
-  };
+  }), [touched, formState.name, formState.message, emailValid]);
 
   const copyEmail = async () => {
     await navigator.clipboard.writeText("beanlove97@gmail.com");
@@ -139,14 +139,16 @@ export default function Contact() {
                     </div>
                   </a>
                   {link.label === "Email" && (
-                    <button
-                      onClick={copyEmail}
-                      className="flex-shrink-0 p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-primary"
-                      aria-label={copied ? "이메일 복사 완료" : "이메일 복사"}
-                      aria-live="polite"
-                    >
-                      {copied ? <Check size={16} className="text-green-400" aria-hidden="true" /> : <Copy size={16} aria-hidden="true" />}
-                    </button>
+                    <>
+                      <button
+                        onClick={copyEmail}
+                        className="flex-shrink-0 p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-primary"
+                        aria-label={copied ? "이메일 복사 완료" : "이메일 복사"}
+                      >
+                        {copied ? <Check size={16} className="text-green-400" aria-hidden="true" /> : <Copy size={16} aria-hidden="true" />}
+                      </button>
+                      <span role="status" className="sr-only">{copied ? "이메일이 클립보드에 복사되었습니다" : ""}</span>
+                    </>
                   )}
                 </motion.div>
               ))}

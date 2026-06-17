@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import { experiences } from "@/data/experiences";
 import ExperienceModal from "./ExperienceModal";
 
@@ -42,6 +42,12 @@ export default function ExperienceTimeline() {
   const selectedExperience = selectedIndex !== null ? experiences[selectedIndex] : null;
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const lastSelectedIndex = useRef<number | null>(null);
+
+  const expWithMeta = useMemo(
+    () => experiences.map(exp => ({ ...exp, duration: getDuration(exp.period), barProps: getBarProps(exp.period) })),
+    []
+  );
+  const expWithMetaReversed = useMemo(() => [...expWithMeta].reverse(), [expWithMeta]);
 
   useEffect(() => {
     if (selectedIndex === null && lastSelectedIndex.current !== null) {
@@ -97,23 +103,20 @@ export default function ExperienceTimeline() {
                 <div key={pct} className="absolute top-0 bottom-0 w-px bg-border/50" style={{ left: `${pct}%` }} />
               ))}
               {/* Experience bars (reversed: oldest → newest) */}
-              {[...experiences].reverse().map((exp, i) => {
-                const { left, width } = getBarProps(exp.period);
-                return (
-                  <motion.div
-                    key={exp.id}
-                    title={exp.title}
-                    className={`absolute top-1.5 bottom-1.5 ${EXP_COLORS[i]} rounded opacity-70 hover:opacity-100 transition-opacity cursor-default`}
-                    style={{ left: `${left}%`, width: `${width}%`, originX: "left" }}
-                    initial={{ scaleX: 0 }}
-                    animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 + i * 0.08 }}
-                  />
-                );
-              })}
+              {expWithMetaReversed.map((exp, i) => (
+                <motion.div
+                  key={exp.id}
+                  title={exp.title}
+                  className={`absolute top-1.5 bottom-1.5 ${EXP_COLORS[i]} rounded opacity-70 hover:opacity-100 transition-opacity cursor-default`}
+                  style={{ left: `${exp.barProps.left}%`, width: `${exp.barProps.width}%`, originX: "left" }}
+                  initial={{ scaleX: 0 }}
+                  animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 + i * 0.08 }}
+                />
+              ))}
             </div>
             <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2" aria-hidden="true">
-              {[...experiences].reverse().map((exp, i) => (
+              {expWithMetaReversed.map((exp, i) => (
                 <span key={exp.id} className="flex items-center gap-1 text-[10px] text-muted-foreground">
                   <span className={`w-2 h-2 rounded-sm ${EXP_COLORS[i]} opacity-70`} />
                   {exp.title.split(" ").slice(0, 2).join(" ")}
@@ -125,9 +128,9 @@ export default function ExperienceTimeline() {
 
         {/* Timeline */}
         <div className="relative pl-8 border-l-2 border-border" style={{ borderImage: "linear-gradient(to bottom, var(--primary), var(--border)) 1" }}>
-          {experiences.map((exp, index) => {
+          {expWithMeta.map((exp, index) => {
             const year = exp.period.slice(0, 4);
-            const prevYear = index > 0 ? experiences[index - 1].period.slice(0, 4) : null;
+            const prevYear = index > 0 ? expWithMeta[index - 1].period.slice(0, 4) : null;
             const showYearMarker = year !== prevYear;
             return (
               <motion.div
@@ -170,7 +173,7 @@ export default function ExperienceTimeline() {
                         {exp.period}
                       </span>
                       <span className="text-xs text-primary/60 bg-primary/5 border border-primary/20 px-2 py-0.5 rounded-full font-medium">
-                        {getDuration(exp.period)}
+                        {exp.duration}
                       </span>
                       {index === 0 && (
                         <span className="text-[10px] bg-primary text-white px-1.5 py-0.5 rounded-full font-semibold tracking-wide">
