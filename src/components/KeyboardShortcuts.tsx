@@ -55,7 +55,7 @@ export default function KeyboardShortcuts() {
       if (e.key === "Escape") { setIsOpen(false); return; }
       if (e.key === "Tab") return;
 
-      if (modalRef.current) return;
+      if (modalRef.current || document.querySelector('[role="dialog"]')) return;
       const num = parseInt(e.key);
       if (num >= 1 && num <= NAV_SECTIONS.length) {
         const el = document.getElementById(NAV_SECTIONS[num - 1]);
