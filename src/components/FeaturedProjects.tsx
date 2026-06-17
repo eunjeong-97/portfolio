@@ -30,20 +30,31 @@ export default function FeaturedProjects() {
           <p className="text-muted-foreground">
             어떤 문제를 해결했고, 어떤 결정을 내렸으며, 어떤 결과를 만들었는지 정리했습니다.
           </p>
-          <div className="flex flex-wrap gap-2 mt-6">
-            {FILTER_TAGS.map((tag) => (
-              <button
-                key={tag}
-                onClick={() => setActiveFilter(tag)}
-                className={`px-3 py-1.5 rounded-lg text-sm transition-all ${
-                  activeFilter === tag
-                    ? "bg-primary text-white"
-                    : "bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary"
-                }`}
-              >
-                {tag}
-              </button>
-            ))}
+          <div className="flex flex-wrap items-center gap-2 mt-6">
+            {FILTER_TAGS.map((tag) => {
+              const count = tag === "전체" ? projects.length : projects.filter(p => p.tags.includes(tag)).length;
+              return (
+                <button
+                  key={tag}
+                  onClick={() => setActiveFilter(tag)}
+                  className={`px-3 py-1.5 rounded-lg text-sm transition-all flex items-center gap-1.5 ${
+                    activeFilter === tag
+                      ? "bg-primary text-white"
+                      : "bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                  }`}
+                >
+                  {tag}
+                  <span className={`text-xs px-1.5 py-0.5 rounded-full ${
+                    activeFilter === tag ? "bg-white/20 text-white" : "bg-border text-muted-foreground"
+                  }`}>{count}</span>
+                </button>
+              );
+            })}
+            {activeFilter !== "전체" && (
+              <span className="text-sm text-muted-foreground ml-1">
+                {projects.filter(p => p.tags.includes(activeFilter)).length}/{projects.length} 프로젝트
+              </span>
+            )}
           </div>
         </motion.div>
 

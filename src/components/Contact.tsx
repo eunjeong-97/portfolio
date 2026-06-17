@@ -191,10 +191,16 @@ export default function Contact() {
                     </div>
                   </div>
                   <div>
-                    <label className="text-xs text-muted-foreground mb-1.5 block">메시지</label>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="text-xs text-muted-foreground">메시지</label>
+                      <span className={`text-xs ${formState.message.length > 450 ? "text-red-400" : "text-muted-foreground/60"}`}>
+                        {formState.message.length}/500
+                      </span>
+                    </div>
                     <textarea
                       required
                       rows={4}
+                      maxLength={500}
                       value={formState.message}
                       onChange={(e) => setFormState({ ...formState, message: e.target.value })}
                       placeholder="안녕하세요! 함께 일하고 싶어서 연락드립니다..."
