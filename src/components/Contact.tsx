@@ -164,13 +164,29 @@ export default function Contact() {
             {/* Form */}
             <div className="bg-section-bg p-6 rounded-2xl border border-border">
               {sent ? (
-                <div className="text-center py-8">
-                  <div className="w-14 h-14 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Check size={28} className="text-green-400" />
-                  </div>
-                  <h4 className="font-semibold mb-2">메시지를 보냈습니다!</h4>
-                  <p className="text-sm text-muted-foreground">빠르게 답변드리겠습니다.</p>
-                </div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4, type: "spring" }}
+                  className="text-center py-8"
+                >
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.5, delay: 0.1, type: "spring", stiffness: 200 }}
+                    className="w-16 h-16 bg-green-500/10 border border-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4"
+                  >
+                    <Check size={30} className="text-green-400" />
+                  </motion.div>
+                  <h4 className="font-semibold mb-2 text-lg">메시지를 보냈습니다!</h4>
+                  <p className="text-sm text-muted-foreground mb-4">빠르게 답변드리겠습니다. (24시간 이내)</p>
+                  <button
+                    onClick={() => { setSent(false); setFormState({ name: "", email: "", message: "" }); setTouched({ name: false, email: false, message: false }); }}
+                    className="text-xs text-primary hover:text-primary-light underline underline-offset-2 transition-colors"
+                  >
+                    다른 메시지 보내기
+                  </button>
+                </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
