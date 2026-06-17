@@ -111,6 +111,13 @@ export default function BlogPosts() {
                 {/* hover shimmer line */}
                 <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
+                {/* New badge on first post */}
+                {index === 0 && (
+                  <div className="absolute top-3 right-3 px-1.5 py-0.5 bg-primary text-white text-[10px] font-semibold rounded-full">
+                    NEW
+                  </div>
+                )}
+
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <span className="inline-flex items-center gap-1 text-xs text-primary bg-primary/10 px-2 py-0.5 rounded-full">
                     <FileText size={10} />

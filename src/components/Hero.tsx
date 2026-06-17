@@ -219,7 +219,8 @@ export default function Hero() {
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-4 -right-4 md:top-8 md:right-0 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl"
+              whileHover={{ scale: 1.05, borderColor: "var(--primary)" }}
+              className="absolute top-4 -right-4 md:top-8 md:right-0 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl cursor-default"
             >
               <div className="text-xs text-muted-foreground mb-1">
                 Experience
@@ -237,7 +238,8 @@ export default function Hero() {
                 ease: "easeInOut",
                 delay: 0.5,
               }}
-              className="absolute bottom-24 -left-8 md:bottom-28 md:-left-12 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl"
+              whileHover={{ scale: 1.05, borderColor: "var(--primary)" }}
+              className="absolute bottom-24 -left-8 md:bottom-28 md:-left-12 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl cursor-default"
             >
               <div className="text-xs text-muted-foreground mb-2">
                 Tech Stack
@@ -262,7 +264,8 @@ export default function Hero() {
                 ease: "easeInOut",
                 delay: 1,
               }}
-              className="absolute -bottom-2 right-4 md:bottom-0 md:right-8 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl"
+              whileHover={{ scale: 1.05, borderColor: "var(--primary)" }}
+              className="absolute -bottom-2 right-4 md:bottom-0 md:right-8 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl cursor-default"
             >
               <div className="text-xs text-muted-foreground mb-1">앱 재개발</div>
               <div className="text-lg font-semibold">
