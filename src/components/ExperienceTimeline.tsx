@@ -52,6 +52,9 @@ const ITEM_ANIMATE_IN = { opacity: 1, x: 0 } as const;
 const DOT_INITIAL = { scale: 0 } as const;
 const DOT_ANIMATE_IN = { scale: 1 } as const;
 const CARD_HOVER = { x: 6, transition: { duration: 0.2 } };
+const GANTT_BAR_INITIAL = { scaleX: 0 } as const;
+const GANTT_BAR_ANIMATE_IN = { scaleX: 1 } as const;
+const GANTT_BAR_HIDDEN = { scaleX: 0 } as const;
 
 export default function ExperienceTimeline() {
   const ref = useRef(null);
@@ -129,8 +132,8 @@ export default function ExperienceTimeline() {
                   title={exp.title}
                   className={`absolute top-1.5 bottom-1.5 ${EXP_COLORS[i]} rounded opacity-70 hover:opacity-100 transition-opacity cursor-default`}
                   style={{ left: `${exp.barProps.left}%`, width: `${exp.barProps.width}%`, originX: "left" }}
-                  initial={{ scaleX: 0 }}
-                  animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
+                  initial={GANTT_BAR_INITIAL}
+                  animate={isInView ? GANTT_BAR_ANIMATE_IN : GANTT_BAR_HIDDEN}
                   transition={{ duration: 0.6, delay: 0.4 + i * 0.08 }}
                 />
               ))}
