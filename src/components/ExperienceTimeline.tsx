@@ -46,6 +46,7 @@ const CAREER_DOMAINS = [
 const GANTT_YEAR_DIVIDERS = [33.3, 66.6];
 
 const TIMELINE_BORDER_STYLE = { borderImage: "linear-gradient(to bottom, var(--primary), var(--border)) 1" } as const;
+const ARROW_NUDGE_ANIM = { x: [0, 4, 0] };
 
 export default function ExperienceTimeline() {
   const ref = useRef(null);
@@ -219,7 +220,7 @@ export default function ExperienceTimeline() {
                     <span>자세히 보기</span>
                     <motion.span
                       aria-hidden="true"
-                      animate={{ x: [0, 4, 0] }}
+                      animate={ARROW_NUDGE_ANIM}
                       transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                       className="inline-block"
                     >

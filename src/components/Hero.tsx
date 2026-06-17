@@ -31,6 +31,9 @@ const CORE_STACK = [
   { label: "RQ", color: "bg-purple-500/20 text-purple-400 border-purple-500/30" },
 ];
 
+const FLOAT_ANIM = { y: [0, -10, 0] };
+const SCROLL_ANIM = { y: [0, 8, 0] };
+
 function useTypewriter(words: string[], speed = 90, pause = 2000) {
   const [index, setIndex] = useState(0);
   const [displayed, setDisplayed] = useState("");
@@ -247,7 +250,7 @@ export default function Hero() {
             {/* Floating Cards (decorative, info available in About section) */}
             <motion.div
               aria-hidden="true"
-              animate={{ y: [0, -10, 0] }}
+              animate={FLOAT_ANIM}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               whileHover={{ scale: 1.05, borderColor: "var(--primary)" }}
               className="absolute top-4 -right-4 md:top-8 md:right-0 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl cursor-default"
@@ -262,7 +265,7 @@ export default function Hero() {
 
             <motion.div
               aria-hidden="true"
-              animate={{ y: [0, -10, 0] }}
+              animate={FLOAT_ANIM}
               transition={{
                 duration: 3,
                 repeat: Infinity,
@@ -289,7 +292,7 @@ export default function Hero() {
 
             <motion.div
               aria-hidden="true"
-              animate={{ y: [0, -10, 0] }}
+              animate={FLOAT_ANIM}
               transition={{
                 duration: 3,
                 repeat: Infinity,
@@ -321,7 +324,7 @@ export default function Hero() {
       >
         <span className="text-xs group-hover:text-primary transition-colors" aria-hidden="true">Projects</span>
         <motion.div
-          animate={{ y: [0, 8, 0] }}
+          animate={SCROLL_ANIM}
           transition={{ duration: 1.5, repeat: Infinity }}
           aria-hidden="true"
         >
