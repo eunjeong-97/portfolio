@@ -184,10 +184,22 @@ export default function ExperienceModal({
 
             {/* Footer nav hint */}
             {(onPrev || onNext) && (
-              <div className="px-6 py-3 border-t border-border flex justify-between text-xs text-muted-foreground">
-                <span>{onPrev ? "← 이전" : ""}</span>
-                <span className="opacity-60">← → 키보드로 이동</span>
-                <span>{onNext ? "다음 →" : ""}</span>
+              <div className="border-t border-border">
+                {currentIndex !== undefined && total !== undefined && (
+                  <div className="h-1 bg-muted">
+                    <motion.div
+                      className="h-full bg-primary rounded-r-full"
+                      initial={{ width: 0 }}
+                      animate={{ width: `${((currentIndex + 1) / total) * 100}%` }}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                    />
+                  </div>
+                )}
+                <div className="px-6 py-3 flex justify-between text-xs text-muted-foreground">
+                  <span>{onPrev ? "← 이전" : ""}</span>
+                  <span className="opacity-60">← → 키보드로 이동</span>
+                  <span>{onNext ? "다음 →" : ""}</span>
+                </div>
               </div>
             )}
           </motion.div>
