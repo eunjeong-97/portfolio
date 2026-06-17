@@ -104,6 +104,12 @@ export default function ExperienceModal({
 
             {/* Content */}
             <div className="flex-1 overflow-y-auto p-6">
+              <motion.div
+                key={experience.id}
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.2 }}
+              >
               <p className="text-muted-foreground mb-6 leading-relaxed whitespace-pre-line">
                 {experience.description}
               </p>
@@ -160,6 +166,7 @@ export default function ExperienceModal({
                   </p>
                 </div>
               )}
+              </motion.div>
             </div>
 
             {/* Footer nav hint */}
