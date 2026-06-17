@@ -13,10 +13,10 @@ interface Message {
 const MAX_INPUT = 200;
 
 const SUGGESTIONS = [
-  "어떤 기술 스택을 사용하나요?",
-  "주요 프로젝트가 무엇인가요?",
-  "경력이 어떻게 되나요?",
-  "연락하려면 어떻게 하나요?",
+  "가장 자랑스러운 프로젝트는?",
+  "언제부터 합류 가능한가요?",
+  "React Native 경험이 있나요?",
+  "이력서 다운로드 위치는?",
 ];
 
 function renderMarkdown(text: string) {
@@ -135,9 +135,14 @@ export default function ChatBot() {
               <div className="flex items-center gap-2">
                 <Bot size={20} className="text-white" />
                 <div>
-                  <p className="text-white font-semibold text-sm">
-                    포트폴리오 도우미
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-white font-semibold text-sm">
+                      포트폴리오 도우미
+                    </p>
+                    <span className="text-[9px] bg-white/20 text-white/90 px-1.5 py-0.5 rounded-full font-medium">
+                      Gemini AI
+                    </span>
+                  </div>
                   <p className="text-white/70 text-xs">
                     박은정에 대해 물어보세요
                   </p>

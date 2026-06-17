@@ -110,11 +110,11 @@ function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: bo
       </div>
       <div className="h-0.5 bg-border rounded-full overflow-hidden">
         <motion.div
-          className="h-full bg-primary rounded-full"
+          className={`h-full rounded-full ${level === 3 ? "bg-primary" : level === 2 ? "bg-primary/70" : "bg-primary/40"}`}
           initial={{ width: 0 }}
           animate={{ width: isInView ? `${barWidth}%` : 0 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          style={{ opacity: hovered ? 1 : 0.5 }}
+          style={{ opacity: hovered ? 1 : 0.6 }}
         />
       </div>
 
