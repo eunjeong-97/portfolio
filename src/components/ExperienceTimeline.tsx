@@ -77,9 +77,10 @@ export default function ExperienceTimeline() {
                 />
 
                 {/* Content Card */}
-                <div
+                <motion.div
                   onClick={() => setSelectedIndex(index)}
-                  className="bg-section-bg p-6 rounded-xl border border-border hover:border-primary transition-all cursor-pointer group hover:translate-x-2"
+                  whileHover={{ x: 6, transition: { duration: 0.2 } }}
+                  className="bg-section-bg p-6 rounded-xl border border-border hover:border-primary transition-colors cursor-pointer group"
                 >
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <div className="flex items-center gap-2 flex-wrap">
@@ -110,10 +111,17 @@ export default function ExperienceTimeline() {
                       </span>
                     ))}
                   </div>
-                  <div className="mt-4 text-sm text-muted-foreground group-hover:text-primary transition-colors">
-                    클릭하여 자세히 보기 →
+                  <div className="mt-4 text-sm text-muted-foreground group-hover:text-primary transition-colors flex items-center gap-1">
+                    <span>자세히 보기</span>
+                    <motion.span
+                      animate={{ x: [0, 4, 0] }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                      className="inline-block"
+                    >
+                      →
+                    </motion.span>
                   </div>
-                </div>
+                </motion.div>
               </motion.div>
             );
           })}

@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Github, FileText, Mail } from "lucide-react";
 
 const links = [
@@ -10,6 +11,8 @@ const links = [
 ];
 
 export default function SocialBar() {
+  const [hoveredLabel, setHoveredLabel] = useState<string | null>(null);
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
@@ -18,17 +21,33 @@ export default function SocialBar() {
       className="hidden lg:flex fixed left-5 bottom-1/3 z-40 flex-col items-center gap-3"
     >
       {links.map(({ href, icon: Icon, label, external }) => (
-        <motion.a
-          key={href}
-          href={href}
-          target={external ? "_blank" : undefined}
-          rel={external ? "noopener noreferrer" : undefined}
-          aria-label={label}
-          whileHover={{ scale: 1.15, x: 3 }}
-          className="w-9 h-9 bg-section-bg border border-border hover:border-primary rounded-lg flex items-center justify-center text-muted-foreground hover:text-primary transition-colors shadow-sm"
-        >
-          <Icon size={15} />
-        </motion.a>
+        <div key={href} className="relative flex items-center">
+          <AnimatePresence>
+            {hoveredLabel === label && (
+              <motion.span
+                initial={{ opacity: 0, x: -8 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -8 }}
+                transition={{ duration: 0.15 }}
+                className="absolute right-full mr-2 text-xs font-medium text-foreground bg-section-bg border border-border px-2 py-1 rounded-lg shadow-md whitespace-nowrap"
+              >
+                {label}
+              </motion.span>
+            )}
+          </AnimatePresence>
+          <motion.a
+            href={href}
+            target={external ? "_blank" : undefined}
+            rel={external ? "noopener noreferrer" : undefined}
+            aria-label={label}
+            whileHover={{ scale: 1.15, x: 3 }}
+            onMouseEnter={() => setHoveredLabel(label)}
+            onMouseLeave={() => setHoveredLabel(null)}
+            className="w-9 h-9 bg-section-bg border border-border hover:border-primary rounded-lg flex items-center justify-center text-muted-foreground hover:text-primary transition-colors shadow-sm"
+          >
+            <Icon size={15} />
+          </motion.a>
+        </div>
       ))}
       <div className="w-px h-12 bg-border mt-1" />
     </motion.div>
