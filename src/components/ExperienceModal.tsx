@@ -15,6 +15,8 @@ interface ExperienceModalProps {
   direction?: 1 | -1;
 }
 
+const FOCUSABLE = 'button:not([disabled]),[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+
 export default function ExperienceModal({
   experience,
   onClose,
@@ -25,25 +27,39 @@ export default function ExperienceModal({
   direction = 1,
 }: ExperienceModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (experience) modalRef.current?.focus();
+    if (experience) closeButtonRef.current?.focus();
   }, [experience]);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-      if (e.key === "ArrowLeft") onPrev?.();
-      if (e.key === "ArrowRight") onNext?.();
+      if (e.key === "Escape") { onClose(); return; }
+      if (e.key === "ArrowLeft") { onPrev?.(); return; }
+      if (e.key === "ArrowRight") { onNext?.(); return; }
+      if (e.key !== "Tab") return;
+
+      const modal = modalRef.current;
+      if (!modal) return;
+      const focusable = Array.from(modal.querySelectorAll<HTMLElement>(FOCUSABLE));
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
   }, [onClose, onPrev, onNext]);
 
   useEffect(() => {
-    document.body.style.overflow = experience ? "hidden" : "unset";
+    document.body.style.overflow = experience ? "hidden" : "";
     return () => {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = "";
     };
   }, [experience]);
 
@@ -106,6 +122,7 @@ export default function ExperienceModal({
                   <ChevronRight size={20} />
                 </button>
                 <button
+                  ref={closeButtonRef}
                   onClick={onClose}
                   className="p-2 hover:bg-muted rounded-lg transition-colors ml-1"
                   aria-label="닫기"
@@ -167,10 +184,8 @@ export default function ExperienceModal({
                       controls
                       className="w-full h-full object-contain"
                       playsInline
-                      autoPlay
                       muted
                     >
-                      <source src={experience.videoUrl} type="video/mp4" />
                       브라우저가 비디오 태그를 지원하지 않습니다.
                     </video>
                   </div>

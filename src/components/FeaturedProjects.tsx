@@ -34,13 +34,14 @@ export default function FeaturedProjects() {
           <p className="text-muted-foreground">
             어떤 문제를 해결했고, 어떤 결정을 내렸으며, 어떤 결과를 만들었는지 정리했습니다.
           </p>
-          <div className="flex flex-wrap items-center gap-2 mt-6">
+          <div className="flex flex-wrap items-center gap-2 mt-6" role="group" aria-label="기술 스택 필터">
             {FILTER_TAGS.map((tag) => {
               const count = tag === "전체" ? projects.length : projects.filter(p => p.tags.includes(tag)).length;
               return (
                 <button
                   key={tag}
                   onClick={() => setActiveFilter(tag)}
+                  aria-pressed={activeFilter === tag}
                   className={`px-3 py-1.5 rounded-lg text-sm transition-all flex items-center gap-1.5 ${
                     activeFilter === tag
                       ? "bg-primary text-white"
@@ -50,20 +51,17 @@ export default function FeaturedProjects() {
                   {tag}
                   <span className={`text-xs px-1.5 py-0.5 rounded-full ${
                     activeFilter === tag ? "bg-white/20 text-white" : "bg-border text-muted-foreground"
-                  }`}>{count}</span>
+                  }`} aria-hidden="true">{count}</span>
                 </button>
               );
             })}
-            {activeFilter !== "전체" && (
-              <motion.span
-                key={activeFilter}
-                initial={{ opacity: 0, y: -4 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-sm text-muted-foreground ml-1"
-              >
-                {filteredProjects.length}/{projects.length} 프로젝트
-              </motion.span>
-            )}
+            <span
+              aria-live="polite"
+              aria-atomic="true"
+              className="text-sm text-muted-foreground ml-1"
+            >
+              {activeFilter !== "전체" ? `${filteredProjects.length}/${projects.length} 프로젝트` : ""}
+            </span>
           </div>
         </motion.div>
 
@@ -100,9 +98,9 @@ export default function FeaturedProjects() {
               {/* Header */}
               <div className="flex flex-col sm:flex-row sm:items-start gap-4 mb-6">
                 {/* Number Badge */}
-                <div className="flex-shrink-0 w-12 h-12 bg-primary/10 border border-primary/20 rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <div className="flex-shrink-0 w-12 h-12 bg-primary/10 border border-primary/20 rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition-colors" aria-hidden="true">
                   <span className="text-primary font-bold text-sm">
-                    {String(projects.indexOf(project) + 1).padStart(2, "0")}
+                    {String(index + 1).padStart(2, "0")}
                   </span>
                 </div>
 
@@ -165,18 +163,22 @@ export default function FeaturedProjects() {
               <div className="flex flex-wrap gap-2 mt-6 pt-6 border-t border-border">
                 {project.tags.map((tag) => {
                   const isFilterable = FILTER_TAGS.includes(tag) && tag !== "전체";
-                  return (
+                  return isFilterable ? (
                     <button
                       key={tag}
-                      onClick={() => isFilterable ? setActiveFilter(tag) : undefined}
-                      className={`px-2 py-1 rounded text-xs transition-colors ${
-                        isFilterable
-                          ? "bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary cursor-pointer"
-                          : "bg-muted text-muted-foreground cursor-default"
-                      } ${activeFilter === tag ? "bg-primary/10 text-primary" : ""}`}
+                      onClick={() => setActiveFilter(tag)}
+                      aria-pressed={activeFilter === tag}
+                      className={`px-2 py-1 rounded text-xs transition-colors bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary ${activeFilter === tag ? "bg-primary/10 text-primary" : ""}`}
                     >
                       {tag}
                     </button>
+                  ) : (
+                    <span
+                      key={tag}
+                      className="px-2 py-1 rounded text-xs bg-muted text-muted-foreground"
+                    >
+                      {tag}
+                    </span>
                   );
                 })}
               </div>

@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Github, FileText, ArrowDown, Download } from "lucide-react";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 const ROLES = [
   "Frontend Developer",
@@ -42,15 +42,16 @@ function useTypewriter(words: string[], speed = 90, pause = 2000) {
 
 export default function Hero() {
   const role = useTypewriter(ROLES);
-  const [mouse, setMouse] = useState({ x: 50, y: 50 });
+  const spotlightRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    setMouse({
-      x: ((e.clientX - rect.left) / rect.width) * 100,
-      y: ((e.clientY - rect.top) / rect.height) * 100,
-    });
-  };
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    if (spotlightRef.current) {
+      spotlightRef.current.style.background = `radial-gradient(600px circle at ${x}% ${y}%, rgba(59,130,246,0.05), transparent 50%)`;
+    }
+  }, []);
   return (
     <section
       className="min-h-screen flex items-center px-6 pt-20 relative overflow-hidden"
@@ -63,10 +64,8 @@ export default function Hero() {
     >
       {/* Cursor spotlight */}
       <div
+        ref={spotlightRef}
         className="pointer-events-none absolute inset-0 opacity-0 md:opacity-100 transition-opacity"
-        style={{
-          background: `radial-gradient(600px circle at ${mouse.x}% ${mouse.y}%, rgba(59,130,246,0.05), transparent 50%)`,
-        }}
       />
       <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
         {/* Left Content */}
