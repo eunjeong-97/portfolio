@@ -71,13 +71,19 @@ const LEVEL_LABEL: Record<Level, string> = {
   1: "경험",
 };
 
+const LEVEL_DESC: Record<Level, string> = {
+  3: "실무 프로젝트에서 주도적으로 사용",
+  2: "실무에서 활용 경험 보유",
+  1: "기본 이해 및 사용 경험",
+};
+
 function SkillBadge({ name, level, isInView }: Skill & { isInView: boolean }) {
   const [hovered, setHovered] = useState(false);
   const barWidth = (level / 3) * 100;
 
   return (
     <div
-      className="px-3 py-2 bg-muted rounded-lg hover:bg-primary/10 transition-colors group cursor-default"
+      className="px-3 py-2 bg-muted rounded-lg hover:bg-primary/10 transition-colors group cursor-default relative"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -85,7 +91,10 @@ function SkillBadge({ name, level, isInView }: Skill & { isInView: boolean }) {
         <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
           {name}
         </span>
-        <div className="flex gap-0.5 flex-shrink-0">
+        <div className="flex items-center gap-1 flex-shrink-0">
+          <span className="text-xs text-muted-foreground/60 group-hover:text-primary transition-colors mr-0.5">
+            {LEVEL_LABEL[level]}
+          </span>
           {([1, 2, 3] as Level[]).map((i) => (
             <span
               key={i}
@@ -105,6 +114,13 @@ function SkillBadge({ name, level, isInView }: Skill & { isInView: boolean }) {
           style={{ opacity: hovered ? 1 : 0.5 }}
         />
       </div>
+
+      {/* Tooltip */}
+      {hovered && (
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1.5 bg-card border border-border rounded-lg text-xs text-muted-foreground whitespace-nowrap shadow-xl z-10 pointer-events-none">
+          {LEVEL_DESC[level]}
+        </div>
+      )}
     </div>
   );
 }

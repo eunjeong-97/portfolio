@@ -52,7 +52,7 @@ export default function GitHubActivity() {
   };
 
   const getDailyActivity = () => {
-    const days = 14;
+    const days = 30;
     const counts: number[] = Array(days).fill(0);
     const now = new Date();
     events.forEach((e) => {
@@ -117,7 +117,7 @@ export default function GitHubActivity() {
           </motion.div>
         )}
 
-        {/* 14-day activity bars */}
+        {/* 30-day activity heatmap */}
         {!loading && events.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -125,26 +125,42 @@ export default function GitHubActivity() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mb-8 bg-background border border-border rounded-xl p-4"
           >
-            <div className="text-xs text-muted-foreground mb-3">최근 14일 Push 활동</div>
-            <div className="flex items-end gap-1 h-10">
-              {dailyActivity.map((count, i) => (
-                <div
-                  key={i}
-                  className="flex-1 flex flex-col justify-end"
-                  title={`${count}건`}
-                >
-                  <motion.div
-                    className={`rounded-sm ${count > 0 ? "bg-primary" : "bg-border"}`}
-                    initial={{ height: 0 }}
-                    animate={isInView ? { height: `${Math.max((count / maxActivity) * 100, count > 0 ? 15 : 4)}%` } : { height: 0 }}
-                    transition={{ duration: 0.5, delay: 0.3 + i * 0.03 }}
-                    style={{ minHeight: count > 0 ? "4px" : "2px" }}
+            <div className="flex items-center justify-between mb-3">
+              <div className="text-xs text-muted-foreground">최근 30일 Push 활동</div>
+              <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
+                <span>적음</span>
+                {[0, 0.3, 0.6, 1].map((opacity, i) => (
+                  <span
+                    key={i}
+                    className="w-2.5 h-2.5 rounded-sm"
+                    style={{
+                      background: opacity === 0 ? "var(--border)" : `rgba(59,130,246,${opacity})`,
+                    }}
                   />
-                </div>
-              ))}
+                ))}
+                <span>많음</span>
+              </div>
             </div>
-            <div className="flex justify-between text-xs text-muted-foreground mt-1">
-              <span>14일 전</span>
+            <div className="grid gap-1" style={{ gridTemplateColumns: `repeat(${Math.ceil(dailyActivity.length / 5)}, 1fr)` }}>
+              {dailyActivity.map((count, i) => {
+                const intensity = count === 0 ? 0 : Math.min(1, 0.2 + (count / maxActivity) * 0.8);
+                return (
+                  <motion.div
+                    key={i}
+                    title={`${count}건`}
+                    className="h-3 rounded-sm"
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ duration: 0.3, delay: 0.3 + i * 0.015 }}
+                    style={{
+                      background: count === 0 ? "var(--border)" : `rgba(59,130,246,${intensity})`,
+                    }}
+                  />
+                );
+              })}
+            </div>
+            <div className="flex justify-between text-[10px] text-muted-foreground mt-1.5">
+              <span>30일 전</span>
               <span>오늘</span>
             </div>
           </motion.div>
