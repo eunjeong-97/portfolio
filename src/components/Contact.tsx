@@ -123,6 +123,7 @@ export default function Contact() {
                     href={link.href}
                     target={link.href.startsWith("http") ? "_blank" : undefined}
                     rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    aria-label={link.href.startsWith("http") ? `${link.label} (새 탭에서 열림)` : undefined}
                     className="flex items-center gap-4 flex-1 min-w-0"
                   >
                     <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition-colors flex-shrink-0" aria-hidden="true">
@@ -329,7 +330,7 @@ export default function Contact() {
                         <><Send size={16} aria-hidden="true" /> 메시지 보내기</>
                       )}
                     </button>
-                    <span className="hidden sm:flex items-center gap-1 text-[10px] text-muted-foreground/60 whitespace-nowrap flex-shrink-0">
+                    <span className="hidden sm:flex items-center gap-1 text-[10px] text-muted-foreground/60 whitespace-nowrap flex-shrink-0" aria-hidden="true">
                       <kbd className="font-mono bg-muted border border-border px-1 py-0.5 rounded text-[9px]">Ctrl</kbd>
                       +
                       <kbd className="font-mono bg-muted border border-border px-1 py-0.5 rounded text-[9px]">↵</kbd>
