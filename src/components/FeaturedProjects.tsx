@@ -82,7 +82,7 @@ export default function FeaturedProjects() {
                 {/* Number Badge */}
                 <div className="flex-shrink-0 w-12 h-12 bg-primary/10 border border-primary/20 rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                   <span className="text-primary font-bold text-sm">
-                    {String(index + 1).padStart(2, "0")}
+                    {String(projects.indexOf(project) + 1).padStart(2, "0")}
                   </span>
                 </div>
 

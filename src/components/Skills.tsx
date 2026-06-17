@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Code2, Smartphone, Palette, Wrench } from "lucide-react";
@@ -119,11 +119,19 @@ function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: bo
       </div>
 
       {/* Tooltip */}
-      {hovered && (
-        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1.5 bg-card border border-border rounded-lg text-xs text-muted-foreground whitespace-nowrap shadow-xl z-10 pointer-events-none">
-          {LEVEL_DESC[level]}
-        </div>
-      )}
+      <AnimatePresence>
+        {hovered && (
+          <motion.div
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 4 }}
+            transition={{ duration: 0.15 }}
+            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1.5 bg-card border border-border rounded-lg text-xs text-muted-foreground whitespace-nowrap shadow-xl z-10 pointer-events-none"
+          >
+            {LEVEL_DESC[level]}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

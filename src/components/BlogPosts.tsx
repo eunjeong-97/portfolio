@@ -61,7 +61,18 @@ export default function BlogPosts() {
             Tech Blog
           </span>
           <div className="flex items-end justify-between mt-2">
-            <h2 className="text-3xl md:text-4xl font-bold">기술 블로그</h2>
+            <div className="flex items-center gap-3">
+              <h2 className="text-3xl md:text-4xl font-bold">기술 블로그</h2>
+              {!loading && posts.length > 0 && (
+                <motion.span
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="mb-1 text-sm text-muted-foreground"
+                >
+                  <span className="text-primary font-bold">{posts.length}</span>개
+                </motion.span>
+              )}
+            </div>
             <a
               href="https://velog.io/@beanlove97"
               target="_blank"

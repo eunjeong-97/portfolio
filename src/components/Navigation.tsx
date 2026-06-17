@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Moon, Sun, Menu, X, Download } from "lucide-react";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
+import { Moon, Sun, Menu, X, Download, Keyboard } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 
 const navItems = [
@@ -20,6 +20,9 @@ export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const [showShortcuts, setShowShortcuts] = useState(false);
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 30 });
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -31,7 +34,8 @@ export default function Navigation() {
     const handleKey = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
       if (e.key.toLowerCase() === "t") toggleTheme();
-      if (e.key === "Escape") setIsMobileMenuOpen(false);
+      if (e.key === "?") setShowShortcuts((prev) => !prev);
+      if (e.key === "Escape") { setIsMobileMenuOpen(false); setShowShortcuts(false); }
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
@@ -77,6 +81,11 @@ export default function Navigation() {
           : "bg-transparent"
       }`}
     >
+      {/* Reading progress bar */}
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-left"
+        style={{ scaleX, opacity: scrollYProgress }}
+      />
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo */}
         <motion.a
@@ -129,6 +138,16 @@ export default function Navigation() {
             <Download size={12} />
             이력서
           </a>
+
+          {/* Keyboard shortcut hint */}
+          <button
+            onClick={() => setShowShortcuts((prev) => !prev)}
+            className="hidden lg:flex p-2 rounded-lg bg-muted hover:bg-primary/10 text-muted-foreground hover:text-primary transition-colors"
+            aria-label="키보드 단축키"
+            title="키보드 단축키 (? 키)"
+          >
+            <Keyboard size={16} />
+          </button>
 
           {/* Theme Toggle */}
           <button
@@ -228,6 +247,49 @@ export default function Navigation() {
                 >
                   {theme === "dark" ? <Sun size={18} className="text-yellow-400" /> : <Moon size={18} className="text-primary" />}
                 </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Keyboard shortcuts panel */}
+      <AnimatePresence>
+        {showShortcuts && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowShortcuts(false)}
+              className="fixed inset-0 z-40"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: -10 }}
+              transition={{ duration: 0.15 }}
+              className="fixed top-20 right-6 z-50 bg-section-bg border border-border rounded-xl shadow-2xl p-4 w-60"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-xs font-semibold text-foreground uppercase tracking-wider">키보드 단축키</p>
+                <button onClick={() => setShowShortcuts(false)} className="text-muted-foreground hover:text-foreground">
+                  <X size={14} />
+                </button>
+              </div>
+              <div className="space-y-2">
+                {[
+                  { key: "C", desc: "AI 도우미 열기/닫기" },
+                  { key: "T", desc: "다크/라이트 테마 전환" },
+                  { key: "?", desc: "단축키 목록 보기" },
+                  { key: "Esc", desc: "닫기" },
+                  { key: "← →", desc: "경험 이전/다음 이동" },
+                ].map(({ key, desc }) => (
+                  <div key={key} className="flex items-center justify-between gap-2">
+                    <span className="text-xs text-muted-foreground">{desc}</span>
+                    <kbd className="text-[10px] font-mono bg-muted border border-border px-1.5 py-0.5 rounded text-foreground flex-shrink-0">{key}</kbd>
+                  </div>
+                ))}
               </div>
             </motion.div>
           </>

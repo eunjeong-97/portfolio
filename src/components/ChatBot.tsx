@@ -41,14 +41,40 @@ function formatTime(date?: Date) {
   return date.toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" });
 }
 
+const STORAGE_KEY = "chatbot_messages";
+
+function loadMessages(): Message[] {
+  if (typeof window === "undefined") return [WELCOME];
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [WELCOME];
+    const parsed = JSON.parse(raw) as Array<Omit<Message, "timestamp"> & { timestamp?: string }>;
+    if (!Array.isArray(parsed) || parsed.length === 0) return [WELCOME];
+    return parsed.map((m) => ({ ...m, timestamp: m.timestamp ? new Date(m.timestamp) : undefined }));
+  } catch {
+    return [WELCOME];
+  }
+}
+
 export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([WELCOME]);
+  const [messages, setMessages] = useState<Message[]>(loadMessages);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    if (messages.length > 1) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+      } catch {
+        // ignore storage errors
+      }
+    }
+  }, [messages]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -78,6 +104,12 @@ export default function ChatBot() {
     return () => window.removeEventListener("keydown", handleKey);
   }, []);
 
+  const cancelMessage = () => {
+    abortRef.current?.abort();
+    abortRef.current = null;
+    setLoading(false);
+  };
+
   const sendMessage = async (text?: string) => {
     const messageText = text || input.trim();
     if (!messageText || loading) return;
@@ -88,6 +120,9 @@ export default function ChatBot() {
     setInput("");
     setLoading(true);
 
+    const controller = new AbortController();
+    abortRef.current = controller;
+
     try {
       const MAX_HISTORY = 20;
       const trimmedMessages = newMessages.slice(-MAX_HISTORY);
@@ -95,6 +130,7 @@ export default function ChatBot() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: trimmedMessages }),
+        signal: controller.signal,
       });
 
       if (!res.ok) {
@@ -108,12 +144,14 @@ export default function ChatBot() {
       } else {
         setMessages([...newMessages, { role: "assistant", content: data.message, timestamp: ts }]);
       }
-    } catch {
+    } catch (err) {
+      if (err instanceof Error && err.name === "AbortError") return;
       setMessages([
         ...newMessages,
         { role: "assistant", content: "죄송합니다. 오류가 발생했습니다. 다시 시도해주세요.", timestamp: new Date() },
       ]);
     } finally {
+      abortRef.current = null;
       setLoading(false);
     }
   };
@@ -150,7 +188,7 @@ export default function ChatBot() {
               </div>
               <div className="flex items-center gap-1">
                 <button
-                  onClick={() => { setMessages([WELCOME]); setInput(""); }}
+                  onClick={() => { setMessages([WELCOME]); setInput(""); localStorage.removeItem(STORAGE_KEY); }}
                   className="text-white/60 hover:text-white transition-colors p-1"
                   aria-label="대화 초기화"
                   title="대화 초기화"
@@ -272,13 +310,24 @@ export default function ChatBot() {
                     </span>
                   )}
                 </div>
-                <button
-                  onClick={() => sendMessage()}
-                  disabled={!input.trim() || loading}
-                  className="bg-primary hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed text-white p-2 rounded-xl transition-colors"
-                >
-                  <Send size={16} />
-                </button>
+                {loading ? (
+                  <button
+                    onClick={cancelMessage}
+                    className="bg-muted hover:bg-red-500/10 hover:text-red-400 text-muted-foreground p-2 rounded-xl transition-colors border border-border"
+                    aria-label="응답 취소"
+                    title="응답 취소"
+                  >
+                    <X size={16} />
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => sendMessage()}
+                    disabled={!input.trim()}
+                    className="bg-primary hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed text-white p-2 rounded-xl transition-colors"
+                  >
+                    <Send size={16} />
+                  </button>
+                )}
               </div>
             </div>
           </motion.div>
