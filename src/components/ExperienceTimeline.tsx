@@ -18,6 +18,22 @@ function getDuration(period: string): string {
   return months > 0 ? `${years}년 ${months}개월` : `${years}년`;
 }
 
+const CAREER_START = [2022, 3] as const;
+const TOTAL_MONTHS = (2024 - CAREER_START[0]) * 12 + (10 - CAREER_START[1]) + 1;
+const EXP_COLORS = ["bg-green-400", "bg-indigo-400", "bg-purple-400", "bg-yellow-400", "bg-blue-400"];
+
+function getBarProps(period: string) {
+  const parts = period.split(" - ").map(s => s.trim());
+  const [sy, sm] = parts[0].split(".").map(Number);
+  const [ey, em] = parts[1].split(".").map(Number);
+  const startOff = (sy - CAREER_START[0]) * 12 + (sm - CAREER_START[1]);
+  const endOff = (ey - CAREER_START[0]) * 12 + (em - CAREER_START[1]);
+  return {
+    left: (startOff / TOTAL_MONTHS) * 100,
+    width: ((endOff - startOff + 1) / TOTAL_MONTHS) * 100,
+  };
+}
+
 export default function ExperienceTimeline() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -41,10 +57,53 @@ export default function ExperienceTimeline() {
               <span className="text-primary font-semibold">{experiences.length}</span>개 프로젝트
             </span>
           </div>
-          <p className="text-muted-foreground mb-12">
+          <p className="text-muted-foreground mb-6">
             ㈜트러스트체인에서 마일벌스 서비스 관련 홈페이지, 앱, 어드민 개발을
             담당했습니다.
           </p>
+
+          {/* Career Gantt chart */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="mb-10 bg-muted/50 border border-border rounded-xl p-4"
+          >
+            <div className="flex justify-between text-[10px] text-muted-foreground mb-2">
+              <span>2022.03</span>
+              <span>2023</span>
+              <span>2024.10</span>
+            </div>
+            <div className="relative h-7 bg-muted rounded-lg overflow-hidden">
+              {/* Year dividers */}
+              {[33.3, 66.6].map((pct) => (
+                <div key={pct} className="absolute top-0 bottom-0 w-px bg-border/50" style={{ left: `${pct}%` }} />
+              ))}
+              {/* Experience bars (reversed: oldest → newest) */}
+              {[...experiences].reverse().map((exp, i) => {
+                const { left, width } = getBarProps(exp.period);
+                return (
+                  <motion.div
+                    key={exp.id}
+                    title={exp.title}
+                    className={`absolute top-1.5 bottom-1.5 ${EXP_COLORS[i]} rounded opacity-70 hover:opacity-100 transition-opacity cursor-default`}
+                    style={{ left: `${left}%`, width: `${width}%`, originX: "left" }}
+                    initial={{ scaleX: 0 }}
+                    animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
+                    transition={{ duration: 0.6, delay: 0.4 + i * 0.08 }}
+                  />
+                );
+              })}
+            </div>
+            <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2">
+              {[...experiences].reverse().map((exp, i) => (
+                <span key={exp.id} className="flex items-center gap-1 text-[10px] text-muted-foreground">
+                  <span className={`w-2 h-2 rounded-sm ${EXP_COLORS[i]} opacity-70`} />
+                  {exp.title.split(" ").slice(0, 2).join(" ")}
+                </span>
+              ))}
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* Timeline */}
