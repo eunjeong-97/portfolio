@@ -76,7 +76,7 @@ export default function GitHubActivity() {
   const maxActivity = Math.max(...dailyActivity, 1);
 
   return (
-    <section id="github" className="py-24 px-6 bg-section-bg" ref={ref}>
+    <section id="github" className="py-24 px-6 bg-section-bg" ref={ref} aria-busy={loading}>
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

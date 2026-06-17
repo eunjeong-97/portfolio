@@ -87,7 +87,7 @@ export default function BlogPosts() {
               rel="noopener noreferrer"
               className="flex items-center gap-1 text-sm text-primary hover:text-primary-light transition-colors"
             >
-              전체 보기 <ExternalLink size={14} />
+              전체 보기 <ExternalLink size={14} aria-hidden="true" />
             </a>
           </div>
           <p className="text-muted-foreground mt-3">
@@ -150,12 +150,12 @@ export default function BlogPosts() {
                 <div className="flex items-center justify-between gap-2 mb-3">
                   {isRecent(post.pubDate) ? (
                     <span className="inline-flex items-center gap-1 text-xs text-green-400 bg-green-400/10 px-2 py-0.5 rounded-full">
-                      <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+                      <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" aria-hidden="true" />
                       최신
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-1 text-xs text-primary bg-primary/10 px-2 py-0.5 rounded-full">
-                      <FileText size={10} />
+                      <FileText size={10} aria-hidden="true" />
                       블로그
                     </span>
                   )}
