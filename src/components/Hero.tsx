@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Github, FileText, ArrowDown } from "lucide-react";
+import { Github, FileText, ArrowDown, Download } from "lucide-react";
 import Image from "next/image";
 
 export default function Hero() {
@@ -67,6 +67,14 @@ export default function Hero() {
               className="px-6 py-3 border border-neutral-600 hover:border-foreground rounded-lg font-medium transition-colors text-foreground"
             >
               연락하기
+            </a>
+            <a
+              href="/resume.pdf"
+              download="박은정_이력서.pdf"
+              className="flex items-center gap-2 px-6 py-3 border border-primary/50 hover:border-primary hover:bg-primary/5 rounded-lg font-medium transition-colors text-primary"
+            >
+              <Download size={16} />
+              이력서 다운로드
             </a>
           </motion.div>
 
