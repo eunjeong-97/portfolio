@@ -13,6 +13,9 @@ const MESSAGE_TEMPLATES = [
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const INITIAL_FORM = { name: "", email: "", message: "" };
+const INITIAL_TOUCHED = { name: false, email: false, message: false };
+
 const contactLinks = [
   {
     icon: Mail,
@@ -38,8 +41,8 @@ export default function Contact() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const { copied, copy: copyEmail } = useCopyToClipboard();
-  const [formState, setFormState] = useState({ name: "", email: "", message: "" });
-  const [touched, setTouched] = useState({ name: false, email: false, message: false });
+  const [formState, setFormState] = useState(INITIAL_FORM);
+  const [touched, setTouched] = useState(INITIAL_TOUCHED);
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [sendError, setSendError] = useState(false);
@@ -206,7 +209,7 @@ export default function Contact() {
                   <h4 className="font-semibold mb-2 text-lg">메시지를 보냈습니다!</h4>
                   <p className="text-sm text-muted-foreground mb-4">빠르게 답변드리겠습니다. (24시간 이내)</p>
                   <button
-                    onClick={() => { setSent(false); setFormState({ name: "", email: "", message: "" }); setTouched({ name: false, email: false, message: false }); }}
+                    onClick={() => { setSent(false); setFormState(INITIAL_FORM); setTouched(INITIAL_TOUCHED); }}
                     className="text-xs text-primary hover:text-primary-light underline underline-offset-2 transition-colors"
                   >
                     다른 메시지 보내기

@@ -179,7 +179,7 @@ export default function ChatBot() {
   };
 
   const sendMessage = async (text?: string) => {
-    const messageText = text || input.trim();
+    const messageText = text ?? input.trim();
     if (!messageText || loading) return;
 
     const userMessage: Message = { role: "user", content: messageText, timestamp: new Date() };
