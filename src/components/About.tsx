@@ -5,10 +5,10 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 
 const highlights = [
-  { number: "3+", label: "Years of Experience" },
-  { number: "60+", label: "Pages Developed" },
-  { number: "5+", label: "SDK Integrations" },
-  { number: "2", label: "Platforms (Web & App)" },
+  { number: "3+", label: "Years of Experience", context: "2022년부터 웹·앱 풀사이클" },
+  { number: "60+", label: "Pages Developed", context: "앱 재개발 3개월 단독 담당" },
+  { number: "5+", label: "SDK Integrations", context: "광고사 Native Module 직접 연동" },
+  { number: "2", label: "Platforms", context: "Web (React) + App (React Native)" },
 ];
 
 export default function About() {
@@ -40,24 +40,36 @@ export default function About() {
             className="space-y-6"
           >
             <p className="text-muted-foreground text-lg leading-relaxed">
-              <strong className="text-foreground">React.js</strong>를 통한 웹
-              개발뿐만 아니라,
-              <strong className="text-foreground">React Native</strong>를 통해
-              Android와 iOS 디바이스에서 실행 가능한 크로스플랫폼 앱 개발이
-              가능합니다.
+              2022년, 레거시 jQuery 홈페이지를{" "}
+              <strong className="text-foreground">React로 리팩토링</strong>하는
+              일을 시작으로 개발에 입문했습니다. 이후{" "}
+              <strong className="text-foreground">React Native</strong>로 앱을
+              처음부터 다시 만들고, 광고 SDK를 네이티브 코드 레벨에서 직접
+              연동하면서 — 웹과 앱,{" "}
+              <strong className="text-foreground">
+                JavaScript와 Java/Swift
+              </strong>
+              를 경계 없이 다루게 됐습니다.
             </p>
             <p className="text-muted-foreground text-lg leading-relaxed">
-              필요한 경우, 각 네이티브 환경에서 Android의{" "}
-              <strong className="text-foreground">Java/Kotlin</strong>과 iOS의{" "}
-              <strong className="text-foreground">Objective-C/Swift</strong>{" "}
-              언어를 사용한 개발을 경험했으며, 이를 React Native와 연동하여
-              네이티브 모듈을 개발할 수 있습니다.
+              저는 &apos;이 오류는 왜 발생하는가&apos;를 끝까지 파고듭니다.
+              국내 사례가 없는{" "}
+              <strong className="text-foreground">AdMob Bidding 시스템</strong>
+              을 도입할 때도, 구글 담당자에게 직접 이메일을 보내고 공식 문서를
+              분석하며 스스로 답을 찾았습니다. 라이브러리를 교체하는 것이
+              아니라,{" "}
+              <strong className="text-foreground">
+                근본 원인을 이해하고 해결
+              </strong>
+              하는 것이 제 방식입니다.
             </p>
             <p className="text-muted-foreground text-lg leading-relaxed">
-              생소한 환경에서도 개발을 두려워하지 않으며, 개발 도중 발생한
-              오류를 단순히 라이브러리로 해결하는 것을 넘어{" "}
-              <strong className="text-foreground">근본적인 원인을 파악</strong>
-              하고 해결하는 데 강점이 있습니다.
+              팀에 합류하면 빠르게{" "}
+              <strong className="text-foreground">컨텍스트를 파악</strong>하고,
+              모르는 기술도 스스로 익혀서 실행에 옮깁니다. 크로스플랫폼 경험을
+              바탕으로{" "}
+              <strong className="text-foreground">웹과 앱을 함께 다루는 팀</strong>
+              에서 특히 강점을 발휘할 수 있습니다.
             </p>
           </motion.div>
 
@@ -82,8 +94,24 @@ export default function About() {
                 <div className="text-sm text-muted-foreground">
                   {item.label}
                 </div>
+                <div className="text-xs text-primary/70 mt-1">{item.context}</div>
               </motion.div>
             ))}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.9 }}
+              className="col-span-2 bg-primary/5 border border-primary/20 rounded-xl p-4 mt-2"
+            >
+              <div className="text-xs text-primary uppercase tracking-wider mb-2">개발 원칙</div>
+              <div className="flex flex-wrap gap-2">
+                {["근본 원인 파악", "공식 문서 우선", "자기주도적 문제 해결", "웹·앱 경계 없는 개발"].map((v) => (
+                  <span key={v} className="text-sm text-foreground/80">
+                    # {v}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>

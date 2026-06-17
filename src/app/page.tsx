@@ -1,4 +1,5 @@
 import Hero from "@/components/Hero";
+import FeaturedProjects from "@/components/FeaturedProjects";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
 import ExperienceTimeline from "@/components/ExperienceTimeline";
@@ -9,6 +10,7 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <Hero />
+      <FeaturedProjects />
       <About />
       <Skills />
       <ExperienceTimeline />

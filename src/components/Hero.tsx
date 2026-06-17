@@ -21,7 +21,7 @@ export default function Hero() {
             transition={{ delay: 0.2 }}
             className="inline-block px-4 py-2 bg-muted rounded-full text-sm text-primary-light mb-6 border border-border"
           >
-            Frontend Developer
+            Frontend & Mobile Developer
           </motion.span>
 
           <motion.h1
@@ -30,11 +30,11 @@ export default function Hero() {
             transition={{ delay: 0.3 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
           >
-            <span className="text-primary">크로스플랫폼</span>을
+            웹과 앱,
             <br />
-            넘나드는 개발자,
+            <span className="text-primary">하나의 코드베이스</span>로
             <br />
-            박은정입니다
+            만드는 개발자입니다
           </motion.h1>
 
           <motion.p
@@ -43,9 +43,11 @@ export default function Hero() {
             transition={{ delay: 0.4 }}
             className="text-lg text-muted-foreground mb-8 leading-relaxed"
           >
-            웹과 앱의 경계 없이 사용자에게 최적의 경험을 전달합니다.
+            React · React Native로 웹과 앱을 함께 개발하며,
             <br />
-            문제의 근본 원인을 파악하고 해결하는 것을 좋아합니다.
+            SDK 연동부터 Java/Swift 네이티브 코드까지 직접 다뤄왔습니다.
+            <br />
+            생소한 기술도 공식 문서와 근본 원인 분석으로 스스로 해결합니다.
           </motion.p>
 
           <motion.div
@@ -55,10 +57,10 @@ export default function Hero() {
             className="flex flex-wrap gap-4 mb-8"
           >
             <a
-              href="#experience"
+              href="#projects"
               className="px-6 py-3 bg-primary hover:bg-primary-light rounded-lg font-medium transition-colors text-white"
             >
-              경험 보기
+              프로젝트 보기
             </a>
             <a
               href="#contact"
@@ -66,6 +68,22 @@ export default function Hero() {
             >
               연락하기
             </a>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.55 }}
+            className="flex flex-wrap gap-2 mb-8"
+          >
+            {["React", "TypeScript", "React Native", "Next.js", "Java/Kotlin", "Swift"].map((tech) => (
+              <span
+                key={tech}
+                className="px-3 py-1 bg-muted border border-border rounded-full text-xs text-muted-foreground"
+              >
+                {tech}
+              </span>
+            ))}
           </motion.div>
 
           <motion.div
@@ -174,10 +192,11 @@ export default function Hero() {
               }}
               className="absolute -bottom-2 right-4 md:bottom-0 md:right-8 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl"
             >
-              <div className="text-xs text-muted-foreground mb-1">Projects</div>
+              <div className="text-xs text-muted-foreground mb-1">앱 재개발</div>
               <div className="text-lg font-semibold">
                 60<span className="text-primary">+</span> Pages
               </div>
+              <div className="text-xs text-muted-foreground mt-1">3개월 혼자 담당</div>
             </motion.div>
           </div>
         </motion.div>
