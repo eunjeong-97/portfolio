@@ -1,8 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Keyboard } from "lucide-react";
+
+const FOCUSABLE =
+  'button:not([disabled]),[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
 
 const shortcuts = [
   { key: "?", description: "단축키 목록 보기" },
@@ -26,6 +29,12 @@ const NAV_SECTIONS = ["projects", "about", "skills", "experience", "blog", "cont
 
 export default function KeyboardShortcuts() {
   const [isOpen, setIsOpen] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (isOpen) closeButtonRef.current?.focus();
+  }, [isOpen]);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -34,12 +43,25 @@ export default function KeyboardShortcuts() {
         e.target instanceof HTMLTextAreaElement
       ) return;
 
-      if (e.key === "?") {
-        e.preventDefault();
-        setIsOpen((prev) => !prev);
-      }
-      if (e.key === "Escape") setIsOpen(false);
+      if (e.key === "?") { e.preventDefault(); setIsOpen((prev) => !prev); return; }
+      if (e.key === "Escape") { setIsOpen(false); return; }
 
+      if (e.key === "Tab") {
+        const modal = modalRef.current;
+        if (!modal) return;
+        const focusable = Array.from(modal.querySelectorAll<HTMLElement>(FOCUSABLE));
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+        } else {
+          if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+        return;
+      }
+
+      if (modalRef.current) return;
       const num = parseInt(e.key);
       if (num >= 1 && num <= NAV_SECTIONS.length) {
         const el = document.getElementById(NAV_SECTIONS[num - 1]);
@@ -60,7 +82,7 @@ export default function KeyboardShortcuts() {
         aria-expanded={isOpen}
         aria-haspopup="dialog"
       >
-        <Keyboard size={12} />
+        <Keyboard size={12} aria-hidden="true" />
         <span className="font-mono">?</span>
       </button>
 
@@ -75,6 +97,7 @@ export default function KeyboardShortcuts() {
               className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
             />
             <motion.div
+              ref={modalRef}
               role="dialog"
               aria-modal="true"
               aria-label="키보드 단축키 목록"
@@ -86,15 +109,16 @@ export default function KeyboardShortcuts() {
             >
               <div className="flex items-center justify-between px-5 py-4 border-b border-border">
                 <div className="flex items-center gap-2">
-                  <Keyboard size={16} className="text-primary" />
+                  <Keyboard size={16} className="text-primary" aria-hidden="true" />
                   <span className="font-semibold text-sm">키보드 단축키</span>
                 </div>
                 <button
+                  ref={closeButtonRef}
                   onClick={() => setIsOpen(false)}
                   className="text-muted-foreground hover:text-foreground transition-colors p-1 rounded-lg hover:bg-muted"
                   aria-label="단축키 목록 닫기"
                 >
-                  <X size={16} />
+                  <X size={16} aria-hidden="true" />
                 </button>
               </div>
 
