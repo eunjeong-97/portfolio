@@ -104,12 +104,16 @@ export default function About() {
               className="col-span-2 bg-primary/5 border border-primary/20 rounded-xl p-4 mt-2"
             >
               <div className="text-xs text-primary uppercase tracking-wider mb-2">개발 원칙</div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 mb-3">
                 {["근본 원인 파악", "공식 문서 우선", "자기주도적 문제 해결", "웹·앱 경계 없는 개발"].map((v) => (
                   <span key={v} className="text-sm text-foreground/80">
                     # {v}
                   </span>
                 ))}
+              </div>
+              <div className="flex items-center gap-2 pt-2 border-t border-primary/10">
+                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                <span className="text-sm text-green-400 font-medium">현재 구직 중 · 즉시 합류 가능합니다</span>
               </div>
             </motion.div>
           </motion.div>

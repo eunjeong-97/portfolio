@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
-import { Mail, Github, FileText, Send } from "lucide-react";
+import { useRef, useState } from "react";
+import { Mail, Github, FileText, Send, Copy, Check } from "lucide-react";
 
 const contactLinks = [
   {
@@ -29,6 +29,13 @@ const contactLinks = [
 export default function Contact() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [copied, setCopied] = useState(false);
+
+  const copyEmail = async () => {
+    await navigator.clipboard.writeText("beanlove97@gmail.com");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <section id="contact" className="py-24 px-6 bg-section-bg" ref={ref}>
@@ -65,32 +72,41 @@ export default function Contact() {
 
             <div className="space-y-4">
               {contactLinks.map((link, index) => (
-                <motion.a
+                <motion.div
                   key={link.label}
-                  href={link.href}
-                  target={link.href.startsWith("http") ? "_blank" : undefined}
-                  rel={
-                    link.href.startsWith("http")
-                      ? "noopener noreferrer"
-                      : undefined
-                  }
                   initial={{ opacity: 0, x: -20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
                   className="flex items-center gap-4 p-4 bg-section-bg rounded-xl border border-border hover:border-primary transition-colors group"
                 >
-                  <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                    <link.icon size={20} className="text-primary" />
-                  </div>
-                  <div>
-                    <div className="text-sm font-semibold text-foreground">
-                      {link.label}
+                  <a
+                    href={link.href}
+                    target={link.href.startsWith("http") ? "_blank" : undefined}
+                    rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    className="flex items-center gap-4 flex-1 min-w-0"
+                  >
+                    <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition-colors flex-shrink-0">
+                      <link.icon size={20} className="text-primary" />
                     </div>
-                    <div className="text-muted-foreground group-hover:text-primary transition-colors">
-                      {link.value}
+                    <div className="min-w-0">
+                      <div className="text-sm font-semibold text-foreground">
+                        {link.label}
+                      </div>
+                      <div className="text-muted-foreground group-hover:text-primary transition-colors truncate">
+                        {link.value}
+                      </div>
                     </div>
-                  </div>
-                </motion.a>
+                  </a>
+                  {link.label === "Email" && (
+                    <button
+                      onClick={copyEmail}
+                      className="flex-shrink-0 p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-primary"
+                      aria-label="이메일 복사"
+                    >
+                      {copied ? <Check size={16} className="text-green-400" /> : <Copy size={16} />}
+                    </button>
+                  )}
+                </motion.div>
               ))}
             </div>
           </motion.div>
@@ -100,42 +116,61 @@ export default function Contact() {
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="bg-section-bg p-8 rounded-2xl border border-border text-center"
+            className="space-y-4"
           >
-            <div className="w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <Send size={28} className="text-primary" />
+            {/* 구직 상태 카드 */}
+            <div className="bg-green-500/5 border border-green-500/20 rounded-2xl p-6 flex items-center gap-4">
+              <div className="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                <span className="w-3 h-3 bg-green-400 rounded-full animate-pulse" />
+              </div>
+              <div>
+                <p className="font-semibold text-green-400">현재 구직 중입니다</p>
+                <p className="text-sm text-muted-foreground mt-0.5">
+                  새로운 기회에 열려 있으며 빠르게 합류 가능합니다
+                </p>
+              </div>
             </div>
-            <h4 className="text-xl font-semibold mb-3">
-              프로젝트를 함께 하고 싶으신가요?
-            </h4>
-            <p className="text-muted-foreground mb-6">
-              이메일로 편하게 연락 주세요
-            </p>
-            <a
-              href="mailto:beanlove97@gmail.com"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary-light rounded-lg font-medium transition-colors text-white"
-            >
-              <Mail size={18} />
-              이메일 보내기
-            </a>
 
-            <div className="flex justify-center gap-4 mt-8 pt-6 border-t border-border">
+            {/* CTA 카드 */}
+            <div className="bg-section-bg p-8 rounded-2xl border border-border text-center">
+              <div className="w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <Send size={28} className="text-primary" />
+              </div>
+              <h4 className="text-xl font-semibold mb-3">
+                프로젝트를 함께 하고 싶으신가요?
+              </h4>
+              <p className="text-muted-foreground mb-2">
+                이메일로 편하게 연락 주세요
+              </p>
+              <p className="text-xs text-muted-foreground mb-6">
+                📬 24시간 이내 답변드립니다
+              </p>
               <a
-                href="https://github.com/eunjeong-97"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 bg-muted hover:border-border rounded-lg text-sm transition-colors"
+                href="mailto:beanlove97@gmail.com"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary-light rounded-lg font-medium transition-colors text-white"
               >
-                GitHub
+                <Mail size={18} />
+                이메일 보내기
               </a>
-              <a
-                href="https://velog.io/@beanlove97"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 bg-muted hover:border-border rounded-lg text-sm transition-colors"
-              >
-                Blog
-              </a>
+
+              <div className="flex justify-center gap-4 mt-8 pt-6 border-t border-border">
+                <a
+                  href="https://github.com/eunjeong-97"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-muted hover:border-border rounded-lg text-sm transition-colors"
+                >
+                  GitHub
+                </a>
+                <a
+                  href="https://velog.io/@beanlove97"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-muted hover:border-border rounded-lg text-sm transition-colors"
+                >
+                  Blog
+                </a>
+              </div>
             </div>
           </motion.div>
         </div>

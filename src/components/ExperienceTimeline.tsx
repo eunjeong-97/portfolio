@@ -3,14 +3,14 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { experiences, Experience } from "@/data/experiences";
+import { experiences } from "@/data/experiences";
 import ExperienceModal from "./ExperienceModal";
 
 export default function ExperienceTimeline() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [selectedExperience, setSelectedExperience] =
-    useState<Experience | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const selectedExperience = selectedIndex !== null ? experiences[selectedIndex] : null;
 
   return (
     <section id="experience" className="py-24 px-6" ref={ref}>
@@ -47,7 +47,7 @@ export default function ExperienceTimeline() {
 
               {/* Content Card */}
               <div
-                onClick={() => setSelectedExperience(exp)}
+                onClick={() => setSelectedIndex(index)}
                 className="bg-section-bg p-6 rounded-xl border border-border hover:border-primary transition-all cursor-pointer group hover:translate-x-2"
               >
                 <span className="text-sm text-primary font-medium">
@@ -63,7 +63,6 @@ export default function ExperienceTimeline() {
                   {exp.tags.map((tag) => (
                     <span
                       key={tag}
-                      // className="px-2 py-1 bg-muted rounded text-xs text-muted-foreground"
                       className="px-2 py-1 bg-muted rounded text-xs text-muted-foreground"
                     >
                       {tag}
@@ -82,7 +81,9 @@ export default function ExperienceTimeline() {
       {/* Modal */}
       <ExperienceModal
         experience={selectedExperience}
-        onClose={() => setSelectedExperience(null)}
+        onClose={() => setSelectedIndex(null)}
+        onPrev={selectedIndex !== null && selectedIndex > 0 ? () => setSelectedIndex(selectedIndex - 1) : undefined}
+        onNext={selectedIndex !== null && selectedIndex < experiences.length - 1 ? () => setSelectedIndex(selectedIndex + 1) : undefined}
       />
     </section>
   );

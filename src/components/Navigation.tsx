@@ -10,6 +10,8 @@ const navItems = [
   { href: "#about", label: "About" },
   { href: "#skills", label: "Skills" },
   { href: "#experience", label: "Experience" },
+  { href: "#github", label: "GitHub" },
+  { href: "#blog", label: "Blog" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -17,6 +19,7 @@ export default function Navigation() {
   const { theme, toggleTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,7 +29,25 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const hancleLinkClick = (
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    navItems.forEach(({ href }) => {
+      const id = href.slice(1);
+      const el = document.getElementById(id);
+      if (!el) return;
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) setActiveSection(id);
+        },
+        { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    });
+    return () => observers.forEach((obs) => obs.disconnect());
+  }, []);
+
+  const handleLinkClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string,
   ) => {
@@ -52,26 +73,43 @@ export default function Navigation() {
         {/* Logo */}
         <motion.a
           href="#"
-          className="text-xl font-bold text-foreground"
-          whileHover={{ scale: 1.05 }}
+          className="flex items-center gap-3 text-xl font-bold text-foreground"
+          whileHover={{ scale: 1.02 }}
         >
           EunJeong<span className="text-primary">.</span>
+          <span className="hidden sm:flex items-center gap-1.5 text-xs px-2.5 py-1 bg-green-500/10 border border-green-500/20 rounded-full text-green-400 font-normal">
+            <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+            Open to Work
+          </span>
         </motion.a>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8">
           <ul className="flex gap-8">
-            {navItems.map((item) => (
-              <li key={item.href}>
-                <a
-                  href={item.href}
-                  onClick={(e) => hancleLinkClick(e, item.href)}
-                  className="text-muted-foreground hover:text-foreground transition-colors text-sm font-medium"
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
+            {navItems.map((item) => {
+              const isActive = activeSection === item.href.slice(1);
+              return (
+                <li key={item.href}>
+                  <a
+                    href={item.href}
+                    onClick={(e) => handleLinkClick(e, item.href)}
+                    className={`transition-colors text-sm font-medium relative ${
+                      isActive
+                        ? "text-primary"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {item.label}
+                    {isActive && (
+                      <motion.span
+                        layoutId="nav-indicator"
+                        className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full"
+                      />
+                    )}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
 
           {/* Theme Toggle */}
@@ -134,17 +172,24 @@ export default function Navigation() {
               className="md:hidden bg-section-bg backdrop-blur-md border-b border-border"
             >
               <ul className="flex flex-col">
-                {navItems.map((item) => (
-                  <li key={item.href}>
-                    <a
-                      href={item.href}
-                      onClick={(e) => hancleLinkClick(e, item.href)}
-                      className="text-muted-foreground hover:text-foreground transition-colors text-lg block w-full px-6 py-2"
-                    >
-                      {item.label}
-                    </a>
-                  </li>
-                ))}
+                {navItems.map((item) => {
+                  const isActive = activeSection === item.href.slice(1);
+                  return (
+                    <li key={item.href}>
+                      <a
+                        href={item.href}
+                        onClick={(e) => handleLinkClick(e, item.href)}
+                        className={`transition-colors text-lg block w-full px-6 py-2 ${
+                          isActive
+                            ? "text-primary"
+                            : "text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
+                        {item.label}
+                      </a>
+                    </li>
+                  );
+                })}
                 <li>
                   <button
                     onClick={toggleTheme}

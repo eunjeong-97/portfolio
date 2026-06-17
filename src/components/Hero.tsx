@@ -1,12 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Github, FileText, ArrowDown } from "lucide-react";
+import { Github, FileText, ArrowDown, Download } from "lucide-react";
 import Image from "next/image";
 
 export default function Hero() {
   return (
-    <section className="min-h-screen flex items-center px-6 pt-20">
+    <section
+      className="min-h-screen flex items-center px-6 pt-20 relative overflow-hidden"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px)",
+        backgroundSize: "60px 60px",
+      }}
+    >
       <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
         {/* Left Content */}
         <motion.div
@@ -15,14 +22,20 @@ export default function Hero() {
           transition={{ duration: 0.6 }}
           className="max-w-xl"
         >
-          <motion.span
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="inline-block px-4 py-2 bg-muted rounded-full text-sm text-primary-light mb-6 border border-border"
+            transition={{ delay: 0.1 }}
+            className="flex flex-wrap gap-3 mb-6"
           >
-            Frontend & Mobile Developer
-          </motion.span>
+            <span className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/30 rounded-full text-sm text-green-400">
+              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+              구직 중 · Open to Work
+            </span>
+            <span className="inline-block px-4 py-2 bg-muted rounded-full text-sm text-primary-light border border-border">
+              Frontend & Mobile Developer
+            </span>
+          </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -67,6 +80,14 @@ export default function Hero() {
               className="px-6 py-3 border border-neutral-600 hover:border-foreground rounded-lg font-medium transition-colors text-foreground"
             >
               연락하기
+            </a>
+            <a
+              href="/resume.pdf"
+              download="박은정_이력서.pdf"
+              className="flex items-center gap-2 px-6 py-3 border border-primary/50 hover:border-primary hover:bg-primary/5 rounded-lg font-medium transition-colors text-primary"
+            >
+              <Download size={16} />
+              이력서 다운로드
             </a>
           </motion.div>
 
@@ -126,14 +147,6 @@ export default function Hero() {
 
             {/* Profile Frame */}
             <div className="relative w-[280px] h-[350px] md:w-[320px] md:h-[400px] bg-gradient-to-br from-muted to-card rounded-3xl border border-border overflow-hidden mx-auto">
-              {/* Placeholder - 나중에 실제 이미지로 교체 */}
-              {/* <div className="w-full h-full flex flex-col items-center justify-center gap-4"> */}
-              {/* <div className="w-24 h-24 md:w-32 md:h-32 border-border rounded-full flex items-center justify-center"> */}
-              {/* <div className="w-12 h-12 md:w-16 md:h-16 bg-neutral-600 rounded-full" /> */}
-              {/* </div> */}
-              {/* <span className="text-neutral-600 text-sm">프로필 이미지</span> */}
-              {/* </div> */}
-              {/* 실제 이미지 사용 시 아래 주석 해제 */}
               <Image
                 src="/images/profile.jpg"
                 alt="박은정"
