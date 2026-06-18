@@ -20,7 +20,6 @@ const SUCCESS_ICON_INITIAL = { scale: 0 } as const;
 const SUCCESS_ICON_ANIMATE = { scale: 1 } as const;
 const ERROR_TOAST_INITIAL = { opacity: 0, y: -4 } as const;
 const ERROR_TOAST_ANIMATE = { opacity: 1, y: 0 } as const;
-const ERROR_TOAST_EXIT = { opacity: 0, y: -4 } as const;
 const CONTACT_LINK_INITIAL = { opacity: 0, x: -20 } as const;
 const CONTACT_LEFT_INITIAL = { opacity: 0, x: -30 } as const;
 const CONTACT_RIGHT_INITIAL = { opacity: 0, x: 30 } as const;
@@ -378,7 +377,7 @@ export default function Contact() {
                     <motion.div
                       initial={ERROR_TOAST_INITIAL}
                       animate={ERROR_TOAST_ANIMATE}
-                      exit={ERROR_TOAST_EXIT}
+                      exit={ERROR_TOAST_INITIAL}
                       className="flex items-center justify-between gap-2 text-xs bg-red-400/10 border border-red-400/20 rounded-lg px-3 py-2"
                       role="alert"
                     >

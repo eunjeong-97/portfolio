@@ -92,7 +92,6 @@ const BADGE_INITIAL = { opacity: 0, y: 8 } as const;
 const BADGE_ANIMATE_IN = { opacity: 1, y: 0 } as const;
 const TOOLTIP_INITIAL = { opacity: 0, y: 4 } as const;
 const TOOLTIP_ANIMATE = { opacity: 1, y: 0 } as const;
-const TOOLTIP_EXIT = { opacity: 0, y: 4 } as const;
 const CATEGORY_INITIAL = { opacity: 0, y: 30 } as const;
 const CATEGORY_ANIMATE_IN = { opacity: 1, y: 0 } as const;
 const CATEGORY_HOVER = { y: -4, transition: { duration: 0.2 } };
@@ -156,7 +155,7 @@ function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: bo
           <motion.div
             initial={TOOLTIP_INITIAL}
             animate={TOOLTIP_ANIMATE}
-            exit={TOOLTIP_EXIT}
+            exit={TOOLTIP_INITIAL}
             transition={BADGE_TOOLTIP_TRANSITION}
             aria-hidden="true"
             className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1.5 bg-card border border-border rounded-lg text-xs text-muted-foreground whitespace-nowrap shadow-xl z-10 pointer-events-none"
