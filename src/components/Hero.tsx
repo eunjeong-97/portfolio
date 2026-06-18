@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Github, FileText, ArrowDown, Download } from "lucide-react";
 import Image from "next/image";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, type MouseEvent } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const ROLES = [
@@ -95,7 +95,7 @@ export default function Hero() {
   const { displayed: role, completedWord: roleCompleted } = useTypewriter(ROLES);
   const spotlightRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+  const handleMouseMove = useCallback((e: MouseEvent<HTMLElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;

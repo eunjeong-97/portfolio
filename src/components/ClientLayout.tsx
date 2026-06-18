@@ -2,6 +2,7 @@
 
 import { motion, MotionConfig } from "framer-motion";
 import dynamic from "next/dynamic";
+import { type ReactNode } from "react";
 import { ThemeProvider } from "./ThemeProvider";
 import Navigation from "./Navigation";
 import ReadingProgress from "./ReadingProgress";
@@ -19,7 +20,7 @@ const SocialBar = dynamic(() => import("./SocialBar"), { ssr: false });
 export default function ClientLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <ThemeProvider>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type MouseEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Moon, Sun, Menu, X, Download } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
@@ -76,7 +76,7 @@ export default function Navigation() {
   }, [toggleTheme]);
 
   const handleLinkClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
+    e: MouseEvent<HTMLAnchorElement>,
     href: string,
   ) => {
     e.preventDefault();

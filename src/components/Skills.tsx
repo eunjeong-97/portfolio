@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, type ElementType } from "react";
 import { Code2, Smartphone, Palette, Wrench } from "lucide-react";
 
 type Level = 1 | 2 | 3;
@@ -13,7 +13,7 @@ interface Skill {
 
 const skillCategories: {
   title: string;
-  icon: React.ElementType;
+  icon: ElementType;
   skills: Skill[];
 }[] = [
   {

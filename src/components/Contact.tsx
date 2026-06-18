@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence, useInView } from "framer-motion";
-import { useRef, useState, useMemo, useEffect } from "react";
+import { useRef, useState, useMemo, useEffect, type FormEvent } from "react";
 import { Mail, Github, FileText, Send, Copy, Check, Loader2, AlertCircle } from "lucide-react";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 
@@ -82,7 +82,7 @@ export default function Contact() {
     message: touched.message ? (formState.message.length >= 10 ? "valid" : "error") : "idle",
   }), [touched, formState.name, formState.message, emailValid]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setSending(true);
     setSendError(false);
