@@ -21,7 +21,6 @@ const CASE_STUDY_COLS = [
 
 const PROJ_INITIAL = { opacity: 0, y: 20, scale: 0.98 } as const;
 const PROJ_ANIMATE_IN = { opacity: 1, y: 0, scale: 1 } as const;
-const PROJ_ANIMATE_HIDDEN = { opacity: 0, y: 20, scale: 0.98 } as const;
 const PROJ_EXIT = { opacity: 0, y: -10, scale: 0.97 } as const;
 const HEADER_INITIAL = { opacity: 0, y: 20 } as const;
 const HEADER_ANIMATE_IN = { opacity: 1, y: 0 } as const;
@@ -118,7 +117,7 @@ export default function FeaturedProjects() {
               key={project.id}
               layout
               initial={PROJ_INITIAL}
-              animate={isInView ? PROJ_ANIMATE_IN : PROJ_ANIMATE_HIDDEN}
+              animate={isInView ? PROJ_ANIMATE_IN : PROJ_INITIAL}
               exit={PROJ_EXIT}
               transition={{ duration: 0.3, delay: index * 0.07 }}
               className="bg-background border border-border rounded-2xl p-8 transition-colors group hover:border-primary/50"
