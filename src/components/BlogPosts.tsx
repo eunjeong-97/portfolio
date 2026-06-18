@@ -31,11 +31,7 @@ function formatDate(dateStr: string): string {
 }
 
 function isRecent(dateStr: string): boolean {
-  try {
-    return Date.now() - new Date(dateStr).getTime() < 1000 * 60 * 60 * 24 * 30;
-  } catch {
-    return false;
-  }
+  return Date.now() - new Date(dateStr).getTime() < 1000 * 60 * 60 * 24 * 30;
 }
 
 export default function BlogPosts() {

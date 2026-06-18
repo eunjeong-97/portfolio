@@ -77,7 +77,7 @@ export default function Contact() {
     }
   }, [sent]);
 
-  const emailValid = useMemo(() => EMAIL_REGEX.test(formState.email), [formState.email]);
+  const emailValid = EMAIL_REGEX.test(formState.email);
   const isFormValid = formState.name.length >= 2 && emailValid && formState.message.length >= 10;
   const fieldStatus = useMemo((): Record<string, FieldStatus> => ({
     name: touched.name ? (formState.name.length >= 2 ? "valid" : "error") : "idle",
