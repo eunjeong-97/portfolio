@@ -54,7 +54,6 @@ const DOT_ANIMATE_IN = { scale: 1 } as const;
 const CARD_HOVER = { x: 6, transition: { duration: 0.2 } };
 const GANTT_BAR_INITIAL = { scaleX: 0 } as const;
 const GANTT_BAR_ANIMATE_IN = { scaleX: 1 } as const;
-const GANTT_BAR_HIDDEN = { scaleX: 0 } as const;
 const ARROW_NUDGE_TRANSITION = { duration: 1.5, repeat: Infinity, ease: "easeInOut" } as const;
 const SECTION_HEADER_INITIAL = { opacity: 0, y: 20 } as const;
 const SECTION_ANIMATE_IN = { opacity: 1, y: 0 } as const;
@@ -140,7 +139,7 @@ export default function ExperienceTimeline() {
                   className={`absolute top-1.5 bottom-1.5 ${EXP_COLORS[i]} rounded opacity-70 hover:opacity-100 transition-opacity cursor-default`}
                   style={{ left: `${exp.barProps.left}%`, width: `${exp.barProps.width}%`, originX: "left" }}
                   initial={GANTT_BAR_INITIAL}
-                  animate={isInView ? GANTT_BAR_ANIMATE_IN : GANTT_BAR_HIDDEN}
+                  animate={isInView ? GANTT_BAR_ANIMATE_IN : GANTT_BAR_INITIAL}
                   transition={{ duration: 0.6, delay: 0.4 + i * 0.08 }}
                 />
               ))}

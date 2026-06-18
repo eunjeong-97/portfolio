@@ -22,7 +22,6 @@ const HEATMAP_LEGEND_OPACITIES = [0, 0.3, 0.6, 1] as const;
 const EVENT_CARD_HOVER = { x: 4, transition: { duration: 0.15 } };
 const HEATMAP_CELL_INITIAL = { opacity: 0, scale: 0.5 } as const;
 const HEATMAP_CELL_ANIMATE_IN = { opacity: 1, scale: 1 } as const;
-const HEATMAP_CELL_HIDDEN = {} as const;
 const EVENT_CARD_INITIAL = { opacity: 0, x: -20 } as const;
 const EVENT_CARD_ANIMATE_IN = { opacity: 1, x: 0 } as const;
 const GITHUB_HEADER_INITIAL = { opacity: 0, y: 20 } as const;
@@ -193,7 +192,7 @@ export default function GitHubActivity() {
                     aria-hidden="true"
                     className="h-3 rounded-sm cursor-default"
                     initial={HEATMAP_CELL_INITIAL}
-                    animate={isInView ? HEATMAP_CELL_ANIMATE_IN : HEATMAP_CELL_HIDDEN}
+                    animate={isInView ? HEATMAP_CELL_ANIMATE_IN : HEATMAP_CELL_INITIAL}
                     transition={{ duration: 0.3, delay: 0.3 + i * 0.015 }}
                     style={{
                       background: count === 0 ? "var(--border)" : `rgba(59,130,246,${intensity})`,
