@@ -61,7 +61,13 @@ body {
     color 0.3s;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar — Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted-foreground) var(--muted);
+}
+
+/* Custom scrollbar — Chromium / Safari */
 ::-webkit-scrollbar {
   width: 8px;
 }
