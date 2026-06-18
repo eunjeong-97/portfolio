@@ -8,7 +8,6 @@ const SOCIAL_BAR_INITIAL = { opacity: 0, x: -20 } as const;
 const SOCIAL_BAR_ANIMATE = { opacity: 1, x: 0 } as const;
 const TOOLTIP_INITIAL = { opacity: 0, x: -8 } as const;
 const TOOLTIP_ANIMATE = { opacity: 1, x: 0 } as const;
-const TOOLTIP_EXIT = { opacity: 0, x: -8 } as const;
 const LINK_HOVER = { scale: 1.15, x: 3 } as const;
 const SOCIAL_BAR_TRANSITION = { duration: 0.5, delay: 1 } as const;
 const TOOLTIP_TRANSITION = { duration: 0.15 } as const;
@@ -36,7 +35,7 @@ export default function SocialBar() {
               <motion.span
                 initial={TOOLTIP_INITIAL}
                 animate={TOOLTIP_ANIMATE}
-                exit={TOOLTIP_EXIT}
+                exit={TOOLTIP_INITIAL}
                 transition={TOOLTIP_TRANSITION}
                 aria-hidden="true"
                 className="absolute right-full mr-2 text-xs font-medium text-foreground bg-section-bg border border-border px-2 py-1 rounded-lg shadow-md whitespace-nowrap"
