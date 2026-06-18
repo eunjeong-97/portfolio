@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, type ElementType } from "react";
 import { Calendar, LayoutGrid, Cpu, Globe, Search, BookOpen, Lightbulb, Layers, ArrowRight } from "lucide-react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
@@ -67,7 +67,7 @@ function StatCard({
   suffix: string;
   label: string;
   context: string;
-  icon: React.ElementType;
+  icon: ElementType;
   isActive: boolean;
   delay: number;
 }) {
