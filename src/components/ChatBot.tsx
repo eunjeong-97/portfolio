@@ -127,8 +127,6 @@ export default function ChatBot() {
   const chatModalRef = useRef<HTMLDivElement>(null);
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
   const wasOpenRef = useRef(false);
-  const isOpenRef = useRef(isOpen);
-  isOpenRef.current = isOpen;
 
   useFocusTrap(chatModalRef, isOpen);
 
@@ -172,10 +170,7 @@ export default function ChatBot() {
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        if (isOpenRef.current) { setIsOpen(false); return; }
-        return;
-      }
+      if (e.key === "Escape") { setIsOpen(false); return; }
       if (e.ctrlKey || e.metaKey || e.altKey) return;
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
       if (e.key.toLowerCase() === "c") setIsOpen((prev) => !prev);
