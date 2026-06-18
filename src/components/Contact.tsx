@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useRef, useState, useMemo, useEffect } from "react";
 import { Mail, Github, FileText, Send, Copy, Check, Loader2, AlertCircle } from "lucide-react";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";

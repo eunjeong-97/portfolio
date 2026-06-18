@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { ExternalLink, FileText } from "lucide-react";
 

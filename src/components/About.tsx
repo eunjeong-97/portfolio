@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import React, { useRef, useState, useEffect } from "react";
 import { Calendar, LayoutGrid, Cpu, Globe, Search, BookOpen, Lightbulb, Layers, ArrowRight } from "lucide-react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";

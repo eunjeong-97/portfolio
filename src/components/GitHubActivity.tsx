@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState, useMemo } from "react";
 import { Github, GitCommitHorizontal, ExternalLink, Activity, GitBranch, FolderGit2 } from "lucide-react";
 
