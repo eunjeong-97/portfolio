@@ -5,11 +5,9 @@ import React, { useRef, useState, useEffect } from "react";
 import { Calendar, LayoutGrid, Cpu, Globe, Search, BookOpen, Lightbulb, Layers, ArrowRight } from "lucide-react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
-const STAT_CARD_INITIAL = { opacity: 0, y: 20 } as const;
-const STAT_CARD_ANIMATE_IN = { opacity: 1, y: 0 } as const;
-const STAT_CARD_HOVER = { y: -3, transition: { duration: 0.2 } };
 const ABOUT_SECTION_INITIAL = { opacity: 0, y: 20 } as const;
 const ABOUT_SECTION_ANIMATE_IN = { opacity: 1, y: 0 } as const;
+const STAT_CARD_HOVER = { y: -3, transition: { duration: 0.2 } };
 const ABOUT_LEFT_INITIAL = { opacity: 0, x: -30 } as const;
 const ABOUT_ANIMATE_IN = { opacity: 1, x: 0 } as const;
 const ABOUT_RIGHT_INITIAL = { opacity: 0, x: 30 } as const;
@@ -76,8 +74,8 @@ function StatCard({
   const count = useCountUp(value, isActive);
   return (
     <motion.div
-      initial={STAT_CARD_INITIAL}
-      animate={isActive ? STAT_CARD_ANIMATE_IN : {}}
+      initial={ABOUT_SECTION_INITIAL}
+      animate={isActive ? ABOUT_SECTION_ANIMATE_IN : {}}
       transition={{ duration: 0.5, delay }}
       whileHover={STAT_CARD_HOVER}
       role="img"
