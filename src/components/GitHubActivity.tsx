@@ -18,7 +18,7 @@ interface Stats {
 }
 
 const HEATMAP_LEGEND_OPACITIES = [0, 0.3, 0.6, 1] as const;
-const EVENT_CARD_HOVER = { x: 4, transition: { duration: 0.15 } };
+const EVENT_CARD_HOVER = { x: 4, transition: { duration: 0.15 } } as const;
 const HEATMAP_CELL_INITIAL = { opacity: 0, scale: 0.5 } as const;
 const HEATMAP_CELL_ANIMATE_IN = { opacity: 1, scale: 1 } as const;
 const EVENT_CARD_INITIAL = { opacity: 0, x: -20 } as const;

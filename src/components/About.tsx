@@ -7,7 +7,7 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const ABOUT_SECTION_INITIAL = { opacity: 0, y: 20 } as const;
 const ABOUT_SECTION_ANIMATE_IN = { opacity: 1, y: 0 } as const;
-const STAT_CARD_HOVER = { y: -3, transition: { duration: 0.2 } };
+const STAT_CARD_HOVER = { y: -3, transition: { duration: 0.2 } } as const;
 const ABOUT_LEFT_INITIAL = { opacity: 0, x: -30 } as const;
 const ABOUT_ANIMATE_IN = { opacity: 1, x: 0 } as const;
 const ABOUT_RIGHT_INITIAL = { opacity: 0, x: 30 } as const;
