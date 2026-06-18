@@ -31,14 +31,11 @@ const highlights = [
 ];
 
 function useCountUp(target: number, isActive: boolean, duration = 1200) {
-  const [count, setCount] = useState(0);
   const reducedMotion = useReducedMotion();
+  const [count, setCount] = useState(0);
+
   useEffect(() => {
-    if (!isActive) return;
-    if (reducedMotion) {
-      setCount(target);
-      return;
-    }
+    if (!isActive || reducedMotion) return;
     let startTime: number | null = null;
     let rafId: number;
     const animate = (timestamp: number) => {
@@ -51,7 +48,8 @@ function useCountUp(target: number, isActive: boolean, duration = 1200) {
     rafId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(rafId);
   }, [isActive, target, duration, reducedMotion]);
-  return count;
+
+  return reducedMotion && isActive ? target : count;
 }
 
 function StatCard({

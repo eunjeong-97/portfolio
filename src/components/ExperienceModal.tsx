@@ -37,15 +37,13 @@ export default function ExperienceModal({
 }: ExperienceModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const [videoError, setVideoError] = useState(false);
+  const [videoErrorId, setVideoErrorId] = useState<string | null>(null);
+  const videoError = videoErrorId === experience?.id;
 
   useFocusTrap(modalRef, !!experience);
 
   useEffect(() => {
-    if (experience) {
-      closeButtonRef.current?.focus();
-      setVideoError(false);
-    }
+    if (experience) closeButtonRef.current?.focus();
   }, [experience]);
 
   useEffect(() => {
@@ -196,7 +194,7 @@ export default function ExperienceModal({
                         playsInline
                         muted
                         aria-label={`${experience.title} 실행 영상`}
-                        onError={() => setVideoError(true)}
+                        onError={() => setVideoErrorId(experience.id)}
                       >
                         브라우저가 비디오 태그를 지원하지 않습니다.
                       </video>

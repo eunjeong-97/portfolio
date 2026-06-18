@@ -56,38 +56,35 @@ const FADE_UP_DELAY_055 = { delay: 0.55 } as const;
 const FADE_UP_DELAY_06 = { delay: 0.6 } as const;
 
 function useTypewriter(words: string[], speed = 90, pause = 2000) {
+  const reducedMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [displayed, setDisplayed] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [completedWord, setCompletedWord] = useState("");
-  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
-    if (reducedMotion) {
-      setDisplayed(words[0]);
-      setCompletedWord(words[0]);
-      return;
-    }
+    if (reducedMotion) return;
     const current = words[index % words.length];
     let timeout: ReturnType<typeof setTimeout>;
     if (!isDeleting) {
       if (displayed.length < current.length) {
         timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length + 1)), speed);
       } else {
-        setCompletedWord(current);
-        timeout = setTimeout(() => setIsDeleting(true), pause);
+        timeout = setTimeout(() => { setCompletedWord(current); setIsDeleting(true); }, pause);
       }
     } else {
       if (displayed.length > 0) {
         timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length - 1)), speed / 2);
       } else {
-        setIsDeleting(false);
-        setIndex((prev) => (prev + 1) % words.length);
+        timeout = setTimeout(() => { setIsDeleting(false); setIndex((prev) => (prev + 1) % words.length); }, 0);
       }
     }
     return () => clearTimeout(timeout);
   }, [displayed, isDeleting, index, words, speed, pause, reducedMotion]);
 
+  if (reducedMotion) {
+    return { displayed: words[0], completedWord: words[0] };
+  }
   return { displayed, completedWord };
 }
 
