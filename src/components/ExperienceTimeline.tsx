@@ -5,11 +5,18 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { experiences } from "@/data/experiences";
 import ExperienceModal from "./ExperienceModal";
 
-function getDuration(period: string): string {
+function parsePeriod(period: string): [number, number, number, number] | null {
   const parts = period.split(" - ").map(s => s.trim());
-  if (parts.length < 2) return "";
+  if (parts.length < 2) return null;
   const [sy, sm] = parts[0].split(".").map(Number);
   const [ey, em] = parts[1].split(".").map(Number);
+  return [sy, sm, ey, em];
+}
+
+function getDuration(period: string): string {
+  const parsed = parsePeriod(period);
+  if (!parsed) return "";
+  const [sy, sm, ey, em] = parsed;
   const totalMonths = (ey - sy) * 12 + (em - sm) + 1;
   if (totalMonths < 12) return `${totalMonths}개월`;
   const years = Math.floor(totalMonths / 12);
@@ -22,9 +29,7 @@ const TOTAL_MONTHS = (2024 - CAREER_START[0]) * 12 + (10 - CAREER_START[1]) + 1;
 const EXP_COLORS = ["bg-green-400", "bg-indigo-400", "bg-purple-400", "bg-yellow-400", "bg-blue-400"];
 
 function getBarProps(period: string) {
-  const parts = period.split(" - ").map(s => s.trim());
-  const [sy, sm] = parts[0].split(".").map(Number);
-  const [ey, em] = parts[1].split(".").map(Number);
+  const [sy, sm, ey, em] = parsePeriod(period)!;
   const startOff = (sy - CAREER_START[0]) * 12 + (sm - CAREER_START[1]);
   const endOff = (ey - CAREER_START[0]) * 12 + (em - CAREER_START[1]);
   return {
