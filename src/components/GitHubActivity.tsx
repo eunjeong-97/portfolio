@@ -23,9 +23,8 @@ const HEATMAP_CELL_INITIAL = { opacity: 0, scale: 0.5 } as const;
 const HEATMAP_CELL_ANIMATE_IN = { opacity: 1, scale: 1 } as const;
 const EVENT_CARD_INITIAL = { opacity: 0, x: -20 } as const;
 const EVENT_CARD_ANIMATE_IN = { opacity: 1, x: 0 } as const;
-const GITHUB_HEADER_INITIAL = { opacity: 0, y: 20 } as const;
+const GITHUB_INITIAL = { opacity: 0, y: 20 } as const;
 const GITHUB_ANIMATE_IN = { opacity: 1, y: 0 } as const;
-const GITHUB_STATS_INITIAL = { opacity: 0, y: 20 } as const;
 const GITHUB_HEATMAP_INITIAL = { opacity: 0, y: 10 } as const;
 const GITHUB_HEADER_TRANSITION = { duration: 0.5 } as const;
 const GITHUB_STATS_TRANSITION = { duration: 0.5, delay: 0.1 } as const;
@@ -92,7 +91,7 @@ export default function GitHubActivity() {
       {loading && <span className="sr-only" role="status">GitHub 활동 로딩 중...</span>}
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={GITHUB_HEADER_INITIAL}
+          initial={GITHUB_INITIAL}
           animate={isInView ? GITHUB_ANIMATE_IN : {}}
           transition={GITHUB_HEADER_TRANSITION}
           className="mb-12"
@@ -119,7 +118,7 @@ export default function GitHubActivity() {
 
         {/* Stats */}
         <motion.div
-          initial={GITHUB_STATS_INITIAL}
+          initial={GITHUB_INITIAL}
           animate={isInView ? GITHUB_ANIMATE_IN : {}}
           transition={GITHUB_STATS_TRANSITION}
           className="grid grid-cols-3 gap-4 mb-10"
