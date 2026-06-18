@@ -44,12 +44,12 @@ function TypewriterText({ content, onDone }: { content: string; onDone: () => vo
   onDoneRef.current = onDone;
   const reducedMotion = useReducedMotion();
   const [displayed, setDisplayed] = useState("");
-  const [done, setDone] = useState(() => reducedMotion);
+  const [typingComplete, setTypingComplete] = useState(false);
+  const done = typingComplete || reducedMotion;
   const speed = Math.max(4, Math.min(18, Math.round(3000 / content.length)));
 
   useEffect(() => {
     if (reducedMotion) {
-      setDone(true);
       onDoneRef.current();
       return;
     }
@@ -59,7 +59,7 @@ function TypewriterText({ content, onDone }: { content: string; onDone: () => vo
       setDisplayed(content.slice(0, i));
       if (i >= content.length) {
         clearInterval(interval);
-        setDone(true);
+        setTypingComplete(true);
         onDoneRef.current();
       }
     }, speed);
