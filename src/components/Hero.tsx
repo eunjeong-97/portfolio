@@ -5,6 +5,7 @@ import { Github, FileText, ArrowDown, Download } from "lucide-react";
 import Image from "next/image";
 import { useState, useEffect, useRef, useCallback, type MouseEvent } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { scrollToId } from "@/utils/scrollTo";
 
 const ROLES = [
   "Frontend Developer",
@@ -175,14 +176,14 @@ export default function Hero() {
           >
             <a
               href="#projects"
-              onClick={(e) => { e.preventDefault(); document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" }); }}
+              onClick={(e) => { e.preventDefault(); scrollToId("projects"); }}
               className="px-6 py-3 bg-primary hover:bg-primary-light rounded-lg font-medium transition-colors text-white"
             >
               프로젝트 보기
             </a>
             <a
               href="#contact"
-              onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }}
+              onClick={(e) => { e.preventDefault(); scrollToId("contact"); }}
               className="px-6 py-3 border border-neutral-600 hover:border-foreground rounded-lg font-medium transition-colors text-foreground"
             >
               연락하기
@@ -323,7 +324,7 @@ export default function Hero() {
       {/* Scroll Indicator */}
       <motion.a
         href="#projects"
-        onClick={(e) => { e.preventDefault(); document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" }); }}
+        onClick={(e) => { e.preventDefault(); scrollToId("projects"); }}
         initial={FADE_IN_INITIAL}
         animate={FADE_IN_ANIMATE}
         transition={SCROLL_FADE_TRANSITION}

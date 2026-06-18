@@ -4,6 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect, type ElementType } from "react";
 import { Calendar, LayoutGrid, Cpu, Globe, Search, BookOpen, Lightbulb, Layers, ArrowRight } from "lucide-react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { scrollToId } from "@/utils/scrollTo";
 
 const ABOUT_SECTION_INITIAL = { opacity: 0, y: 20 } as const;
 const ABOUT_SECTION_ANIMATE_IN = { opacity: 1, y: 0 } as const;
@@ -157,14 +158,14 @@ export default function About() {
             <div className="flex flex-wrap gap-3 pt-2">
               <a
                 href="#contact"
-                onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }}
+                onClick={(e) => { e.preventDefault(); scrollToId("contact"); }}
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary-light text-white text-sm font-medium rounded-lg transition-colors"
               >
                 함께 일해요 <ArrowRight size={14} aria-hidden="true" />
               </a>
               <a
                 href="#projects"
-                onClick={(e) => { e.preventDefault(); document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" }); }}
+                onClick={(e) => { e.preventDefault(); scrollToId("projects"); }}
                 className="inline-flex items-center gap-2 px-5 py-2.5 border border-border hover:border-primary text-muted-foreground hover:text-primary text-sm font-medium rounded-lg transition-colors"
               >
                 프로젝트 보기

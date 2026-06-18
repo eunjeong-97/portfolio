@@ -6,6 +6,7 @@ import { Moon, Sun, Menu, X, Download } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useActiveSection } from "@/hooks/useActiveSection";
+import { scrollToId } from "@/utils/scrollTo";
 
 const navItems = [
   { href: "#projects", label: "Projects" },
@@ -81,9 +82,7 @@ export default function Navigation() {
   ) => {
     e.preventDefault();
     setIsMobileMenuOpen(false);
-    setTimeout(() => {
-      document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+    setTimeout(() => scrollToId(href.slice(1)), 100);
   };
 
   return (

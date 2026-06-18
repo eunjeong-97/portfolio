@@ -1,6 +1,7 @@
 "use client";
 
 import { Github, FileText, Mail, Download } from "lucide-react";
+import { scrollToId } from "@/utils/scrollTo";
 
 const navLinks = [
   { href: "#projects", label: "Projects" },
@@ -47,10 +48,7 @@ export default function Footer() {
                 <li key={href}>
                   <a
                     href={href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
-                    }}
+                    onClick={(e) => { e.preventDefault(); scrollToId(href.slice(1)); }}
                     className="text-sm text-muted-foreground hover:text-primary transition-colors"
                   >
                     {label}

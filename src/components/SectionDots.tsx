@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useActiveSection } from "@/hooks/useActiveSection";
+import { scrollToId } from "@/utils/scrollTo";
 
 const sections = [
   { id: "projects", label: "Projects" },
@@ -34,7 +35,7 @@ export default function SectionDots() {
         return (
           <button
             key={id}
-            onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })}
+            onClick={() => scrollToId(id)}
             onMouseEnter={() => setHovered(id)}
             onMouseLeave={() => setHovered(null)}
             onFocus={() => setHovered(id)}

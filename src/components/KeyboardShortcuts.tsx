@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Keyboard } from "lucide-react";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
+import { scrollToId } from "@/utils/scrollTo";
 
 const shortcuts = [
   { key: "?", description: "단축키 목록 보기" },
@@ -67,8 +68,7 @@ export default function KeyboardShortcuts() {
       if (document.querySelector('[role="dialog"]')) return;
       const num = parseInt(e.key);
       if (num >= 1 && num <= NAV_SECTIONS.length) {
-        const el = document.getElementById(NAV_SECTIONS[num - 1]);
-        if (el) el.scrollIntoView({ behavior: "smooth" });
+        scrollToId(NAV_SECTIONS[num - 1]);
       }
     };
     window.addEventListener("keydown", handleKey);
