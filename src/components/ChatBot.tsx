@@ -152,14 +152,12 @@ export default function ChatBot() {
   }, [messages]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!isOpen) setShowNotification(true);
-    }, 4000);
+    if (isOpen) {
+      setShowNotification(false);
+      return;
+    }
+    const timer = setTimeout(() => setShowNotification(true), 4000);
     return () => clearTimeout(timer);
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (isOpen) setShowNotification(false);
   }, [isOpen]);
 
   useEffect(() => {
