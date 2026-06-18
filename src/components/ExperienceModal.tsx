@@ -8,10 +8,8 @@ import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 const BACKDROP_INITIAL = { opacity: 0 } as const;
 const BACKDROP_ANIMATE = { opacity: 1 } as const;
-const BACKDROP_EXIT = { opacity: 0 } as const;
 const MODAL_INITIAL = { opacity: 0, scale: 0.95, y: 20 } as const;
 const MODAL_ANIMATE = { opacity: 1, scale: 1, y: 0 } as const;
-const MODAL_EXIT = { opacity: 0, scale: 0.95, y: 20 } as const;
 const CONTENT_ANIMATE_IN = { opacity: 1, x: 0 } as const;
 const PROGRESS_BAR_INITIAL = { width: 0 } as const;
 const MODAL_SPRING_TRANSITION = { type: "spring", duration: 0.5 } as const;
@@ -76,7 +74,7 @@ export default function ExperienceModal({
           <motion.div
             initial={BACKDROP_INITIAL}
             animate={BACKDROP_ANIMATE}
-            exit={BACKDROP_EXIT}
+            exit={BACKDROP_INITIAL}
             onClick={onClose}
             className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
           />
@@ -85,7 +83,7 @@ export default function ExperienceModal({
           <motion.div
             initial={MODAL_INITIAL}
             animate={MODAL_ANIMATE}
-            exit={MODAL_EXIT}
+            exit={MODAL_INITIAL}
             transition={MODAL_SPRING_TRANSITION}
             ref={modalRef}
             tabIndex={-1}
