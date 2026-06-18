@@ -18,7 +18,6 @@ const SECTION_IDS = sections.map((s) => s.id);
 
 const DOT_TOOLTIP_INITIAL = { opacity: 0, x: 8 } as const;
 const DOT_TOOLTIP_ANIMATE = { opacity: 1, x: 0 } as const;
-const DOT_TOOLTIP_EXIT = { opacity: 0, x: 8 } as const;
 const DOT_ACTIVE = { width: 20, height: 6 } as const;
 const DOT_INACTIVE = { width: 6, height: 6 } as const;
 const DOT_TOOLTIP_TRANSITION = { duration: 0.15 } as const;
@@ -50,7 +49,7 @@ export default function SectionDots() {
                 <motion.span
                   initial={DOT_TOOLTIP_INITIAL}
                   animate={DOT_TOOLTIP_ANIMATE}
-                  exit={DOT_TOOLTIP_EXIT}
+                  exit={DOT_TOOLTIP_INITIAL}
                   transition={DOT_TOOLTIP_TRANSITION}
                   aria-hidden="true"
                   className="mr-2 text-xs font-medium text-foreground bg-section-bg border border-border px-2 py-1 rounded-lg shadow-md whitespace-nowrap"

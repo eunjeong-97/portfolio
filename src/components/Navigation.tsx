@@ -29,10 +29,8 @@ const NAV_ANIMATE = { y: 0 } as const;
 const LOGO_HOVER = { scale: 1.02 } as const;
 const BACKDROP_INITIAL = { opacity: 0 } as const;
 const BACKDROP_ANIMATE = { opacity: 1 } as const;
-const BACKDROP_EXIT = { opacity: 0 } as const;
 const MOBILE_MENU_INITIAL = { opacity: 0, height: 0 } as const;
 const MOBILE_MENU_ANIMATE = { opacity: 1, height: "auto" } as const;
-const MOBILE_MENU_EXIT = { opacity: 0, height: 0 } as const;
 const NAV_SLIDE_TRANSITION = { duration: 0.5 } as const;
 const ICON_SWAP_TRANSITION = { duration: 0.2 } as const;
 
@@ -211,7 +209,7 @@ export default function Navigation() {
             <motion.div
               initial={BACKDROP_INITIAL}
               animate={BACKDROP_ANIMATE}
-              exit={BACKDROP_EXIT}
+              exit={BACKDROP_INITIAL}
               onClick={() => setIsMobileMenuOpen(false)}
               className="fixed inset-0 top-[289px] md:hidden z-40"
             />
@@ -220,7 +218,7 @@ export default function Navigation() {
               id="mobile-menu"
               initial={MOBILE_MENU_INITIAL}
               animate={MOBILE_MENU_ANIMATE}
-              exit={MOBILE_MENU_EXIT}
+              exit={MOBILE_MENU_INITIAL}
               className="md:hidden bg-section-bg backdrop-blur-md border-b border-border"
             >
               <ul className="flex flex-col py-2">

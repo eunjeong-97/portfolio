@@ -20,10 +20,8 @@ const CHAT_PANEL_STYLE = { height: "500px" } as const;
 
 const CHAT_PANEL_INITIAL = { opacity: 0, y: 20, scale: 0.95 } as const;
 const CHAT_PANEL_ANIMATE = { opacity: 1, y: 0, scale: 1 } as const;
-const CHAT_PANEL_EXIT = { opacity: 0, y: 20, scale: 0.95 } as const;
 const BADGE_SCALE_INITIAL = { scale: 0 } as const;
 const BADGE_SCALE_ANIMATE = { scale: 1 } as const;
-const BADGE_SCALE_EXIT = { scale: 0 } as const;
 const CLOSE_ICON_INITIAL = { rotate: -90, opacity: 0 } as const;
 const OPEN_ICON_INITIAL = { rotate: 90, opacity: 0 } as const;
 const ICON_ANIMATE_IN = { rotate: 0, opacity: 1 } as const;
@@ -246,7 +244,7 @@ export default function ChatBot() {
             aria-label="포트폴리오 도우미 채팅"
             initial={CHAT_PANEL_INITIAL}
             animate={CHAT_PANEL_ANIMATE}
-            exit={CHAT_PANEL_EXIT}
+            exit={CHAT_PANEL_INITIAL}
             transition={PANEL_APPEAR_TRANSITION}
             className="mb-4 w-80 sm:w-96 bg-section-bg border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden"
             style={CHAT_PANEL_STYLE}
@@ -460,7 +458,7 @@ export default function ChatBot() {
             <motion.span
               initial={BADGE_SCALE_INITIAL}
               animate={BADGE_SCALE_ANIMATE}
-              exit={BADGE_SCALE_EXIT}
+              exit={BADGE_SCALE_INITIAL}
               aria-hidden="true"
               className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center"
             >
