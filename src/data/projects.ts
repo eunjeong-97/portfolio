@@ -6,8 +6,8 @@ export interface Project {
   role: string;
   decision: string;
   impact: string;
-  tags: string[];
-  highlights: string[];
+  tags: readonly string[];
+  highlights: readonly string[];
 }
 
 export const projects: Project[] = [
