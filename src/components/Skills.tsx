@@ -85,6 +85,12 @@ const LEVEL_BAR_BG: Record<Level, string> = {
   1: "rgba(59,130,246,0.2)",
 };
 
+const LEVEL_BAR_CLASS: Record<Level, string> = {
+  3: "bg-primary",
+  2: "bg-primary/70",
+  1: "bg-primary/40",
+};
+
 const SKILLS_HEADER_INITIAL = { opacity: 0, y: 20 } as const;
 const SKILLS_ANIMATE_IN = { opacity: 1, y: 0 } as const;
 const WIDTH_ZERO = { width: 0 } as const;
@@ -141,7 +147,7 @@ function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: bo
         className="h-0.5 bg-border rounded-full overflow-hidden"
       >
         <motion.div
-          className={`h-full rounded-full ${level === 3 ? "bg-primary" : level === 2 ? "bg-primary/70" : "bg-primary/40"}`}
+          className={`h-full rounded-full ${LEVEL_BAR_CLASS[level]}`}
           initial={WIDTH_ZERO}
           animate={{ width: isInView ? `${barWidth}%` : 0 }}
           transition={BAR_ANIMATE_TRANSITION}

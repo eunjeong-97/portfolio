@@ -32,6 +32,9 @@ const SUCCESS_ICON_TRANSITION = { duration: 0.5, delay: 0.1, type: "spring", sti
 const INITIAL_FORM = { name: "", email: "", message: "" };
 const INITIAL_TOUCHED = { name: false, email: false, message: false };
 
+type FieldStatus = "error" | "valid" | "idle";
+const STATUS_BORDER: Record<FieldStatus, string> = { error: "border-red-400/50", valid: "border-green-400/50", idle: "border-border" };
+
 const contactLinks = [
   {
     icon: Mail,
@@ -76,7 +79,7 @@ export default function Contact() {
 
   const emailValid = useMemo(() => EMAIL_REGEX.test(formState.email), [formState.email]);
   const isFormValid = formState.name.length >= 2 && emailValid && formState.message.length >= 10;
-  const fieldStatus = useMemo(() => ({
+  const fieldStatus = useMemo((): Record<string, FieldStatus> => ({
     name: touched.name ? (formState.name.length >= 2 ? "valid" : "error") : "idle",
     email: touched.email ? (emailValid ? "valid" : "error") : "idle",
     message: touched.message ? (formState.message.length >= 10 ? "valid" : "error") : "idle",
@@ -273,9 +276,7 @@ export default function Contact() {
                         placeholder="홍길동"
                         aria-invalid={fieldStatus.name === "error"}
                         aria-describedby={fieldStatus.name === "error" ? "name-error" : undefined}
-                        className={`w-full bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors ${
-                          fieldStatus.name === "error" ? "border-red-400/50" : fieldStatus.name === "valid" ? "border-green-400/50" : "border-border"
-                        }`}
+                        className={`w-full bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors ${STATUS_BORDER[fieldStatus.name]}`}
                       />
                     </div>
                     <div>
@@ -300,9 +301,7 @@ export default function Contact() {
                         placeholder="example@email.com"
                         aria-invalid={fieldStatus.email === "error"}
                         aria-describedby={fieldStatus.email === "error" ? "email-error" : undefined}
-                        className={`w-full bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors ${
-                          fieldStatus.email === "error" ? "border-red-400/50" : fieldStatus.email === "valid" ? "border-green-400/50" : "border-border"
-                        }`}
+                        className={`w-full bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors ${STATUS_BORDER[fieldStatus.email]}`}
                       />
                     </div>
                   </div>
@@ -348,9 +347,7 @@ export default function Contact() {
                           ? "message-error message-count"
                           : "message-count"
                       }
-                      className={`w-full bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none transition-colors ${
-                        fieldStatus.message === "error" ? "border-red-400/50" : fieldStatus.message === "valid" ? "border-green-400/50" : "border-border"
-                      }`}
+                      className={`w-full bg-muted text-foreground placeholder:text-muted-foreground text-sm px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none transition-colors ${STATUS_BORDER[fieldStatus.message]}`}
                     />
                   </div>
                   <div className="flex items-center gap-3">
