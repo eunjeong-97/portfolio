@@ -26,7 +26,7 @@ const HEATMAP_CELL_HIDDEN = {} as const;
 const EVENT_CARD_INITIAL = { opacity: 0, x: -20 } as const;
 const EVENT_CARD_ANIMATE_IN = { opacity: 1, x: 0 } as const;
 const GITHUB_HEADER_INITIAL = { opacity: 0, y: 20 } as const;
-const GITHUB_HEADER_ANIMATE_IN = { opacity: 1, y: 0 } as const;
+const GITHUB_ANIMATE_IN = { opacity: 1, y: 0 } as const;
 const GITHUB_STATS_INITIAL = { opacity: 0, y: 20 } as const;
 const GITHUB_HEATMAP_INITIAL = { opacity: 0, y: 10 } as const;
 const GITHUB_HEADER_TRANSITION = { duration: 0.5 } as const;
@@ -95,7 +95,7 @@ export default function GitHubActivity() {
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={GITHUB_HEADER_INITIAL}
-          animate={isInView ? GITHUB_HEADER_ANIMATE_IN : {}}
+          animate={isInView ? GITHUB_ANIMATE_IN : {}}
           transition={GITHUB_HEADER_TRANSITION}
           className="mb-12"
         >
@@ -122,7 +122,7 @@ export default function GitHubActivity() {
         {/* Stats */}
         <motion.div
           initial={GITHUB_STATS_INITIAL}
-          animate={isInView ? GITHUB_HEADER_ANIMATE_IN : {}}
+          animate={isInView ? GITHUB_ANIMATE_IN : {}}
           transition={GITHUB_STATS_TRANSITION}
           className="grid grid-cols-3 gap-4 mb-10"
         >
@@ -158,7 +158,7 @@ export default function GitHubActivity() {
         {!loading && events.length > 0 && (
           <motion.div
             initial={GITHUB_HEATMAP_INITIAL}
-            animate={isInView ? GITHUB_HEADER_ANIMATE_IN : {}}
+            animate={isInView ? GITHUB_ANIMATE_IN : {}}
             transition={GITHUB_HEATMAP_TRANSITION}
             className="mb-8 bg-background border border-border rounded-xl p-4"
           >

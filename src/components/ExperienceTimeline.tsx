@@ -57,7 +57,7 @@ const GANTT_BAR_ANIMATE_IN = { scaleX: 1 } as const;
 const GANTT_BAR_HIDDEN = { scaleX: 0 } as const;
 const ARROW_NUDGE_TRANSITION = { duration: 1.5, repeat: Infinity, ease: "easeInOut" } as const;
 const SECTION_HEADER_INITIAL = { opacity: 0, y: 20 } as const;
-const SECTION_HEADER_ANIMATE_IN = { opacity: 1, y: 0 } as const;
+const SECTION_ANIMATE_IN = { opacity: 1, y: 0 } as const;
 const GANTT_SECTION_INITIAL = { opacity: 0, y: 10 } as const;
 const SECTION_HEADER_TRANSITION = { duration: 0.5 } as const;
 const GANTT_SECTION_TRANSITION = { duration: 0.5, delay: 0.15 } as const;
@@ -94,7 +94,7 @@ export default function ExperienceTimeline() {
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={SECTION_HEADER_INITIAL}
-          animate={isInView ? SECTION_HEADER_ANIMATE_IN : {}}
+          animate={isInView ? SECTION_ANIMATE_IN : {}}
           transition={SECTION_HEADER_TRANSITION}
         >
           <span className="text-sm text-primary uppercase tracking-wider">
@@ -114,7 +114,7 @@ export default function ExperienceTimeline() {
           {/* Career Gantt chart */}
           <motion.div
             initial={GANTT_SECTION_INITIAL}
-            animate={isInView ? SECTION_HEADER_ANIMATE_IN : {}}
+            animate={isInView ? SECTION_ANIMATE_IN : {}}
             transition={GANTT_SECTION_TRANSITION}
             className="mb-10 bg-muted/50 border border-border rounded-xl p-4"
           >
@@ -250,7 +250,7 @@ export default function ExperienceTimeline() {
         {/* Career summary card */}
         <motion.div
           initial={SECTION_HEADER_INITIAL}
-          animate={isInView ? SECTION_HEADER_ANIMATE_IN : {}}
+          animate={isInView ? SECTION_ANIMATE_IN : {}}
           transition={CAREER_SUMMARY_TRANSITION}
           className="mt-8 bg-primary/5 border border-primary/20 rounded-xl p-4 flex flex-wrap items-center gap-4"
         >
