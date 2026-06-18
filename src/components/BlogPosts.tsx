@@ -19,15 +19,9 @@ const POST_BADGE_ANIMATE = { opacity: 1, scale: 1 } as const;
 const POST_HEADER_TRANSITION = { duration: 0.5 } as const;
 
 function formatDate(dateStr: string): string {
-  try {
-    return new Date(dateStr).toLocaleDateString("ko-KR", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  } catch {
-    return dateStr;
-  }
+  const date = new Date(dateStr);
+  if (isNaN(date.getTime())) return dateStr;
+  return date.toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric" });
 }
 
 function isRecent(dateStr: string): boolean {

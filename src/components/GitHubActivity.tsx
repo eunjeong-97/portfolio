@@ -17,6 +17,7 @@ interface Stats {
   reposActive: number;
 }
 
+const HEATMAP_DAYS = 30;
 const HEATMAP_LEGEND_OPACITIES = [0, 0.3, 0.6, 1] as const;
 const EVENT_CARD_HOVER = { x: 4, transition: { duration: 0.15 } } as const;
 const HEATMAP_CELL_INITIAL = { opacity: 0, scale: 0.5 } as const;
@@ -70,15 +71,14 @@ export default function GitHubActivity() {
   }, []);
 
   const { dailyActivity, maxActivity, dayLabels } = useMemo(() => {
-    const days = 30;
-    const counts: number[] = Array(days).fill(0);
+    const counts: number[] = Array(HEATMAP_DAYS).fill(0);
     const now = new Date();
     events.forEach((e) => {
       const diff = Math.floor((now.getTime() - new Date(e.date).getTime()) / 86400000);
-      if (diff >= 0 && diff < days) counts[days - 1 - diff]++;
+      if (diff >= 0 && diff < HEATMAP_DAYS) counts[HEATMAP_DAYS - 1 - diff]++;
     });
-    const labels = Array.from({ length: days }, (_, i) => {
-      const daysAgo = days - 1 - i;
+    const labels = Array.from({ length: HEATMAP_DAYS }, (_, i) => {
+      const daysAgo = HEATMAP_DAYS - 1 - i;
       const d = new Date(now);
       d.setDate(d.getDate() - daysAgo);
       return d.toLocaleDateString("ko-KR", { month: "numeric", day: "numeric" });
@@ -179,7 +179,7 @@ export default function GitHubActivity() {
               role="img"
               aria-label={`최근 30일 Push 활동 히트맵: 총 ${dailyActivity.reduce((a, b) => a + b, 0)}건`}
               className="grid gap-1"
-              style={{ gridTemplateColumns: `repeat(${Math.ceil(dailyActivity.length / 5)}, 1fr)` }}
+              style={{ gridTemplateColumns: `repeat(${Math.ceil(HEATMAP_DAYS / 5)}, 1fr)` }}
             >
               {dailyActivity.map((count, i) => {
                 const intensity = count === 0 ? 0 : Math.min(1, 0.2 + (count / maxActivity) * 0.8);

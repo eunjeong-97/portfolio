@@ -34,7 +34,6 @@ const GRADIENT_404_STYLE = {
 } as const;
 
 export default function NotFound() {
-
   return (
     <main className="min-h-screen flex items-center justify-center px-6">
       <motion.div
