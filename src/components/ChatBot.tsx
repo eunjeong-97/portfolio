@@ -31,6 +31,8 @@ const CLOSE_ICON_EXIT = { rotate: 90, opacity: 0 } as const;
 const OPEN_ICON_EXIT = { rotate: -90, opacity: 0 } as const;
 const TOGGLE_BTN_HOVER = { scale: 1.05 } as const;
 const TOGGLE_BTN_TAP = { scale: 0.95 } as const;
+const ICON_SWAP_TRANSITION = { duration: 0.2 } as const;
+const MSG_APPEAR_TRANSITION = { duration: 0.15 } as const;
 
 const SUGGESTIONS = [
   "가장 자랑스러운 프로젝트는?",
@@ -245,7 +247,7 @@ export default function ChatBot() {
             initial={CHAT_PANEL_INITIAL}
             animate={CHAT_PANEL_ANIMATE}
             exit={CHAT_PANEL_EXIT}
-            transition={{ duration: 0.2 }}
+            transition={ICON_SWAP_TRANSITION}
             className="mb-4 w-80 sm:w-96 bg-section-bg border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden"
             style={CHAT_PANEL_STYLE}
           >
@@ -474,7 +476,7 @@ export default function ChatBot() {
               initial={CLOSE_ICON_INITIAL}
               animate={ICON_ANIMATE_IN}
               exit={CLOSE_ICON_EXIT}
-              transition={{ duration: 0.15 }}
+              transition={MSG_APPEAR_TRANSITION}
               aria-hidden="true"
             >
               <X size={24} />
@@ -485,7 +487,7 @@ export default function ChatBot() {
               initial={OPEN_ICON_INITIAL}
               animate={ICON_ANIMATE_IN}
               exit={OPEN_ICON_EXIT}
-              transition={{ duration: 0.15 }}
+              transition={MSG_APPEAR_TRANSITION}
               aria-hidden="true"
             >
               <MessageCircle size={24} />

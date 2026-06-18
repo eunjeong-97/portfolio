@@ -12,6 +12,7 @@ const BTN_ANIMATE = { opacity: 1, y: 0 } as const;
 const BTN_EXIT = { opacity: 0, y: 10 } as const;
 const BTN_HOVER = { scale: 1.05 } as const;
 const BTN_TAP = { scale: 0.95 } as const;
+const BTN_TRANSITION = { duration: 0.2 } as const;
 
 export default function ScrollToTop() {
   const [visible, setVisible] = useState(false);
@@ -31,7 +32,7 @@ export default function ScrollToTop() {
           initial={BTN_INITIAL}
           animate={BTN_ANIMATE}
           exit={BTN_EXIT}
-          transition={{ duration: 0.2 }}
+          transition={BTN_TRANSITION}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="fixed bottom-24 right-6 z-40 w-10 h-10 bg-muted hover:bg-primary/10 text-muted-foreground hover:text-primary rounded-full flex items-center justify-center transition-colors shadow-lg"
           aria-label="맨 위로 이동"

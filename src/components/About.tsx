@@ -14,6 +14,10 @@ const ABOUT_SECTION_ANIMATE_IN = { opacity: 1, y: 0 } as const;
 const ABOUT_LEFT_INITIAL = { opacity: 0, x: -30 } as const;
 const ABOUT_LEFT_ANIMATE_IN = { opacity: 1, x: 0 } as const;
 const ABOUT_RIGHT_INITIAL = { opacity: 0, x: 30 } as const;
+const ABOUT_SECTION_TRANSITION = { duration: 0.5 } as const;
+const ABOUT_LEFT_TRANSITION = { duration: 0.5, delay: 0.2 } as const;
+const ABOUT_RIGHT_TRANSITION = { duration: 0.5, delay: 0.4 } as const;
+const ABOUT_PRINCIPLES_TRANSITION = { duration: 0.5, delay: 0.9 } as const;
 
 const PRINCIPLES = [
   { label: "근본 원인 파악", icon: Search },
@@ -105,7 +109,7 @@ export default function About() {
         <motion.div
           initial={ABOUT_SECTION_INITIAL}
           animate={isInView ? ABOUT_SECTION_ANIMATE_IN : {}}
-          transition={{ duration: 0.5 }}
+          transition={ABOUT_SECTION_TRANSITION}
         >
           <span className="text-sm text-primary uppercase tracking-wider">
             About
@@ -120,7 +124,7 @@ export default function About() {
           <motion.div
             initial={ABOUT_LEFT_INITIAL}
             animate={isInView ? ABOUT_LEFT_ANIMATE_IN : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={ABOUT_LEFT_TRANSITION}
             className="space-y-6"
           >
             <p className="text-muted-foreground text-lg leading-relaxed">
@@ -177,7 +181,7 @@ export default function About() {
           <motion.div
             initial={ABOUT_RIGHT_INITIAL}
             animate={isInView ? ABOUT_LEFT_ANIMATE_IN : {}}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            transition={ABOUT_RIGHT_TRANSITION}
             className="grid grid-cols-2 gap-4"
           >
             {highlights.map((item, index) => (
@@ -191,7 +195,7 @@ export default function About() {
             <motion.div
               initial={ABOUT_SECTION_INITIAL}
               animate={isInView ? ABOUT_SECTION_ANIMATE_IN : {}}
-              transition={{ duration: 0.5, delay: 0.9 }}
+              transition={ABOUT_PRINCIPLES_TRANSITION}
               className="col-span-2 bg-primary/5 border border-primary/20 rounded-xl p-4 mt-2"
             >
               <div className="flex items-center gap-2 mb-2">

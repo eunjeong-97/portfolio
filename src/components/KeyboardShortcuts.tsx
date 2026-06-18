@@ -32,6 +32,7 @@ const KBD_BACKDROP_EXIT = { opacity: 0 } as const;
 const KBD_MODAL_INITIAL = { opacity: 0, scale: 0.95, y: 10 } as const;
 const KBD_MODAL_ANIMATE = { opacity: 1, scale: 1, y: 0 } as const;
 const KBD_MODAL_EXIT = { opacity: 0, scale: 0.95, y: 10 } as const;
+const KBD_MODAL_TRANSITION = { duration: 0.15 } as const;
 
 export default function KeyboardShortcuts() {
   const [isOpen, setIsOpen] = useState(false);
@@ -109,7 +110,7 @@ export default function KeyboardShortcuts() {
               initial={KBD_MODAL_INITIAL}
               animate={KBD_MODAL_ANIMATE}
               exit={KBD_MODAL_EXIT}
-              transition={{ duration: 0.15 }}
+              transition={KBD_MODAL_TRANSITION}
               className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[90vw] max-w-md bg-section-bg border border-border rounded-2xl shadow-2xl overflow-hidden"
             >
               <div className="flex items-center justify-between px-5 py-4 border-b border-border">

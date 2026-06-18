@@ -59,6 +59,9 @@ const ARROW_NUDGE_TRANSITION = { duration: 1.5, repeat: Infinity, ease: "easeInO
 const SECTION_HEADER_INITIAL = { opacity: 0, y: 20 } as const;
 const SECTION_HEADER_ANIMATE_IN = { opacity: 1, y: 0 } as const;
 const GANTT_SECTION_INITIAL = { opacity: 0, y: 10 } as const;
+const SECTION_HEADER_TRANSITION = { duration: 0.5 } as const;
+const GANTT_SECTION_TRANSITION = { duration: 0.5, delay: 0.15 } as const;
+const CAREER_SUMMARY_TRANSITION = { duration: 0.5, delay: 0.8 } as const;
 
 export default function ExperienceTimeline() {
   const ref = useRef(null);
@@ -92,7 +95,7 @@ export default function ExperienceTimeline() {
         <motion.div
           initial={SECTION_HEADER_INITIAL}
           animate={isInView ? SECTION_HEADER_ANIMATE_IN : {}}
-          transition={{ duration: 0.5 }}
+          transition={SECTION_HEADER_TRANSITION}
         >
           <span className="text-sm text-primary uppercase tracking-wider">
             Experience
@@ -112,7 +115,7 @@ export default function ExperienceTimeline() {
           <motion.div
             initial={GANTT_SECTION_INITIAL}
             animate={isInView ? SECTION_HEADER_ANIMATE_IN : {}}
-            transition={{ duration: 0.5, delay: 0.15 }}
+            transition={GANTT_SECTION_TRANSITION}
             className="mb-10 bg-muted/50 border border-border rounded-xl p-4"
           >
             <div className="flex justify-between text-[10px] text-muted-foreground mb-2" aria-hidden="true">
@@ -248,7 +251,7 @@ export default function ExperienceTimeline() {
         <motion.div
           initial={SECTION_HEADER_INITIAL}
           animate={isInView ? SECTION_HEADER_ANIMATE_IN : {}}
-          transition={{ duration: 0.5, delay: 0.8 }}
+          transition={CAREER_SUMMARY_TRANSITION}
           className="mt-8 bg-primary/5 border border-primary/20 rounded-xl p-4 flex flex-wrap items-center gap-4"
         >
           <div className="flex-1 min-w-[200px]">

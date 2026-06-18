@@ -8,6 +8,7 @@ import ReadingProgress from "./ReadingProgress";
 
 const LAYOUT_INITIAL = { opacity: 0 } as const;
 const LAYOUT_ANIMATE = { opacity: 1 } as const;
+const LAYOUT_TRANSITION = { duration: 0.4 } as const;
 
 const ChatBot = dynamic(() => import("./ChatBot"), { ssr: false });
 const ScrollToTop = dynamic(() => import("./ScrollToTop"), { ssr: false });
@@ -34,7 +35,7 @@ export default function ClientLayout({
       <motion.div
         initial={LAYOUT_INITIAL}
         animate={LAYOUT_ANIMATE}
-        transition={{ duration: 0.4 }}
+        transition={LAYOUT_TRANSITION}
       >
         {children}
       </motion.div>

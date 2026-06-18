@@ -14,6 +14,9 @@ const MODAL_ANIMATE = { opacity: 1, scale: 1, y: 0 } as const;
 const MODAL_EXIT = { opacity: 0, scale: 0.95, y: 20 } as const;
 const CONTENT_ANIMATE_IN = { opacity: 1, x: 0 } as const;
 const PROGRESS_BAR_INITIAL = { width: 0 } as const;
+const MODAL_SPRING_TRANSITION = { type: "spring", duration: 0.5 } as const;
+const CONTENT_SLIDE_TRANSITION = { duration: 0.2 } as const;
+const PROGRESS_BAR_TRANSITION = { duration: 0.3, ease: "easeOut" } as const;
 
 interface ExperienceModalProps {
   experience: Experience | null;
@@ -83,7 +86,7 @@ export default function ExperienceModal({
             initial={MODAL_INITIAL}
             animate={MODAL_ANIMATE}
             exit={MODAL_EXIT}
-            transition={{ type: "spring", duration: 0.5 }}
+            transition={MODAL_SPRING_TRANSITION}
             ref={modalRef}
             tabIndex={-1}
             role="dialog"
@@ -140,7 +143,7 @@ export default function ExperienceModal({
                 key={experience.id}
                 initial={{ opacity: 0, x: direction * 16 }}
                 animate={CONTENT_ANIMATE_IN}
-                transition={{ duration: 0.2 }}
+                transition={CONTENT_SLIDE_TRANSITION}
               >
               <p className="text-muted-foreground mb-6 leading-relaxed whitespace-pre-line">
                 {experience.description}
@@ -215,7 +218,7 @@ export default function ExperienceModal({
                       className="h-full bg-primary rounded-r-full"
                       initial={PROGRESS_BAR_INITIAL}
                       animate={{ width: `${((currentIndex + 1) / total) * 100}%` }}
-                      transition={{ duration: 0.3, ease: "easeOut" }}
+                      transition={PROGRESS_BAR_TRANSITION}
                     />
                   </div>
                 )}

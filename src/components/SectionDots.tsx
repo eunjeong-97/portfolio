@@ -21,6 +21,8 @@ const DOT_TOOLTIP_ANIMATE = { opacity: 1, x: 0 } as const;
 const DOT_TOOLTIP_EXIT = { opacity: 0, x: 8 } as const;
 const DOT_ACTIVE = { width: 20, height: 6 } as const;
 const DOT_INACTIVE = { width: 6, height: 6 } as const;
+const DOT_TOOLTIP_TRANSITION = { duration: 0.15 } as const;
+const DOT_ANIMATE_TRANSITION = { duration: 0.25, ease: "easeInOut" } as const;
 
 export default function SectionDots() {
   const activeSection = useActiveSection(SECTION_IDS);
@@ -49,7 +51,7 @@ export default function SectionDots() {
                   initial={DOT_TOOLTIP_INITIAL}
                   animate={DOT_TOOLTIP_ANIMATE}
                   exit={DOT_TOOLTIP_EXIT}
-                  transition={{ duration: 0.15 }}
+                  transition={DOT_TOOLTIP_TRANSITION}
                   aria-hidden="true"
                   className="mr-2 text-xs font-medium text-foreground bg-section-bg border border-border px-2 py-1 rounded-lg shadow-md whitespace-nowrap"
                 >
@@ -62,7 +64,7 @@ export default function SectionDots() {
             <motion.div
               aria-hidden="true"
               animate={isActive ? DOT_ACTIVE : DOT_INACTIVE}
-              transition={{ duration: 0.25, ease: "easeInOut" }}
+              transition={DOT_ANIMATE_TRANSITION}
               className={`rounded-full transition-colors ${
                 isActive ? "bg-primary" : "bg-border hover:bg-primary/50"
               }`}
