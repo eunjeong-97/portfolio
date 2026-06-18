@@ -12,7 +12,7 @@ const STAT_CARD_HOVER = { y: -3, transition: { duration: 0.2 } };
 const ABOUT_SECTION_INITIAL = { opacity: 0, y: 20 } as const;
 const ABOUT_SECTION_ANIMATE_IN = { opacity: 1, y: 0 } as const;
 const ABOUT_LEFT_INITIAL = { opacity: 0, x: -30 } as const;
-const ABOUT_LEFT_ANIMATE_IN = { opacity: 1, x: 0 } as const;
+const ABOUT_ANIMATE_IN = { opacity: 1, x: 0 } as const;
 const ABOUT_RIGHT_INITIAL = { opacity: 0, x: 30 } as const;
 const ABOUT_SECTION_TRANSITION = { duration: 0.5 } as const;
 const ABOUT_LEFT_TRANSITION = { duration: 0.5, delay: 0.2 } as const;
@@ -123,7 +123,7 @@ export default function About() {
           {/* Text Content */}
           <motion.div
             initial={ABOUT_LEFT_INITIAL}
-            animate={isInView ? ABOUT_LEFT_ANIMATE_IN : {}}
+            animate={isInView ? ABOUT_ANIMATE_IN : {}}
             transition={ABOUT_LEFT_TRANSITION}
             className="space-y-6"
           >
@@ -180,7 +180,7 @@ export default function About() {
           {/* Highlights Grid */}
           <motion.div
             initial={ABOUT_RIGHT_INITIAL}
-            animate={isInView ? ABOUT_LEFT_ANIMATE_IN : {}}
+            animate={isInView ? ABOUT_ANIMATE_IN : {}}
             transition={ABOUT_RIGHT_TRANSITION}
             className="grid grid-cols-2 gap-4"
           >

@@ -40,7 +40,7 @@ const FLOAT_CARD_TRANSITION_2 = { duration: 3, repeat: Infinity, ease: "easeInOu
 const SCROLL_FADE_TRANSITION = { delay: 1 } as const;
 const SCROLL_BOUNCE_TRANSITION = { duration: 1.5, repeat: Infinity } as const;
 const HERO_LEFT_INITIAL = { opacity: 0, x: -50 } as const;
-const HERO_LEFT_ANIMATE = { opacity: 1, x: 0 } as const;
+const HERO_ANIMATE_IN = { opacity: 1, x: 0 } as const;
 const HERO_RIGHT_INITIAL = { opacity: 0, x: 50 } as const;
 const FADE_UP_INITIAL = { opacity: 0, y: 20 } as const;
 const FADE_UP_ANIMATE = { opacity: 1, y: 0 } as const;
@@ -119,7 +119,7 @@ export default function Hero() {
         {/* Left Content */}
         <motion.div
           initial={HERO_LEFT_INITIAL}
-          animate={HERO_LEFT_ANIMATE}
+          animate={HERO_ANIMATE_IN}
           transition={HERO_LEFT_TRANSITION}
           className="max-w-xl"
         >
@@ -248,7 +248,7 @@ export default function Hero() {
         {/* Right Visual */}
         <motion.div
           initial={HERO_RIGHT_INITIAL}
-          animate={HERO_LEFT_ANIMATE}
+          animate={HERO_ANIMATE_IN}
           transition={HERO_RIGHT_TRANSITION}
           className="relative flex justify-center items-center"
         >
