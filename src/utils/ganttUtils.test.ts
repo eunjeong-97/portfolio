@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { getBarProps, CAREER_START, CAREER_END, TOTAL_MONTHS } from "./ganttUtils";
 import { experiences } from "@/data/experiences";
+import { projects } from "@/data/projects";
 
 describe("TOTAL_MONTHS", () => {
   it("correctly spans CAREER_START through CAREER_END inclusive", () => {
@@ -127,6 +128,18 @@ describe("getBarProps — integration with experiences data", () => {
   it("produces left + width ≤ 100% for every real experience period", () => {
     for (const exp of experiences) {
       const { left, width } = getBarProps(exp.period);
+      expect(left + width).toBeLessThanOrEqual(100 + 1e-9);
+    }
+  });
+});
+
+describe("getBarProps — integration with projects data", () => {
+  it("produces a bar fully within the timeline (0 ≤ left, left + width ≤ 100%) for every project period", () => {
+    // Projects are a subset of experiences, all within the CAREER_START–CAREER_END window
+    for (const project of projects) {
+      const { left, width } = getBarProps(project.period);
+      expect(left).toBeGreaterThanOrEqual(0);
+      expect(width).toBeGreaterThan(0);
       expect(left + width).toBeLessThanOrEqual(100 + 1e-9);
     }
   });
