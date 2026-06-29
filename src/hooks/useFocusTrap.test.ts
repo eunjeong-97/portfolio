@@ -328,4 +328,42 @@ describe("useFocusTrap", () => {
     expect(firstSpy).toHaveBeenCalled();
     document.body.removeChild(container);
   });
+
+  it("cycles focus back to itself when only one focusable element exists and Tab is pressed", () => {
+    const container = document.createElement("div");
+    const btn = document.createElement("button");
+    container.append(btn);
+    document.body.appendChild(container);
+    btn.focus();
+
+    renderHook(() => {
+      const ref = useRef<HTMLDivElement>(container as HTMLDivElement);
+      useFocusTrap(ref, true);
+      return ref;
+    });
+
+    const focusSpy = vi.spyOn(btn, "focus");
+    window.dispatchEvent(makeTabEvent(false));
+    expect(focusSpy).toHaveBeenCalled();
+    document.body.removeChild(container);
+  });
+
+  it("cycles focus back to itself when only one focusable element exists and Shift+Tab is pressed", () => {
+    const container = document.createElement("div");
+    const btn = document.createElement("button");
+    container.append(btn);
+    document.body.appendChild(container);
+    btn.focus();
+
+    renderHook(() => {
+      const ref = useRef<HTMLDivElement>(container as HTMLDivElement);
+      useFocusTrap(ref, true);
+      return ref;
+    });
+
+    const focusSpy = vi.spyOn(btn, "focus");
+    window.dispatchEvent(makeTabEvent(true));
+    expect(focusSpy).toHaveBeenCalled();
+    document.body.removeChild(container);
+  });
 });

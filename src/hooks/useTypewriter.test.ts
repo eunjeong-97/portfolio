@@ -162,4 +162,19 @@ describe("useTypewriter — animation", () => {
     tick(speed);                 // type first char of "Hi" again
     expect(result.current.displayed).toBe("H");
   });
+
+  it("updates completedWord to the second word after it is fully typed and paused", () => {
+    const speed = 50;
+    const pause = 200;
+    const word1 = WORDS[0]; // "Hello" — 5 chars
+    const word2 = WORDS[1]; // "World" — 5 chars
+    const { result } = renderHook(() => useTypewriter(WORDS, speed, pause));
+    tick(speed, word1.length);         // type "Hello"
+    tick(pause);                       // completedWord = "Hello", enter delete mode
+    tick(speed / 2, word1.length);     // delete all chars
+    tick(1);                           // advance index to 1 ("World")
+    tick(speed, word2.length);         // type "World"
+    tick(pause);                       // completedWord should now be "World"
+    expect(result.current.completedWord).toBe(word2);
+  });
 });
