@@ -118,3 +118,41 @@ describe("useCountUp — animation setup", () => {
     expect(raf.pendingCount).toBe(1);
   });
 });
+
+describe("useCountUp — animation progress", () => {
+  it("count is non-zero after a mid-animation frame", () => {
+    const { result } = renderHook(() => useCountUp(100, true, 1000));
+    raf.fire(0);   // startTime = 0, count = 0
+    raf.fire(500); // progress = 0.5, eased ≈ 0.875, count = 88
+    expect(result.current).toBeGreaterThan(0);
+    expect(result.current).toBeLessThan(100);
+  });
+
+  it("applies cubic ease-out: count is 88 at 50% of duration (eased = 1 - (1-0.5)^3 = 0.875)", () => {
+    const { result } = renderHook(() => useCountUp(100, true, 1000));
+    raf.fire(0);   // anchor startTime
+    raf.fire(500); // progress = 0.5
+    expect(result.current).toBe(88); // Math.round(0.875 * 100) = 88
+  });
+
+  it("count equals target when animation is complete (progress = 1)", () => {
+    const { result } = renderHook(() => useCountUp(100, true, 1000));
+    raf.fire(0);    // anchor startTime
+    raf.fire(1000); // progress = 1, eased = 1, count = 100
+    expect(result.current).toBe(100);
+  });
+
+  it("does not schedule another rAF after animation completes", () => {
+    renderHook(() => useCountUp(100, true, 1000));
+    raf.fire(0);    // anchor startTime
+    raf.fire(1000); // progress = 1 — no more frames needed
+    expect(raf.pendingCount).toBe(0);
+  });
+
+  it("count reaches target for timestamps beyond the duration", () => {
+    const { result } = renderHook(() => useCountUp(50, true, 1000));
+    raf.fire(0);
+    raf.fire(2000); // progress clamped to 1
+    expect(result.current).toBe(50);
+  });
+});

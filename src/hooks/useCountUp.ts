@@ -10,7 +10,7 @@ export function useCountUp(target: number, isActive: boolean, duration = 1200): 
     let startTime: number | null = null;
     let rafId: number;
     const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
+      if (startTime === null) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
       setCount(Math.round(eased * target));
