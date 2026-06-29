@@ -159,6 +159,10 @@ describe("validateChatMessages", () => {
   it("returns an error string when content is not a string", () => {
     expect(validateChatMessages([{ role: "user", content: 42 }])).not.toBeNull();
   });
+
+  it("returns an error string when the content field is absent from the message object", () => {
+    expect(validateChatMessages([{ role: "user" }])).not.toBeNull();
+  });
 });
 
 describe("toChatHistory", () => {

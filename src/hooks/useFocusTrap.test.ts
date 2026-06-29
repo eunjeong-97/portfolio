@@ -223,6 +223,27 @@ describe("useFocusTrap", () => {
     document.body.removeChild(container);
   });
 
+  it("includes [role='button'] elements in the focusable set", () => {
+    const container = document.createElement("div");
+    const roleBtn = document.createElement("div");
+    roleBtn.setAttribute("role", "button");
+    const btn = document.createElement("button");
+    container.append(roleBtn, btn);
+    document.body.appendChild(container);
+    btn.focus(); // last focusable
+
+    renderHook(() => {
+      const ref = useRef<HTMLDivElement>(container as HTMLDivElement);
+      useFocusTrap(ref, true);
+      return ref;
+    });
+
+    const focusSpy = vi.spyOn(roleBtn, "focus");
+    window.dispatchEvent(makeTabEvent(false)); // Tab from last → wrap to roleBtn (first)
+    expect(focusSpy).toHaveBeenCalled();
+    document.body.removeChild(container);
+  });
+
   it("includes elements with tabindex='0' in the focusable set", () => {
     const container = document.createElement("div");
     const btn = document.createElement("button");
