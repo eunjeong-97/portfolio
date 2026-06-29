@@ -68,6 +68,11 @@ describe("formatRelativeDate", () => {
   it("returns the original string for an invalid date", () => {
     expect(formatRelativeDate("not-a-date")).toBe("not-a-date");
   });
+
+  it("returns '어제' for a date exactly 24 hours ago", () => {
+    const d = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+    expect(formatRelativeDate(d)).toBe("어제");
+  });
 });
 
 describe("truncateCommit", () => {
@@ -99,6 +104,11 @@ describe("truncateCommit", () => {
 
   it("uses the first line when the first line is empty", () => {
     expect(truncateCommit("\nsecond line")).toBe("");
+  });
+
+  it("truncates a message that is exactly one character over the limit (61 chars)", () => {
+    const justOver = "a".repeat(61);
+    expect(truncateCommit(justOver)).toBe("a".repeat(60) + "…");
   });
 });
 
@@ -198,6 +208,11 @@ describe("buildHeatmapCounts", () => {
     const now = new Date("2024-06-15T12:00:00Z");
     const today = "2024-06-15T08:00:00Z";
     expect(buildHeatmapCounts([today], 1, now)).toEqual([1]);
+  });
+
+  it("returns an empty array for days=0", () => {
+    const now = new Date("2024-06-15T12:00:00Z");
+    expect(buildHeatmapCounts([], 0, now)).toEqual([]);
   });
 });
 
@@ -438,5 +453,13 @@ describe("buildDayLabels", () => {
     sixDaysAgo.setDate(sixDaysAgo.getDate() - 6);
     const expectedFirst = sixDaysAgo.toLocaleDateString("ko-KR", { month: "numeric", day: "numeric" });
     expect(labels[0]).toBe(expectedFirst);
+  });
+
+  it("returns a single-element array containing today's label for days=1", () => {
+    const now = new Date("2024-06-15T12:00:00Z");
+    const labels = buildDayLabels(1, now);
+    expect(labels).toHaveLength(1);
+    const todayLabel = now.toLocaleDateString("ko-KR", { month: "numeric", day: "numeric" });
+    expect(labels[0]).toBe(todayLabel);
   });
 });
