@@ -8,11 +8,14 @@ import { parsePeriod, getDuration } from "@/utils/periodUtils";
 import { COMPANY_NAME } from "@/constants/site";
 
 const CAREER_START = [2022, 3] as const;
-const TOTAL_MONTHS = (2024 - CAREER_START[0]) * 12 + (10 - CAREER_START[1]) + 1;
+const CAREER_END = [2024, 10] as const;
+const TOTAL_MONTHS = (CAREER_END[0] - CAREER_START[0]) * 12 + (CAREER_END[1] - CAREER_START[1]) + 1;
 const EXP_COLORS = ["bg-green-400", "bg-indigo-400", "bg-purple-400", "bg-yellow-400", "bg-blue-400"];
 
 function getBarProps(period: string) {
-  const [sy, sm, ey, em] = parsePeriod(period)!;
+  const parsed = parsePeriod(period);
+  if (!parsed) return { left: 0, width: 0 };
+  const [sy, sm, ey, em] = parsed;
   const startOff = (sy - CAREER_START[0]) * 12 + (sm - CAREER_START[1]);
   const endOff = (ey - CAREER_START[0]) * 12 + (em - CAREER_START[1]);
   return {
