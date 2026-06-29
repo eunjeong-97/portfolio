@@ -14,11 +14,12 @@ const BTN_TAP = { scale: 0.95 } as const;
 const BTN_TRANSITION = { duration: 0.2 } as const;
 
 export default function ScrollToTop() {
-  const [visible, setVisible] = useState(() => typeof window !== "undefined" && window.scrollY > 400);
+  const [visible, setVisible] = useState(false);
   const { scrollYProgress } = useScroll();
   const strokeDashoffset = useTransform(scrollYProgress, [0, 1], [CIRCUMFERENCE, 0]);
 
   useEffect(() => {
+    setVisible(window.scrollY > 400);
     const handleScroll = () => setVisible(window.scrollY > 400);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);

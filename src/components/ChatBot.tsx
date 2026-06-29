@@ -213,7 +213,7 @@ export default function ChatBot() {
       }
       const data = await res.json();
 
-      const content: string = data.error || data.message;
+      const content: string = data.error ?? data.message ?? "응답을 받지 못했습니다.";
       setMessages([...newMessages, { role: "assistant", content, timestamp: new Date(), isNew: true }]);
     } catch (err) {
       if (err instanceof Error && err.name === "AbortError") return;

@@ -38,7 +38,7 @@ const ICON_SWAP_TRANSITION = { duration: 0.2 } as const;
 
 export default function Navigation() {
   const { theme, toggleTheme } = useTheme();
-  const [isScrolled, setIsScrolled] = useState(() => typeof window !== "undefined" && window.scrollY > 50);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const activeSection = useActiveSection(NAV_SECTION_IDS);
   const firstMobileMenuItemRef = useRef<HTMLAnchorElement>(null);
@@ -49,6 +49,7 @@ export default function Navigation() {
   useFocusTrap(mobileMenuRef, isMobileMenuOpen);
 
   useEffect(() => {
+    setIsScrolled(window.scrollY > 50);
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
