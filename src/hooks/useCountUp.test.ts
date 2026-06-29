@@ -173,6 +173,21 @@ describe("useCountUp — zero target", () => {
   });
 });
 
+describe("useCountUp — target changes", () => {
+  it("resets count to 0 and restarts the animation when target changes mid-animation", () => {
+    const { result, rerender } = renderHook(
+      ({ target }: { target: number }) => useCountUp(target, true, 1000),
+      { initialProps: { target: 100 } }
+    );
+    raf.fire(0);   // anchor startTime
+    raf.fire(500); // progress = 0.5, count = 88
+    expect(result.current).toBe(88);
+    rerender({ target: 50 }); // effect re-runs: old rAF cancelled, new animation starts
+    raf.fire(0);   // new animation first frame: progress = 0, count = 0
+    expect(result.current).toBe(0);
+  });
+});
+
 describe("useCountUp — active state transitions", () => {
   it("cancels the pending rAF when active changes from true to false", () => {
     const { rerender } = renderHook(

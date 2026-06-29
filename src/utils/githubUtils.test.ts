@@ -229,6 +229,11 @@ describe("heatmapIntensity", () => {
     // count/maxActivity = 0.5 → 0.2 + 0.5 * 0.8 = 0.6
     expect(heatmapIntensity(5, 10)).toBeCloseTo(0.6, 10);
   });
+
+  it("returns 1 when maxActivity is 0 and count is non-zero (division clamps to max)", () => {
+    // count/0 = Infinity → 0.2 + Infinity * 0.8 = Infinity → Math.min(1, Infinity) = 1
+    expect(heatmapIntensity(1, 0)).toBe(1);
+  });
 });
 
 describe("processPushEvents", () => {
