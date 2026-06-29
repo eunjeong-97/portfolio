@@ -1,9 +1,9 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef, useState, useEffect, type ElementType } from "react";
+import { useRef, type ElementType } from "react";
 import { Calendar, LayoutGrid, Cpu, Globe, Search, BookOpen, Lightbulb, Layers, ArrowRight } from "lucide-react";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useCountUp } from "@/hooks/useCountUp";
 import { scrollToId } from "@/utils/scrollTo";
 
 const ABOUT_SECTION_INITIAL = { opacity: 0, y: 20 } as const;
@@ -31,27 +31,6 @@ const highlights = [
   { value: 2, suffix: "", label: "Platforms", context: "React (Web) + React Native (App)", icon: Globe },
 ];
 
-function useCountUp(target: number, isActive: boolean, duration = 1200) {
-  const reducedMotion = useReducedMotion();
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!isActive || reducedMotion) return;
-    let startTime: number | null = null;
-    let rafId: number;
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.round(eased * target));
-      if (progress < 1) rafId = requestAnimationFrame(animate);
-    };
-    rafId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(rafId);
-  }, [isActive, target, duration, reducedMotion]);
-
-  return reducedMotion && isActive ? target : count;
-}
 
 function StatCard({
   value,
