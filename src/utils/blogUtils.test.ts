@@ -85,6 +85,10 @@ describe("truncateDescription", () => {
     expect(truncateDescription("hello world foo", 11)).toBe("hello world" + "…");
   });
 
+  it("returns an empty string for an empty input", () => {
+    expect(truncateDescription("")).toBe("");
+  });
+
   it("returns an empty string when input contains only HTML tags", () => {
     expect(truncateDescription("<p></p><br/>")).toBe("");
   });
