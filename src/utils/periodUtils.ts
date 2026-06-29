@@ -13,6 +13,7 @@ export function getDuration(period: string): string {
   if (!parsed) return "";
   const [sy, sm, ey, em] = parsed;
   const totalMonths = (ey - sy) * 12 + (em - sm) + 1;
+  if (totalMonths < 1) return "";
   if (totalMonths < 12) return `${totalMonths}개월`;
   const years = Math.floor(totalMonths / 12);
   const months = totalMonths % 12;

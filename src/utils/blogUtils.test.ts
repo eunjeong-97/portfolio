@@ -32,6 +32,11 @@ describe("isRecent", () => {
     const tomorrow = new Date(Date.now() + 1000 * 60 * 60 * 24).toISOString();
     expect(isRecent(tomorrow)).toBe(true);
   });
+
+  it("returns false for a date exactly 30 days ago", () => {
+    const thirtyDaysAgo = new Date(Date.now() - 1000 * 60 * 60 * 24 * 30).toISOString();
+    expect(isRecent(thirtyDaysAgo)).toBe(false);
+  });
 });
 
 describe("truncateDescription", () => {

@@ -59,4 +59,8 @@ describe("getDuration", () => {
   it("correctly computes duration when period has a · annotation suffix", () => {
     expect(getDuration("2022.09 - 2022.12 · 3개월")).toBe("4개월");
   });
+
+  it("returns an empty string when the end date is before the start date", () => {
+    expect(getDuration("2022.12 - 2022.03")).toBe("");
+  });
 });

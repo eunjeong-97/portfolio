@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { projects } from "./projects";
+import { parsePeriod, getDuration } from "@/utils/periodUtils";
 
 const PERIOD_REGEX = /^\d{4}\.\d{2} - \d{4}\.\d{2}/;
 
@@ -46,6 +47,26 @@ describe("projects data", () => {
   it("every project period matches YYYY.MM - YYYY.MM format", () => {
     for (const project of projects) {
       expect(PERIOD_REGEX.test(project.period)).toBe(true);
+    }
+  });
+
+  it("every project period is parseable by parsePeriod (handles annotation suffixes)", () => {
+    for (const project of projects) {
+      const parsed = parsePeriod(project.period);
+      expect(parsed).not.toBeNull();
+      const [sy, sm, ey, em] = parsed!;
+      expect(sy).toBeGreaterThanOrEqual(2000);
+      expect(sm).toBeGreaterThanOrEqual(1);
+      expect(sm).toBeLessThanOrEqual(12);
+      expect(ey).toBeGreaterThanOrEqual(sy);
+      expect(em).toBeGreaterThanOrEqual(1);
+      expect(em).toBeLessThanOrEqual(12);
+    }
+  });
+
+  it("getDuration returns a non-empty label for every project period", () => {
+    for (const project of projects) {
+      expect(getDuration(project.period).length).toBeGreaterThan(0);
     }
   });
 });
