@@ -116,4 +116,91 @@ describe("useFocusTrap", () => {
     expect(lastSpy).not.toHaveBeenCalled();
     document.body.removeChild(container);
   });
+
+  it("wraps Tab from last anchor link back to first focusable element", () => {
+    const container = document.createElement("div");
+    const link1 = document.createElement("a");
+    link1.href = "#";
+    const link2 = document.createElement("a");
+    link2.href = "#";
+    container.append(link1, link2);
+    document.body.appendChild(container);
+    link2.focus();
+
+    renderHook(() => {
+      const ref = useRef<HTMLDivElement>(container as HTMLDivElement);
+      useFocusTrap(ref, true);
+      return ref;
+    });
+
+    const focusSpy = vi.spyOn(link1, "focus");
+    window.dispatchEvent(makeTabEvent(false));
+    expect(focusSpy).toHaveBeenCalled();
+    document.body.removeChild(container);
+  });
+
+  it("excludes disabled buttons from the focusable set", () => {
+    const container = document.createElement("div");
+    const btn1 = document.createElement("button");
+    const disabledBtn = document.createElement("button");
+    disabledBtn.disabled = true;
+    const btn2 = document.createElement("button");
+    container.append(btn1, disabledBtn, btn2);
+    document.body.appendChild(container);
+    btn2.focus(); // last enabled button — should be the boundary
+
+    renderHook(() => {
+      const ref = useRef<HTMLDivElement>(container as HTMLDivElement);
+      useFocusTrap(ref, true);
+      return ref;
+    });
+
+    const focusSpy = vi.spyOn(btn1, "focus");
+    window.dispatchEvent(makeTabEvent(false)); // Tab from last → should wrap to btn1
+    expect(focusSpy).toHaveBeenCalled();
+    document.body.removeChild(container);
+  });
+
+  it("excludes elements with tabindex='-1' from the focusable set", () => {
+    const container = document.createElement("div");
+    const btn1 = document.createElement("button");
+    const skipped = document.createElement("div");
+    skipped.setAttribute("tabindex", "-1");
+    const btn2 = document.createElement("button");
+    container.append(btn1, skipped, btn2);
+    document.body.appendChild(container);
+    btn2.focus(); // last focusable (skipped is not in the set)
+
+    renderHook(() => {
+      const ref = useRef<HTMLDivElement>(container as HTMLDivElement);
+      useFocusTrap(ref, true);
+      return ref;
+    });
+
+    const focusSpy = vi.spyOn(btn1, "focus");
+    window.dispatchEvent(makeTabEvent(false));
+    expect(focusSpy).toHaveBeenCalled();
+    document.body.removeChild(container);
+  });
+
+  it("includes elements with tabindex='0' in the focusable set", () => {
+    const container = document.createElement("div");
+    const btn = document.createElement("button");
+    const tabbable = document.createElement("div");
+    tabbable.setAttribute("tabindex", "0");
+    container.append(btn, tabbable);
+    document.body.appendChild(container);
+    tabbable.focus(); // last focusable
+
+    renderHook(() => {
+      const ref = useRef<HTMLDivElement>(container as HTMLDivElement);
+      useFocusTrap(ref, true);
+      return ref;
+    });
+
+    const focusSpy = vi.spyOn(btn, "focus");
+    window.dispatchEvent(makeTabEvent(false)); // Tab from last → wrap to first
+    expect(focusSpy).toHaveBeenCalled();
+    document.body.removeChild(container);
+  });
 });

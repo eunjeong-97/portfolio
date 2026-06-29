@@ -156,3 +156,25 @@ describe("useCountUp — animation progress", () => {
     expect(result.current).toBe(50);
   });
 });
+
+describe("useCountUp — active state transitions", () => {
+  it("cancels the pending rAF when active changes from true to false", () => {
+    const { rerender } = renderHook(
+      ({ active }: { active: boolean }) => useCountUp(100, active, 1000),
+      { initialProps: { active: true } }
+    );
+    expect(raf.pendingCount).toBe(1);
+    rerender({ active: false });
+    expect(raf.pendingCount).toBe(0);
+  });
+
+  it("schedules a rAF when active changes from false to true", () => {
+    const { rerender } = renderHook(
+      ({ active }: { active: boolean }) => useCountUp(100, active, 1000),
+      { initialProps: { active: false } }
+    );
+    expect(raf.pendingCount).toBe(0);
+    rerender({ active: true });
+    expect(raf.pendingCount).toBe(1);
+  });
+});
