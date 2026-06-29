@@ -88,4 +88,17 @@ describe("useCopyToClipboard", () => {
     // 500ms total from second copy — should now be false
     expect(result.current.copied).toBe(false);
   });
+
+  it("does not throw when navigator.clipboard is undefined", async () => {
+    Object.defineProperty(navigator, "clipboard", {
+      value: undefined,
+      configurable: true,
+      writable: true,
+    });
+    const { result } = renderHook(() => useCopyToClipboard());
+    await expect(
+      act(async () => { await result.current.copy("text"); })
+    ).resolves.not.toThrow();
+    expect(result.current.copied).toBe(false);
+  });
 });
