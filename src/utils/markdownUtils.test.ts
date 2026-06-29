@@ -86,4 +86,22 @@ describe("renderMarkdown", () => {
   it("returns plain text unchanged (no markdown syntax)", () => {
     expect(renderMarkdown("hello world")).toBe("hello world");
   });
+
+  it("renders both bold and italic in the same string", () => {
+    expect(renderMarkdown("**bold** and *italic*")).toBe(
+      "<strong>bold</strong> and <em>italic</em>"
+    );
+  });
+
+  it("renders bold text inside a list item", () => {
+    const result = renderMarkdown("- **bold item**");
+    expect(result).toContain("<strong>bold item</strong>");
+    expect(result).toContain("<li");
+    expect(result).toContain("<ul");
+  });
+
+  it("does not convert a mid-line dash to a list item", () => {
+    expect(renderMarkdown("inline - dash")).toBe("inline - dash");
+    expect(renderMarkdown("inline - dash")).not.toContain("<li");
+  });
 });

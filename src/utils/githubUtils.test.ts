@@ -274,6 +274,12 @@ describe("processPushEvents", () => {
     const events = Array.from({ length: 10 }, () => makeEvent());
     expect(processPushEvents(events, "user")).toHaveLength(6);
   });
+
+  it("handles a payload with no commits field (undefined)", () => {
+    const event = makeEvent({ payload: { ref: "refs/heads/main" } });
+    const [result] = processPushEvents([event], "user");
+    expect(result.commits).toEqual([]);
+  });
 });
 
 describe("computeGitHubStats", () => {

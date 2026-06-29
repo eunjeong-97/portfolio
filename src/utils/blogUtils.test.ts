@@ -142,6 +142,10 @@ describe("extractTag", () => {
     const block = "<description><![CDATA[first\nsecond]]></description>";
     expect(extractTag(block, "description")).toBe("first\nsecond");
   });
+
+  it("returns the first match when the tag appears more than once", () => {
+    expect(extractTag("<title>first</title><title>second</title>", "title")).toBe("first");
+  });
 });
 
 describe("parseBlogRss", () => {
