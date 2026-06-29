@@ -102,6 +102,11 @@ describe("truncateDescription", () => {
     expect(truncateDescription("<p></p><br/>")).toBe("");
   });
 
+  it("returns the stripped text unchanged when stripping HTML tags yields exactly 200 chars", () => {
+    const text = "<p>" + "x".repeat(200) + "</p>";
+    expect(truncateDescription(text)).toBe("x".repeat(200));
+  });
+
   it("truncates at the last space when it falls exactly at position max (index 200)", () => {
     // cut = "a" * 200 + " " → lastSpace = 200 > 0 → cut.slice(0, 200) + "…"
     const text = "a".repeat(200) + " extra";

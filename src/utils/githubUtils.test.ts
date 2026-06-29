@@ -374,6 +374,14 @@ describe("processPushEvents", () => {
     const [result] = processPushEvents([event], "user");
     expect(result.commits[0].message).toBe("first line");
   });
+
+  it("returns 6 push events even when interspersed with non-push events", () => {
+    const events = [
+      ...Array.from({ length: 4 }, () => makeEvent({ type: "WatchEvent" })),
+      ...Array.from({ length: 8 }, () => makeEvent()),
+    ];
+    expect(processPushEvents(events, "user")).toHaveLength(6);
+  });
 });
 
 describe("computeGitHubStats", () => {
@@ -418,6 +426,11 @@ describe("computeGitHubStats", () => {
     expect(stats.pushCount).toBe(0);
     expect(stats.reposActive).toBe(2);
     expect(stats.totalEvents).toBe(2);
+  });
+
+  it("returns correct stats for exactly one PushEvent", () => {
+    const events = [makeEvent("PushEvent", "user/repo")];
+    expect(computeGitHubStats(events)).toEqual({ totalEvents: 1, pushCount: 1, reposActive: 1 });
   });
 });
 
