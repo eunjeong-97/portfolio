@@ -363,6 +363,17 @@ describe("processPushEvents", () => {
     expect(result.commits[0].message).toBe("first");
     expect(result.commits[1].message).toBe("second");
   });
+
+  it("uses only the first line of a multi-line commit message", () => {
+    const event = makeEvent({
+      payload: {
+        ref: "refs/heads/main",
+        commits: [{ message: "first line\nsecond line", sha: "aaaaaaaaaaaa" }],
+      },
+    });
+    const [result] = processPushEvents([event], "user");
+    expect(result.commits[0].message).toBe("first line");
+  });
 });
 
 describe("computeGitHubStats", () => {
