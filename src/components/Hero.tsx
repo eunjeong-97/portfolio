@@ -3,8 +3,8 @@
 import { motion } from "framer-motion";
 import { Github, FileText, ArrowDown, Download } from "lucide-react";
 import Image from "next/image";
-import { useState, useEffect, useRef, useCallback, type MouseEvent } from "react";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useRef, useCallback, type MouseEvent } from "react";
+import { useTypewriter } from "@/hooks/useTypewriter";
 import { scrollToId } from "@/utils/scrollTo";
 import { GITHUB_URL, BLOG_URL, RESUME_FILENAME, AUTHOR_NAME } from "@/constants/site";
 
@@ -57,38 +57,6 @@ const FADE_UP_DELAY_05 = { delay: 0.5 } as const;
 const FADE_UP_DELAY_055 = { delay: 0.55 } as const;
 const FADE_UP_DELAY_06 = { delay: 0.6 } as const;
 
-function useTypewriter(words: string[], speed = 90, pause = 2000) {
-  const reducedMotion = useReducedMotion();
-  const [index, setIndex] = useState(0);
-  const [displayed, setDisplayed] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [completedWord, setCompletedWord] = useState("");
-
-  useEffect(() => {
-    if (reducedMotion) return;
-    const current = words[index % words.length];
-    let timeout: ReturnType<typeof setTimeout>;
-    if (!isDeleting) {
-      if (displayed.length < current.length) {
-        timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length + 1)), speed);
-      } else {
-        timeout = setTimeout(() => { setCompletedWord(current); setIsDeleting(true); }, pause);
-      }
-    } else {
-      if (displayed.length > 0) {
-        timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length - 1)), speed / 2);
-      } else {
-        timeout = setTimeout(() => { setIsDeleting(false); setIndex((prev) => (prev + 1) % words.length); }, 0);
-      }
-    }
-    return () => clearTimeout(timeout);
-  }, [displayed, isDeleting, index, words, speed, pause, reducedMotion]);
-
-  if (reducedMotion) {
-    return { displayed: words[0], completedWord: words[0] };
-  }
-  return { displayed, completedWord };
-}
 
 export default function Hero() {
   const { displayed: role, completedWord: roleCompleted } = useTypewriter(ROLES);
