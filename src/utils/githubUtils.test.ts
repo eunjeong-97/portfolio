@@ -351,6 +351,20 @@ describe("processPushEvents", () => {
     expect(result.repo).toBe("other-user/repo");
   });
 
+  it("returns the repo name unchanged when it contains no slash (no username prefix to strip)", () => {
+    // "solorepo".replace("user/", "") finds no match → returned unchanged
+    const event = makeEvent({ repo: { name: "solorepo" } });
+    const [result] = processPushEvents([event], "user");
+    expect(result.repo).toBe("solorepo");
+  });
+
+  it("strips only the first occurrence of the username prefix from the repo name", () => {
+    // String.replace with a string arg replaces only the first match
+    const event = makeEvent({ repo: { name: "user/user/repo" } });
+    const [result] = processPushEvents([event], "user");
+    expect(result.repo).toBe("user/repo");
+  });
+
   it("handles a payload with no commits field (undefined)", () => {
     const event = makeEvent({ payload: { ref: "refs/heads/main" } });
     const [result] = processPushEvents([event], "user");
