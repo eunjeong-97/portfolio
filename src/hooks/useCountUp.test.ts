@@ -157,6 +157,22 @@ describe("useCountUp — animation progress", () => {
   });
 });
 
+describe("useCountUp — zero target", () => {
+  it("returns 0 throughout the animation when target is 0", () => {
+    const { result } = renderHook(() => useCountUp(0, true, 1000));
+    raf.fire(0);   // anchor startTime
+    raf.fire(500); // mid-animation
+    expect(result.current).toBe(0);
+  });
+
+  it("completes the animation and stops scheduling frames when target is 0", () => {
+    renderHook(() => useCountUp(0, true, 1000));
+    raf.fire(0);    // anchor startTime
+    raf.fire(1000); // progress = 1 → animation done
+    expect(raf.pendingCount).toBe(0);
+  });
+});
+
 describe("useCountUp — active state transitions", () => {
   it("cancels the pending rAF when active changes from true to false", () => {
     const { rerender } = renderHook(

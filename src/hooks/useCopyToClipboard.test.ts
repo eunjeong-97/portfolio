@@ -52,6 +52,13 @@ describe("useCopyToClipboard", () => {
     expect(result.current.copied).toBe(false);
   });
 
+  it("clears the pending reset timer on unmount without throwing", async () => {
+    const { result, unmount } = renderHook(() => useCopyToClipboard(1000));
+    await act(async () => { await result.current.copy("hello"); });
+    expect(result.current.copied).toBe(true);
+    expect(() => unmount()).not.toThrow();
+  });
+
   it("calls the clipboard API with an empty string and sets copied=true", async () => {
     const { result } = renderHook(() => useCopyToClipboard());
     await act(async () => { await result.current.copy(""); });
