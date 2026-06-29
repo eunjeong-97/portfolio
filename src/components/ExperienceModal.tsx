@@ -164,16 +164,13 @@ export default function ExperienceModal({
 
               <div className="mb-6">
                 <h4 className="text-lg font-semibold mb-4">사용 기술</h4>
-                <div className="flex flex-wrap gap-2">
+                <ul className="flex flex-wrap gap-2 list-none">
                   {experience.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-3 py-1.5 bg-muted rounded-lg text-sm text-muted-foreground"
-                    >
+                    <li key={tag} className="px-3 py-1.5 bg-muted rounded-lg text-sm text-muted-foreground">
                       {tag}
-                    </span>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
 
               {experience.videoUrl && (

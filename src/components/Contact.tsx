@@ -239,19 +239,20 @@ export default function Contact() {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <h4 className="font-semibold text-base mb-2">메시지 보내기</h4>
-                    <div className="flex flex-wrap gap-2">
+                    <ul className="flex flex-wrap gap-2 list-none">
                       {MESSAGE_TEMPLATES.map(({ label, text }) => (
-                        <button
-                          key={label}
-                          type="button"
-                          aria-label={`${label} 템플릿으로 메시지 채우기`}
-                          onClick={() => { setFormState(f => ({ ...f, message: text })); setTouched(t => ({ ...t, message: true })); }}
-                          className="text-xs px-2.5 py-1 bg-muted hover:bg-primary/10 hover:text-primary border border-border hover:border-primary/40 rounded-full transition-colors"
-                        >
-                          {label}
-                        </button>
+                        <li key={label}>
+                          <button
+                            type="button"
+                            aria-label={`${label} 템플릿으로 메시지 채우기`}
+                            onClick={() => { setFormState(f => ({ ...f, message: text })); setTouched(t => ({ ...t, message: true })); }}
+                            className="text-xs px-2.5 py-1 bg-muted hover:bg-primary/10 hover:text-primary border border-border hover:border-primary/40 rounded-full transition-colors"
+                          >
+                            {label}
+                          </button>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </div>
                   <div className="grid sm:grid-cols-2 gap-3">
                     <div>
