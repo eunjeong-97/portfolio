@@ -285,4 +285,13 @@ describe("parseBlogRss", () => {
     expect(post.title).toBe("No Desc");
     expect(post.description).toBe("");
   });
+
+  it("returns an item with all empty fields when the item block is empty", () => {
+    const xml = `<rss><item></item></rss>`;
+    const [post] = parseBlogRss(xml);
+    expect(post.title).toBe("");
+    expect(post.link).toBe("");
+    expect(post.pubDate).toBe("");
+    expect(post.description).toBe("");
+  });
 });

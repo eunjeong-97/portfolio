@@ -259,6 +259,11 @@ describe("heatmapIntensity", () => {
     // count/0 = Infinity → 0.2 + Infinity * 0.8 = Infinity → Math.min(1, Infinity) = 1
     expect(heatmapIntensity(1, 0)).toBe(1);
   });
+
+  it("returns a value below 0.2 for a negative count (no lower bound on non-zero inputs)", () => {
+    // count = -1, maxActivity = 10: 0.2 + (-1/10) * 0.8 = 0.2 - 0.08 = 0.12
+    expect(heatmapIntensity(-1, 10)).toBeCloseTo(0.12, 10);
+  });
 });
 
 describe("processPushEvents", () => {

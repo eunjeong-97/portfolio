@@ -435,4 +435,52 @@ describe("useFocusTrap", () => {
     expect(anchorSpy).not.toHaveBeenCalled();
     document.body.removeChild(container);
   });
+
+  it("calls preventDefault on the Tab event when focus wraps from last to first", () => {
+    const container = document.createElement("div");
+    const btn1 = document.createElement("button");
+    const btn2 = document.createElement("button");
+    container.append(btn1, btn2);
+    document.body.appendChild(container);
+    btn2.focus();
+
+    renderHook(() => {
+      const ref = useRef<HTMLDivElement>(container as HTMLDivElement);
+      useFocusTrap(ref, true);
+      return ref;
+    });
+
+    const event = makeTabEvent(false);
+    const preventSpy = vi.spyOn(event, "preventDefault");
+    window.dispatchEvent(event);
+    expect(preventSpy).toHaveBeenCalled();
+    document.body.removeChild(container);
+  });
+
+  it("stops trapping focus when active changes from true to false", () => {
+    const container = document.createElement("div");
+    const btn1 = document.createElement("button");
+    const btn2 = document.createElement("button");
+    container.append(btn1, btn2);
+    document.body.appendChild(container);
+    btn2.focus();
+
+    const { rerender } = renderHook(
+      ({ active }: { active: boolean }) => {
+        const ref = useRef<HTMLDivElement>(container as HTMLDivElement);
+        useFocusTrap(ref, active);
+      },
+      { initialProps: { active: true } }
+    );
+
+    const focusSpy = vi.spyOn(btn1, "focus");
+    window.dispatchEvent(makeTabEvent(false)); // active: wraps to btn1
+    expect(focusSpy).toHaveBeenCalled();
+    focusSpy.mockClear(); // reset call count before testing inactive state
+
+    rerender({ active: false });
+    window.dispatchEvent(makeTabEvent(false)); // inactive: no wrap
+    expect(focusSpy).not.toHaveBeenCalled();
+    document.body.removeChild(container);
+  });
 });
