@@ -92,7 +92,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-border pt-6 flex flex-col sm:flex-row justify-between items-center gap-3">
-          <p className="text-muted-foreground text-sm">
+          <p className="text-muted-foreground text-sm" suppressHydrationWarning>
             © {CURRENT_YEAR} {AUTHOR_NAME}. All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground/60">
