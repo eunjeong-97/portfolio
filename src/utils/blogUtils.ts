@@ -31,3 +31,26 @@ export function extractTag(block: string, tag: string): string {
   const m = block.match(new RegExp(`<${tag}[^>]*><!\\[CDATA\\[([\\s\\S]*?)\\]\\]><\\/${tag}>|<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`));
   return m ? (m[1] ?? m[2] ?? "").trim() : "";
 }
+
+export interface BlogPost {
+  title: string;
+  link: string;
+  pubDate: string;
+  description: string;
+}
+
+export function parseBlogRss(xml: string, maxItems = 6): BlogPost[] {
+  const items: BlogPost[] = [];
+  const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+  let match;
+  while ((match = itemRegex.exec(xml)) !== null && items.length < maxItems) {
+    const block = match[1];
+    items.push({
+      title: extractTag(block, "title"),
+      link: extractTag(block, "link"),
+      pubDate: extractTag(block, "pubDate"),
+      description: truncateDescription(extractTag(block, "description")),
+    });
+  }
+  return items;
+}

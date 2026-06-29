@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { formatDate, isRecent, truncateDescription, extractTag } from "./blogUtils";
+import { formatDate, isRecent, truncateDescription, extractTag, parseBlogRss } from "./blogUtils";
 
 describe("formatDate", () => {
   it("formats a valid ISO date string", () => {
@@ -141,5 +141,62 @@ describe("extractTag", () => {
   it("extracts multi-line CDATA content", () => {
     const block = "<description><![CDATA[first\nsecond]]></description>";
     expect(extractTag(block, "description")).toBe("first\nsecond");
+  });
+});
+
+describe("parseBlogRss", () => {
+  const makeItem = (title: string, link: string, pubDate: string, description: string) =>
+    `<item><title><![CDATA[${title}]]></title><link>${link}</link><pubDate>${pubDate}</pubDate><description><![CDATA[${description}]]></description></item>`;
+
+  it("returns an empty array for XML with no items", () => {
+    expect(parseBlogRss("<rss></rss>")).toEqual([]);
+  });
+
+  it("parses a single item correctly", () => {
+    const xml = `<rss>${makeItem("My Post", "https://velog.io/post", "Mon, 01 Jan 2024 00:00:00 +0000", "Short desc")}</rss>`;
+    const result = parseBlogRss(xml);
+    expect(result).toHaveLength(1);
+    expect(result[0].title).toBe("My Post");
+    expect(result[0].link).toBe("https://velog.io/post");
+    expect(result[0].pubDate).toBe("Mon, 01 Jan 2024 00:00:00 +0000");
+    expect(result[0].description).toBe("Short desc");
+  });
+
+  it("truncates descriptions longer than 200 characters", () => {
+    const longDesc = "word ".repeat(50); // 250 chars
+    const xml = `<rss>${makeItem("Post", "https://x.com", "2024-01-01", longDesc)}</rss>`;
+    const [post] = parseBlogRss(xml);
+    expect(post.description.endsWith("…")).toBe(true);
+    expect(post.description.length).toBeLessThan(longDesc.length);
+  });
+
+  it("limits results to 6 items by default", () => {
+    const items = Array.from({ length: 10 }, (_, i) =>
+      makeItem(`Post ${i}`, `https://x.com/${i}`, "2024-01-01", "desc")
+    ).join("");
+    const xml = `<rss>${items}</rss>`;
+    expect(parseBlogRss(xml)).toHaveLength(6);
+  });
+
+  it("respects a custom maxItems parameter", () => {
+    const items = Array.from({ length: 5 }, (_, i) =>
+      makeItem(`Post ${i}`, `https://x.com/${i}`, "2024-01-01", "desc")
+    ).join("");
+    const xml = `<rss>${items}</rss>`;
+    expect(parseBlogRss(xml, 3)).toHaveLength(3);
+  });
+
+  it("parses multiple items in order", () => {
+    const xml = `<rss>${makeItem("First", "https://x.com/1", "2024-01-01", "a")}${makeItem("Second", "https://x.com/2", "2024-01-02", "b")}</rss>`;
+    const result = parseBlogRss(xml);
+    expect(result[0].title).toBe("First");
+    expect(result[1].title).toBe("Second");
+  });
+
+  it("strips HTML tags from descriptions", () => {
+    const xml = `<rss>${makeItem("Post", "https://x.com", "2024-01-01", "<p>Clean text</p>")}</rss>`;
+    const [post] = parseBlogRss(xml);
+    expect(post.description).toBe("Clean text");
+    expect(post.description).not.toContain("<p>");
   });
 });
