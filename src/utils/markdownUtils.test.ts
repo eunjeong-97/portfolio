@@ -160,4 +160,16 @@ describe("renderMarkdown", () => {
     expect(result).toContain("<li");
     expect(result).toContain("<ul");
   });
+
+  it("renders inline code inside a list item", () => {
+    const result = renderMarkdown("- `code item`");
+    expect(result).toContain("<code");
+    expect(result).toContain("code item</code>");
+    expect(result).toContain("<li");
+    expect(result).toContain("<ul");
+  });
+
+  it("converts multiple consecutive newlines to multiple br tags", () => {
+    expect(renderMarkdown("a\n\nb")).toBe("a<br/><br/>b");
+  });
 });
