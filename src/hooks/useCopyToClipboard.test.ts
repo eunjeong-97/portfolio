@@ -51,4 +51,19 @@ describe("useCopyToClipboard", () => {
     await expect(act(async () => { await result.current.copy("hello"); })).resolves.not.toThrow();
     expect(result.current.copied).toBe(false);
   });
+
+  it("restarts the reset timer when copy is called a second time before the delay elapses", async () => {
+    const { result } = renderHook(() => useCopyToClipboard(500));
+    await act(async () => { await result.current.copy("first"); });
+    act(() => { vi.advanceTimersByTime(400); });
+    expect(result.current.copied).toBe(true);
+    // Copy again, resetting the 500ms timer
+    await act(async () => { await result.current.copy("second"); });
+    act(() => { vi.advanceTimersByTime(400); });
+    // 400ms into the new timer — should still be true
+    expect(result.current.copied).toBe(true);
+    act(() => { vi.advanceTimersByTime(100); });
+    // 500ms total from second copy — should now be false
+    expect(result.current.copied).toBe(false);
+  });
 });

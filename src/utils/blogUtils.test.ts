@@ -37,6 +37,10 @@ describe("isRecent", () => {
     const thirtyDaysAgo = new Date(Date.now() - 1000 * 60 * 60 * 24 * 30).toISOString();
     expect(isRecent(thirtyDaysAgo)).toBe(false);
   });
+
+  it("returns false for an invalid date string", () => {
+    expect(isRecent("not-a-date")).toBe(false);
+  });
 });
 
 describe("truncateDescription", () => {
