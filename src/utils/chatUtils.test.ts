@@ -201,6 +201,10 @@ describe("toChatHistory", () => {
   it("returns an empty array for an empty input array", () => {
     expect(toChatHistory([])).toEqual([]);
   });
+
+  it("returns an empty array for a single assistant message (no prior context)", () => {
+    expect(toChatHistory([{ role: "assistant", content: "hello" }])).toEqual([]);
+  });
 });
 
 describe("formatTime", () => {

@@ -61,4 +61,12 @@ describe("isValidEmail", () => {
   it("accepts an email with a hyphenated domain", () => {
     expect(isValidEmail("user@my-domain.com")).toBe(true);
   });
+
+  it("rejects a domain that starts with a dot (user@.com)", () => {
+    expect(isValidEmail("user@.com")).toBe(false);
+  });
+
+  it("rejects a domain that ends with a dot (user@domain.)", () => {
+    expect(isValidEmail("user@domain.")).toBe(false);
+  });
 });

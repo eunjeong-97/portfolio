@@ -219,4 +219,11 @@ describe("parseBlogRss", () => {
     expect(post.title).toBe("No-link post");
     expect(post.link).toBe("");
   });
+
+  it("handles items where pubDate is absent, returning an empty string", () => {
+    const xml = `<rss><item><title><![CDATA[No date]]></title><link>https://x.com</link><description><![CDATA[desc]]></description></item></rss>`;
+    const [post] = parseBlogRss(xml);
+    expect(post.title).toBe("No date");
+    expect(post.pubDate).toBe("");
+  });
 });

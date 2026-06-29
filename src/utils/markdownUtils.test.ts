@@ -116,4 +116,15 @@ describe("renderMarkdown", () => {
     expect(result).toContain("code</code>");
     expect(result).toContain("</strong>");
   });
+
+  it("inserts a br tag between preceding text and a list item", () => {
+    const result = renderMarkdown("intro\n- item");
+    expect(result).toContain("intro");
+    expect(result).toContain("<br/>");
+    expect(result).toContain("<li");
+  });
+
+  it("renders an em tag for a single asterisk on each side", () => {
+    expect(renderMarkdown("*em*")).toContain("<em>em</em>");
+  });
 });
