@@ -80,6 +80,14 @@ describe("getBarProps", () => {
     expect(width).toBeLessThan(0);
   });
 
+  it("a single-month period at the last career month ends exactly at 100% of the timeline", () => {
+    // startOff = (2024-2022)*12 + (10-3) = 31; endOff = 31
+    // left = 31/32*100, width = 1/32*100, left+width = 32/32*100 = 100%
+    const { left, width } = getBarProps("2024.10 - 2024.10");
+    expect(left + width).toBeCloseTo(100, 5);
+    expect(width).toBeCloseTo((1 / TOTAL_MONTHS) * 100, 5);
+  });
+
   it("left and width together do not exceed 100% for any real experience period", () => {
     const periods = [
       "2022.03 - 2024.10 · 약 2년",

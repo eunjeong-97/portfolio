@@ -129,6 +129,11 @@ describe("useActiveSection", () => {
     expect(() => unmount()).not.toThrow();
   });
 
+  it("does not register any observer when all sectionIds are absent from the DOM", () => {
+    renderHook(() => useActiveSection(["ghost1", "ghost2"]));
+    expect(elementCallbacks.size).toBe(0);
+  });
+
   it("registers the section element in the callbacks map after initial render", () => {
     const el = document.createElement("section");
     el.id = "skills";

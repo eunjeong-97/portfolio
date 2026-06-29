@@ -98,6 +98,11 @@ describe("typewriterSpeed", () => {
     // Math.round(3000 / 172) = Math.round(17.44) = 17
     expect(typewriterSpeed(172)).toBe(17);
   });
+
+  it("returns 4 (the minimum) for Infinity content length", () => {
+    // Math.round(3000 / Infinity) = 0 → Math.min(18, 0) = 0 → Math.max(4, 0) = 4
+    expect(typewriterSpeed(Infinity)).toBe(4);
+  });
 });
 
 describe("validateChatMessages", () => {
@@ -230,6 +235,16 @@ describe("toChatHistory", () => {
     expect(toChatHistory([{ role: "assistant", content: "hello" }])).toEqual([]);
   });
 
+  it("maps any non-'assistant' role to 'user' in the Gemini history format", () => {
+    // The implementation uses: role === "assistant" ? "model" : "user"
+    // so any unknown role (e.g. "system") becomes "user"
+    const result = toChatHistory([
+      { role: "system" as "user", content: "system msg" },
+      { role: "user", content: "last" },
+    ]);
+    expect(result[0].role).toBe("user");
+  });
+
   it("returns exactly one history entry for a two-message conversation", () => {
     const result = toChatHistory([
       { role: "user", content: "hi" },
@@ -259,5 +274,10 @@ describe("formatTime", () => {
   it("formats midnight correctly (does not return empty)", () => {
     const midnight = new Date("2024-06-15T00:00:00");
     expect(formatTime(midnight)).not.toBe("");
+  });
+
+  it("returns a string (not throws) for an invalid Date object", () => {
+    const invalid = new Date("not-a-date");
+    expect(typeof formatTime(invalid)).toBe("string");
   });
 });

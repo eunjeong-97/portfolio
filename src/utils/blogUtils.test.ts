@@ -102,6 +102,12 @@ describe("truncateDescription", () => {
     expect(truncateDescription("<p></p><br/>")).toBe("");
   });
 
+  it("truncates at the last space when it falls exactly at position max (index 200)", () => {
+    // cut = "a" * 200 + " " → lastSpace = 200 > 0 → cut.slice(0, 200) + "…"
+    const text = "a".repeat(200) + " extra";
+    expect(truncateDescription(text)).toBe("a".repeat(200) + "…");
+  });
+
   it("decodes common HTML entities in the description", () => {
     expect(truncateDescription("a &amp; b &lt;c&gt; &quot;d&quot; &#39;e&#39; f&nbsp;g")).toBe(
       "a & b <c> \"d\" 'e' f g"
