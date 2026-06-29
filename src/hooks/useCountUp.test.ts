@@ -269,3 +269,32 @@ describe("useCountUp — active state transitions", () => {
     expect(result.current).toBe(0);
   });
 });
+
+describe("useCountUp — default duration", () => {
+  it("uses the default duration of 1200ms (animation completes at timestamp 1200)", () => {
+    const { result } = renderHook(() => useCountUp(100, true)); // no duration → 1200ms
+    raf.fire(0);    // anchor startTime, progress = 0, count = 0
+    raf.fire(1200); // progress = 1200/1200 = 1, eased = 1, count = 100
+    expect(result.current).toBe(100);
+    expect(raf.pendingCount).toBe(0);
+  });
+});
+
+describe("useCountUp — ease-out at 25%", () => {
+  it("applies cubic ease-out: count is 58 at 25% of duration (eased = 1 - 0.75³ = 0.578125)", () => {
+    const { result } = renderHook(() => useCountUp(100, true, 1000));
+    raf.fire(0);   // anchor startTime
+    raf.fire(250); // progress = 0.25, eased = 1 - 0.421875 = 0.578125
+    // Math.round(0.578125 * 100) = Math.round(57.8125) = 58
+    expect(result.current).toBe(58);
+  });
+});
+
+describe("useCountUp — negative target", () => {
+  it("counts to a negative target when target is -50 (count = -50 at completion)", () => {
+    const { result } = renderHook(() => useCountUp(-50, true, 1000));
+    raf.fire(0);    // anchor startTime
+    raf.fire(1000); // progress = 1, eased = 1, count = Math.round(1 * -50) = -50
+    expect(result.current).toBe(-50);
+  });
+});

@@ -101,4 +101,14 @@ describe("useCopyToClipboard", () => {
     ).resolves.not.toThrow();
     expect(result.current.copied).toBe(false);
   });
+
+  it("uses 2000ms as the default reset delay", async () => {
+    const { result } = renderHook(() => useCopyToClipboard()); // default resetMs = 2000
+    await act(async () => { await result.current.copy("text"); });
+    expect(result.current.copied).toBe(true);
+    act(() => { vi.advanceTimersByTime(1999); });
+    expect(result.current.copied).toBe(true);
+    act(() => { vi.advanceTimersByTime(1); });
+    expect(result.current.copied).toBe(false);
+  });
 });

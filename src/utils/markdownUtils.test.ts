@@ -203,4 +203,9 @@ describe("renderMarkdown", () => {
     expect(result).toContain("<ul");
     expect(result).toContain("item</li>");
   });
+
+  it("renders '**' alone (two adjacent asterisks) as an empty em span", () => {
+    // Bold regex \*\*(.*?)\*\* needs 4 asterisks; italic \*(.*?)\* matches the pair with empty content
+    expect(renderMarkdown("**")).toBe("<em></em>");
+  });
 });

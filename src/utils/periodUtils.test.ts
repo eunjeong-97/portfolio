@@ -91,6 +91,11 @@ describe("getDuration", () => {
     // (2023-2022)*12 + (11-1) + 1 = 23 months → 1년 11개월
     expect(getDuration("2022.01 - 2023.11")).toBe("1년 11개월");
   });
+
+  it("returns empty string when totalMonths is 0 (end is exactly one month before start)", () => {
+    // (2022-2022)*12 + (3-4) + 1 = 0 → totalMonths < 1 → ""
+    expect(getDuration("2022.04 - 2022.03")).toBe("");
+  });
 });
 
 describe("parsePeriod — additional formats", () => {
