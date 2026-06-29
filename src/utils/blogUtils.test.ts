@@ -122,4 +122,14 @@ describe("extractTag", () => {
   it("returns empty string when block has no matching tag", () => {
     expect(extractTag("<description>some text</description>", "title")).toBe("");
   });
+
+  it("extracts content spanning multiple lines", () => {
+    const block = "<description>line one\nline two\nline three</description>";
+    expect(extractTag(block, "description")).toBe("line one\nline two\nline three");
+  });
+
+  it("extracts multi-line CDATA content", () => {
+    const block = "<description><![CDATA[first\nsecond]]></description>";
+    expect(extractTag(block, "description")).toBe("first\nsecond");
+  });
 });

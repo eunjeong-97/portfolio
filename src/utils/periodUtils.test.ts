@@ -29,6 +29,14 @@ describe("parsePeriod", () => {
   it("returns null when the date segments are not numbers", () => {
     expect(parsePeriod("abc - def")).toBeNull();
   });
+
+  it("returns null when the separator has no surrounding spaces", () => {
+    expect(parsePeriod("2022.03-2024.10")).toBeNull();
+  });
+
+  it("handles leading/trailing whitespace around the separator", () => {
+    expect(parsePeriod("  2022.03 - 2024.10  ")).toEqual([2022, 3, 2024, 10]);
+  });
 });
 
 describe("getDuration", () => {

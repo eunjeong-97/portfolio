@@ -80,4 +80,18 @@ describe("useActiveSection", () => {
     triggerIntersection(el, true);
     expect(result.current).toBe("real");
   });
+
+  it("stays empty and does not throw when sectionIds is empty", () => {
+    const { result } = renderHook(() => useActiveSection([]));
+    expect(result.current).toBe("");
+  });
+
+  it("cleans up observers on unmount without throwing", () => {
+    const el = document.createElement("section");
+    el.id = "about";
+    document.body.appendChild(el);
+
+    const { unmount } = renderHook(() => useActiveSection(["about"]));
+    expect(() => unmount()).not.toThrow();
+  });
 });
