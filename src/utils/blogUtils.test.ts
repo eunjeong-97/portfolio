@@ -118,6 +118,12 @@ describe("truncateDescription", () => {
       "a & b <c> \"d\" 'e' f g"
     );
   });
+
+  it("falls back to hard-truncating at max when the only space in the cut window is at index 0", () => {
+    // plain = " " + "a" * 210 (211 chars); cut = " " + "a" * 200; lastSpace=0; 0 > 0 is false
+    const text = " " + "a".repeat(210);
+    expect(truncateDescription(text)).toBe(" " + "a".repeat(199) + "…");
+  });
 });
 
 describe("extractTag", () => {
@@ -266,5 +272,12 @@ describe("parseBlogRss", () => {
 
   it("returns an empty array for XML with no closing item tags", () => {
     expect(parseBlogRss("<rss><item>no closing tag</rss>")).toEqual([]);
+  });
+
+  it("returns an empty description when the item has no description tag", () => {
+    const xml = `<rss><item><title><![CDATA[No Desc]]></title><link>https://x.com</link><pubDate>2024-01-01</pubDate></item></rss>`;
+    const [post] = parseBlogRss(xml);
+    expect(post.title).toBe("No Desc");
+    expect(post.description).toBe("");
   });
 });

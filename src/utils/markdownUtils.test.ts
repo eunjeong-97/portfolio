@@ -35,6 +35,10 @@ describe("escapeHtml", () => {
   it("does not escape single-quote characters", () => {
     expect(escapeHtml("it's fine")).toBe("it's fine");
   });
+
+  it("passes through unicode and emoji characters without modification", () => {
+    expect(escapeHtml("café 🎉")).toBe("café 🎉");
+  });
 });
 
 describe("renderMarkdown", () => {
@@ -191,5 +195,12 @@ describe("renderMarkdown", () => {
     expect(matches).toHaveLength(2);
     expect(result).toContain("a</code>");
     expect(result).toContain("b</code>");
+  });
+
+  it("converts a leading newline before a list item to a br tag preceding the ul", () => {
+    const result = renderMarkdown("\n- item");
+    expect(result).toContain("<br/>");
+    expect(result).toContain("<ul");
+    expect(result).toContain("item</li>");
   });
 });

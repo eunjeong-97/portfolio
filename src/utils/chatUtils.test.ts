@@ -69,6 +69,12 @@ describe("deserializeChatMessages", () => {
     expect(result![0].timestamp).toBeInstanceOf(Date);
     expect(isNaN(result![0].timestamp!.getTime())).toBe(true);
   });
+
+  it("treats a null timestamp value as falsy and returns undefined for the timestamp field", () => {
+    const result = deserializeChatMessages([{ role: "user", content: "hi", timestamp: null }]);
+    expect(result).not.toBeNull();
+    expect(result![0].timestamp).toBeUndefined();
+  });
 });
 
 describe("typewriterSpeed", () => {
@@ -274,6 +280,19 @@ describe("toChatHistory", () => {
     ]);
     expect(result).toHaveLength(1);
     expect(result[0].parts[0].text).toBe("hi");
+  });
+
+  it("returns 4 history entries for a five-message conversation (all but the last)", () => {
+    const msgs = [
+      { role: "user", content: "1" },
+      { role: "assistant", content: "2" },
+      { role: "user", content: "3" },
+      { role: "assistant", content: "4" },
+      { role: "user", content: "5" },
+    ] as { role: "user" | "assistant"; content: string }[];
+    const result = toChatHistory(msgs);
+    expect(result).toHaveLength(4);
+    expect(result[3].parts[0].text).toBe("4");
   });
 });
 
