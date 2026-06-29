@@ -331,18 +331,19 @@ export default function ChatBot() {
 
               {/* Suggestions */}
               {messages.length === 1 && (
-                <div className="space-y-2 pt-1">
+                <ul className="space-y-2 pt-1 list-none">
                   {SUGGESTIONS.map((suggestion) => (
-                    <button
-                      key={suggestion}
-                      onClick={() => sendMessage(suggestion)}
-                      aria-label={`${suggestion} 메시지 보내기`}
-                      className="w-full text-left text-xs px-3 py-2 rounded-lg border border-border text-muted-foreground hover:bg-muted transition-colors"
-                    >
-                      {suggestion}
-                    </button>
+                    <li key={suggestion}>
+                      <button
+                        onClick={() => sendMessage(suggestion)}
+                        aria-label={`${suggestion} 메시지 보내기`}
+                        className="w-full text-left text-xs px-3 py-2 rounded-lg border border-border text-muted-foreground hover:bg-muted transition-colors"
+                      >
+                        {suggestion}
+                      </button>
+                    </li>
                   ))}
-                </div>
+                </ul>
               )}
 
               {loading && (
