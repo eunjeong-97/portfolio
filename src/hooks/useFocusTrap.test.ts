@@ -366,4 +366,52 @@ describe("useFocusTrap", () => {
     expect(focusSpy).toHaveBeenCalled();
     document.body.removeChild(container);
   });
+
+  it("excludes [role='button'] elements with a disabled attribute from the focusable set", () => {
+    const container = document.createElement("div");
+    const btn1 = document.createElement("button");
+    const disabledRoleBtn = document.createElement("div");
+    disabledRoleBtn.setAttribute("role", "button");
+    disabledRoleBtn.setAttribute("disabled", "");
+    const btn2 = document.createElement("button");
+    container.append(btn1, disabledRoleBtn, btn2);
+    document.body.appendChild(container);
+    btn2.focus(); // last enabled button
+
+    renderHook(() => {
+      const ref = useRef<HTMLDivElement>(container as HTMLDivElement);
+      useFocusTrap(ref, true);
+      return ref;
+    });
+
+    const disabledSpy = vi.spyOn(disabledRoleBtn, "focus");
+    const firstSpy = vi.spyOn(btn1, "focus");
+    window.dispatchEvent(makeTabEvent(false)); // Tab from last → wrap to btn1, not disabledRoleBtn
+    expect(disabledSpy).not.toHaveBeenCalled();
+    expect(firstSpy).toHaveBeenCalled();
+    document.body.removeChild(container);
+  });
+
+  it("does not redirect Shift+Tab when focus is at a middle element (not the boundary)", () => {
+    const container = document.createElement("div");
+    const btn1 = document.createElement("button");
+    const btn2 = document.createElement("button");
+    const btn3 = document.createElement("button");
+    container.append(btn1, btn2, btn3);
+    document.body.appendChild(container);
+    btn2.focus(); // middle element
+
+    renderHook(() => {
+      const ref = useRef<HTMLDivElement>(container as HTMLDivElement);
+      useFocusTrap(ref, true);
+      return ref;
+    });
+
+    const lastSpy = vi.spyOn(btn3, "focus");
+    const firstSpy = vi.spyOn(btn1, "focus");
+    window.dispatchEvent(makeTabEvent(true)); // Shift+Tab from middle — no wrap
+    expect(firstSpy).not.toHaveBeenCalled();
+    expect(lastSpy).not.toHaveBeenCalled();
+    document.body.removeChild(container);
+  });
 });
