@@ -155,6 +155,10 @@ describe("extractTag", () => {
   it("returns the first match when the tag appears more than once", () => {
     expect(extractTag("<title>first</title><title>second</title>", "title")).toBe("first");
   });
+
+  it("returns empty string for a self-closing tag (no open+close pair)", () => {
+    expect(extractTag("<link/>", "link")).toBe("");
+  });
 });
 
 describe("parseBlogRss", () => {

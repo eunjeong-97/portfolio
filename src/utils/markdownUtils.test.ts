@@ -127,4 +127,17 @@ describe("renderMarkdown", () => {
   it("renders an em tag for a single asterisk on each side", () => {
     expect(renderMarkdown("*em*")).toContain("<em>em</em>");
   });
+
+  it("renders ** without a closing pair as an empty em span (italic regex consumes the inner *)", () => {
+    const result = renderMarkdown("**unclosed");
+    // The italic regex \*(.*?)\* matches the pair of asterisks with empty content
+    expect(result).toBe("<em></em>unclosed");
+    expect(result).not.toContain("<strong>");
+  });
+
+  it("renders two separate bold spans in one string", () => {
+    const result = renderMarkdown("**first** and **second**");
+    const matches = result.match(/<strong>/g);
+    expect(matches).toHaveLength(2);
+  });
 });
