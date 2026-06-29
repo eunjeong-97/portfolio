@@ -140,4 +140,24 @@ describe("renderMarkdown", () => {
     const matches = result.match(/<strong>/g);
     expect(matches).toHaveLength(2);
   });
+
+  it("renders two separate italic spans in one string", () => {
+    const result = renderMarkdown("*one* and *two*");
+    const matches = result.match(/<em>/g);
+    expect(matches).toHaveLength(2);
+  });
+
+  it("does not convert a line-initial dash without a space to a list item", () => {
+    const result = renderMarkdown("-item");
+    expect(result).not.toContain("<li");
+    expect(result).not.toContain("<ul");
+    expect(result).toBe("-item");
+  });
+
+  it("renders italic markup inside a list item", () => {
+    const result = renderMarkdown("- *italic item*");
+    expect(result).toContain("<em>italic item</em>");
+    expect(result).toContain("<li");
+    expect(result).toContain("<ul");
+  });
 });
