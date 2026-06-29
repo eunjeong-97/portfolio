@@ -110,4 +110,26 @@ describe("useTypewriter — animation", () => {
     tick(speed);                     // type first char of "World"
     expect(result.current.displayed).toBe("W");
   });
+
+  it("displayed becomes empty after all characters are deleted", () => {
+    const speed = 50;
+    const pause = 200;
+    const word = WORDS[0]; // "Hello" — 5 chars
+    const { result } = renderHook(() => useTypewriter(WORDS, speed, pause));
+    tick(speed, word.length);     // type "Hello"
+    tick(pause);                  // enter delete mode
+    tick(speed / 2, word.length); // delete all 5 chars (25ms × 5)
+    expect(result.current.displayed).toBe("");
+  });
+
+  it("preserves completedWord during the deletion phase", () => {
+    const speed = 50;
+    const pause = 200;
+    const word = WORDS[0]; // "Hello"
+    const { result } = renderHook(() => useTypewriter(WORDS, speed, pause));
+    tick(speed, word.length); // type "Hello"
+    tick(pause);               // trigger delete mode, completedWord set to "Hello"
+    tick(speed / 2);           // one deletion tick
+    expect(result.current.completedWord).toBe(word);
+  });
 });
