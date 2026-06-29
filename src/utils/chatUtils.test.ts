@@ -140,6 +140,10 @@ describe("validateChatMessages", () => {
     expect(validateChatMessages([{ role: "", content: "hello" }])).not.toBeNull();
   });
 
+  it("returns an error string when role is the valid value in the wrong case (ASSISTANT)", () => {
+    expect(validateChatMessages([{ role: "ASSISTANT", content: "hello" }])).not.toBeNull();
+  });
+
   it("returns an error string for a message with an empty content string", () => {
     expect(validateChatMessages([{ role: "user", content: "" }])).not.toBeNull();
   });

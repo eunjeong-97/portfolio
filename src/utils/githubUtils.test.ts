@@ -363,6 +363,14 @@ describe("computeGitHubStats", () => {
     const events = Array.from({ length: 5 }, () => makeEvent("PushEvent", "user/single-repo"));
     expect(computeGitHubStats(events).reposActive).toBe(1);
   });
+
+  it("reports pushCount as 0 when there are no PushEvents", () => {
+    const events = [makeEvent("WatchEvent", "user/repoA"), makeEvent("CreateEvent", "user/repoB")];
+    const stats = computeGitHubStats(events);
+    expect(stats.pushCount).toBe(0);
+    expect(stats.reposActive).toBe(2);
+    expect(stats.totalEvents).toBe(2);
+  });
 });
 
 describe("buildDayLabels", () => {

@@ -88,4 +88,9 @@ describe("parsePeriod — edge cases", () => {
     // parts[1] = "" → endPart = "" → split(".") → [""] → Number("") = NaN → null
     expect(parsePeriod("2022.03 - ")).toBeNull();
   });
+
+  it("returns null when the start date has no month (no dot in first part)", () => {
+    // parts[0] = "2022" → split(".") → ["2022"] → sm = undefined → NaN → null
+    expect(parsePeriod("2022 - 2024.10")).toBeNull();
+  });
 });
