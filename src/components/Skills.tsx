@@ -233,9 +233,9 @@ export default function Skills() {
           </div>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <ul className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 list-none">
           {skillCategories.map((category, index) => (
-            <motion.div
+            <motion.li
               key={category.title}
               initial={CATEGORY_INITIAL}
               animate={isInView ? CATEGORY_ANIMATE_IN : {}}
@@ -251,14 +251,16 @@ export default function Skills() {
                   {category.title}
                 </h3>
               </div>
-              <div className="flex flex-col gap-1.5">
+              <ul className="flex flex-col gap-1.5 list-none">
                 {category.skills.map((skill, skillIdx) => (
-                  <SkillBadge key={skill.name} {...skill} isInView={isInView} delay={0.3 + index * 0.1 + skillIdx * 0.05} />
+                  <li key={skill.name}>
+                    <SkillBadge {...skill} isInView={isInView} delay={0.3 + index * 0.1 + skillIdx * 0.05} />
+                  </li>
                 ))}
-              </div>
-            </motion.div>
+              </ul>
+            </motion.li>
           ))}
-        </div>
+        </ul>
 
         {/* Currently Learning */}
         <motion.div
@@ -271,17 +273,17 @@ export default function Skills() {
             <span className="w-2 h-2 bg-primary rounded-full animate-pulse motion-reduce:animate-none" aria-hidden="true" />
             <span className="text-xs font-semibold text-primary uppercase tracking-wider">Currently Learning</span>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <ul className="flex flex-wrap gap-2 list-none">
             {LEARNING_ITEMS.map((item) => (
-              <span
+              <li
                 key={item}
                 className="flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 border border-primary/30 rounded-lg text-xs text-primary"
               >
                 <span className="w-1.5 h-1.5 border border-primary rounded-full" aria-hidden="true" />
                 {item}
-              </span>
+              </li>
             ))}
-          </div>
+          </ul>
         </motion.div>
       </div>
     </section>

@@ -217,9 +217,9 @@ export default function GitHubActivity() {
             <p>GitHub 활동을 불러오는 중 오류가 발생했습니다.</p>
           </div>
         ) : (
-          <div className="space-y-4">
+          <ul className="space-y-4 list-none">
             {events.map((event, index) => (
-              <motion.div
+              <motion.li
                 key={`${event.repo}-${event.date}`}
                 initial={EVENT_CARD_INITIAL}
                 animate={isInView ? EVENT_CARD_ANIMATE_IN : {}}
@@ -248,9 +248,9 @@ export default function GitHubActivity() {
                     {formatRelativeDate(event.date)}
                   </span>
                 </div>
-                <div className="space-y-1.5">
+                <ul className="space-y-1.5 list-none">
                   {event.commits.map((commit) => (
-                    <div
+                    <li
                       key={commit.sha}
                       className="flex items-start gap-2 text-sm"
                     >
@@ -272,12 +272,12 @@ export default function GitHubActivity() {
                       >
                         {commit.sha}
                       </a>
-                    </div>
+                    </li>
                   ))}
-                </div>
-              </motion.div>
+                </ul>
+              </motion.li>
             ))}
-          </div>
+          </ul>
         )}
       </div>
     </section>

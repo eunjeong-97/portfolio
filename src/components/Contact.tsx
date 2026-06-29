@@ -146,9 +146,9 @@ export default function Contact() {
               빠르게 답변드리겠습니다.
             </p>
 
-            <div className="space-y-4">
+            <ul className="space-y-4 list-none">
               {contactLinks.map((link, index) => (
-                <motion.div
+                <motion.li
                   key={link.label}
                   initial={CONTACT_LINK_INITIAL}
                   animate={isInView ? CONTACT_ANIMATE_IN : {}}
@@ -186,9 +186,9 @@ export default function Contact() {
                       <span role="status" className="sr-only">{copied ? "이메일이 클립보드에 복사되었습니다" : ""}</span>
                     </>
                   )}
-                </motion.div>
+                </motion.li>
               ))}
-            </div>
+            </ul>
           </motion.div>
 
           {/* Right - Contact Form */}
