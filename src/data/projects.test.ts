@@ -44,6 +44,24 @@ describe("projects data", () => {
     }
   });
 
+  it("every highlight string is non-empty", () => {
+    for (const project of projects) {
+      for (const highlight of project.highlights) {
+        expect(typeof highlight).toBe("string");
+        expect(highlight.length).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it("every project tag string is non-empty", () => {
+    for (const project of projects) {
+      for (const tag of project.tags) {
+        expect(typeof tag).toBe("string");
+        expect(tag.length).toBeGreaterThan(0);
+      }
+    }
+  });
+
   it("every project period matches YYYY.MM - YYYY.MM format", () => {
     for (const project of projects) {
       expect(PERIOD_REGEX.test(project.period)).toBe(true);

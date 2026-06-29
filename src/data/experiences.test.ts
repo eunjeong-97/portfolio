@@ -50,6 +50,24 @@ describe("experiences data", () => {
     }
   });
 
+  it("every detail string is non-empty", () => {
+    for (const exp of experiences) {
+      for (const detail of exp.details) {
+        expect(typeof detail).toBe("string");
+        expect(detail.length).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it("every tag string is non-empty", () => {
+    for (const exp of experiences) {
+      for (const tag of exp.tags) {
+        expect(typeof tag).toBe("string");
+        expect(tag.length).toBeGreaterThan(0);
+      }
+    }
+  });
+
   it("experiences are sorted newest-first (descending start date)", () => {
     const startDates = experiences.map((exp) => {
       const parsed = parsePeriod(exp.period)!;
