@@ -45,6 +45,15 @@ describe("formatRelativeDate", () => {
     const d = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
     expect(formatRelativeDate(d)).toBe("1달 전");
   });
+
+  it("returns '오늘' for a future date", () => {
+    const d = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString();
+    expect(formatRelativeDate(d)).toBe("오늘");
+  });
+
+  it("returns the original string for an invalid date", () => {
+    expect(formatRelativeDate("not-a-date")).toBe("not-a-date");
+  });
 });
 
 describe("truncateCommit", () => {
