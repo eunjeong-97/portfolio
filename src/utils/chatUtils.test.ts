@@ -115,6 +115,11 @@ describe("typewriterSpeed", () => {
     // Math.round(3000 / Infinity) = 0 → Math.min(18, 0) = 0 → Math.max(4, 0) = 4
     expect(typewriterSpeed(Infinity)).toBe(4);
   });
+
+  it("returns NaN for NaN content length (no defensive guard)", () => {
+    // Math.round(3000/NaN) = NaN; Math.min/max with NaN → NaN
+    expect(typewriterSpeed(NaN)).toBeNaN();
+  });
 });
 
 describe("validateChatMessages", () => {
@@ -199,6 +204,14 @@ describe("validateChatMessages", () => {
 
   it("returns an error string when a message in the array is undefined", () => {
     expect(validateChatMessages([undefined])).not.toBeNull();
+  });
+
+  it("returns the Korean empty-input error message for a non-array input", () => {
+    expect(validateChatMessages(null)).toBe("메시지를 입력해주세요.");
+  });
+
+  it("returns the Korean format error message for a message with an invalid role", () => {
+    expect(validateChatMessages([{ role: "system", content: "hello" }])).toBe("올바르지 않은 메시지 형식입니다.");
   });
 });
 
