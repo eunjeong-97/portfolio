@@ -117,12 +117,12 @@ export default function BlogPosts() {
             </a>
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 list-none">
             {posts.map((post, index) => {
               const recent = isRecent(post.pubDate);
               return (
+              <li key={post.link}>
               <motion.a
-                key={post.link}
                 href={post.link}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -131,7 +131,7 @@ export default function BlogPosts() {
                 animate={isInView ? POST_ANIMATE_IN : {}}
                 transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
                 whileHover={POST_CARD_HOVER}
-                className="group bg-section-bg border border-border rounded-xl p-6 hover:border-primary/50 hover:shadow-lg transition-all block relative overflow-hidden"
+                className="group bg-section-bg border border-border rounded-xl p-6 hover:border-primary/50 hover:shadow-lg transition-all block relative overflow-hidden h-full"
               >
                 {/* hover shimmer line */}
                 <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -172,9 +172,10 @@ export default function BlogPosts() {
                   {post.description}
                 </p>
               </motion.a>
+              </li>
               );
             })}
-          </div>
+          </ul>
         )}
       </div>
     </section>

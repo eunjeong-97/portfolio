@@ -142,13 +142,13 @@ export default function ExperienceTimeline() {
         </motion.div>
 
         {/* Timeline */}
-        <div className="relative pl-8 border-l-2 border-border" style={TIMELINE_BORDER_STYLE}>
+        <ol className="relative pl-8 border-l-2 border-border list-none" style={TIMELINE_BORDER_STYLE}>
           {expWithMeta.map((exp, index) => {
             const year = exp.period.slice(0, 4);
             const prevYear = index > 0 ? expWithMeta[index - 1].period.slice(0, 4) : null;
             const showYearMarker = year !== prevYear;
             return (
-              <motion.div
+              <motion.li
                 key={exp.id}
                 initial={ITEM_INITIAL}
                 animate={isInView ? ITEM_ANIMATE_IN : {}}
@@ -228,10 +228,10 @@ export default function ExperienceTimeline() {
                     </motion.span>
                   </div>
                 </motion.div>
-              </motion.div>
+              </motion.li>
             );
           })}
-        </div>
+        </ol>
         {/* Career summary card */}
         <motion.div
           initial={SECTION_HEADER_INITIAL}
