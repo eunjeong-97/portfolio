@@ -75,4 +75,15 @@ describe("useReducedMotion", () => {
     trigger(true);
     expect(result.current).toBe(true);
   });
+
+  it("queries the '(prefers-reduced-motion: reduce)' media feature", () => {
+    const spy = vi.fn().mockReturnValue({
+      matches: false,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    });
+    Object.defineProperty(window, "matchMedia", { value: spy, configurable: true, writable: true });
+    renderHook(() => useReducedMotion());
+    expect(spy).toHaveBeenCalledWith("(prefers-reduced-motion: reduce)");
+  });
 });

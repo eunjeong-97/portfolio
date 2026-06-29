@@ -88,4 +88,12 @@ describe("site constants", () => {
   it("BLOG_URL contains 'velog.io'", () => {
     expect(BLOG_URL).toContain("velog.io");
   });
+
+  it("GITHUB_URL starts with 'https://github.com/'", () => {
+    expect(GITHUB_URL.startsWith("https://github.com/")).toBe(true);
+  });
+
+  it("BLOG_URL starts with 'https://velog.io/@'", () => {
+    expect(BLOG_URL.startsWith("https://velog.io/@")).toBe(true);
+  });
 });

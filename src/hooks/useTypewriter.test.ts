@@ -177,4 +177,34 @@ describe("useTypewriter — animation", () => {
     tick(pause);                       // completedWord should now be "World"
     expect(result.current.completedWord).toBe(word2);
   });
+
+  it("immediately advances past an empty-string word without any visible typing or deleting", () => {
+    const speed = 50;
+    const pause = 200;
+    const { result } = renderHook(() => useTypewriter(["", "Hi"], speed, pause));
+    // "" has length 0 → typing phase skipped immediately; pause fires setIsDeleting(true)
+    tick(pause);
+    // displayed.length (0) > 0 is false → 0ms timeout fires; index advances to 1
+    tick(1);
+    tick(speed); // type first char of "Hi"
+    expect(result.current.displayed).toBe("H");
+  });
+
+  it("uses the default speed of 90ms per character when speed is not specified", () => {
+    const { result } = renderHook(() => useTypewriter(["A"]));
+    act(() => { vi.advanceTimersByTime(89); });
+    expect(result.current.displayed).toBe(""); // not typed yet at 89ms
+    act(() => { vi.advanceTimersByTime(1); });  // 90ms total
+    expect(result.current.displayed).toBe("A");
+  });
+
+  it("uses the default pause of 2000ms before entering delete mode when not specified", () => {
+    const { result } = renderHook(() => useTypewriter(["X"]));
+    act(() => { vi.advanceTimersByTime(90); }); // type "X" at default speed 90ms
+    expect(result.current.completedWord).toBe("");
+    act(() => { vi.advanceTimersByTime(1999); }); // just before pause ends
+    expect(result.current.completedWord).toBe("");
+    act(() => { vi.advanceTimersByTime(1); }); // 2000ms pause complete
+    expect(result.current.completedWord).toBe("X");
+  });
 });

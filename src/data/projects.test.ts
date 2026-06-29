@@ -119,4 +119,19 @@ describe("projects data", () => {
       expect(unique.size).toBe(project.highlights.length);
     }
   });
+
+  it("has exactly 3 projects", () => {
+    expect(projects.length).toBe(3);
+  });
+
+  it("project titles are all unique (no two projects share the same title)", () => {
+    const titles = projects.map((p) => p.title);
+    expect(new Set(titles).size).toBe(titles.length);
+  });
+
+  it("every project period contains a · annotation suffix", () => {
+    for (const project of projects) {
+      expect(project.period).toContain("·");
+    }
+  });
 });
