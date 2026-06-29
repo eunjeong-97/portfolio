@@ -97,6 +97,24 @@ describe("truncateCommit", () => {
   });
 });
 
+describe("processPushEvents — sha slicing", () => {
+  const makeEvent = (overrides: Partial<GitHubEvent> = {}): GitHubEvent => ({
+    type: "PushEvent",
+    repo: { name: "user/repo" },
+    payload: {
+      ref: "refs/heads/main",
+      commits: [{ message: "msg", sha: "abc" }],
+    },
+    created_at: "2024-01-01T00:00:00Z",
+    ...overrides,
+  });
+
+  it("returns the full sha when it is shorter than 7 characters", () => {
+    const [result] = processPushEvents([makeEvent()], "user");
+    expect(result.commits[0].sha).toBe("abc");
+  });
+});
+
 describe("buildHeatmapCounts", () => {
   const DAY = 86400000;
 
