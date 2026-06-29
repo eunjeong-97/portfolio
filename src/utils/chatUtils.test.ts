@@ -93,6 +93,11 @@ describe("typewriterSpeed", () => {
   it("returns the correct speed for exactly 300 chars (3000/300 = 10)", () => {
     expect(typewriterSpeed(300)).toBe(10);
   });
+
+  it("returns 17 at exactly 172 chars — first length where speed drops below the maximum", () => {
+    // Math.round(3000 / 172) = Math.round(17.44) = 17
+    expect(typewriterSpeed(172)).toBe(17);
+  });
 });
 
 describe("validateChatMessages", () => {

@@ -170,6 +170,12 @@ describe("buildHeatmapCounts", () => {
     const result = buildHeatmapCounts(["not-a-date", "also-invalid"], 7, now);
     expect(result.every((c) => c === 0)).toBe(true);
   });
+
+  it("returns a single-element array with today's count for days=1", () => {
+    const now = new Date("2024-06-15T12:00:00Z");
+    const today = "2024-06-15T08:00:00Z";
+    expect(buildHeatmapCounts([today], 1, now)).toEqual([1]);
+  });
 });
 
 describe("heatmapIntensity", () => {

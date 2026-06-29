@@ -133,6 +133,10 @@ describe("extractTag", () => {
     expect(extractTag("<description>some text</description>", "title")).toBe("");
   });
 
+  it("returns empty string for a matched tag with empty content", () => {
+    expect(extractTag("<title></title>", "title")).toBe("");
+  });
+
   it("extracts content spanning multiple lines", () => {
     const block = "<description>line one\nline two\nline three</description>";
     expect(extractTag(block, "description")).toBe("line one\nline two\nline three");
