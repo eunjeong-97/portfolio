@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
+import { BASE_URL } from "@/constants/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: "https://eunjeong.vercel.app",
+      url: BASE_URL,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 1,

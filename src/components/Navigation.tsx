@@ -7,7 +7,7 @@ import { useTheme } from "./ThemeProvider";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { scrollToId } from "@/utils/scrollTo";
-import { RESUME_FILENAME } from "@/constants/site";
+import { RESUME_FILENAME, AUTHOR_NAME } from "@/constants/site";
 
 const navItems = [
   { href: "#projects", label: "Projects" },
@@ -103,7 +103,7 @@ export default function Navigation() {
         <motion.a
           href="#"
           onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-          aria-label="박은정 포트폴리오 — 맨 위로 이동"
+          aria-label={`${AUTHOR_NAME} 포트폴리오 — 맨 위로 이동`}
           className="flex items-center gap-3 text-xl font-bold text-foreground"
           whileHover={LOGO_HOVER}
         >

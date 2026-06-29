@@ -10,7 +10,7 @@ const OG_STATS = [
 ];
 
 const OG_TECH = ["React.js", "TypeScript", "React Native", "Next.js", "Java / Swift"];
-export const alt = "박은정 | Frontend & Mobile Developer";
+export const alt = `${AUTHOR_NAME} | Frontend & Mobile Developer`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
