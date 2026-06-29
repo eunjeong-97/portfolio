@@ -1,6 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 import { AUTHOR_NAME, AUTHOR_EMAIL, GITHUB_URL, BLOG_URL, COMPANY_NAME } from "@/constants/site";
+import { validateChatMessages, toChatHistory, type ChatApiMessage } from "@/utils/chatUtils";
 
 const apiKey = process.env.GEMINI_API_KEY;
 const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
@@ -75,8 +76,6 @@ A: 포트폴리오 우측 상단의 '이력서' 버튼이나 Hero 섹션의 '이
 - 즉시 합류 가능
 - 이력서: 포트폴리오 다운로드 버튼`;
 
-const VALID_ROLES = new Set(["user", "assistant"]);
-
 export async function POST(req: Request) {
   try {
     if (!genAI) {
@@ -89,20 +88,9 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { messages } = body;
 
-    if (!Array.isArray(messages) || messages.length === 0 || messages.length > 20) {
-      return NextResponse.json({ error: "메시지를 입력해주세요." }, { status: 400 });
-    }
-
-    for (const msg of messages) {
-      if (
-        typeof msg !== "object" || msg === null ||
-        !VALID_ROLES.has(msg.role) ||
-        typeof msg.content !== "string" ||
-        msg.content.length === 0 ||
-        msg.content.length > 500
-      ) {
-        return NextResponse.json({ error: "올바르지 않은 메시지 형식입니다." }, { status: 400 });
-      }
+    const validationError = validateChatMessages(messages);
+    if (validationError) {
+      return NextResponse.json({ error: validationError }, { status: 400 });
     }
 
     const model = genAI.getGenerativeModel({
@@ -110,12 +98,9 @@ export async function POST(req: Request) {
       systemInstruction: SYSTEM_PROMPT,
     });
 
-    const history = messages.slice(0, -1).map((m: { role: string; content: string }) => ({
-      role: m.role === "assistant" ? "model" : "user",
-      parts: [{ text: m.content }],
-    }));
-
-    const lastMessage = messages[messages.length - 1].content;
+    const typedMessages = messages as ChatApiMessage[];
+    const history = toChatHistory(typedMessages);
+    const lastMessage = typedMessages[typedMessages.length - 1].content;
 
     const chat = model.startChat({ history });
     const result = await chat.sendMessage(lastMessage);
