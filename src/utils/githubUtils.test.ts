@@ -401,4 +401,20 @@ describe("buildDayLabels", () => {
     const now = new Date("2024-06-15T12:00:00Z");
     expect(buildDayLabels(0, now)).toEqual([]);
   });
+
+  it("last label corresponds to today's date", () => {
+    const now = new Date("2024-06-15T12:00:00Z");
+    const labels = buildDayLabels(7, now);
+    const todayLabel = now.toLocaleDateString("ko-KR", { month: "numeric", day: "numeric" });
+    expect(labels[labels.length - 1]).toBe(todayLabel);
+  });
+
+  it("first label corresponds to (days-1) days ago", () => {
+    const now = new Date("2024-06-15T12:00:00Z");
+    const labels = buildDayLabels(7, now);
+    const sixDaysAgo = new Date(now);
+    sixDaysAgo.setDate(sixDaysAgo.getDate() - 6);
+    const expectedFirst = sixDaysAgo.toLocaleDateString("ko-KR", { month: "numeric", day: "numeric" });
+    expect(labels[0]).toBe(expectedFirst);
+  });
 });
