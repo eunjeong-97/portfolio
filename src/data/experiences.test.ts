@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { experiences } from "./experiences";
-import { parsePeriod } from "@/utils/periodUtils";
+import { parsePeriod, getDuration } from "@/utils/periodUtils";
 
 describe("experiences data", () => {
   it("has at least one experience", () => {
@@ -81,5 +81,20 @@ describe("experiences data", () => {
   it("experience ids and project-like ids have no duplicates within themselves", () => {
     const ids = experiences.map((e) => e.id);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("getDuration returns a non-empty label for every experience period", () => {
+    for (const exp of experiences) {
+      expect(getDuration(exp.period).length).toBeGreaterThan(0);
+    }
+  });
+
+  it("videoUrl, when present, is a non-empty string starting with https://", () => {
+    for (const exp of experiences) {
+      if (exp.videoUrl !== undefined) {
+        expect(typeof exp.videoUrl).toBe("string");
+        expect(exp.videoUrl.startsWith("https://")).toBe(true);
+      }
+    }
   });
 });

@@ -63,6 +63,12 @@ describe("getBarProps", () => {
     expect(left).toBeLessThan(0);
   });
 
+  it("a period ending exactly at CAREER_END has its right edge at 100%", () => {
+    // 2022.03 - 2024.10 spans the full timeline; left=0, left+width=100%
+    const { left, width } = getBarProps("2022.03 - 2024.10");
+    expect(left + width).toBeCloseTo(100, 5);
+  });
+
   it("left and width together do not exceed 100% for any real experience period", () => {
     const periods = [
       "2022.03 - 2024.10 · 약 2년",

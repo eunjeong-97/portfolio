@@ -71,4 +71,16 @@ describe("getDuration", () => {
   it("returns an empty string when the end date is before the start date", () => {
     expect(getDuration("2022.12 - 2022.03")).toBe("");
   });
+
+  it("returns '2년' for exactly 24 months (2020.01 - 2021.12)", () => {
+    // (2021-2020)*12 + (12-1) + 1 = 24, 24/12 = 2 years with no remainder
+    expect(getDuration("2020.01 - 2021.12")).toBe("2년");
+  });
+});
+
+describe("parsePeriod — edge cases", () => {
+  it("parses the first two date parts when the string contains multiple ' - ' separators", () => {
+    // split(" - ") yields 3+ parts; only parts[0] and parts[1] are used
+    expect(parsePeriod("2022.03 - 2024.10 - extra")).toEqual([2022, 3, 2024, 10]);
+  });
 });

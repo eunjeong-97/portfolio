@@ -86,6 +86,40 @@ describe("useActiveSection", () => {
     expect(result.current).toBe("");
   });
 
+  it("updates through multiple sections as each intersects in turn", () => {
+    const el1 = document.createElement("section");
+    el1.id = "about";
+    const el2 = document.createElement("section");
+    el2.id = "contact";
+    const el3 = document.createElement("section");
+    el3.id = "projects";
+    document.body.append(el1, el2, el3);
+
+    const { result } = renderHook(() => useActiveSection(["about", "contact", "projects"]));
+    triggerIntersection(el1, true);
+    expect(result.current).toBe("about");
+    triggerIntersection(el2, true);
+    expect(result.current).toBe("contact");
+    triggerIntersection(el3, true);
+    expect(result.current).toBe("projects");
+    document.body.removeChild(el1);
+    document.body.removeChild(el2);
+    document.body.removeChild(el3);
+  });
+
+  it("does not change active section when the same element fires isIntersecting again", () => {
+    const el = document.createElement("section");
+    el.id = "about";
+    document.body.appendChild(el);
+
+    const { result } = renderHook(() => useActiveSection(["about"]));
+    triggerIntersection(el, true);
+    expect(result.current).toBe("about");
+    triggerIntersection(el, true); // fires again (e.g., scroll bounce)
+    expect(result.current).toBe("about");
+    document.body.removeChild(el);
+  });
+
   it("cleans up observers on unmount without throwing", () => {
     const el = document.createElement("section");
     el.id = "about";
