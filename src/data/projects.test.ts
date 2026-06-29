@@ -1,6 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { projects } from "./projects";
 
+const PERIOD_REGEX = /^\d{4}\.\d{2} - \d{4}\.\d{2}/;
+
 describe("projects data", () => {
   it("has at least one project", () => {
     expect(projects.length).toBeGreaterThan(0);
@@ -38,6 +40,12 @@ describe("projects data", () => {
   it("every project has at least one highlight", () => {
     for (const project of projects) {
       expect(project.highlights.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("every project period matches YYYY.MM - YYYY.MM format", () => {
+    for (const project of projects) {
+      expect(PERIOD_REGEX.test(project.period)).toBe(true);
     }
   });
 });

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { experiences, type Experience } from "./experiences";
+import { experiences } from "./experiences";
 import { parsePeriod } from "@/utils/periodUtils";
 
 describe("experiences data", () => {
@@ -48,5 +48,20 @@ describe("experiences data", () => {
     for (const exp of experiences) {
       expect(exp.details.length).toBeGreaterThan(0);
     }
+  });
+
+  it("experiences are sorted newest-first (descending start date)", () => {
+    const startDates = experiences.map((exp) => {
+      const parsed = parsePeriod(exp.period)!;
+      return parsed[0] * 12 + parsed[1];
+    });
+    for (let i = 1; i < startDates.length; i++) {
+      expect(startDates[i]).toBeLessThanOrEqual(startDates[i - 1]);
+    }
+  });
+
+  it("experience ids and project-like ids have no duplicates within themselves", () => {
+    const ids = experiences.map((e) => e.id);
+    expect(new Set(ids).size).toBe(ids.length);
   });
 });
