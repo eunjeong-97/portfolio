@@ -143,4 +143,29 @@ describe("useActiveSection", () => {
     expect(elementCallbacks.has(el)).toBe(true);
     document.body.removeChild(el);
   });
+
+  it("observes exactly 2 elements when 3 section IDs are given but only 2 exist in the DOM", () => {
+    const el1 = document.createElement("section");
+    el1.id = "about";
+    const el2 = document.createElement("section");
+    el2.id = "contact";
+    document.body.append(el1, el2);
+
+    renderHook(() => useActiveSection(["about", "contact", "ghost"]));
+    expect(elementCallbacks.size).toBe(2);
+    document.body.removeChild(el1);
+    document.body.removeChild(el2);
+  });
+
+  it("clears all observer callbacks on unmount (disconnect is called during cleanup)", () => {
+    const el = document.createElement("section");
+    el.id = "about";
+    document.body.appendChild(el);
+
+    const { unmount } = renderHook(() => useActiveSection(["about"]));
+    expect(elementCallbacks.size).toBe(1);
+    unmount();
+    expect(elementCallbacks.size).toBe(0);
+    document.body.removeChild(el);
+  });
 });
