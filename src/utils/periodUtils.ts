@@ -2,7 +2,8 @@ export function parsePeriod(period: string): [number, number, number, number] | 
   const parts = period.split(" - ").map(s => s.trim());
   if (parts.length < 2) return null;
   const [sy, sm] = parts[0].split(".").map(Number);
-  const [ey, em] = parts[1].split(".").map(Number);
+  const endPart = parts[1].split(" · ")[0].trim();
+  const [ey, em] = endPart.split(".").map(Number);
   return [sy, sm, ey, em];
 }
 

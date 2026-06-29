@@ -63,6 +63,10 @@ describe("truncateDescription", () => {
   it("respects a custom max parameter", () => {
     expect(truncateDescription("hello world foo", 11)).toBe("hello world" + "…");
   });
+
+  it("returns an empty string when input contains only HTML tags", () => {
+    expect(truncateDescription("<p></p><br/>")).toBe("");
+  });
 });
 
 describe("extractTag", () => {
@@ -84,5 +88,13 @@ describe("extractTag", () => {
 
   it("trims surrounding whitespace from extracted content", () => {
     expect(extractTag("<title>  spaced  </title>", "title")).toBe("spaced");
+  });
+
+  it("returns empty string for an empty block", () => {
+    expect(extractTag("", "title")).toBe("");
+  });
+
+  it("returns empty string when block has no matching tag", () => {
+    expect(extractTag("<description>some text</description>", "title")).toBe("");
   });
 });

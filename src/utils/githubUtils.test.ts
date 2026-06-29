@@ -25,6 +25,26 @@ describe("formatRelativeDate", () => {
     const d = new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString();
     expect(formatRelativeDate(d)).toBe("1달 전");
   });
+
+  it("returns '6일 전' at the upper boundary of the day range (6 days)", () => {
+    const d = new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString();
+    expect(formatRelativeDate(d)).toBe("6일 전");
+  });
+
+  it("returns '1주 전' at the lower boundary of the week range (7 days)", () => {
+    const d = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    expect(formatRelativeDate(d)).toBe("1주 전");
+  });
+
+  it("returns '4주 전' at the upper boundary of the week range (29 days)", () => {
+    const d = new Date(Date.now() - 29 * 24 * 60 * 60 * 1000).toISOString();
+    expect(formatRelativeDate(d)).toBe("4주 전");
+  });
+
+  it("returns '1달 전' at the lower boundary of the month range (30 days)", () => {
+    const d = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+    expect(formatRelativeDate(d)).toBe("1달 전");
+  });
 });
 
 describe("truncateCommit", () => {
@@ -48,5 +68,13 @@ describe("truncateCommit", () => {
 
   it("respects a custom max parameter", () => {
     expect(truncateCommit("hello world", 5)).toBe("hello" + "…");
+  });
+
+  it("returns an empty string for an empty input", () => {
+    expect(truncateCommit("")).toBe("");
+  });
+
+  it("uses the first line when the first line is empty", () => {
+    expect(truncateCommit("\nsecond line")).toBe("");
   });
 });

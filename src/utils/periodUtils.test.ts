@@ -17,6 +17,14 @@ describe("parsePeriod", () => {
   it("handles single-digit months", () => {
     expect(parsePeriod("2023.01 - 2023.09")).toEqual([2023, 1, 2023, 9]);
   });
+
+  it("strips '· N개월' annotation suffix from the end date", () => {
+    expect(parsePeriod("2022.09 - 2022.12 · 3개월")).toEqual([2022, 9, 2022, 12]);
+  });
+
+  it("strips '· 약 N년' annotation suffix from the end date", () => {
+    expect(parsePeriod("2023.08 - 2024.10 · 약 1년")).toEqual([2023, 8, 2024, 10]);
+  });
 });
 
 describe("getDuration", () => {
@@ -42,5 +50,9 @@ describe("getDuration", () => {
 
   it("handles multi-year durations", () => {
     expect(getDuration("2020.01 - 2022.12")).toBe("3년");
+  });
+
+  it("correctly computes duration when period has a · annotation suffix", () => {
+    expect(getDuration("2022.09 - 2022.12 · 3개월")).toBe("4개월");
   });
 });
