@@ -56,4 +56,11 @@ describe("useReducedMotion", () => {
     trigger(false);
     expect(result.current).toBe(false);
   });
+
+  it("removes the event listener on unmount so post-unmount events do not throw", () => {
+    const { trigger } = mockMatchMedia(false);
+    const { unmount } = renderHook(() => useReducedMotion());
+    expect(() => unmount()).not.toThrow();
+    expect(() => trigger(true)).not.toThrow();
+  });
 });
