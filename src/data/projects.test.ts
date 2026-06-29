@@ -134,4 +134,15 @@ describe("projects data", () => {
       expect(project.period).toContain("·");
     }
   });
+
+  it("every project id is kebab-case (lowercase letters, digits, and hyphens only)", () => {
+    for (const project of projects) {
+      expect(project.id).toMatch(/^[a-z0-9]+(-[a-z0-9]+)*$/);
+    }
+  });
+
+  it("project order matches the order projects appear (stable, deterministic listing)", () => {
+    const ids = projects.map((p) => p.id);
+    expect(ids).toEqual(["app-rebuild", "sdk-integration", "admob-bidding"]);
+  });
 });

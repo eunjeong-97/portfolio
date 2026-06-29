@@ -123,4 +123,16 @@ describe("experiences data", () => {
       }
     }
   });
+
+  it("every experience id is kebab-case (lowercase letters, digits, and hyphens only)", () => {
+    for (const exp of experiences) {
+      expect(exp.id).toMatch(/^[a-z0-9]+(-[a-z0-9]+)*$/);
+    }
+  });
+
+  it("no experience title contains leading or trailing whitespace", () => {
+    for (const exp of experiences) {
+      expect(exp.title).toBe(exp.title.trim());
+    }
+  });
 });

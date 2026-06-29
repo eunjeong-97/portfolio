@@ -96,4 +96,17 @@ describe("site constants", () => {
   it("BLOG_URL starts with 'https://velog.io/@'", () => {
     expect(BLOG_URL.startsWith("https://velog.io/@")).toBe(true);
   });
+
+  it("AUTHOR_EMAIL local part matches BLOG_USERNAME (same handle across services)", () => {
+    expect(AUTHOR_EMAIL.split("@")[0]).toBe(BLOG_USERNAME);
+  });
+
+  it("RESUME_FILENAME has no spaces (safe for use in a Content-Disposition header)", () => {
+    expect(RESUME_FILENAME).not.toContain(" ");
+  });
+
+  it("BASE_URL uses HTTPS and has no path component after the host", () => {
+    // "https://eunjeong.vercel.app" → after stripping protocol there is no "/"
+    expect(BASE_URL.replace("https://", "")).not.toContain("/");
+  });
 });
