@@ -75,6 +75,13 @@ describe("deserializeChatMessages", () => {
     expect(result).not.toBeNull();
     expect(result![0].timestamp).toBeUndefined();
   });
+
+  it("treats an empty-string timestamp as falsy and returns undefined for the timestamp field", () => {
+    // "" is falsy → the ternary takes the undefined branch, not a new Date("")
+    const result = deserializeChatMessages([{ role: "user", content: "hi", timestamp: "" }]);
+    expect(result).not.toBeNull();
+    expect(result![0].timestamp).toBeUndefined();
+  });
 });
 
 describe("typewriterSpeed", () => {
@@ -213,6 +220,11 @@ describe("validateChatMessages", () => {
   it("returns the Korean format error message for a message with an invalid role", () => {
     expect(validateChatMessages([{ role: "system", content: "hello" }])).toBe("올바르지 않은 메시지 형식입니다.");
   });
+
+  it("accepts a message that carries extra unknown fields alongside valid role and content", () => {
+    // Only role and content are validated; extra fields are ignored
+    expect(validateChatMessages([{ role: "user", content: "hi", timestamp: "2024-01-01", isNew: true }])).toBeNull();
+  });
 });
 
 describe("toChatHistory", () => {
@@ -306,6 +318,15 @@ describe("toChatHistory", () => {
     const result = toChatHistory(msgs);
     expect(result).toHaveLength(4);
     expect(result[3].parts[0].text).toBe("4");
+  });
+
+  it("maps a literal 'model' role to 'user' (only 'assistant' becomes 'model')", () => {
+    // role === "assistant" ? "model" : "user" — "model" is not "assistant" so it maps to "user"
+    const result = toChatHistory([
+      { role: "model" as "user", content: "history msg" },
+      { role: "user", content: "last" },
+    ]);
+    expect(result[0].role).toBe("user");
   });
 });
 

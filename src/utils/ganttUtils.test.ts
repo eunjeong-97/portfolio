@@ -96,6 +96,13 @@ describe("getBarProps", () => {
     expect(width).toBeCloseTo((1 / TOTAL_MONTHS) * 100, 5);
   });
 
+  it("produces a negative left when the start month is 0 (parsePeriod accepts 0 — it is not NaN)", () => {
+    // "2022.00" → sm = Number("00") = 0, which passes the isNaN guard
+    // startOff = (2022-2022)*12 + (0-3) = -3 → left = -3/32*100 = -9.375
+    const { left } = getBarProps("2022.00 - 2022.06");
+    expect(left).toBeCloseTo((-3 / TOTAL_MONTHS) * 100, 5);
+  });
+
   it("left and width together do not exceed 100% for any real experience period", () => {
     const periods = [
       "2022.03 - 2024.10 · 약 2년",
