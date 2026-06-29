@@ -3,7 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState, useMemo } from "react";
 import { Github, GitCommitHorizontal, ExternalLink, Activity, GitBranch, FolderGit2 } from "lucide-react";
-import { formatRelativeDate, buildHeatmapCounts, heatmapIntensity } from "@/utils/githubUtils";
+import { formatRelativeDate, buildHeatmapCounts, heatmapIntensity, buildDayLabels } from "@/utils/githubUtils";
 import { GITHUB_URL, GITHUB_USERNAME } from "@/constants/site";
 
 interface CommitEvent {
@@ -64,13 +64,7 @@ export default function GitHubActivity() {
   const { dailyActivity, maxActivity, dayLabels } = useMemo(() => {
     const now = new Date();
     const counts = buildHeatmapCounts(events.map((e) => e.date), HEATMAP_DAYS, now);
-    const labels = Array.from({ length: HEATMAP_DAYS }, (_, i) => {
-      const daysAgo = HEATMAP_DAYS - 1 - i;
-      const d = new Date(now);
-      d.setDate(d.getDate() - daysAgo);
-      return d.toLocaleDateString("ko-KR", { month: "numeric", day: "numeric" });
-    });
-    return { dailyActivity: counts, maxActivity: Math.max(...counts, 1), dayLabels: labels };
+    return { dailyActivity: counts, maxActivity: Math.max(...counts, 1), dayLabels: buildDayLabels(HEATMAP_DAYS, now) };
   }, [events]);
 
   return (

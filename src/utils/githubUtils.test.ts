@@ -6,6 +6,7 @@ import {
   heatmapIntensity,
   processPushEvents,
   computeGitHubStats,
+  buildDayLabels,
   type GitHubEvent,
 } from "./githubUtils";
 
@@ -309,5 +310,35 @@ describe("computeGitHubStats", () => {
   it("counts each distinct repo once even with many events", () => {
     const events = Array.from({ length: 5 }, () => makeEvent("PushEvent", "user/single-repo"));
     expect(computeGitHubStats(events).reposActive).toBe(1);
+  });
+});
+
+describe("buildDayLabels", () => {
+  it("returns an array of the requested length", () => {
+    const now = new Date("2024-06-15T12:00:00Z");
+    expect(buildDayLabels(7, now)).toHaveLength(7);
+  });
+
+  it("returns an array of the requested length for 30 days", () => {
+    const now = new Date("2024-06-15T12:00:00Z");
+    expect(buildDayLabels(30, now)).toHaveLength(30);
+  });
+
+  it("returns strings for all entries", () => {
+    const now = new Date("2024-06-15T12:00:00Z");
+    const labels = buildDayLabels(7, now);
+    expect(labels.every((l) => typeof l === "string" && l.length > 0)).toBe(true);
+  });
+
+  it("produces unique labels for consecutive days", () => {
+    const now = new Date("2024-06-15T12:00:00Z");
+    const labels = buildDayLabels(7, now);
+    const unique = new Set(labels);
+    expect(unique.size).toBe(7);
+  });
+
+  it("returns an empty array for 0 days", () => {
+    const now = new Date("2024-06-15T12:00:00Z");
+    expect(buildDayLabels(0, now)).toEqual([]);
   });
 });

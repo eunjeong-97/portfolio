@@ -66,6 +66,15 @@ export function processPushEvents(data: GitHubEvent[], username: string): PushEv
     }));
 }
 
+export function buildDayLabels(days: number, now: Date): string[] {
+  return Array.from({ length: days }, (_, i) => {
+    const daysAgo = days - 1 - i;
+    const d = new Date(now);
+    d.setDate(d.getDate() - daysAgo);
+    return d.toLocaleDateString("ko-KR", { month: "numeric", day: "numeric" });
+  });
+}
+
 export function computeGitHubStats(data: GitHubEvent[]): GitHubStats {
   const pushData = data.filter((e) => e.type === "PushEvent");
   return {
