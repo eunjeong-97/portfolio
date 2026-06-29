@@ -83,4 +83,9 @@ describe("parsePeriod — edge cases", () => {
     // split(" - ") yields 3+ parts; only parts[0] and parts[1] are used
     expect(parsePeriod("2022.03 - 2024.10 - extra")).toEqual([2022, 3, 2024, 10]);
   });
+
+  it("returns null when the end date part is empty (trailing ' - ')", () => {
+    // parts[1] = "" → endPart = "" → split(".") → [""] → Number("") = NaN → null
+    expect(parsePeriod("2022.03 - ")).toBeNull();
+  });
 });

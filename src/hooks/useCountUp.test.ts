@@ -157,6 +157,17 @@ describe("useCountUp — animation progress", () => {
   });
 });
 
+describe("useCountUp — very short duration", () => {
+  it("completes in exactly 2 frames when duration is 1ms", () => {
+    const { result } = renderHook(() => useCountUp(100, true, 1));
+    raf.fire(0);  // frame 1: startTime=0, progress=0, count=0, schedules frame 2
+    expect(result.current).toBe(0);
+    raf.fire(1);  // frame 2: progress=1, eased=1, count=100, no more frames
+    expect(result.current).toBe(100);
+    expect(raf.pendingCount).toBe(0);
+  });
+});
+
 describe("useCountUp — zero target", () => {
   it("returns 0 throughout the animation when target is 0", () => {
     const { result } = renderHook(() => useCountUp(0, true, 1000));
