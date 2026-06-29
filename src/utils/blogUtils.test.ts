@@ -257,6 +257,13 @@ describe("parseBlogRss", () => {
     expect(parseBlogRss(xml, 10)).toHaveLength(1);
   });
 
+  it("returns exactly 6 items when the feed has exactly 6 items (at the default limit)", () => {
+    const items = Array.from({ length: 6 }, (_, i) =>
+      makeItem(`Post ${i}`, `https://x.com/${i}`, "2024-01-01", "desc")
+    ).join("");
+    expect(parseBlogRss(`<rss>${items}</rss>`)).toHaveLength(6);
+  });
+
   it("returns an empty array for XML with no closing item tags", () => {
     expect(parseBlogRss("<rss><item>no closing tag</rss>")).toEqual([]);
   });

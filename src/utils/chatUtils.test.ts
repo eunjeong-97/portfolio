@@ -51,6 +51,12 @@ describe("deserializeChatMessages", () => {
     expect(result![1].content).toBe("second");
   });
 
+  it("passes through the isNew field when present in the serialized message", () => {
+    const result = deserializeChatMessages([{ role: "user", content: "hi", isNew: true }]);
+    expect(result).not.toBeNull();
+    expect((result![0] as { isNew?: boolean }).isNew).toBe(true);
+  });
+
   it("handles a message where timestamp is explicitly undefined", () => {
     const result = deserializeChatMessages([{ role: "user", content: "hi", timestamp: undefined }]);
     expect(result).not.toBeNull();
@@ -161,6 +167,10 @@ describe("validateChatMessages", () => {
     expect(validateChatMessages([{ role: "user", content: "a".repeat(500) }])).toBeNull();
   });
 
+  it("accepts a message with content of exactly 1 character", () => {
+    expect(validateChatMessages([{ role: "user", content: "x" }])).toBeNull();
+  });
+
   it("returns an error string for a null message entry in the array", () => {
     expect(validateChatMessages([null])).not.toBeNull();
   });
@@ -233,6 +243,18 @@ describe("toChatHistory", () => {
 
   it("returns an empty array for a single assistant message (no prior context)", () => {
     expect(toChatHistory([{ role: "assistant", content: "hello" }])).toEqual([]);
+  });
+
+  it("returns two history entries for a three-message conversation", () => {
+    const msgs = [
+      { role: "user", content: "one" },
+      { role: "assistant", content: "two" },
+      { role: "user", content: "three" },
+    ];
+    const result = toChatHistory(msgs);
+    expect(result).toHaveLength(2);
+    expect(result[0].parts[0].text).toBe("one");
+    expect(result[1].parts[0].text).toBe("two");
   });
 
   it("maps any non-'assistant' role to 'user' in the Gemini history format", () => {
