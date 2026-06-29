@@ -4,10 +4,10 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useRef, useState, useEffect, type FormEvent } from "react";
 import { Mail, Github, FileText, Send, Copy, Check, Loader2, AlertCircle } from "lucide-react";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
-import { AUTHOR_EMAIL, GITHUB_URL, GITHUB_USERNAME, BLOG_URL, BLOG_USERNAME } from "@/constants/site";
+import { AUTHOR_EMAIL, AUTHOR_NAME, GITHUB_URL, GITHUB_USERNAME, BLOG_URL, BLOG_USERNAME } from "@/constants/site";
 
 const MESSAGE_TEMPLATES = [
-  { label: "채용 문의", text: "안녕하세요! 채용 포지션과 관련하여 연락드립니다. 박은정님의 경력과 포트폴리오에 관심이 생겨서요." },
+  { label: "채용 문의", text: `안녕하세요! 채용 포지션과 관련하여 연락드립니다. ${AUTHOR_NAME}님의 경력과 포트폴리오에 관심이 생겨서요.` },
   { label: "협업 제안", text: "안녕하세요! 프로젝트 협업을 제안드리고 싶어서 연락드립니다." },
 ];
 
