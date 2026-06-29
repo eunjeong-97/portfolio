@@ -326,6 +326,28 @@ describe("processPushEvents", () => {
     const [result] = processPushEvents([event], "user");
     expect(result.commits).toEqual([]);
   });
+
+  it("extracts a non-main branch name from the ref field", () => {
+    const event = makeEvent({ payload: { ref: "refs/heads/feature/my-branch", commits: [] } });
+    const [result] = processPushEvents([event], "user");
+    expect(result.branch).toBe("feature/my-branch");
+  });
+
+  it("includes both commits when there are exactly 2 (at the limit)", () => {
+    const event = makeEvent({
+      payload: {
+        ref: "refs/heads/main",
+        commits: [
+          { message: "first", sha: "aaaaaaaaaaaa" },
+          { message: "second", sha: "bbbbbbbbbbbb" },
+        ],
+      },
+    });
+    const [result] = processPushEvents([event], "user");
+    expect(result.commits).toHaveLength(2);
+    expect(result.commits[0].message).toBe("first");
+    expect(result.commits[1].message).toBe("second");
+  });
 });
 
 describe("computeGitHubStats", () => {
