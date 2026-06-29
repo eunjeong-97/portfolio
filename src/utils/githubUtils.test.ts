@@ -382,6 +382,22 @@ describe("processPushEvents", () => {
     ];
     expect(processPushEvents(events, "user")).toHaveLength(6);
   });
+
+  it("returns an empty string sha when the commit sha is empty", () => {
+    const event = makeEvent({
+      payload: { ref: "refs/heads/main", commits: [{ message: "msg", sha: "" }] },
+    });
+    const [result] = processPushEvents([event], "user");
+    expect(result.commits[0].sha).toBe("");
+  });
+
+  it("returns an empty message string when the commit message is empty", () => {
+    const event = makeEvent({
+      payload: { ref: "refs/heads/main", commits: [{ message: "", sha: "abc1234567890" }] },
+    });
+    const [result] = processPushEvents([event], "user");
+    expect(result.commits[0].message).toBe("");
+  });
 });
 
 describe("computeGitHubStats", () => {

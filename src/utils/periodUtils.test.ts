@@ -93,6 +93,17 @@ describe("getDuration", () => {
   });
 });
 
+describe("parsePeriod — additional formats", () => {
+  it("parses a period where start and end are in the same year and same month", () => {
+    expect(parsePeriod("2023.06 - 2023.06")).toEqual([2023, 6, 2023, 6]);
+  });
+
+  it("parses a period where the end year is before the start year (no order validation)", () => {
+    // parsePeriod only parses, it does not validate chronological order
+    expect(parsePeriod("2024.01 - 2022.06")).toEqual([2024, 1, 2022, 6]);
+  });
+});
+
 describe("parsePeriod — edge cases", () => {
   it("parses the first two date parts when the string contains multiple ' - ' separators", () => {
     // split(" - ") yields 3+ parts; only parts[0] and parts[1] are used
