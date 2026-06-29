@@ -414,4 +414,25 @@ describe("useFocusTrap", () => {
     expect(lastSpy).not.toHaveBeenCalled();
     document.body.removeChild(container);
   });
+
+  it("excludes anchor elements without an href attribute from the focusable set", () => {
+    const container = document.createElement("div");
+    const anchorNoHref = document.createElement("a"); // no href → excluded by [href] selector
+    const btn = document.createElement("button");
+    container.append(anchorNoHref, btn);
+    document.body.appendChild(container);
+    btn.focus(); // btn is both first and last (anchorNoHref excluded)
+
+    renderHook(() => {
+      const ref = useRef<HTMLDivElement>(container as HTMLDivElement);
+      useFocusTrap(ref, true);
+      return ref;
+    });
+
+    const anchorSpy = vi.spyOn(anchorNoHref, "focus");
+    // If anchorNoHref were included it would receive focus as the first element
+    window.dispatchEvent(makeTabEvent(false));
+    expect(anchorSpy).not.toHaveBeenCalled();
+    document.body.removeChild(container);
+  });
 });

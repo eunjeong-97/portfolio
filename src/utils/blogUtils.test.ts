@@ -181,6 +181,11 @@ describe("extractTag", () => {
   it("returns empty string for a self-closing tag (no open+close pair)", () => {
     expect(extractTag("<link/>", "link")).toBe("");
   });
+
+  it("returns the raw HTML entity string for plain (non-CDATA) tag content (entities not decoded)", () => {
+    // extractTag does not decode HTML entities; only truncateDescription does
+    expect(extractTag("<title>Hello &amp; World</title>", "title")).toBe("Hello &amp; World");
+  });
 });
 
 describe("parseBlogRss", () => {

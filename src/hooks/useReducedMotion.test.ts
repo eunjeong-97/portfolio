@@ -86,4 +86,21 @@ describe("useReducedMotion", () => {
     renderHook(() => useReducedMotion());
     expect(spy).toHaveBeenCalledWith("(prefers-reduced-motion: reduce)");
   });
+
+  it("calls removeEventListener on unmount (listener is cleaned up)", () => {
+    const mql = {
+      matches: false,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    };
+    Object.defineProperty(window, "matchMedia", {
+      value: vi.fn().mockReturnValue(mql),
+      configurable: true,
+      writable: true,
+    });
+    const { unmount } = renderHook(() => useReducedMotion());
+    expect(mql.removeEventListener).not.toHaveBeenCalled();
+    unmount();
+    expect(mql.removeEventListener).toHaveBeenCalledOnce();
+  });
 });
