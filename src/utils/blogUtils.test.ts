@@ -57,6 +57,11 @@ describe("isRecent", () => {
   it("returns false for an empty string", () => {
     expect(isRecent("")).toBe(false);
   });
+
+  it("returns true for a date exactly 29 days ago (one day before the boundary)", () => {
+    const twentyNineDaysAgo = new Date(Date.now() - 1000 * 60 * 60 * 24 * 29).toISOString();
+    expect(isRecent(twentyNineDaysAgo)).toBe(true);
+  });
 });
 
 describe("truncateDescription", () => {
