@@ -198,14 +198,14 @@ export default function About() {
                 <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse motion-reduce:animate-none" aria-hidden="true" />
                 <span className="text-xs text-primary uppercase tracking-wider font-semibold">개발 원칙</span>
               </div>
-              <div className="grid grid-cols-2 gap-2 mb-3">
+              <ul className="grid grid-cols-2 gap-2 mb-3 list-none">
                 {PRINCIPLES.map(({ label, icon: PIcon }) => (
-                  <div key={label} className="flex items-center gap-1.5">
+                  <li key={label} className="flex items-center gap-1.5">
                     <PIcon size={13} className="text-primary flex-shrink-0" aria-hidden="true" />
                     <span className="text-xs text-foreground/80">{label}</span>
-                  </div>
+                  </li>
                 ))}
-              </div>
+              </ul>
               <div className="flex items-center gap-2 pt-2 border-t border-primary/10">
                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse motion-reduce:animate-none" aria-hidden="true" />
                 <span className="text-sm text-green-400 font-medium">현재 구직 중 · 즉시 합류 가능합니다</span>
