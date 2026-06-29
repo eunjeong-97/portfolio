@@ -56,6 +56,13 @@ describe("deserializeChatMessages", () => {
     expect(result).not.toBeNull();
     expect(result![0].timestamp).toBeUndefined();
   });
+
+  it("returns an invalid Date object when timestamp is an unparseable string", () => {
+    const result = deserializeChatMessages([{ role: "user", content: "hi", timestamp: "not-a-date" }]);
+    expect(result).not.toBeNull();
+    expect(result![0].timestamp).toBeInstanceOf(Date);
+    expect(isNaN(result![0].timestamp!.getTime())).toBe(true);
+  });
 });
 
 describe("typewriterSpeed", () => {

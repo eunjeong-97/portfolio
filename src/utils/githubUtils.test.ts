@@ -164,6 +164,12 @@ describe("buildHeatmapCounts", () => {
     const now = new Date("2024-06-15T12:00:00Z");
     expect(buildHeatmapCounts([], 30, now)).toHaveLength(30);
   });
+
+  it("silently ignores invalid date strings in the event list", () => {
+    const now = new Date("2024-06-15T12:00:00Z");
+    const result = buildHeatmapCounts(["not-a-date", "also-invalid"], 7, now);
+    expect(result.every((c) => c === 0)).toBe(true);
+  });
 });
 
 describe("heatmapIntensity", () => {
@@ -273,6 +279,12 @@ describe("processPushEvents", () => {
   it("limits output to 6 events", () => {
     const events = Array.from({ length: 10 }, () => makeEvent());
     expect(processPushEvents(events, "user")).toHaveLength(6);
+  });
+
+  it("returns the full repo name unchanged when it does not start with the username prefix", () => {
+    const event = makeEvent({ repo: { name: "other-user/repo" } });
+    const [result] = processPushEvents([event], "myuser");
+    expect(result.repo).toBe("other-user/repo");
   });
 
   it("handles a payload with no commits field (undefined)", () => {

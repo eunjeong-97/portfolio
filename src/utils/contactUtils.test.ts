@@ -53,4 +53,12 @@ describe("isValidEmail", () => {
   it("rejects a plain word with no special characters", () => {
     expect(isValidEmail("notanemail")).toBe(false);
   });
+
+  it("accepts an email with a hyphen in the local part", () => {
+    expect(isValidEmail("my-name@example.com")).toBe(true);
+  });
+
+  it("accepts an email with a hyphenated domain", () => {
+    expect(isValidEmail("user@my-domain.com")).toBe(true);
+  });
 });
