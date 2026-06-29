@@ -111,4 +111,16 @@ describe("experiences data", () => {
       expect(unique.size).toBe(exp.details.length);
     }
   });
+
+  it("at least one experience has a videoUrl", () => {
+    expect(experiences.some((e) => e.videoUrl !== undefined)).toBe(true);
+  });
+
+  it("every videoUrl that exists is reachable via HTTPS (not HTTP)", () => {
+    for (const exp of experiences) {
+      if (exp.videoUrl !== undefined) {
+        expect(exp.videoUrl.startsWith("https://")).toBe(true);
+      }
+    }
+  });
 });
