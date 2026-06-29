@@ -4,14 +4,13 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useRef, useState, useEffect, type FormEvent } from "react";
 import { Mail, Github, FileText, Send, Copy, Check, Loader2, AlertCircle } from "lucide-react";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
+import { isValidEmail } from "@/utils/contactUtils";
 import { AUTHOR_EMAIL, AUTHOR_NAME, GITHUB_URL, GITHUB_USERNAME, BLOG_URL, BLOG_USERNAME } from "@/constants/site";
 
 const MESSAGE_TEMPLATES = [
   { label: "채용 문의", text: `안녕하세요! 채용 포지션과 관련하여 연락드립니다. ${AUTHOR_NAME}님의 경력과 포트폴리오에 관심이 생겨서요.` },
   { label: "협업 제안", text: "안녕하세요! 프로젝트 협업을 제안드리고 싶어서 연락드립니다." },
 ];
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const CONTACT_HEADER_INITIAL = { opacity: 0, y: 20 } as const;
 const CONTACT_HEADER_ANIMATE_IN = { opacity: 1, y: 0 } as const;
@@ -78,7 +77,7 @@ export default function Contact() {
     }
   }, [sent]);
 
-  const emailValid = EMAIL_REGEX.test(formState.email);
+  const emailValid = isValidEmail(formState.email);
   const isFormValid = formState.name.length >= 2 && emailValid && formState.message.length >= 10;
   const fieldStatus: Record<"name" | "email" | "message", FieldStatus> = {
     name: touched.name ? (formState.name.length >= 2 ? "valid" : "error") : "idle",
