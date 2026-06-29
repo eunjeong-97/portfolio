@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { truncateCommit } from "@/utils/githubUtils";
 
 export const revalidate = 3600;
 
@@ -10,11 +11,6 @@ interface GitHubEvent {
     ref?: string;
   };
   created_at: string;
-}
-
-function truncateCommit(msg: string, max = 60): string {
-  const first = msg.split("\n")[0];
-  return first.length > max ? first.slice(0, max) + "…" : first;
 }
 
 export async function GET() {

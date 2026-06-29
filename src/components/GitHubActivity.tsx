@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState, useMemo } from "react";
 import { Github, GitCommitHorizontal, ExternalLink, Activity, GitBranch, FolderGit2 } from "lucide-react";
+import { formatRelativeDate } from "@/utils/githubUtils";
 
 interface CommitEvent {
   repo: string;
@@ -30,17 +31,6 @@ const GITHUB_HEATMAP_INITIAL = { opacity: 0, y: 10 } as const;
 const GITHUB_HEADER_TRANSITION = { duration: 0.5 } as const;
 const GITHUB_STATS_TRANSITION = { duration: 0.5, delay: 0.1 } as const;
 const GITHUB_HEATMAP_TRANSITION = { duration: 0.5, delay: 0.2 } as const;
-
-function formatDate(dateStr: string): string {
-  const date = new Date(dateStr);
-  const now = new Date();
-  const diffDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
-  if (diffDays === 0) return "오늘";
-  if (diffDays === 1) return "어제";
-  if (diffDays < 7) return `${diffDays}일 전`;
-  if (diffDays < 30) return `${Math.floor(diffDays / 7)}주 전`;
-  return `${Math.floor(diffDays / 30)}달 전`;
-}
 
 export default function GitHubActivity() {
   const ref = useRef(null);
@@ -254,7 +244,7 @@ export default function GitHubActivity() {
                     </span>
                   </div>
                   <span className="text-xs text-muted-foreground">
-                    {formatDate(event.date)}
+                    {formatRelativeDate(event.date)}
                   </span>
                 </div>
                 <div className="space-y-1.5">

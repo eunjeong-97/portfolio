@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { ExternalLink, FileText } from "lucide-react";
+import { formatDate, isRecent } from "@/utils/blogUtils";
 
 interface Post {
   title: string;
@@ -17,16 +18,6 @@ const POST_ANIMATE_IN = { opacity: 1, y: 0 } as const;
 const POST_BADGE_INITIAL = { opacity: 0, scale: 0.8 } as const;
 const POST_BADGE_ANIMATE = { opacity: 1, scale: 1 } as const;
 const POST_HEADER_TRANSITION = { duration: 0.5 } as const;
-
-function formatDate(dateStr: string): string {
-  const date = new Date(dateStr);
-  if (isNaN(date.getTime())) return dateStr;
-  return date.toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric" });
-}
-
-function isRecent(dateStr: string): boolean {
-  return Date.now() - new Date(dateStr).getTime() < 1000 * 60 * 60 * 24 * 30;
-}
 
 export default function BlogPosts() {
   const ref = useRef(null);

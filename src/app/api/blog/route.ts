@@ -1,19 +1,7 @@
 import { NextResponse } from "next/server";
+import { truncateDescription, extractTag } from "@/utils/blogUtils";
 
 export const revalidate = 3600;
-
-function truncateDescription(text: string, max = 200): string {
-  const plain = text.replace(/<[^>]+>/g, "");
-  if (plain.length <= max) return plain;
-  const cut = plain.slice(0, max + 1);
-  const lastSpace = cut.lastIndexOf(" ");
-  return (lastSpace > 0 ? cut.slice(0, lastSpace) : cut.slice(0, max)) + "…";
-}
-
-function extractTag(block: string, tag: string): string {
-  const m = block.match(new RegExp(`<${tag}[^>]*><!\\[CDATA\\[([\\s\\S]*?)\\]\\]><\\/${tag}>|<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`));
-  return m ? (m[1] ?? m[2] ?? "").trim() : "";
-}
 
 export async function GET() {
   try {
