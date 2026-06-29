@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { projects } from "./projects";
+import { experiences } from "./experiences";
 import { parsePeriod, getDuration } from "@/utils/periodUtils";
 
 const PERIOD_REGEX = /^\d{4}\.\d{2} - \d{4}\.\d{2}/;
@@ -85,6 +86,13 @@ describe("projects data", () => {
   it("getDuration returns a non-empty label for every project period", () => {
     for (const project of projects) {
       expect(getDuration(project.period).length).toBeGreaterThan(0);
+    }
+  });
+
+  it("every project id matches an experience id (projects are featured experiences)", () => {
+    const expIds = new Set(experiences.map((e) => e.id));
+    for (const project of projects) {
+      expect(expIds.has(project.id)).toBe(true);
     }
   });
 });

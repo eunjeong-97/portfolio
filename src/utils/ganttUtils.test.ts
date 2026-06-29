@@ -57,6 +57,12 @@ describe("getBarProps", () => {
     expect(width).toBeCloseTo((4 / TOTAL_MONTHS) * 100, 5);
   });
 
+  it("returns a negative left for a period starting before CAREER_START", () => {
+    // 2021.01 is 14 months before CAREER_START (2022.03) — no clamping applied
+    const { left } = getBarProps("2021.01 - 2022.06");
+    expect(left).toBeLessThan(0);
+  });
+
   it("left and width together do not exceed 100% for any real experience period", () => {
     const periods = [
       "2022.03 - 2024.10 · 약 2년",

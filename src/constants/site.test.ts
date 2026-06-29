@@ -59,6 +59,11 @@ describe("site constants", () => {
     expect(RESUME_FILENAME.length).toBeGreaterThan(4);
   });
 
+  it("RESUME_FILENAME contains no path separators", () => {
+    expect(RESUME_FILENAME).not.toContain("/");
+    expect(RESUME_FILENAME).not.toContain("\\");
+  });
+
   it("COMPANY_NAME is a non-empty string", () => {
     expect(typeof COMPANY_NAME).toBe("string");
     expect(COMPANY_NAME.length).toBeGreaterThan(0);
