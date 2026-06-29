@@ -7,6 +7,7 @@ import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { AUTHOR_EMAIL, AUTHOR_NAME } from "@/constants/site";
+import { escapeHtml, renderMarkdown } from "@/utils/markdownUtils";
 
 interface Message {
   role: "user" | "assistant";
@@ -70,23 +71,6 @@ function TypewriterText({ content, onDone }: { content: string; onDone: () => vo
   return <span>{displayed}<span className="inline-block w-0.5 h-3.5 bg-foreground/60 ml-0.5 animate-pulse motion-reduce:animate-none align-middle" aria-hidden="true" /></span>;
 }
 
-function escapeHtml(str: string) {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-
-function renderMarkdown(text: string) {
-  return escapeHtml(text)
-    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-    .replace(/\*(.*?)\*/g, "<em>$1</em>")
-    .replace(/`([^`]+)`/g, "<code class=\"bg-black/10 dark:bg-white/10 px-1 py-0.5 rounded text-xs font-mono\">$1</code>")
-    .replace(/^- (.+)$/gm, "<li class=\"ml-3 list-disc\">$1</li>")
-    .replace(/(<li.*<\/li>\n?)+/g, (m) => `<ul class="space-y-0.5 my-1">${m}</ul>`)
-    .replace(/\n/g, "<br/>");
-}
 
 const WELCOME_CONTENT =
   `안녕하세요! ${AUTHOR_NAME}의 포트폴리오 도우미입니다. 경력, 기술 스택, 프로젝트에 대해 무엇이든 물어보세요! 😊`;
