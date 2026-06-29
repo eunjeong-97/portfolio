@@ -531,4 +531,18 @@ describe("buildDayLabels", () => {
     const todayLabel = now.toLocaleDateString("ko-KR", { month: "numeric", day: "numeric" });
     expect(labels[0]).toBe(todayLabel);
   });
+
+  it("crosses a year boundary correctly when the window spans into the previous year", () => {
+    // now = Jan 2; going back 6 days reaches late December of the previous year.
+    // setDate(getDate() - daysAgo) must roll the month/year backwards.
+    const now = new Date("2024-01-02T12:00:00Z");
+    const labels = buildDayLabels(7, now);
+    expect(labels).toHaveLength(7);
+    expect(new Set(labels).size).toBe(7); // all distinct across the year boundary
+    const firstExpected = new Date(now);
+    firstExpected.setDate(firstExpected.getDate() - 6); // Dec 27 of previous year
+    expect(labels[0]).toBe(
+      firstExpected.toLocaleDateString("ko-KR", { month: "numeric", day: "numeric" })
+    );
+  });
 });
