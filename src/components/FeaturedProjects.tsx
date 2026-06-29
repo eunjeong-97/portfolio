@@ -114,7 +114,7 @@ export default function FeaturedProjects() {
           )}
           {filteredProjects.map((project, index) => {
             return (
-            <motion.div
+            <motion.article
               key={project.id}
               layout
               initial={PROJ_INITIAL}
@@ -207,7 +207,7 @@ export default function FeaturedProjects() {
                   );
                 })}
               </div>
-            </motion.div>
+            </motion.article>
             );
           })}
           </AnimatePresence>
