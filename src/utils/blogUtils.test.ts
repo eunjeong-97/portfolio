@@ -245,4 +245,8 @@ describe("parseBlogRss", () => {
     const xml = `<rss>${makeItem("Only", "https://x.com", "2024-01-01", "desc")}</rss>`;
     expect(parseBlogRss(xml, 10)).toHaveLength(1);
   });
+
+  it("returns an empty array for XML with no closing item tags", () => {
+    expect(parseBlogRss("<rss><item>no closing tag</rss>")).toEqual([]);
+  });
 });

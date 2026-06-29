@@ -229,6 +229,15 @@ describe("toChatHistory", () => {
   it("returns an empty array for a single assistant message (no prior context)", () => {
     expect(toChatHistory([{ role: "assistant", content: "hello" }])).toEqual([]);
   });
+
+  it("returns exactly one history entry for a two-message conversation", () => {
+    const result = toChatHistory([
+      { role: "user", content: "hi" },
+      { role: "assistant", content: "hello" },
+    ]);
+    expect(result).toHaveLength(1);
+    expect(result[0].parts[0].text).toBe("hi");
+  });
 });
 
 describe("formatTime", () => {

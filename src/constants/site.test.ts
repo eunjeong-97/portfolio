@@ -80,4 +80,12 @@ describe("site constants", () => {
   it("BASE_URL does not contain localhost", () => {
     expect(BASE_URL).not.toContain("localhost");
   });
+
+  it("GITHUB_URL contains 'github.com'", () => {
+    expect(GITHUB_URL).toContain("github.com");
+  });
+
+  it("BLOG_URL contains 'velog.io'", () => {
+    expect(BLOG_URL).toContain("velog.io");
+  });
 });
