@@ -4,6 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { ExternalLink, FileText } from "lucide-react";
 import { formatDate, isRecent } from "@/utils/blogUtils";
+import { BLOG_URL } from "@/constants/site";
 
 interface Post {
   title: string;
@@ -72,7 +73,7 @@ export default function BlogPosts() {
               )}
             </div>
             <a
-              href="https://velog.io/@beanlove97"
+              href={BLOG_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 text-sm text-primary hover:text-primary-light transition-colors"
@@ -105,7 +106,7 @@ export default function BlogPosts() {
             <FileText size={40} className="mx-auto mb-4 opacity-30" aria-hidden="true" />
             <p className="mb-4">블로그 글을 불러오는 중 오류가 발생했습니다.</p>
             <a
-              href="https://velog.io/@beanlove97"
+              href={BLOG_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2 border border-border hover:border-primary text-sm text-muted-foreground hover:text-primary rounded-lg transition-colors"

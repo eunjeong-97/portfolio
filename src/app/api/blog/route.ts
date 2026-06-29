@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import { truncateDescription, extractTag } from "@/utils/blogUtils";
+import { BLOG_USERNAME } from "@/constants/site";
 
 export const revalidate = 3600;
 
 export async function GET() {
   try {
-    const res = await fetch("https://v2.velog.io/rss/@beanlove97", {
+    const res = await fetch(`https://v2.velog.io/rss/@${BLOG_USERNAME}`, {
       next: { revalidate: 3600 },
     });
     if (!res.ok) return NextResponse.json({ posts: [] }, { headers: { "Cache-Control": "no-store" } });

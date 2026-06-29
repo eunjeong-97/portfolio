@@ -2,6 +2,7 @@
 
 import { Github, FileText, Mail, Download } from "lucide-react";
 import { scrollToId } from "@/utils/scrollTo";
+import { AUTHOR_NAME, AUTHOR_EMAIL, GITHUB_URL, BLOG_URL, RESUME_FILENAME } from "@/constants/site";
 
 const navLinks = [
   { href: "#projects", label: "Projects" },
@@ -13,9 +14,9 @@ const navLinks = [
 ];
 
 const socialLinks = [
-  { href: "https://github.com/eunjeong-97", label: "GitHub", icon: Github, external: true },
-  { href: "https://velog.io/@beanlove97", label: "Blog", icon: FileText, external: true },
-  { href: "mailto:beanlove97@gmail.com", label: "Email", icon: Mail, external: false },
+  { href: GITHUB_URL, label: "GitHub", icon: Github, external: true },
+  { href: BLOG_URL, label: "Blog", icon: FileText, external: true },
+  { href: `mailto:${AUTHOR_EMAIL}`, label: "Email", icon: Mail, external: false },
 ];
 
 const CURRENT_YEAR = new Date().getFullYear();
@@ -79,7 +80,7 @@ export default function Footer() {
               <li>
                 <a
                   href="/resume.pdf"
-                  download="박은정_이력서.pdf"
+                  download={RESUME_FILENAME}
                   className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors group"
                 >
                   <Download size={13} className="text-muted-foreground/50 group-hover:text-primary transition-colors" aria-hidden="true" />
@@ -92,7 +93,7 @@ export default function Footer() {
 
         <div className="border-t border-border pt-6 flex flex-col sm:flex-row justify-between items-center gap-3">
           <p className="text-muted-foreground text-sm">
-            © {CURRENT_YEAR} 박은정. All rights reserved.
+            © {CURRENT_YEAR} {AUTHOR_NAME}. All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground/60">
             Built with Next.js · Tailwind CSS · Deployed on Vercel

@@ -7,6 +7,7 @@ import { useTheme } from "./ThemeProvider";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { scrollToId } from "@/utils/scrollTo";
+import { RESUME_FILENAME } from "@/constants/site";
 
 const navItems = [
   { href: "#projects", label: "Projects" },
@@ -147,7 +148,7 @@ export default function Navigation() {
           {/* Resume Download */}
           <a
             href="/resume.pdf"
-            download="박은정_이력서.pdf"
+            download={RESUME_FILENAME}
             className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 border border-primary/40 hover:border-primary hover:bg-primary/5 rounded-lg text-xs text-primary transition-colors"
           >
             <Download size={12} aria-hidden="true" />
@@ -248,7 +249,7 @@ export default function Navigation() {
               <div className="flex items-center gap-3 px-6 py-4 border-t border-border">
                 <a
                   href="/resume.pdf"
-                  download="박은정_이력서.pdf"
+                  download={RESUME_FILENAME}
                   className="flex-1 flex items-center justify-center gap-2 py-2 border border-primary/40 hover:border-primary hover:bg-primary/5 rounded-lg text-sm text-primary transition-colors"
                 >
                   <Download size={14} aria-hidden="true" />

@@ -1,0 +1,7 @@
+export const AUTHOR_NAME = "박은정";
+export const AUTHOR_EMAIL = "beanlove97@gmail.com";
+export const GITHUB_USERNAME = "eunjeong-97";
+export const BLOG_USERNAME = "beanlove97";
+export const GITHUB_URL = `https://github.com/${GITHUB_USERNAME}`;
+export const BLOG_URL = `https://velog.io/@${BLOG_USERNAME}`;
+export const RESUME_FILENAME = "박은정_이력서.pdf";

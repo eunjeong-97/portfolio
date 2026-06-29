@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Github, FileText, Mail } from "lucide-react";
+import { AUTHOR_EMAIL, GITHUB_URL, BLOG_URL } from "@/constants/site";
 
 const SOCIAL_BAR_INITIAL = { opacity: 0, x: -20 } as const;
 const SOCIAL_BAR_ANIMATE = { opacity: 1, x: 0 } as const;
@@ -13,9 +14,9 @@ const SOCIAL_BAR_TRANSITION = { duration: 0.5, delay: 1 } as const;
 const TOOLTIP_TRANSITION = { duration: 0.15 } as const;
 
 const links = [
-  { href: "https://github.com/eunjeong-97", icon: Github, label: "GitHub", external: true },
-  { href: "https://velog.io/@beanlove97", icon: FileText, label: "Blog", external: true },
-  { href: "mailto:beanlove97@gmail.com", icon: Mail, label: "Email", external: false },
+  { href: GITHUB_URL, icon: Github, label: "GitHub", external: true },
+  { href: BLOG_URL, icon: FileText, label: "Blog", external: true },
+  { href: `mailto:${AUTHOR_EMAIL}`, icon: Mail, label: "Email", external: false },
 ];
 
 export default function SocialBar() {

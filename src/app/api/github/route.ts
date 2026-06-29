@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { truncateCommit } from "@/utils/githubUtils";
+import { GITHUB_USERNAME } from "@/constants/site";
 
 export const revalidate = 3600;
 
@@ -24,7 +25,7 @@ export async function GET() {
     }
 
     const res = await fetch(
-      "https://api.github.com/users/eunjeong-97/events/public?per_page=30",
+      `https://api.github.com/users/${GITHUB_USERNAME}/events/public?per_page=30`,
       {
         headers,
         next: { revalidate: 3600 },
@@ -42,7 +43,7 @@ export async function GET() {
 
     const pushData = data.filter((e) => e.type === "PushEvent");
     const pushEvents = pushData.slice(0, 6).map((e) => ({
-      repo: e.repo.name.replace("eunjeong-97/", ""),
+      repo: e.repo.name.replace(`${GITHUB_USERNAME}/`, ""),
       branch: e.payload.ref?.replace("refs/heads/", "") ?? "main",
       commits: (e.payload.commits ?? []).slice(0, 2).map((c) => ({
         message: truncateCommit(c.message),

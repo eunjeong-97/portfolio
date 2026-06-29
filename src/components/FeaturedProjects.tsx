@@ -4,6 +4,7 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useRef, useState, useMemo } from "react";
 import { Github } from "lucide-react";
 import { projects } from "@/data/projects";
+import { GITHUB_URL } from "@/constants/site";
 
 const FILTER_TAGS = ["전체", "React Native", "Native Module", "SDK Integration", "TypeScript"];
 
@@ -220,7 +221,7 @@ export default function FeaturedProjects() {
           className="mt-10 text-center"
         >
           <a
-            href="https://github.com/eunjeong-97"
+            href={GITHUB_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 border border-border hover:border-primary text-muted-foreground hover:text-primary rounded-xl transition-colors text-sm"

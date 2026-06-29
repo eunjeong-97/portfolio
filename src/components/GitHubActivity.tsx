@@ -4,6 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState, useMemo } from "react";
 import { Github, GitCommitHorizontal, ExternalLink, Activity, GitBranch, FolderGit2 } from "lucide-react";
 import { formatRelativeDate } from "@/utils/githubUtils";
+import { GITHUB_URL, GITHUB_USERNAME } from "@/constants/site";
 
 interface CommitEvent {
   repo: string;
@@ -92,7 +93,7 @@ export default function GitHubActivity() {
           <div className="flex items-end justify-between mt-2">
             <h2 className="text-3xl md:text-4xl font-bold">최근 활동</h2>
             <a
-              href="https://github.com/eunjeong-97"
+              href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub 프로필 보기 (새 탭에서 열림)"
@@ -230,7 +231,7 @@ export default function GitHubActivity() {
                   <div className="flex items-center gap-2">
                     <Github size={14} className="text-primary" aria-hidden="true" />
                     <a
-                      href={`https://github.com/eunjeong-97/${event.repo}`}
+                      href={`${GITHUB_URL}/${event.repo}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
@@ -262,7 +263,7 @@ export default function GitHubActivity() {
                         {commit.message}
                       </span>
                       <a
-                        href={`https://github.com/eunjeong-97/${event.repo}/commit/${commit.sha}`}
+                        href={`${GITHUB_URL}/${event.repo}/commit/${commit.sha}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}

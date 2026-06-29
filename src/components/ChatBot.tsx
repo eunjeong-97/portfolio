@@ -6,6 +6,7 @@ import { MessageCircle, X, Send, Bot, User, RotateCcw, Mail, Copy, Check } from 
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { AUTHOR_EMAIL } from "@/constants/site";
 
 interface Message {
   role: "user" | "assistant";
@@ -367,7 +368,7 @@ export default function ChatBot() {
               {messages.length > 2 && (
                 <div className="flex items-center gap-2 mb-2 pb-2 border-b border-border/50">
                   <button
-                    onClick={() => copyEmail("beanlove97@gmail.com")}
+                    onClick={() => copyEmail(AUTHOR_EMAIL)}
                     aria-label={copied ? "이메일 복사 완료" : "이메일 주소 복사"}
                     className="flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs text-muted-foreground hover:text-primary bg-muted hover:bg-primary/10 rounded-lg transition-colors"
                   >
@@ -375,7 +376,7 @@ export default function ChatBot() {
                     {copied ? "복사됨!" : "이메일 복사"}
                   </button>
                   <a
-                    href="mailto:beanlove97@gmail.com"
+                    href={`mailto:${AUTHOR_EMAIL}`}
                     aria-label="이메일 앱으로 보내기"
                     className="flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs text-muted-foreground hover:text-primary bg-muted hover:bg-primary/10 rounded-lg transition-colors"
                   >

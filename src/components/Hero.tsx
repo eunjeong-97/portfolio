@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useState, useEffect, useRef, useCallback, type MouseEvent } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { scrollToId } from "@/utils/scrollTo";
+import { GITHUB_URL, BLOG_URL, RESUME_FILENAME } from "@/constants/site";
 
 const ROLES = [
   "Frontend Developer",
@@ -190,7 +191,7 @@ export default function Hero() {
             </a>
             <a
               href="/resume.pdf"
-              download="박은정_이력서.pdf"
+              download={RESUME_FILENAME}
               className="flex items-center gap-2 px-6 py-3 border border-primary/50 hover:border-primary hover:bg-primary/5 rounded-lg font-medium transition-colors text-primary"
             >
               <Download size={16} aria-hidden="true" />
@@ -221,7 +222,7 @@ export default function Hero() {
             className="flex gap-6"
           >
             <a
-              href="https://github.com/eunjeong-97"
+              href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
@@ -231,7 +232,7 @@ export default function Hero() {
               <span className="sr-only">(새 탭에서 열림)</span>
             </a>
             <a
-              href="https://velog.io/@beanlove97"
+              href={BLOG_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"

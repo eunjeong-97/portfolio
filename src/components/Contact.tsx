@@ -4,6 +4,7 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useRef, useState, useEffect, type FormEvent } from "react";
 import { Mail, Github, FileText, Send, Copy, Check, Loader2, AlertCircle } from "lucide-react";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
+import { AUTHOR_EMAIL, GITHUB_URL, GITHUB_USERNAME, BLOG_URL, BLOG_USERNAME } from "@/constants/site";
 
 const MESSAGE_TEMPLATES = [
   { label: "채용 문의", text: "안녕하세요! 채용 포지션과 관련하여 연락드립니다. 박은정님의 경력과 포트폴리오에 관심이 생겨서요." },
@@ -39,20 +40,20 @@ const contactLinks = [
   {
     icon: Mail,
     label: "Email",
-    value: "beanlove97@gmail.com",
-    href: "mailto:beanlove97@gmail.com",
+    value: AUTHOR_EMAIL,
+    href: `mailto:${AUTHOR_EMAIL}`,
   },
   {
     icon: Github,
     label: "GitHub",
-    value: "github.com/eunjeong-97",
-    href: "https://github.com/eunjeong-97",
+    value: `github.com/${GITHUB_USERNAME}`,
+    href: GITHUB_URL,
   },
   {
     icon: FileText,
     label: "Blog",
-    value: "velog.io/@beanlove97",
-    href: "https://velog.io/@beanlove97",
+    value: `velog.io/@${BLOG_USERNAME}`,
+    href: BLOG_URL,
   },
 ];
 
@@ -90,7 +91,7 @@ export default function Contact() {
     setSending(true);
     setSendError(false);
     try {
-      const res = await fetch("https://formsubmit.co/ajax/beanlove97@gmail.com", {
+      const res = await fetch(`https://formsubmit.co/ajax/${AUTHOR_EMAIL}`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
@@ -176,7 +177,7 @@ export default function Contact() {
                   {link.label === "Email" && (
                     <>
                       <button
-                        onClick={() => copyEmail("beanlove97@gmail.com")}
+                        onClick={() => copyEmail(AUTHOR_EMAIL)}
                         className="flex-shrink-0 p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-primary"
                         aria-label={copied ? "이메일 복사 완료" : "이메일 복사"}
                       >
@@ -383,7 +384,7 @@ export default function Contact() {
                         <span>전송에 실패했습니다. 이메일로 직접 보내주세요.</span>
                       </div>
                       <a
-                        href={`mailto:beanlove97@gmail.com?subject=${encodeURIComponent(`포트폴리오 문의: ${formState.name}`)}&body=${encodeURIComponent(formState.message)}`}
+                        href={`mailto:${AUTHOR_EMAIL}?subject=${encodeURIComponent(`포트폴리오 문의: ${formState.name}`)}&body=${encodeURIComponent(formState.message)}`}
                         className="text-primary hover:text-primary-light underline underline-offset-2 whitespace-nowrap flex-shrink-0 transition-colors"
                       >
                         이메일 앱 열기
