@@ -4,6 +4,7 @@ export function parsePeriod(period: string): [number, number, number, number] | 
   const [sy, sm] = parts[0].split(".").map(Number);
   const endPart = parts[1].split(" · ")[0].trim();
   const [ey, em] = endPart.split(".").map(Number);
+  if ([sy, sm, ey, em].some(isNaN)) return null;
   return [sy, sm, ey, em];
 }
 

@@ -25,6 +25,10 @@ describe("parsePeriod", () => {
   it("strips '· 약 N년' annotation suffix from the end date", () => {
     expect(parsePeriod("2023.08 - 2024.10 · 약 1년")).toEqual([2023, 8, 2024, 10]);
   });
+
+  it("returns null when the date segments are not numbers", () => {
+    expect(parsePeriod("abc - def")).toBeNull();
+  });
 });
 
 describe("getDuration", () => {
