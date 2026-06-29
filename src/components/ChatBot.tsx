@@ -6,7 +6,7 @@ import { MessageCircle, X, Send, Bot, User, RotateCcw, Mail, Copy, Check } from 
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { AUTHOR_EMAIL } from "@/constants/site";
+import { AUTHOR_EMAIL, AUTHOR_NAME } from "@/constants/site";
 
 interface Message {
   role: "user" | "assistant";
@@ -89,7 +89,7 @@ function renderMarkdown(text: string) {
 }
 
 const WELCOME_CONTENT =
-  "안녕하세요! 박은정의 포트폴리오 도우미입니다. 경력, 기술 스택, 프로젝트에 대해 무엇이든 물어보세요! 😊";
+  `안녕하세요! ${AUTHOR_NAME}의 포트폴리오 도우미입니다. 경력, 기술 스택, 프로젝트에 대해 무엇이든 물어보세요! 😊`;
 
 function makeWelcome(): Message {
   return { role: "assistant", content: WELCOME_CONTENT, timestamp: new Date() };
@@ -257,7 +257,7 @@ export default function ChatBot() {
                     </span>
                   </div>
                   <p className="text-white/70 text-xs">
-                    박은정에 대해 물어보세요
+                    {AUTHOR_NAME}에 대해 물어보세요
                   </p>
                 </div>
               </div>

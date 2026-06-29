@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useState, useEffect, useRef, useCallback, type MouseEvent } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { scrollToId } from "@/utils/scrollTo";
-import { GITHUB_URL, BLOG_URL, RESUME_FILENAME } from "@/constants/site";
+import { GITHUB_URL, BLOG_URL, RESUME_FILENAME, AUTHOR_NAME } from "@/constants/site";
 
 const ROLES = [
   "Frontend Developer",
@@ -199,21 +199,21 @@ export default function Hero() {
             </a>
           </motion.div>
 
-          <motion.div
+          <motion.ul
             initial={FADE_UP_INITIAL}
             animate={FADE_UP_ANIMATE}
             transition={FADE_UP_DELAY_055}
-            className="flex flex-wrap gap-2 mb-8"
+            className="flex flex-wrap gap-2 mb-8 list-none"
           >
             {TECH_TAGS.map((tech) => (
-              <span
+              <li
                 key={tech}
                 className="px-3 py-1 bg-muted border border-border rounded-full text-xs text-muted-foreground"
               >
                 {tech}
-              </span>
+              </li>
             ))}
-          </motion.div>
+          </motion.ul>
 
           <motion.div
             initial={FADE_UP_INITIAL}
@@ -259,7 +259,7 @@ export default function Hero() {
             <div className="relative w-[280px] h-[350px] md:w-[320px] md:h-[400px] bg-gradient-to-br from-muted to-card rounded-3xl border border-border overflow-hidden mx-auto">
               <Image
                 src="/images/profile.jpg"
-                alt="박은정 프로필 사진"
+                alt={`${AUTHOR_NAME} 프로필 사진`}
                 fill
                 sizes="(max-width: 768px) 280px, 320px"
                 className="object-cover"

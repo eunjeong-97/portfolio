@@ -87,7 +87,7 @@ export default function ExperienceModal({
             tabIndex={-1}
             role="dialog"
             aria-modal="true"
-            aria-label={experience.title}
+            aria-labelledby="experience-modal-title"
             className="fixed inset-4 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-2xl md:max-h-[85vh] bg-section-bg rounded-2xl border border-border z-50 overflow-hidden flex flex-col outline-none"
           >
             {/* Header */}
@@ -103,7 +103,7 @@ export default function ExperienceModal({
                     </span>
                   )}
                 </div>
-                <h3 className="text-2xl font-bold">{experience.title}</h3>
+                <h3 id="experience-modal-title" className="text-2xl font-bold">{experience.title}</h3>
               </div>
               <div className="flex items-center gap-1 ml-4 flex-shrink-0">
                 <button
