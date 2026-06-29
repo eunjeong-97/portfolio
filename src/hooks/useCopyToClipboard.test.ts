@@ -66,6 +66,14 @@ describe("useCopyToClipboard", () => {
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith("");
   });
 
+  it("resets copied immediately when resetMs is 0", async () => {
+    const { result } = renderHook(() => useCopyToClipboard(0));
+    await act(async () => { await result.current.copy("text"); });
+    expect(result.current.copied).toBe(true);
+    act(() => { vi.advanceTimersByTime(0); });
+    expect(result.current.copied).toBe(false);
+  });
+
   it("restarts the reset timer when copy is called a second time before the delay elapses", async () => {
     const { result } = renderHook(() => useCopyToClipboard(500));
     await act(async () => { await result.current.copy("first"); });

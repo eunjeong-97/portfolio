@@ -63,6 +63,12 @@ describe("getBarProps", () => {
     expect(left).toBeLessThan(0);
   });
 
+  it("left + width exceeds 100% for a period ending after CAREER_END (no clamping)", () => {
+    // 2022.03 - 2025.12 extends 14 months beyond CAREER_END; width > 100%
+    const { left, width } = getBarProps("2022.03 - 2025.12");
+    expect(left + width).toBeGreaterThan(100);
+  });
+
   it("a period ending exactly at CAREER_END has its right edge at 100%", () => {
     // 2022.03 - 2024.10 spans the full timeline; left=0, left+width=100%
     const { left, width } = getBarProps("2022.03 - 2024.10");

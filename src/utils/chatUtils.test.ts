@@ -136,6 +136,10 @@ describe("validateChatMessages", () => {
     expect(validateChatMessages([{ role: "system", content: "hello" }])).not.toBeNull();
   });
 
+  it("returns an error string for a message with an empty role string", () => {
+    expect(validateChatMessages([{ role: "", content: "hello" }])).not.toBeNull();
+  });
+
   it("returns an error string for a message with an empty content string", () => {
     expect(validateChatMessages([{ role: "user", content: "" }])).not.toBeNull();
   });
