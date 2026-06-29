@@ -214,6 +214,27 @@ describe("useCountUp — duration changes", () => {
   });
 });
 
+describe("useCountUp — target change while inactive", () => {
+  it("does not schedule a rAF when target changes while not active", () => {
+    const { rerender } = renderHook(
+      ({ target }: { target: number }) => useCountUp(target, false, 1000),
+      { initialProps: { target: 100 } }
+    );
+    expect(raf.pendingCount).toBe(0);
+    rerender({ target: 50 });
+    expect(raf.pendingCount).toBe(0);
+  });
+
+  it("returns 0 when target changes while not active", () => {
+    const { result, rerender } = renderHook(
+      ({ target }: { target: number }) => useCountUp(target, false, 1000),
+      { initialProps: { target: 100 } }
+    );
+    rerender({ target: 50 });
+    expect(result.current).toBe(0);
+  });
+});
+
 describe("useCountUp — active state transitions", () => {
   it("cancels the pending rAF when active changes from true to false", () => {
     const { rerender } = renderHook(
