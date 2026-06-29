@@ -8,8 +8,19 @@ export function isRecent(dateStr: string): boolean {
   return Date.now() - new Date(dateStr).getTime() < 1000 * 60 * 60 * 24 * 30;
 }
 
+const HTML_ENTITIES: Record<string, string> = {
+  "&amp;": "&",
+  "&lt;": "<",
+  "&gt;": ">",
+  "&quot;": '"',
+  "&#39;": "'",
+  "&nbsp;": " ",
+};
+
 export function truncateDescription(text: string, max = 200): string {
-  const plain = text.replace(/<[^>]+>/g, "");
+  const plain = text
+    .replace(/<[^>]+>/g, "")
+    .replace(/&(?:amp|lt|gt|quot|#39|nbsp);/g, (e) => HTML_ENTITIES[e] ?? e);
   if (plain.length <= max) return plain;
   const cut = plain.slice(0, max + 1);
   const lastSpace = cut.lastIndexOf(" ");

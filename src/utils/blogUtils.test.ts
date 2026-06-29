@@ -92,6 +92,12 @@ describe("truncateDescription", () => {
   it("returns an empty string when input contains only HTML tags", () => {
     expect(truncateDescription("<p></p><br/>")).toBe("");
   });
+
+  it("decodes common HTML entities in the description", () => {
+    expect(truncateDescription("a &amp; b &lt;c&gt; &quot;d&quot; &#39;e&#39; f&nbsp;g")).toBe(
+      "a & b <c> \"d\" 'e' f g"
+    );
+  });
 });
 
 describe("extractTag", () => {
