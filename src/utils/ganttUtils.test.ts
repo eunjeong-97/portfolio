@@ -51,6 +51,13 @@ describe("getBarProps", () => {
     expect(width).toBeCloseTo((1 / TOTAL_MONTHS) * 100, 5);
   });
 
+  it("handles '· 약 N년' annotation suffixes (long-form Korean annotation)", () => {
+    // Same end date as the bare period — annotation is stripped
+    const { left, width } = getBarProps("2022.03 - 2024.10 · 약 2년");
+    expect(left).toBe(0);
+    expect(width).toBeCloseTo(100, 5);
+  });
+
   it("handles annotation suffixes like '· 3개월'", () => {
     const { left, width } = getBarProps("2022.09 - 2022.12 · 3개월");
     expect(left).toBeCloseTo((6 / TOTAL_MONTHS) * 100, 5);
