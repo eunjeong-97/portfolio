@@ -142,16 +142,13 @@ export default function FeaturedProjects() {
                         {project.period}
                       </span>
                     </div>
-                    <div className="flex flex-wrap gap-2">
+                    <ul className="flex flex-wrap gap-2 list-none">
                       {project.highlights.map((h) => (
-                        <span
-                          key={h}
-                          className="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full border border-primary/20"
-                        >
+                        <li key={h} className="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full border border-primary/20">
                           {h}
-                        </span>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </div>
 
                   {/* Role */}
@@ -184,29 +181,29 @@ export default function FeaturedProjects() {
               </div>
 
               {/* Tags */}
-              <div className="flex flex-wrap gap-2 mt-6 pt-6 border-t border-border">
+              <ul className="flex flex-wrap gap-2 mt-6 pt-6 border-t border-border list-none">
                 {project.tags.map((tag) => {
                   const isFilterable = FILTERABLE_TAGS.has(tag);
-                  return isFilterable ? (
-                    <button
-                      key={tag}
-                      onClick={() => setActiveFilter(tag)}
-                      aria-pressed={activeFilter === tag}
-                      aria-label={`${tag}로 필터링`}
-                      className={`px-2 py-1 rounded text-xs transition-colors bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary ${activeFilter === tag ? "bg-primary/10 text-primary" : ""}`}
-                    >
-                      {tag}
-                    </button>
-                  ) : (
-                    <span
-                      key={tag}
-                      className="px-2 py-1 rounded text-xs bg-muted text-muted-foreground"
-                    >
-                      {tag}
-                    </span>
+                  return (
+                    <li key={tag}>
+                      {isFilterable ? (
+                        <button
+                          onClick={() => setActiveFilter(tag)}
+                          aria-pressed={activeFilter === tag}
+                          aria-label={`${tag}로 필터링`}
+                          className={`px-2 py-1 rounded text-xs transition-colors bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary ${activeFilter === tag ? "bg-primary/10 text-primary" : ""}`}
+                        >
+                          {tag}
+                        </button>
+                      ) : (
+                        <span className="px-2 py-1 rounded text-xs bg-muted text-muted-foreground">
+                          {tag}
+                        </span>
+                      )}
+                    </li>
                   );
                 })}
-              </div>
+              </ul>
             </motion.article>
             );
           })}

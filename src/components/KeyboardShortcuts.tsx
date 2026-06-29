@@ -104,7 +104,7 @@ export default function KeyboardShortcuts() {
               ref={modalRef}
               role="dialog"
               aria-modal="true"
-              aria-label="키보드 단축키 목록"
+              aria-labelledby="kbd-shortcuts-title"
               initial={KBD_MODAL_INITIAL}
               animate={KBD_MODAL_ANIMATE}
               exit={KBD_MODAL_INITIAL}
@@ -114,7 +114,7 @@ export default function KeyboardShortcuts() {
               <div className="flex items-center justify-between px-5 py-4 border-b border-border">
                 <div className="flex items-center gap-2">
                   <Keyboard size={16} className="text-primary" aria-hidden="true" />
-                  <span className="font-semibold text-sm">키보드 단축키</span>
+                  <span id="kbd-shortcuts-title" className="font-semibold text-sm">키보드 단축키</span>
                 </div>
                 <button
                   ref={closeButtonRef}
@@ -129,30 +129,30 @@ export default function KeyboardShortcuts() {
               <div className="p-5 space-y-5">
                 <div>
                   <div className="text-xs text-muted-foreground uppercase tracking-wider mb-3">일반</div>
-                  <div className="space-y-2">
+                  <ul className="space-y-2 list-none">
                     {shortcuts.map(({ key, description }) => (
-                      <div key={key} className="flex items-center justify-between">
+                      <li key={key} className="flex items-center justify-between">
                         <span className="text-sm text-muted-foreground">{description}</span>
                         <kbd className="px-2 py-0.5 bg-muted border border-border rounded text-xs font-mono text-foreground">
                           {key}
                         </kbd>
-                      </div>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
 
                 <div>
                   <div className="text-xs text-muted-foreground uppercase tracking-wider mb-3">섹션 이동</div>
-                  <div className="space-y-2">
+                  <ul className="space-y-2 list-none">
                     {navShortcuts.map(({ key, description }) => (
-                      <div key={key} className="flex items-center justify-between">
+                      <li key={key} className="flex items-center justify-between">
                         <span className="text-sm text-muted-foreground">{description}</span>
                         <kbd className="px-2 py-0.5 bg-muted border border-border rounded text-xs font-mono text-foreground">
                           {key}
                         </kbd>
-                      </div>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
               </div>
 

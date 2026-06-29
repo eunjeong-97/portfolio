@@ -29,7 +29,7 @@ export default function SectionDots() {
   const [hovered, setHovered] = useState<string | null>(null);
 
   return (
-    <div className="hidden lg:flex fixed right-5 top-1/2 -translate-y-1/2 z-40 flex-col gap-3">
+    <nav aria-label="섹션 탐색" className="hidden lg:flex fixed right-5 top-1/2 -translate-y-1/2 z-40 flex-col gap-3">
       {sections.map(({ id, label }) => {
         const isActive = activeSection === id;
         return (
@@ -72,6 +72,6 @@ export default function SectionDots() {
           </button>
         );
       })}
-    </div>
+    </nav>
   );
 }

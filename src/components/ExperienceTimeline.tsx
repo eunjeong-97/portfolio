@@ -207,16 +207,15 @@ export default function ExperienceTimeline() {
                   <p className="text-muted-foreground text-sm leading-relaxed mb-4 whitespace-pre-line line-clamp-3">
                     {exp.description}
                   </p>
-                  <div className="flex flex-wrap gap-2">
+                  <ul className="flex flex-wrap gap-2 list-none">
                     {exp.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2 py-1 bg-muted rounded text-xs text-muted-foreground"
-                      >
-                        {tag}
-                      </span>
+                      <li key={tag}>
+                        <span className="px-2 py-1 bg-muted rounded text-xs text-muted-foreground">
+                          {tag}
+                        </span>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                   <div className="mt-4 text-sm text-muted-foreground group-hover:text-primary transition-colors flex items-center gap-1">
                     <span>자세히 보기</span>
                     <motion.span
@@ -247,14 +246,14 @@ export default function ExperienceTimeline() {
             </div>
             <div className="text-sm text-muted-foreground mt-0.5">약 2년 8개월 · {experiences.length}개 주요 프로젝트</div>
           </div>
-          <div className="flex gap-3">
+          <ul className="flex gap-3 list-none">
             {CAREER_DOMAINS.map(({ label, sub }) => (
-              <div key={label} className="text-center">
+              <li key={label} className="text-center">
                 <div className="text-sm font-semibold text-foreground">{label}</div>
                 <div className="text-xs text-muted-foreground">{sub}</div>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </motion.div>
       </div>
 
