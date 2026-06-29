@@ -355,4 +355,17 @@ describe("formatTime", () => {
     const invalid = new Date("not-a-date");
     expect(typeof formatTime(invalid)).toBe("string");
   });
+
+  it("formats only the time-of-day: two dates with the same hour and minute produce the same output", () => {
+    // formatTime uses toLocaleTimeString with hour/minute only — the calendar date is irrelevant
+    const a = new Date("2024-06-15T09:05:00");
+    const b = new Date("2020-01-01T09:05:00");
+    expect(formatTime(a)).toBe(formatTime(b));
+  });
+
+  it("produces different output for two different times of day", () => {
+    const morning = new Date("2024-06-15T09:05:00");
+    const evening = new Date("2024-06-15T21:45:00");
+    expect(formatTime(morning)).not.toBe(formatTime(evening));
+  });
 });
