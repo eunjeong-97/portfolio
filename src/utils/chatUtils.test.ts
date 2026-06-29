@@ -4,6 +4,7 @@ import {
   typewriterSpeed,
   validateChatMessages,
   toChatHistory,
+  formatTime,
 } from "./chatUtils";
 
 describe("deserializeChatMessages", () => {
@@ -187,5 +188,27 @@ describe("toChatHistory", () => {
 
   it("returns an empty array for an empty input array", () => {
     expect(toChatHistory([])).toEqual([]);
+  });
+});
+
+describe("formatTime", () => {
+  it("returns an empty string for undefined", () => {
+    expect(formatTime(undefined)).toBe("");
+  });
+
+  it("returns a non-empty string for a valid Date", () => {
+    const date = new Date("2024-06-15T09:05:00");
+    expect(formatTime(date)).not.toBe("");
+  });
+
+  it("includes hours and minutes in the output", () => {
+    const date = new Date("2024-06-15T09:05:00");
+    const result = formatTime(date);
+    expect(result).toMatch(/\d/);
+  });
+
+  it("formats midnight correctly (does not return empty)", () => {
+    const midnight = new Date("2024-06-15T00:00:00");
+    expect(formatTime(midnight)).not.toBe("");
   });
 });

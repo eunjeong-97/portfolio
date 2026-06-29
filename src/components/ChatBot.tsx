@@ -8,7 +8,7 @@ import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { AUTHOR_EMAIL, AUTHOR_NAME } from "@/constants/site";
 import { escapeHtml, renderMarkdown } from "@/utils/markdownUtils";
-import { deserializeChatMessages, typewriterSpeed, type ChatMessage } from "@/utils/chatUtils";
+import { deserializeChatMessages, typewriterSpeed, formatTime, type ChatMessage } from "@/utils/chatUtils";
 
 type Message = ChatMessage;
 
@@ -73,11 +73,6 @@ const WELCOME_CONTENT =
 
 function makeWelcome(): Message {
   return { role: "assistant", content: WELCOME_CONTENT, timestamp: new Date() };
-}
-
-function formatTime(date?: Date) {
-  if (!date) return "";
-  return date.toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" });
 }
 
 const STORAGE_KEY = "chatbot_messages";

@@ -47,6 +47,11 @@ export function validateChatMessages(messages: unknown): string | null {
   return null;
 }
 
+export function formatTime(date?: Date): string {
+  if (!date) return "";
+  return date.toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" });
+}
+
 export function toChatHistory(
   messages: ChatApiMessage[]
 ): { role: string; parts: { text: string }[] }[] {
