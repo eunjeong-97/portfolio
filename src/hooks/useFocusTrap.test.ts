@@ -183,6 +183,26 @@ describe("useFocusTrap", () => {
     document.body.removeChild(container);
   });
 
+  it("does not intercept non-Tab key presses", () => {
+    const container = document.createElement("div");
+    const btn1 = document.createElement("button");
+    const btn2 = document.createElement("button");
+    container.append(btn1, btn2);
+    document.body.appendChild(container);
+    btn2.focus();
+
+    renderHook(() => {
+      const ref = useRef<HTMLDivElement>(container as HTMLDivElement);
+      useFocusTrap(ref, true);
+      return ref;
+    });
+
+    const focusSpy = vi.spyOn(btn1, "focus");
+    window.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
+    expect(focusSpy).not.toHaveBeenCalled();
+    document.body.removeChild(container);
+  });
+
   it("includes elements with tabindex='0' in the focusable set", () => {
     const container = document.createElement("div");
     const btn = document.createElement("button");

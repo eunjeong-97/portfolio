@@ -35,6 +35,11 @@ describe("formatRelativeDate", () => {
     expect(formatRelativeDate(d)).toBe("1달 전");
   });
 
+  it("returns '2일 전' at the lower boundary of the day range (2 days)", () => {
+    const d = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString();
+    expect(formatRelativeDate(d)).toBe("2일 전");
+  });
+
   it("returns '6일 전' at the upper boundary of the day range (6 days)", () => {
     const d = new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString();
     expect(formatRelativeDate(d)).toBe("6일 전");
