@@ -235,7 +235,7 @@ export default function ChatBot() {
             ref={chatModalRef}
             role="dialog"
             aria-modal="true"
-            aria-label="포트폴리오 도우미 채팅"
+            aria-labelledby="chatbot-title"
             initial={CHAT_PANEL_INITIAL}
             animate={CHAT_PANEL_ANIMATE}
             exit={CHAT_PANEL_INITIAL}
@@ -249,7 +249,7 @@ export default function ChatBot() {
                 <Bot size={20} className="text-white" aria-hidden="true" />
                 <div>
                   <div className="flex items-center gap-2">
-                    <p className="text-white font-semibold text-sm">
+                    <p id="chatbot-title" className="text-white font-semibold text-sm">
                       포트폴리오 도우미
                     </p>
                     <span className="text-[9px] bg-white/20 text-white/90 px-1.5 py-0.5 rounded-full font-medium">

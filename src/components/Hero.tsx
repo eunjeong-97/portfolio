@@ -204,6 +204,7 @@ export default function Hero() {
             animate={FADE_UP_ANIMATE}
             transition={FADE_UP_DELAY_055}
             className="flex flex-wrap gap-2 mb-8 list-none"
+            aria-label="주요 기술 스택"
           >
             {TECH_TAGS.map((tech) => (
               <li
