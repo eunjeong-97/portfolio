@@ -172,4 +172,24 @@ describe("renderMarkdown", () => {
   it("converts multiple consecutive newlines to multiple br tags", () => {
     expect(renderMarkdown("a\n\nb")).toBe("a<br/><br/>b");
   });
+
+  it("does not convert '- ' (dash-space only, no content) to a list item", () => {
+    const result = renderMarkdown("- ");
+    expect(result).not.toContain("<li");
+    expect(result).toBe("- ");
+  });
+
+  it("does not convert an unclosed backtick span to a code element", () => {
+    const result = renderMarkdown("`unclosed");
+    expect(result).not.toContain("<code");
+    expect(result).toBe("`unclosed");
+  });
+
+  it("renders two separate inline code spans in one string", () => {
+    const result = renderMarkdown("`a` and `b`");
+    const matches = result.match(/<code/g);
+    expect(matches).toHaveLength(2);
+    expect(result).toContain("a</code>");
+    expect(result).toContain("b</code>");
+  });
 });
