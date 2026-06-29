@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { getBarProps, CAREER_START, CAREER_END, TOTAL_MONTHS } from "./ganttUtils";
+import { experiences } from "@/data/experiences";
 
 describe("TOTAL_MONTHS", () => {
   it("correctly spans CAREER_START through CAREER_END inclusive", () => {
@@ -103,6 +104,22 @@ describe("getBarProps", () => {
     ];
     for (const p of periods) {
       const { left, width } = getBarProps(p);
+      expect(left + width).toBeLessThanOrEqual(100 + 1e-9);
+    }
+  });
+});
+
+describe("getBarProps — integration with experiences data", () => {
+  it("produces non-negative left offset for every real experience period", () => {
+    for (const exp of experiences) {
+      const { left } = getBarProps(exp.period);
+      expect(left).toBeGreaterThanOrEqual(0);
+    }
+  });
+
+  it("produces left + width ≤ 100% for every real experience period", () => {
+    for (const exp of experiences) {
+      const { left, width } = getBarProps(exp.period);
       expect(left + width).toBeLessThanOrEqual(100 + 1e-9);
     }
   });

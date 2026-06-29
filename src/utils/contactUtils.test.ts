@@ -81,4 +81,12 @@ describe("isValidEmail", () => {
   it("accepts an email with a numeric-only TLD (permissive regex)", () => {
     expect(isValidEmail("user@example.123")).toBe(true);
   });
+
+  it("accepts a minimal valid email (single char in each part)", () => {
+    expect(isValidEmail("a@b.c")).toBe(true);
+  });
+
+  it("accepts an email with a leading hyphen in the domain (regex is permissive)", () => {
+    expect(isValidEmail("user@-domain.com")).toBe(true);
+  });
 });
