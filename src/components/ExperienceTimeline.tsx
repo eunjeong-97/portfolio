@@ -5,6 +5,7 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { experiences } from "@/data/experiences";
 import ExperienceModal from "./ExperienceModal";
 import { parsePeriod, getDuration } from "@/utils/periodUtils";
+import { COMPANY_NAME } from "@/constants/site";
 
 const CAREER_START = [2022, 3] as const;
 const TOTAL_MONTHS = (2024 - CAREER_START[0]) * 12 + (10 - CAREER_START[1]) + 1;
@@ -92,7 +93,7 @@ export default function ExperienceTimeline() {
             </span>
           </div>
           <p className="text-muted-foreground mb-6">
-            ㈜트러스트체인에서 마일벌스 서비스 관련 홈페이지, 앱, 어드민 개발을
+            {COMPANY_NAME}에서 마일벌스 서비스 관련 홈페이지, 앱, 어드민 개발을
             담당했습니다.
           </p>
 
@@ -197,7 +198,7 @@ export default function ExperienceTimeline() {
                       )}
                     </div>
                     <span className="text-xs text-muted-foreground px-2 py-0.5 bg-muted rounded-full flex-shrink-0">
-                      ㈜트러스트체인
+                      {COMPANY_NAME}
                     </span>
                   </div>
                   <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">
@@ -242,7 +243,7 @@ export default function ExperienceTimeline() {
           <div className="flex-1 min-w-[200px]">
             <div className="text-xs text-primary uppercase tracking-wider mb-1">총 경력</div>
             <div className="text-lg font-bold text-foreground">
-              ㈜트러스트체인 · 2022.03 – 2024.10
+              {COMPANY_NAME} · 2022.03 – 2024.10
             </div>
             <div className="text-sm text-muted-foreground mt-0.5">약 2년 8개월 · {experiences.length}개 주요 프로젝트</div>
           </div>

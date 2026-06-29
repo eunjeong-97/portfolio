@@ -5,3 +5,5 @@ export const BLOG_USERNAME = "beanlove97";
 export const GITHUB_URL = `https://github.com/${GITHUB_USERNAME}`;
 export const BLOG_URL = `https://velog.io/@${BLOG_USERNAME}`;
 export const RESUME_FILENAME = "박은정_이력서.pdf";
+export const BASE_URL = "https://eunjeong.vercel.app";
+export const COMPANY_NAME = "㈜트러스트체인";

@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { AUTHOR_NAME, BASE_URL } from "@/constants/site";
 
 export const runtime = "edge";
 
@@ -99,7 +100,7 @@ export default function OgImage() {
               marginBottom: "16px",
             }}
           >
-            박은정
+            {AUTHOR_NAME}
           </div>
 
           {/* Title */}
@@ -185,7 +186,7 @@ export default function OgImage() {
               marginTop: "8px",
             }}
           >
-            eunjeong.vercel.app
+            {new URL(BASE_URL).hostname}
           </div>
         </div>
       </div>

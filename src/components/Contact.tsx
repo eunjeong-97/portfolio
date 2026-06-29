@@ -80,7 +80,7 @@ export default function Contact() {
 
   const emailValid = EMAIL_REGEX.test(formState.email);
   const isFormValid = formState.name.length >= 2 && emailValid && formState.message.length >= 10;
-  const fieldStatus: Record<string, FieldStatus> = {
+  const fieldStatus: Record<"name" | "email" | "message", FieldStatus> = {
     name: touched.name ? (formState.name.length >= 2 ? "valid" : "error") : "idle",
     email: touched.email ? (emailValid ? "valid" : "error") : "idle",
     message: touched.message ? (formState.message.length >= 10 ? "valid" : "error") : "idle",

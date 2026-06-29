@@ -3,14 +3,13 @@ import type { ReactNode } from "react";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import ClientLayout from "@/components/ClientLayout";
+import { AUTHOR_NAME, AUTHOR_EMAIL, GITHUB_URL, BLOG_URL, COMPANY_NAME, BASE_URL } from "@/constants/site";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
 });
-
-const BASE_URL = "https://eunjeong.vercel.app";
 
 const JSONLD_SCHEMA = JSON.stringify({
   "@context": "https://schema.org",
@@ -19,8 +18,8 @@ const JSONLD_SCHEMA = JSON.stringify({
       "@type": "WebSite",
       "@id": `${BASE_URL}/#website`,
       url: BASE_URL,
-      name: "박은정 포트폴리오",
-      description: "React · React Native로 웹과 앱을 함께 개발하는 크로스플랫폼 개발자 박은정의 포트폴리오",
+      name: `${AUTHOR_NAME} 포트폴리오`,
+      description: `React · React Native로 웹과 앱을 함께 개발하는 크로스플랫폼 개발자 ${AUTHOR_NAME}의 포트폴리오`,
       inLanguage: "ko",
       author: { "@id": `${BASE_URL}/#person` },
     },
@@ -28,24 +27,21 @@ const JSONLD_SCHEMA = JSON.stringify({
       "@type": "ProfilePage",
       "@id": `${BASE_URL}/#webpage`,
       url: BASE_URL,
-      name: "박은정 | Frontend & Mobile Developer",
+      name: `${AUTHOR_NAME} | Frontend & Mobile Developer`,
       isPartOf: { "@id": `${BASE_URL}/#website` },
       about: { "@id": `${BASE_URL}/#person` },
     },
     {
       "@type": "Person",
       "@id": `${BASE_URL}/#person`,
-      name: "박은정",
+      name: AUTHOR_NAME,
       alternateName: "Eunjeong Park",
       jobTitle: "Frontend & Mobile Developer",
-      description: "React · React Native로 웹과 앱을 함께 개발하는 크로스플랫폼 개발자. SDK 연동, 네이티브 모듈, 크로스플랫폼 개발 경험 3년+.",
-      email: "beanlove97@gmail.com",
+      description: `React · React Native로 웹과 앱을 함께 개발하는 크로스플랫폼 개발자. SDK 연동, 네이티브 모듈, 크로스플랫폼 개발 경험 3년+.`,
+      email: AUTHOR_EMAIL,
       url: BASE_URL,
       image: `${BASE_URL}/opengraph-image`,
-      sameAs: [
-        "https://github.com/eunjeong-97",
-        "https://velog.io/@beanlove97",
-      ],
+      sameAs: [GITHUB_URL, BLOG_URL],
       knowsAbout: [
         "React",
         "React Native",
@@ -59,7 +55,7 @@ const JSONLD_SCHEMA = JSON.stringify({
       ],
       worksFor: {
         "@type": "Organization",
-        name: "㈜트러스트체인",
+        name: COMPANY_NAME,
         startDate: "2022-03",
         endDate: "2024-10",
       },
@@ -93,8 +89,8 @@ export const metadata: Metadata = {
     "Native Module",
     "구직",
   ],
-  authors: [{ name: "박은정" }],
-  creator: "박은정",
+  authors: [{ name: AUTHOR_NAME }],
+  creator: AUTHOR_NAME,
   alternates: {
     canonical: BASE_URL,
   },
