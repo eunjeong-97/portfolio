@@ -1,0 +1,83 @@
+// @vitest-environment jsdom
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { renderHook, act } from "@testing-library/react";
+import { useActiveSection } from "./useActiveSection";
+
+type IOCallback = (entries: IntersectionObserverEntry[]) => void;
+const elementCallbacks = new Map<Element, IOCallback>();
+
+class MockIntersectionObserver {
+  constructor(private cb: IOCallback) {}
+  observe(el: Element) { elementCallbacks.set(el, this.cb); }
+  unobserve(el: Element) { elementCallbacks.delete(el); }
+  disconnect() { elementCallbacks.clear(); }
+}
+
+function triggerIntersection(el: Element, isIntersecting: boolean) {
+  act(() => {
+    elementCallbacks.get(el)?.([{ isIntersecting, target: el } as IntersectionObserverEntry]);
+  });
+}
+
+beforeEach(() => {
+  elementCallbacks.clear();
+  vi.stubGlobal("IntersectionObserver", MockIntersectionObserver);
+});
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+  document.body.innerHTML = "";
+});
+
+describe("useActiveSection", () => {
+  it("starts with an empty active section", () => {
+    const { result } = renderHook(() => useActiveSection(["about", "contact"]));
+    expect(result.current).toBe("");
+  });
+
+  it("sets the active section when its element becomes intersecting", () => {
+    const el = document.createElement("section");
+    el.id = "about";
+    document.body.appendChild(el);
+
+    const { result } = renderHook(() => useActiveSection(["about"]));
+    triggerIntersection(el, true);
+    expect(result.current).toBe("about");
+  });
+
+  it("does not update active section when an element stops intersecting", () => {
+    const el = document.createElement("section");
+    el.id = "about";
+    document.body.appendChild(el);
+
+    const { result } = renderHook(() => useActiveSection(["about"]));
+    triggerIntersection(el, true);
+    expect(result.current).toBe("about");
+    triggerIntersection(el, false);
+    expect(result.current).toBe("about");
+  });
+
+  it("switches active section when a different section intersects", () => {
+    const el1 = document.createElement("section");
+    el1.id = "about";
+    const el2 = document.createElement("section");
+    el2.id = "contact";
+    document.body.append(el1, el2);
+
+    const { result } = renderHook(() => useActiveSection(["about", "contact"]));
+    triggerIntersection(el1, true);
+    expect(result.current).toBe("about");
+    triggerIntersection(el2, true);
+    expect(result.current).toBe("contact");
+  });
+
+  it("skips section IDs that have no matching DOM element", () => {
+    const el = document.createElement("section");
+    el.id = "real";
+    document.body.appendChild(el);
+
+    const { result } = renderHook(() => useActiveSection(["ghost", "real"]));
+    triggerIntersection(el, true);
+    expect(result.current).toBe("real");
+  });
+});
