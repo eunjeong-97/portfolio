@@ -8,13 +8,9 @@ import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { AUTHOR_EMAIL, AUTHOR_NAME } from "@/constants/site";
 import { escapeHtml, renderMarkdown } from "@/utils/markdownUtils";
+import { deserializeChatMessages, typewriterSpeed, type ChatMessage } from "@/utils/chatUtils";
 
-interface Message {
-  role: "user" | "assistant";
-  content: string;
-  timestamp?: Date;
-  isNew?: boolean;
-}
+type Message = ChatMessage;
 
 const MAX_INPUT = 200;
 const MAX_HISTORY = 20;
@@ -48,7 +44,7 @@ function TypewriterText({ content, onDone }: { content: string; onDone: () => vo
   const [displayed, setDisplayed] = useState("");
   const [typingComplete, setTypingComplete] = useState(false);
   const done = typingComplete || reducedMotion;
-  const speed = Math.max(4, Math.min(18, Math.round(3000 / content.length)));
+  const speed = typewriterSpeed(content.length);
 
   useEffect(() => {
     if (reducedMotion) {
@@ -91,9 +87,8 @@ function loadMessages(): Message[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return [makeWelcome()];
-    const parsed = JSON.parse(raw) as Array<Omit<Message, "timestamp"> & { timestamp?: string }>;
-    if (!Array.isArray(parsed) || parsed.length === 0) return [makeWelcome()];
-    return parsed.map((m) => ({ ...m, timestamp: m.timestamp ? new Date(m.timestamp) : undefined }));
+    const deserialized = deserializeChatMessages(JSON.parse(raw));
+    return deserialized ?? [makeWelcome()];
   } catch {
     return [makeWelcome()];
   }
