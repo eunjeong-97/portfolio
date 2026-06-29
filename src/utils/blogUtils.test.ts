@@ -53,6 +53,10 @@ describe("isRecent", () => {
     const rfc822 = yesterday.toUTCString();
     expect(isRecent(rfc822)).toBe(true);
   });
+
+  it("returns false for an empty string", () => {
+    expect(isRecent("")).toBe(false);
+  });
 });
 
 describe("truncateDescription", () => {
