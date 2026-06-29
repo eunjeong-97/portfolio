@@ -8,6 +8,12 @@ describe("formatDate", () => {
     expect(result).not.toBe("2024-01-15");
   });
 
+  it("formats an RFC 822 date string (as returned by RSS feeds)", () => {
+    const result = formatDate("Mon, 15 Jan 2024 00:00:00 +0000");
+    expect(result).toContain("2024");
+    expect(result).not.toBe("Mon, 15 Jan 2024 00:00:00 +0000");
+  });
+
   it("returns the original string for an invalid date", () => {
     expect(formatDate("not-a-date")).toBe("not-a-date");
   });
@@ -40,6 +46,12 @@ describe("isRecent", () => {
 
   it("returns false for an invalid date string", () => {
     expect(isRecent("not-a-date")).toBe(false);
+  });
+
+  it("returns true for a recent RFC 822 date (as returned by RSS feeds)", () => {
+    const yesterday = new Date(Date.now() - 1000 * 60 * 60 * 24);
+    const rfc822 = yesterday.toUTCString();
+    expect(isRecent(rfc822)).toBe(true);
   });
 });
 

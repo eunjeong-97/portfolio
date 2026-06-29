@@ -85,6 +85,15 @@ describe("useFocusTrap", () => {
     document.body.removeChild(container);
   });
 
+  it("does not throw when the container ref is null", () => {
+    renderHook(() => {
+      const ref = useRef<HTMLDivElement>(null);
+      useFocusTrap(ref, true);
+      return ref;
+    });
+    expect(() => window.dispatchEvent(makeTabEvent(false))).not.toThrow();
+  });
+
   it("does not redirect Tab when focus is not at a boundary", () => {
     const container = document.createElement("div");
     const btn1 = document.createElement("button");
