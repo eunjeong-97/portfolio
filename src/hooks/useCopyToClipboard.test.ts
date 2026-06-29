@@ -52,6 +52,13 @@ describe("useCopyToClipboard", () => {
     expect(result.current.copied).toBe(false);
   });
 
+  it("calls the clipboard API with an empty string and sets copied=true", async () => {
+    const { result } = renderHook(() => useCopyToClipboard());
+    await act(async () => { await result.current.copy(""); });
+    expect(result.current.copied).toBe(true);
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith("");
+  });
+
   it("restarts the reset timer when copy is called a second time before the delay elapses", async () => {
     const { result } = renderHook(() => useCopyToClipboard(500));
     await act(async () => { await result.current.copy("first"); });

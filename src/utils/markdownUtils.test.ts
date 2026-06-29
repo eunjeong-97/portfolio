@@ -31,6 +31,10 @@ describe("escapeHtml", () => {
   it("returns an empty string for an empty input", () => {
     expect(escapeHtml("")).toBe("");
   });
+
+  it("does not escape single-quote characters", () => {
+    expect(escapeHtml("it's fine")).toBe("it's fine");
+  });
 });
 
 describe("renderMarkdown", () => {
@@ -103,5 +107,13 @@ describe("renderMarkdown", () => {
   it("does not convert a mid-line dash to a list item", () => {
     expect(renderMarkdown("inline - dash")).toBe("inline - dash");
     expect(renderMarkdown("inline - dash")).not.toContain("<li");
+  });
+
+  it("renders inline code nested inside bold text", () => {
+    const result = renderMarkdown("**`code`**");
+    expect(result).toContain("<strong>");
+    expect(result).toContain("<code");
+    expect(result).toContain("code</code>");
+    expect(result).toContain("</strong>");
   });
 });
