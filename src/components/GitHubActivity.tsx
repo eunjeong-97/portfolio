@@ -3,7 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState, useMemo } from "react";
 import { Github, GitCommitHorizontal, ExternalLink, Activity, GitBranch, FolderGit2 } from "lucide-react";
-import { formatRelativeDate } from "@/utils/githubUtils";
+import { formatRelativeDate, buildHeatmapCounts, heatmapIntensity } from "@/utils/githubUtils";
 import { GITHUB_URL, GITHUB_USERNAME } from "@/constants/site";
 
 interface CommitEvent {
@@ -62,12 +62,8 @@ export default function GitHubActivity() {
   }, []);
 
   const { dailyActivity, maxActivity, dayLabels } = useMemo(() => {
-    const counts: number[] = Array(HEATMAP_DAYS).fill(0);
     const now = new Date();
-    events.forEach((e) => {
-      const diff = Math.floor((now.getTime() - new Date(e.date).getTime()) / 86400000);
-      if (diff >= 0 && diff < HEATMAP_DAYS) counts[HEATMAP_DAYS - 1 - diff]++;
-    });
+    const counts = buildHeatmapCounts(events.map((e) => e.date), HEATMAP_DAYS, now);
     const labels = Array.from({ length: HEATMAP_DAYS }, (_, i) => {
       const daysAgo = HEATMAP_DAYS - 1 - i;
       const d = new Date(now);
@@ -173,7 +169,7 @@ export default function GitHubActivity() {
               style={{ gridTemplateColumns: `repeat(${Math.ceil(HEATMAP_DAYS / 5)}, 1fr)` }}
             >
               {dailyActivity.map((count, i) => {
-                const intensity = count === 0 ? 0 : Math.min(1, 0.2 + (count / maxActivity) * 0.8);
+                const intensity = heatmapIntensity(count, maxActivity);
                 return (
                   <motion.div
                     key={i}

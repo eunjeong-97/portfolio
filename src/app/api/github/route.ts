@@ -1,18 +1,8 @@
 import { NextResponse } from "next/server";
-import { truncateCommit } from "@/utils/githubUtils";
+import { processPushEvents, computeGitHubStats, type GitHubEvent } from "@/utils/githubUtils";
 import { GITHUB_USERNAME } from "@/constants/site";
 
 export const revalidate = 3600;
-
-interface GitHubEvent {
-  type: string;
-  repo: { name: string };
-  payload: {
-    commits?: { message: string; sha: string }[];
-    ref?: string;
-  };
-  created_at: string;
-}
 
 export async function GET() {
   try {
@@ -41,24 +31,10 @@ export async function GET() {
 
     const data: GitHubEvent[] = await res.json();
 
-    const pushData = data.filter((e) => e.type === "PushEvent");
-    const pushEvents = pushData.slice(0, 6).map((e) => ({
-      repo: e.repo.name.replace(`${GITHUB_USERNAME}/`, ""),
-      branch: e.payload.ref?.replace("refs/heads/", "") ?? "main",
-      commits: (e.payload.commits ?? []).slice(0, 2).map((c) => ({
-        message: truncateCommit(c.message),
-        sha: c.sha.slice(0, 7),
-      })),
-      date: e.created_at,
-    }));
-
-    const stats = {
-      totalEvents: data.length,
-      pushCount: pushData.length,
-      reposActive: new Set(data.map((e) => e.repo.name)).size,
-    };
-
-    return NextResponse.json({ events: pushEvents, stats });
+    return NextResponse.json({
+      events: processPushEvents(data, GITHUB_USERNAME),
+      stats: computeGitHubStats(data),
+    });
   } catch (err) {
     console.error("[github API]", err);
     return NextResponse.json(
