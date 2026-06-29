@@ -6,6 +6,7 @@ import { type ReactNode } from "react";
 import { ThemeProvider } from "./ThemeProvider";
 import Navigation from "./Navigation";
 import ReadingProgress from "./ReadingProgress";
+import ErrorBoundary from "./ErrorBoundary";
 
 const LAYOUT_INITIAL = { opacity: 0 } as const;
 const LAYOUT_ANIMATE = { opacity: 1 } as const;
@@ -33,13 +34,15 @@ export default function ClientLayout({
       </a>
       <ReadingProgress />
       <Navigation />
-      <motion.div
-        initial={LAYOUT_INITIAL}
-        animate={LAYOUT_ANIMATE}
-        transition={LAYOUT_TRANSITION}
-      >
-        {children}
-      </motion.div>
+      <ErrorBoundary>
+        <motion.div
+          initial={LAYOUT_INITIAL}
+          animate={LAYOUT_ANIMATE}
+          transition={LAYOUT_TRANSITION}
+        >
+          {children}
+        </motion.div>
+      </ErrorBoundary>
       <SocialBar />
       <ChatBot />
       <ScrollToTop />

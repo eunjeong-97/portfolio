@@ -1,0 +1,52 @@
+import { describe, it, expect } from "vitest";
+import { experiences, type Experience } from "./experiences";
+import { parsePeriod } from "@/utils/periodUtils";
+
+describe("experiences data", () => {
+  it("has at least one experience", () => {
+    expect(experiences.length).toBeGreaterThan(0);
+  });
+
+  it("every experience has required string fields", () => {
+    for (const exp of experiences) {
+      expect(typeof exp.id).toBe("string");
+      expect(exp.id.length).toBeGreaterThan(0);
+      expect(typeof exp.title).toBe("string");
+      expect(exp.title.length).toBeGreaterThan(0);
+      expect(typeof exp.description).toBe("string");
+      expect(exp.description.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("every experience id is unique", () => {
+    const ids = experiences.map((e) => e.id);
+    const unique = new Set(ids);
+    expect(unique.size).toBe(ids.length);
+  });
+
+  it("every experience period is parseable by parsePeriod", () => {
+    for (const exp of experiences) {
+      const parsed = parsePeriod(exp.period);
+      expect(parsed).not.toBeNull();
+      const [sy, sm, ey, em] = parsed!;
+      expect(sy).toBeGreaterThanOrEqual(2000);
+      expect(sm).toBeGreaterThanOrEqual(1);
+      expect(sm).toBeLessThanOrEqual(12);
+      expect(ey).toBeGreaterThanOrEqual(sy);
+      expect(em).toBeGreaterThanOrEqual(1);
+      expect(em).toBeLessThanOrEqual(12);
+    }
+  });
+
+  it("every experience has at least one tag", () => {
+    for (const exp of experiences) {
+      expect(exp.tags.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("every experience has at least one detail", () => {
+    for (const exp of experiences) {
+      expect(exp.details.length).toBeGreaterThan(0);
+    }
+  });
+});
