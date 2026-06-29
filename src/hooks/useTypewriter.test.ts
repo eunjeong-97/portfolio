@@ -60,6 +60,11 @@ describe("useTypewriter — animation", () => {
     expect(result.current.displayed).toBe("");
   });
 
+  it("starts with an empty completedWord before any word has finished typing", () => {
+    const { result } = renderHook(() => useTypewriter(WORDS, 100, 500));
+    expect(result.current.completedWord).toBe("");
+  });
+
   it("types one character per speed interval", () => {
     const speed = 100;
     const { result } = renderHook(() => useTypewriter(WORDS, speed, 500));

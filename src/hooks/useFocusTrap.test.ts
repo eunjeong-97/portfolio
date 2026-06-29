@@ -264,4 +264,68 @@ describe("useFocusTrap", () => {
     expect(focusSpy).toHaveBeenCalled();
     document.body.removeChild(container);
   });
+
+  it("includes select elements in the focusable set", () => {
+    const container = document.createElement("div");
+    const select = document.createElement("select");
+    const btn = document.createElement("button");
+    container.append(select, btn);
+    document.body.appendChild(container);
+    btn.focus(); // last focusable
+
+    renderHook(() => {
+      const ref = useRef<HTMLDivElement>(container as HTMLDivElement);
+      useFocusTrap(ref, true);
+      return ref;
+    });
+
+    const focusSpy = vi.spyOn(select, "focus");
+    window.dispatchEvent(makeTabEvent(false)); // Tab from last → wrap to select (first)
+    expect(focusSpy).toHaveBeenCalled();
+    document.body.removeChild(container);
+  });
+
+  it("includes textarea elements in the focusable set", () => {
+    const container = document.createElement("div");
+    const textarea = document.createElement("textarea");
+    const btn = document.createElement("button");
+    container.append(textarea, btn);
+    document.body.appendChild(container);
+    btn.focus(); // last focusable
+
+    renderHook(() => {
+      const ref = useRef<HTMLDivElement>(container as HTMLDivElement);
+      useFocusTrap(ref, true);
+      return ref;
+    });
+
+    const focusSpy = vi.spyOn(textarea, "focus");
+    window.dispatchEvent(makeTabEvent(false)); // Tab from last → wrap to textarea (first)
+    expect(focusSpy).toHaveBeenCalled();
+    document.body.removeChild(container);
+  });
+
+  it("excludes disabled input elements from the focusable set", () => {
+    const container = document.createElement("div");
+    const disabledInput = document.createElement("input");
+    disabledInput.disabled = true;
+    const btn1 = document.createElement("button");
+    const btn2 = document.createElement("button");
+    container.append(disabledInput, btn1, btn2);
+    document.body.appendChild(container);
+    btn2.focus(); // last enabled element
+
+    renderHook(() => {
+      const ref = useRef<HTMLDivElement>(container as HTMLDivElement);
+      useFocusTrap(ref, true);
+      return ref;
+    });
+
+    const disabledSpy = vi.spyOn(disabledInput, "focus");
+    const firstSpy = vi.spyOn(btn1, "focus");
+    window.dispatchEvent(makeTabEvent(false)); // Tab from last → wrap to btn1 (not disabledInput)
+    expect(disabledSpy).not.toHaveBeenCalled();
+    expect(firstSpy).toHaveBeenCalled();
+    document.body.removeChild(container);
+  });
 });

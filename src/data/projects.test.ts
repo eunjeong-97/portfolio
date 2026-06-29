@@ -95,4 +95,28 @@ describe("projects data", () => {
       expect(expIds.has(project.id)).toBe(true);
     }
   });
+
+  it("every project period has start date not after end date", () => {
+    for (const project of projects) {
+      const parsed = parsePeriod(project.period)!;
+      const [sy, sm, ey, em] = parsed;
+      const startMonths = sy * 12 + sm;
+      const endMonths = ey * 12 + em;
+      expect(endMonths).toBeGreaterThanOrEqual(startMonths);
+    }
+  });
+
+  it("tags within each project are unique (no duplicate tags)", () => {
+    for (const project of projects) {
+      const unique = new Set(project.tags);
+      expect(unique.size).toBe(project.tags.length);
+    }
+  });
+
+  it("highlights within each project are unique (no duplicate highlights)", () => {
+    for (const project of projects) {
+      const unique = new Set(project.highlights);
+      expect(unique.size).toBe(project.highlights.length);
+    }
+  });
 });

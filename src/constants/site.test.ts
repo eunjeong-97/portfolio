@@ -68,4 +68,16 @@ describe("site constants", () => {
     expect(typeof COMPANY_NAME).toBe("string");
     expect(COMPANY_NAME.length).toBeGreaterThan(0);
   });
+
+  it("GITHUB_URL ends with GITHUB_USERNAME (no trailing slash)", () => {
+    expect(GITHUB_URL.endsWith(GITHUB_USERNAME)).toBe(true);
+  });
+
+  it("BLOG_URL ends with BLOG_USERNAME", () => {
+    expect(BLOG_URL.endsWith(BLOG_USERNAME)).toBe(true);
+  });
+
+  it("BASE_URL does not contain localhost", () => {
+    expect(BASE_URL).not.toContain("localhost");
+  });
 });
