@@ -128,4 +128,14 @@ describe("useActiveSection", () => {
     const { unmount } = renderHook(() => useActiveSection(["about"]));
     expect(() => unmount()).not.toThrow();
   });
+
+  it("registers the section element in the callbacks map after initial render", () => {
+    const el = document.createElement("section");
+    el.id = "skills";
+    document.body.appendChild(el);
+
+    renderHook(() => useActiveSection(["skills"]));
+    expect(elementCallbacks.has(el)).toBe(true);
+    document.body.removeChild(el);
+  });
 });
