@@ -147,6 +147,11 @@ describe("extractTag", () => {
     expect(extractTag(block, "description")).toBe("first\nsecond");
   });
 
+  it("extracts CDATA content that contains XML-like tags without interpreting them", () => {
+    const block = "<description><![CDATA[<p>raw html</p>]]></description>";
+    expect(extractTag(block, "description")).toBe("<p>raw html</p>");
+  });
+
   it("returns the first match when the tag appears more than once", () => {
     expect(extractTag("<title>first</title><title>second</title>", "title")).toBe("first");
   });
@@ -206,5 +211,12 @@ describe("parseBlogRss", () => {
     const [post] = parseBlogRss(xml);
     expect(post.description).toBe("Clean text");
     expect(post.description).not.toContain("<p>");
+  });
+
+  it("handles items where the link field is empty", () => {
+    const xml = `<rss>${makeItem("No-link post", "", "2024-01-01", "desc")}</rss>`;
+    const [post] = parseBlogRss(xml);
+    expect(post.title).toBe("No-link post");
+    expect(post.link).toBe("");
   });
 });
