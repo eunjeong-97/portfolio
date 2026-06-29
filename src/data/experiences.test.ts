@@ -97,4 +97,18 @@ describe("experiences data", () => {
       }
     }
   });
+
+  it("tags within each experience are unique (no duplicate tags)", () => {
+    for (const exp of experiences) {
+      const unique = new Set(exp.tags);
+      expect(unique.size).toBe(exp.tags.length);
+    }
+  });
+
+  it("details within each experience are unique (no duplicate details)", () => {
+    for (const exp of experiences) {
+      const unique = new Set(exp.details);
+      expect(unique.size).toBe(exp.details.length);
+    }
+  });
 });

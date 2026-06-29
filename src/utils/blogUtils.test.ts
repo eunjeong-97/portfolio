@@ -235,4 +235,14 @@ describe("parseBlogRss", () => {
     expect(post.title).toBe("No date");
     expect(post.pubDate).toBe("");
   });
+
+  it("returns an empty array when maxItems is 0", () => {
+    const xml = `<rss>${makeItem("Post", "https://x.com", "2024-01-01", "desc")}</rss>`;
+    expect(parseBlogRss(xml, 0)).toHaveLength(0);
+  });
+
+  it("returns fewer than maxItems when there are not enough items in the feed", () => {
+    const xml = `<rss>${makeItem("Only", "https://x.com", "2024-01-01", "desc")}</rss>`;
+    expect(parseBlogRss(xml, 10)).toHaveLength(1);
+  });
 });
