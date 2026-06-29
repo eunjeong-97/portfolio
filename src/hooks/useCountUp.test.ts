@@ -219,4 +219,17 @@ describe("useCountUp — active state transitions", () => {
     rerender({ active: true });
     expect(raf.pendingCount).toBe(1);
   });
+
+  it("count is 0 after reactivating (animation restarts from 0)", () => {
+    const { result, rerender } = renderHook(
+      ({ active }: { active: boolean }) => useCountUp(100, active, 1000),
+      { initialProps: { active: true } }
+    );
+    raf.fire(0);
+    raf.fire(500); // count = 88 mid-animation
+    rerender({ active: false }); // cancel
+    rerender({ active: true });  // restart
+    raf.fire(0); // new first frame: progress = 0, count = 0
+    expect(result.current).toBe(0);
+  });
 });
