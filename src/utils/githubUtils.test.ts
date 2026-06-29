@@ -65,6 +65,11 @@ describe("formatRelativeDate", () => {
     expect(formatRelativeDate(d)).toBe("오늘");
   });
 
+  it("returns '2달 전' for a date 60 days ago", () => {
+    const d = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000).toISOString();
+    expect(formatRelativeDate(d)).toBe("2달 전");
+  });
+
   it("returns the original string for an invalid date", () => {
     expect(formatRelativeDate("not-a-date")).toBe("not-a-date");
   });
@@ -109,6 +114,11 @@ describe("truncateCommit", () => {
   it("truncates a message that is exactly one character over the limit (61 chars)", () => {
     const justOver = "a".repeat(61);
     expect(truncateCommit(justOver)).toBe("a".repeat(60) + "…");
+  });
+
+  it("keeps the trailing \\r when the message uses Windows line endings (\\r\\n)", () => {
+    // split("\\n")[0] = "first\\r" — the \\r is NOT stripped
+    expect(truncateCommit("first\r\nsecond")).toBe("first\r");
   });
 });
 
