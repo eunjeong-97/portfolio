@@ -81,6 +81,16 @@ describe("getDuration", () => {
     // (2023-2022)*12 + (1-1) + 1 = 13 months → 1년 1개월
     expect(getDuration("2022.01 - 2023.01")).toBe("1년 1개월");
   });
+
+  it("returns '11개월' for a period of exactly 11 months", () => {
+    // (2022-2022)*12 + (11-1) + 1 = 11 months < 12 → months-only label
+    expect(getDuration("2022.01 - 2022.11")).toBe("11개월");
+  });
+
+  it("returns '1년 11개월' for a 23-month span (the maximum before 2 years)", () => {
+    // (2023-2022)*12 + (11-1) + 1 = 23 months → 1년 11개월
+    expect(getDuration("2022.01 - 2023.11")).toBe("1년 11개월");
+  });
 });
 
 describe("parsePeriod — edge cases", () => {
