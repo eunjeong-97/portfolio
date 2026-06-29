@@ -69,4 +69,16 @@ describe("isValidEmail", () => {
   it("rejects a domain that ends with a dot (user@domain.)", () => {
     expect(isValidEmail("user@domain.")).toBe(false);
   });
+
+  it("accepts an email with consecutive dots in the local part (permissive regex)", () => {
+    expect(isValidEmail("user..name@example.com")).toBe(true);
+  });
+
+  it("accepts an email with a leading dot in the local part (permissive regex)", () => {
+    expect(isValidEmail(".user@example.com")).toBe(true);
+  });
+
+  it("accepts an email with a numeric-only TLD (permissive regex)", () => {
+    expect(isValidEmail("user@example.123")).toBe(true);
+  });
 });

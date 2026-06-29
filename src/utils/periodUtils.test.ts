@@ -76,6 +76,11 @@ describe("getDuration", () => {
     // (2021-2020)*12 + (12-1) + 1 = 24, 24/12 = 2 years with no remainder
     expect(getDuration("2020.01 - 2021.12")).toBe("2년");
   });
+
+  it("returns '1년 1개월' for a 13-month span (2022.01 - 2023.01)", () => {
+    // (2023-2022)*12 + (1-1) + 1 = 13 months → 1년 1개월
+    expect(getDuration("2022.01 - 2023.01")).toBe("1년 1개월");
+  });
 });
 
 describe("parsePeriod — edge cases", () => {

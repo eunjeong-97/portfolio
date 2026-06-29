@@ -75,6 +75,11 @@ describe("getBarProps", () => {
     expect(left + width).toBeCloseTo(100, 5);
   });
 
+  it("returns a negative width for a period where the end date is before the start date", () => {
+    const { width } = getBarProps("2024.10 - 2022.03");
+    expect(width).toBeLessThan(0);
+  });
+
   it("left and width together do not exceed 100% for any real experience period", () => {
     const periods = [
       "2022.03 - 2024.10 · 약 2년",

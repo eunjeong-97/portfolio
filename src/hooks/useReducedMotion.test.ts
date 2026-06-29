@@ -63,4 +63,16 @@ describe("useReducedMotion", () => {
     expect(() => unmount()).not.toThrow();
     expect(() => trigger(true)).not.toThrow();
   });
+
+  it("tracks multiple successive change events in order", () => {
+    const { trigger } = mockMatchMedia(false);
+    const { result } = renderHook(() => useReducedMotion());
+    expect(result.current).toBe(false);
+    trigger(true);
+    expect(result.current).toBe(true);
+    trigger(false);
+    expect(result.current).toBe(false);
+    trigger(true);
+    expect(result.current).toBe(true);
+  });
 });

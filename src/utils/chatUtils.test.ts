@@ -175,6 +175,10 @@ describe("validateChatMessages", () => {
   it("returns an error string when role is a number instead of a string", () => {
     expect(validateChatMessages([{ role: 1, content: "hello" }])).not.toBeNull();
   });
+
+  it("returns an error string when a message in the array is undefined", () => {
+    expect(validateChatMessages([undefined])).not.toBeNull();
+  });
 });
 
 describe("toChatHistory", () => {
