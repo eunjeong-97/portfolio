@@ -3,44 +3,131 @@
 import { motion } from "framer-motion";
 import { Github, FileText, ArrowDown, Download } from "lucide-react";
 import Image from "next/image";
+import { useRef, useCallback, type MouseEvent } from "react";
+import { useTypewriter } from "@/hooks/useTypewriter";
+import { scrollToId } from "@/utils/scrollTo";
+import { GITHUB_URL, BLOG_URL, RESUME_FILENAME, AUTHOR_NAME } from "@/constants/site";
+
+const ROLES = [
+  "Frontend Developer",
+  "Mobile Developer",
+  "React Native 개발자",
+  "Cross-platform 개발자",
+];
+
+const HERO_BG_STYLE = {
+  backgroundImage:
+    "linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px)",
+  backgroundSize: "60px 60px",
+};
+
+const HERO_GRADIENT_STYLE = {
+  backgroundImage: "linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)",
+};
+
+const TECH_TAGS = ["React", "TypeScript", "React Native", "Next.js", "Java/Kotlin", "Swift"];
+
+const CORE_STACK = [
+  { label: "TS", color: "bg-blue-500/20 text-blue-400 border-blue-500/30" },
+  { label: "RN", color: "bg-cyan-500/20 text-cyan-400 border-cyan-500/30" },
+  { label: "RQ", color: "bg-purple-500/20 text-purple-400 border-purple-500/30" },
+];
+
+const FLOAT_ANIM = { y: [0, -10, 0] };
+const SCROLL_ANIM = { y: [0, 8, 0] };
+const FLOAT_CARD_HOVER = { scale: 1.05, borderColor: "var(--primary)" } as const;
+const FLOAT_CARD_TRANSITION_0 = { duration: 3, repeat: Infinity, ease: "easeInOut" } as const;
+const FLOAT_CARD_TRANSITION_1 = { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 } as const;
+const FLOAT_CARD_TRANSITION_2 = { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 } as const;
+const SCROLL_FADE_TRANSITION = { delay: 1 } as const;
+const SCROLL_BOUNCE_TRANSITION = { duration: 1.5, repeat: Infinity } as const;
+const HERO_LEFT_INITIAL = { opacity: 0, x: -50 } as const;
+const HERO_ANIMATE_IN = { opacity: 1, x: 0 } as const;
+const HERO_RIGHT_INITIAL = { opacity: 0, x: 50 } as const;
+const FADE_UP_INITIAL = { opacity: 0, y: 20 } as const;
+const FADE_UP_ANIMATE = { opacity: 1, y: 0 } as const;
+const FADE_IN_INITIAL = { opacity: 0 } as const;
+const FADE_IN_ANIMATE = { opacity: 1 } as const;
+const HERO_LEFT_TRANSITION = { duration: 0.6 } as const;
+const HERO_RIGHT_TRANSITION = { duration: 0.6, delay: 0.3 } as const;
+const FADE_UP_DELAY_01 = { delay: 0.1 } as const;
+const FADE_UP_DELAY_03 = { delay: 0.3 } as const;
+const FADE_UP_DELAY_04 = { delay: 0.4 } as const;
+const FADE_UP_DELAY_05 = { delay: 0.5 } as const;
+const FADE_UP_DELAY_055 = { delay: 0.55 } as const;
+const FADE_UP_DELAY_06 = { delay: 0.6 } as const;
+
 
 export default function Hero() {
+  const { displayed: role, completedWord: roleCompleted } = useTypewriter(ROLES);
+  const spotlightRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = useCallback((e: MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    if (spotlightRef.current) {
+      spotlightRef.current.style.background = `radial-gradient(600px circle at ${x}% ${y}%, rgba(59,130,246,0.05), transparent 50%)`;
+    }
+  }, []);
   return (
-    <section className="min-h-screen flex items-center px-6 pt-20">
+    <section
+      className="min-h-screen flex items-center px-6 pt-20 relative overflow-hidden"
+      onMouseMove={handleMouseMove}
+      style={HERO_BG_STYLE}
+    >
+      {/* Cursor spotlight */}
+      <div
+        ref={spotlightRef}
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-0 md:opacity-100 transition-opacity"
+      />
       <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
         {/* Left Content */}
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
+          initial={HERO_LEFT_INITIAL}
+          animate={HERO_ANIMATE_IN}
+          transition={HERO_LEFT_TRANSITION}
           className="max-w-xl"
         >
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="inline-block px-4 py-2 bg-muted rounded-full text-sm text-primary-light mb-6 border border-border"
+          <motion.div
+            initial={FADE_UP_INITIAL}
+            animate={FADE_UP_ANIMATE}
+            transition={FADE_UP_DELAY_01}
+            className="flex flex-wrap gap-3 mb-6"
           >
-            Frontend & Mobile Developer
-          </motion.span>
+            <span className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/30 rounded-full text-sm text-green-400">
+              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse motion-reduce:animate-none" aria-hidden="true" />
+              구직 중 · Open to Work
+            </span>
+            <span className="inline-flex items-center px-4 py-2 bg-muted rounded-full text-sm text-primary-light border border-border font-mono min-w-[220px]">
+              <span className="sr-only" aria-live="polite" aria-atomic="true">{roleCompleted}</span>
+              <span aria-hidden="true">{role}<span className="ml-0.5 animate-pulse motion-reduce:animate-none">|</span></span>
+            </span>
+          </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
+            initial={FADE_UP_INITIAL}
+            animate={FADE_UP_ANIMATE}
+            transition={FADE_UP_DELAY_03}
             className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
           >
             웹과 앱,
             <br />
-            <span className="text-primary">하나의 코드베이스</span>로
+            <span
+              className="bg-clip-text text-transparent"
+              style={HERO_GRADIENT_STYLE}
+            >
+              하나의 코드베이스
+            </span>로
             <br />
             만드는 개발자입니다
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
+            initial={FADE_UP_INITIAL}
+            animate={FADE_UP_ANIMATE}
+            transition={FADE_UP_DELAY_04}
             className="text-lg text-muted-foreground mb-8 leading-relaxed"
           >
             React · React Native로 웹과 앱을 함께 개발하며,
@@ -51,111 +138,111 @@ export default function Hero() {
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
+            initial={FADE_UP_INITIAL}
+            animate={FADE_UP_ANIMATE}
+            transition={FADE_UP_DELAY_05}
             className="flex flex-wrap gap-4 mb-8"
           >
             <a
               href="#projects"
+              onClick={(e) => { e.preventDefault(); scrollToId("projects"); }}
               className="px-6 py-3 bg-primary hover:bg-primary-light rounded-lg font-medium transition-colors text-white"
             >
               프로젝트 보기
             </a>
             <a
               href="#contact"
+              onClick={(e) => { e.preventDefault(); scrollToId("contact"); }}
               className="px-6 py-3 border border-neutral-600 hover:border-foreground rounded-lg font-medium transition-colors text-foreground"
             >
               연락하기
             </a>
             <a
               href="/resume.pdf"
-              download="박은정_이력서.pdf"
+              download={RESUME_FILENAME}
               className="flex items-center gap-2 px-6 py-3 border border-primary/50 hover:border-primary hover:bg-primary/5 rounded-lg font-medium transition-colors text-primary"
             >
-              <Download size={16} />
+              <Download size={16} aria-hidden="true" />
               이력서 다운로드
             </a>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.55 }}
-            className="flex flex-wrap gap-2 mb-8"
+          <motion.ul
+            initial={FADE_UP_INITIAL}
+            animate={FADE_UP_ANIMATE}
+            transition={FADE_UP_DELAY_055}
+            className="flex flex-wrap gap-2 mb-8 list-none"
+            aria-label="주요 기술 스택"
           >
-            {["React", "TypeScript", "React Native", "Next.js", "Java/Kotlin", "Swift"].map((tech) => (
-              <span
+            {TECH_TAGS.map((tech) => (
+              <li
                 key={tech}
                 className="px-3 py-1 bg-muted border border-border rounded-full text-xs text-muted-foreground"
               >
                 {tech}
-              </span>
+              </li>
             ))}
-          </motion.div>
+          </motion.ul>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
+            initial={FADE_UP_INITIAL}
+            animate={FADE_UP_ANIMATE}
+            transition={FADE_UP_DELAY_06}
             className="flex gap-6"
           >
             <a
-              href="https://github.com/eunjeong-97"
+              href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
             >
-              <Github size={18} />
+              <Github size={18} aria-hidden="true" />
               <span>GitHub</span>
+              <span className="sr-only">(새 탭에서 열림)</span>
             </a>
             <a
-              href="https://velog.io/@beanlove97"
+              href={BLOG_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
             >
-              <FileText size={18} />
+              <FileText size={18} aria-hidden="true" />
               <span>Blog</span>
+              <span className="sr-only">(새 탭에서 열림)</span>
             </a>
           </motion.div>
         </motion.div>
 
         {/* Right Visual */}
         <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          initial={HERO_RIGHT_INITIAL}
+          animate={HERO_ANIMATE_IN}
+          transition={HERO_RIGHT_TRANSITION}
           className="relative flex justify-center items-center"
         >
           <div className="relative w-[320px] h-[400px] md:w-[380px] md:h-[480px]">
             {/* Glow Effect */}
-            <div className="absolute w-[300px] h-[300px] bg-primary blur-[150px] opacity-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full" />
+            <div aria-hidden="true" className="absolute w-[300px] h-[300px] bg-primary blur-[150px] opacity-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full" />
 
             {/* Profile Frame */}
             <div className="relative w-[280px] h-[350px] md:w-[320px] md:h-[400px] bg-gradient-to-br from-muted to-card rounded-3xl border border-border overflow-hidden mx-auto">
-              {/* Placeholder - 나중에 실제 이미지로 교체 */}
-              {/* <div className="w-full h-full flex flex-col items-center justify-center gap-4"> */}
-              {/* <div className="w-24 h-24 md:w-32 md:h-32 border-border rounded-full flex items-center justify-center"> */}
-              {/* <div className="w-12 h-12 md:w-16 md:h-16 bg-neutral-600 rounded-full" /> */}
-              {/* </div> */}
-              {/* <span className="text-neutral-600 text-sm">프로필 이미지</span> */}
-              {/* </div> */}
-              {/* 실제 이미지 사용 시 아래 주석 해제 */}
               <Image
                 src="/images/profile.jpg"
-                alt="박은정"
+                alt={`${AUTHOR_NAME} 프로필 사진`}
                 fill
+                sizes="(max-width: 768px) 280px, 320px"
                 className="object-cover"
                 priority
               />
             </div>
 
-            {/* Floating Cards */}
+            {/* Floating Cards (decorative, info available in About section) */}
             <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-4 -right-4 md:top-8 md:right-0 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl"
+              aria-hidden="true"
+              animate={FLOAT_ANIM}
+              transition={FLOAT_CARD_TRANSITION_0}
+              whileHover={FLOAT_CARD_HOVER}
+              className="absolute top-4 -right-4 md:top-8 md:right-0 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl cursor-default"
             >
               <div className="text-xs text-muted-foreground mb-1">
                 Experience
@@ -166,39 +253,33 @@ export default function Hero() {
             </motion.div>
 
             <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 0.5,
-              }}
-              className="absolute bottom-24 -left-8 md:bottom-28 md:-left-12 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl"
+              aria-hidden="true"
+              animate={FLOAT_ANIM}
+              transition={FLOAT_CARD_TRANSITION_1}
+              whileHover={FLOAT_CARD_HOVER}
+              className="absolute bottom-24 -left-8 md:bottom-28 md:-left-12 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl cursor-default"
             >
               <div className="text-xs text-muted-foreground mb-2">
-                Tech Stack
+                Core Stack
               </div>
-              <div className="flex gap-2">
-                {["JS", "TS", "RN"].map((tech) => (
+              <div className="flex gap-1.5">
+                {CORE_STACK.map(({ label, color }) => (
                   <div
-                    key={tech}
-                    className="w-8 h-8 bg-muted rounded-lg flex items-center justify-center text-xs font-semibold text-primary-light"
+                    key={label}
+                    className={`w-8 h-8 border rounded-lg flex items-center justify-center text-xs font-bold ${color}`}
                   >
-                    {tech}
+                    {label}
                   </div>
                 ))}
               </div>
             </motion.div>
 
             <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 1,
-              }}
-              className="absolute -bottom-2 right-4 md:bottom-0 md:right-8 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl"
+              aria-hidden="true"
+              animate={FLOAT_ANIM}
+              transition={FLOAT_CARD_TRANSITION_2}
+              whileHover={FLOAT_CARD_HOVER}
+              className="absolute -bottom-2 right-4 md:bottom-0 md:right-8 bg-section-bg border border-border rounded-xl px-4 py-3 shadow-2xl cursor-default"
             >
               <div className="text-xs text-muted-foreground mb-1">앱 재개발</div>
               <div className="text-lg font-semibold">
@@ -211,20 +292,24 @@ export default function Hero() {
       </div>
 
       {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-neutral-600"
+      <motion.a
+        href="#projects"
+        onClick={(e) => { e.preventDefault(); scrollToId("projects"); }}
+        initial={FADE_IN_INITIAL}
+        animate={FADE_IN_ANIMATE}
+        transition={SCROLL_FADE_TRANSITION}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-neutral-600 hover:text-primary transition-colors cursor-pointer group"
+        aria-label="프로젝트 섹션으로 이동"
       >
-        <span className="text-xs">Scroll</span>
+        <span className="text-xs group-hover:text-primary transition-colors" aria-hidden="true">Projects</span>
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
+          animate={SCROLL_ANIM}
+          transition={SCROLL_BOUNCE_TRANSITION}
+          aria-hidden="true"
         >
           <ArrowDown size={16} />
         </motion.div>
-      </motion.div>
+      </motion.a>
     </section>
   );
 }

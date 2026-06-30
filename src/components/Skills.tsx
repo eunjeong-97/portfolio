@@ -1,93 +1,290 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
-import { Code2, Smartphone, Palette } from "lucide-react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
+import { useRef, useState, type ElementType } from "react";
+import { Code2, Smartphone, Palette, Wrench } from "lucide-react";
 
-const skillCategories = [
+type Level = 1 | 2 | 3;
+
+interface Skill {
+  name: string;
+  level: Level;
+}
+
+const skillCategories: {
+  title: string;
+  icon: ElementType;
+  skills: Skill[];
+}[] = [
   {
     title: "Frontend",
     icon: Code2,
     skills: [
-      "JavaScript",
-      "TypeScript",
-      "React.js",
-      "Next.js",
-      "Redux",
-      "Zustand",
-      "React Query",
+      { name: "JavaScript", level: 3 },
+      { name: "TypeScript", level: 3 },
+      { name: "React.js", level: 3 },
+      { name: "Next.js", level: 2 },
+      { name: "Redux", level: 2 },
+      { name: "Zustand", level: 2 },
+      { name: "React Query", level: 2 },
     ],
   },
   {
-    title: "Mobile",
+    title: "Mobile & Native",
     icon: Smartphone,
     skills: [
-      "React Native",
-      "React Navigation",
-      "Java",
-      "Kotlin",
-      "Swift",
-      "Objective-C",
+      { name: "React Native", level: 3 },
+      { name: "React Navigation", level: 2 },
+      { name: "Java", level: 2 },
+      { name: "Swift", level: 2 },
+      { name: "Kotlin", level: 1 },
+      { name: "Objective-C", level: 1 },
     ],
   },
   {
     title: "UI & Styling",
     icon: Palette,
-    skills: ["HTML5", "CSS/SCSS", "Tailwind CSS", "Chakra UI", "Ag-Grid"],
+    skills: [
+      { name: "HTML5", level: 3 },
+      { name: "CSS/SCSS", level: 3 },
+      { name: "Tailwind CSS", level: 2 },
+      { name: "Chakra UI", level: 2 },
+      { name: "Ag-Grid", level: 2 },
+    ],
+  },
+  {
+    title: "Tools",
+    icon: Wrench,
+    skills: [
+      { name: "Git / GitHub", level: 3 },
+      { name: "Figma", level: 2 },
+      { name: "Jira", level: 2 },
+      { name: "Notion", level: 2 },
+    ],
   },
 ];
+
+const LEVEL_LABEL: Record<Level, string> = {
+  3: "주요",
+  2: "활용",
+  1: "경험",
+};
+
+const LEVEL_DESC: Record<Level, string> = {
+  3: "실무 프로젝트에서 주도적으로 사용",
+  2: "실무에서 활용 경험 보유",
+  1: "기본 이해 및 사용 경험",
+};
+
+const LEVELS_DESC: Level[] = [3, 2, 1];
+const LEVELS_ASC: Level[] = [1, 2, 3];
+
+const LEVEL_BAR_BG: Record<Level, string> = {
+  3: "var(--primary)",
+  2: "rgba(59,130,246,0.5)",
+  1: "rgba(59,130,246,0.2)",
+};
+
+const LEVEL_BAR_CLASS: Record<Level, string> = {
+  3: "bg-primary",
+  2: "bg-primary/70",
+  1: "bg-primary/40",
+};
+
+const SKILLS_HEADER_INITIAL = { opacity: 0, y: 20 } as const;
+const SKILLS_ANIMATE_IN = { opacity: 1, y: 0 } as const;
+const WIDTH_ZERO = { width: 0 } as const;
+const BADGE_INITIAL = { opacity: 0, y: 8 } as const;
+const BADGE_ANIMATE_IN = { opacity: 1, y: 0 } as const;
+const TOOLTIP_INITIAL = { opacity: 0, y: 4 } as const;
+const TOOLTIP_ANIMATE = { opacity: 1, y: 0 } as const;
+const CATEGORY_INITIAL = { opacity: 0, y: 30 } as const;
+const CATEGORY_ANIMATE_IN = { opacity: 1, y: 0 } as const;
+const CATEGORY_HOVER = { y: -4, transition: { duration: 0.2 } } as const;
+const SKILLS_HEADER_TRANSITION = { duration: 0.5 } as const;
+const BAR_ANIMATE_TRANSITION = { duration: 0.8, ease: "easeOut", delay: 0.2 } as const;
+const BADGE_TOOLTIP_TRANSITION = { duration: 0.15 } as const;
+const LEARNING_TRANSITION = { duration: 0.5, delay: 0.7 } as const;
+
+function SkillBadge({ name, level, isInView, delay = 0 }: Skill & { isInView: boolean; delay?: number }) {
+  const [visible, setVisible] = useState(false);
+  const barWidth = (level / 3) * 100;
+
+  return (
+    <motion.div
+      initial={BADGE_INITIAL}
+      animate={isInView ? BADGE_ANIMATE_IN : {}}
+      transition={{ duration: 0.3, delay }}
+      className="px-3 py-2 bg-muted rounded-lg hover:bg-primary/10 transition-colors group cursor-default relative"
+      tabIndex={0}
+      role="img"
+      aria-label={`${name}: ${LEVEL_LABEL[level]} (${LEVEL_DESC[level]})`}
+      onMouseEnter={() => setVisible(true)}
+      onMouseLeave={() => setVisible(false)}
+      onFocus={() => setVisible(true)}
+      onBlur={() => setVisible(false)}
+    >
+      <div className="flex items-center justify-between mb-1.5">
+        <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+          {name}
+        </span>
+        <div className="flex items-center gap-1 flex-shrink-0" aria-hidden="true">
+          <span className="text-xs text-muted-foreground/60 group-hover:text-primary transition-colors mr-0.5">
+            {LEVEL_LABEL[level]}
+          </span>
+          {LEVELS_ASC.map((i) => (
+            <span
+              key={i}
+              className={`w-1.5 h-1.5 rounded-full transition-colors ${
+                i <= level ? "bg-primary" : "bg-border"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+      <div
+        aria-hidden="true"
+        className="h-0.5 bg-border rounded-full overflow-hidden"
+      >
+        <motion.div
+          className={`h-full rounded-full ${LEVEL_BAR_CLASS[level]}`}
+          initial={WIDTH_ZERO}
+          animate={{ width: isInView ? `${barWidth}%` : 0 }}
+          transition={BAR_ANIMATE_TRANSITION}
+          style={{ opacity: visible ? 1 : 0.6 }}
+        />
+      </div>
+
+      {/* Tooltip (aria-hidden: info already in parent aria-label) */}
+      <AnimatePresence>
+        {visible && (
+          <motion.div
+            initial={TOOLTIP_INITIAL}
+            animate={TOOLTIP_ANIMATE}
+            exit={TOOLTIP_INITIAL}
+            transition={BADGE_TOOLTIP_TRANSITION}
+            aria-hidden="true"
+            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1.5 bg-card border border-border rounded-lg text-xs text-muted-foreground whitespace-nowrap shadow-xl z-10 pointer-events-none"
+          >
+            {LEVEL_DESC[level]}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
+const LEARNING_ITEMS = ["Next.js App Router (심화)", "Expo Router", "React Native New Architecture"];
+
+const allSkills = skillCategories.flatMap(c => c.skills);
+const totalSkills = allSkills.length;
+const levelCounts: Record<Level, number> = { 3: 0, 2: 0, 1: 0 };
+allSkills.forEach(s => levelCounts[s.level]++);
 
 export default function Skills() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="skills" className="py-24 px-6 bg-section-bg" ref={ref}>
+    <section id="skills" className="py-24 px-6 bg-section-bg" ref={ref} aria-label="기술 스택">
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
+          initial={SKILLS_HEADER_INITIAL}
+          animate={isInView ? SKILLS_ANIMATE_IN : {}}
+          transition={SKILLS_HEADER_TRANSITION}
         >
           <span className="text-sm text-primary uppercase tracking-wider">
             Skills
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold mt-2 mb-12">
-            Tech Stack
-          </h2>
+          <div className="flex items-end justify-between mt-2 mb-3">
+            <h2 className="text-3xl md:text-4xl font-bold">Tech Stack</h2>
+            <span className="text-sm text-muted-foreground mb-1">
+              총 <span className="text-primary font-bold">{totalSkills}</span>가지 기술
+            </span>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground mb-4" aria-hidden="true">
+            {LEVELS_DESC.map((level) => (
+              <span key={level} className="flex items-center gap-1.5">
+                <span className="flex gap-0.5">
+                  {LEVELS_ASC.map((i) => (
+                    <span
+                      key={i}
+                      className={`w-1.5 h-1.5 rounded-full ${i <= level ? "bg-primary" : "bg-border"}`}
+                    />
+                  ))}
+                </span>
+                {LEVEL_LABEL[level]}
+                <span className="text-muted-foreground/50">({levelCounts[level]})</span>
+              </span>
+            ))}
+          </div>
+          {/* Distribution bar (decorative) */}
+          <div className="flex h-1.5 rounded-full overflow-hidden w-full max-w-xs mb-10 gap-0.5" aria-hidden="true">
+            {LEVELS_DESC.map((level) => (
+              <motion.div
+                key={level}
+                className="h-full rounded-full"
+                style={{ background: LEVEL_BAR_BG[level] }}
+                initial={WIDTH_ZERO}
+                animate={isInView ? { width: `${(levelCounts[level] / totalSkills) * 100}%` } : WIDTH_ZERO}
+                transition={{ duration: 0.8, delay: 0.3 + (3 - level) * 0.1, ease: "easeOut" }}
+              />
+            ))}
+          </div>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <ul className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 list-none">
           {skillCategories.map((category, index) => (
-            <motion.div
+            <motion.li
               key={category.title}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              initial={CATEGORY_INITIAL}
+              animate={isInView ? CATEGORY_ANIMATE_IN : {}}
               transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+              whileHover={CATEGORY_HOVER}
               className="bg-section-bg p-6 rounded-2xl border border-border hover:border-primary transition-colors group"
             >
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center group-hover:bg-primary/30 transition-colors">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center group-hover:bg-primary/30 transition-colors" aria-hidden="true">
                   <category.icon size={20} className="text-primary" />
                 </div>
-                <h3 className="text-lg font-semibold text-primary">
+                <h3 className="text-base font-semibold text-primary">
                   {category.title}
                 </h3>
               </div>
-              <div className="flex flex-wrap gap-2">
-                {category.skills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-3 py-1.5 bg-muted rounded-lg text-sm text-muted-foreground hover:bg-primary hover:text-foreground transition-colors cursor-default"
-                  >
-                    {skill}
-                  </span>
+              <ul className="flex flex-col gap-1.5 list-none">
+                {category.skills.map((skill, skillIdx) => (
+                  <li key={skill.name}>
+                    <SkillBadge {...skill} isInView={isInView} delay={0.3 + index * 0.1 + skillIdx * 0.05} />
+                  </li>
                 ))}
-              </div>
-            </motion.div>
+              </ul>
+            </motion.li>
           ))}
-        </div>
+        </ul>
+
+        {/* Currently Learning */}
+        <motion.div
+          initial={SKILLS_HEADER_INITIAL}
+          animate={isInView ? SKILLS_ANIMATE_IN : {}}
+          transition={LEARNING_TRANSITION}
+          className="mt-8 bg-primary/5 border border-primary/20 rounded-2xl p-5"
+        >
+          <div className="flex items-center gap-2 mb-3">
+            <span className="w-2 h-2 bg-primary rounded-full animate-pulse motion-reduce:animate-none" aria-hidden="true" />
+            <span className="text-xs font-semibold text-primary uppercase tracking-wider">Currently Learning</span>
+          </div>
+          <ul className="flex flex-wrap gap-2 list-none">
+            {LEARNING_ITEMS.map((item) => (
+              <li
+                key={item}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 border border-primary/30 rounded-lg text-xs text-primary"
+              >
+                <span className="w-1.5 h-1.5 border border-primary rounded-full" aria-hidden="true" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </motion.div>
       </div>
     </section>
   );

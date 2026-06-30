@@ -1,9 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
-import { Github, GitCommitHorizontal, ExternalLink } from "lucide-react";
+import { motion, useInView } from "framer-motion";
+import { useRef, useEffect, useState, useMemo } from "react";
+import { Github, GitCommitHorizontal, ExternalLink, Activity, GitBranch, FolderGit2 } from "lucide-react";
+import { formatRelativeDate, buildHeatmapCounts, heatmapIntensity, buildDayLabels } from "@/utils/githubUtils";
+import { GITHUB_URL, GITHUB_USERNAME } from "@/constants/site";
 
 interface CommitEvent {
   repo: string;
@@ -18,43 +19,62 @@ interface Stats {
   reposActive: number;
 }
 
+const HEATMAP_DAYS = 30;
+const HEATMAP_LEGEND_OPACITIES = [0, 0.3, 0.6, 1] as const;
+const EVENT_CARD_HOVER = { x: 4, transition: { duration: 0.15 } } as const;
+const HEATMAP_CELL_INITIAL = { opacity: 0, scale: 0.5 } as const;
+const HEATMAP_CELL_ANIMATE_IN = { opacity: 1, scale: 1 } as const;
+const EVENT_CARD_INITIAL = { opacity: 0, x: -20 } as const;
+const EVENT_CARD_ANIMATE_IN = { opacity: 1, x: 0 } as const;
+const GITHUB_INITIAL = { opacity: 0, y: 20 } as const;
+const GITHUB_ANIMATE_IN = { opacity: 1, y: 0 } as const;
+const GITHUB_HEATMAP_INITIAL = { opacity: 0, y: 10 } as const;
+const GITHUB_HEADER_TRANSITION = { duration: 0.5 } as const;
+const GITHUB_STATS_TRANSITION = { duration: 0.5, delay: 0.1 } as const;
+const GITHUB_HEATMAP_TRANSITION = { duration: 0.5, delay: 0.2 } as const;
+
 export default function GitHubActivity() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [events, setEvents] = useState<CommitEvent[]>([]);
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetch("/api/github")
-      .then((r) => r.json())
+    const controller = new AbortController();
+    fetch("/api/github", { signal: controller.signal })
+      .then((r) => {
+        if (!r.ok) throw new Error("fetch failed");
+        return r.json();
+      })
       .then((data) => {
         setEvents(data.events || []);
         setStats(data.stats || null);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch((err) => {
+        if (err.name === "AbortError") return;
+        setError(true);
+        setLoading(false);
+      });
+    return () => controller.abort();
   }, []);
 
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
+  const { dailyActivity, maxActivity, dayLabels } = useMemo(() => {
     const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    if (diffDays === 0) return "오늘";
-    if (diffDays === 1) return "어제";
-    if (diffDays < 7) return `${diffDays}일 전`;
-    if (diffDays < 30) return `${Math.floor(diffDays / 7)}주 전`;
-    return `${Math.floor(diffDays / 30)}달 전`;
-  };
+    const counts = buildHeatmapCounts(events.map((e) => e.date), HEATMAP_DAYS, now);
+    return { dailyActivity: counts, maxActivity: Math.max(...counts, 1), dayLabels: buildDayLabels(HEATMAP_DAYS, now) };
+  }, [events]);
 
   return (
-    <section id="github" className="py-24 px-6 bg-section-bg" ref={ref}>
+    <section id="github" className="py-24 px-6 bg-section-bg" ref={ref} aria-busy={loading} aria-label="GitHub 최근 활동">
+      {loading && <span className="sr-only" role="status">GitHub 활동 로딩 중...</span>}
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
+          initial={GITHUB_INITIAL}
+          animate={isInView ? GITHUB_ANIMATE_IN : {}}
+          transition={GITHUB_HEADER_TRANSITION}
           className="mb-12"
         >
           <span className="text-sm text-primary uppercase tracking-wider">
@@ -63,12 +83,13 @@ export default function GitHubActivity() {
           <div className="flex items-end justify-between mt-2">
             <h2 className="text-3xl md:text-4xl font-bold">최근 활동</h2>
             <a
-              href="https://github.com/eunjeong-97"
+              href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="GitHub 프로필 보기 (새 탭에서 열림)"
               className="flex items-center gap-1 text-sm text-primary hover:text-primary-light transition-colors"
             >
-              <Github size={14} /> GitHub 보기 <ExternalLink size={14} />
+              <Github size={14} aria-hidden="true" /> GitHub 보기 <ExternalLink size={14} aria-hidden="true" />
             </a>
           </div>
           <p className="text-muted-foreground mt-3">
@@ -77,26 +98,92 @@ export default function GitHubActivity() {
         </motion.div>
 
         {/* Stats */}
-        {stats && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="grid grid-cols-3 gap-4 mb-10"
-          >
-            {[
-              { label: "최근 이벤트", value: stats.totalEvents + "+" },
-              { label: "푸시 횟수", value: stats.pushCount },
-              { label: "활성 레포", value: stats.reposActive },
+        <motion.div
+          initial={GITHUB_INITIAL}
+          animate={isInView ? GITHUB_ANIMATE_IN : {}}
+          transition={GITHUB_STATS_TRANSITION}
+          className="grid grid-cols-3 gap-4 mb-10"
+        >
+          {loading ? (
+            [1, 2, 3].map((i) => (
+              <div key={i} aria-hidden="true" className="bg-background border border-border rounded-xl p-4 text-center animate-pulse motion-reduce:animate-none">
+                <div className="w-4 h-4 bg-muted rounded mx-auto mb-2" />
+                <div className="h-7 bg-muted rounded w-12 mx-auto mb-1" />
+                <div className="h-3 bg-muted rounded w-16 mx-auto" />
+              </div>
+            ))
+          ) : stats ? (
+            [
+              { label: "최근 이벤트", value: stats.totalEvents + "+", icon: Activity },
+              { label: "푸시 횟수", value: stats.pushCount, icon: GitBranch },
+              { label: "활성 레포", value: stats.reposActive, icon: FolderGit2 },
             ].map((s) => (
               <div
                 key={s.label}
-                className="bg-background border border-border rounded-xl p-4 text-center"
+                role="img"
+                className="bg-background border border-border rounded-xl p-4 text-center hover:border-primary/40 transition-colors group"
+                aria-label={`${s.label}: ${s.value}`}
               >
-                <div className="text-2xl font-bold text-primary mb-1">{s.value}</div>
-                <div className="text-xs text-muted-foreground">{s.label}</div>
+                <s.icon size={16} className="text-primary/50 group-hover:text-primary transition-colors mx-auto mb-2" aria-hidden="true" />
+                <div className="text-2xl font-bold text-primary mb-1" aria-hidden="true">{s.value}</div>
+                <div className="text-xs text-muted-foreground" aria-hidden="true">{s.label}</div>
               </div>
-            ))}
+            ))
+          ) : null}
+        </motion.div>
+
+        {/* 30-day activity heatmap */}
+        {!loading && events.length > 0 && (
+          <motion.div
+            initial={GITHUB_HEATMAP_INITIAL}
+            animate={isInView ? GITHUB_ANIMATE_IN : {}}
+            transition={GITHUB_HEATMAP_TRANSITION}
+            className="mb-8 bg-background border border-border rounded-xl p-4"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <div className="text-xs text-muted-foreground">최근 30일 Push 활동</div>
+              <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground" aria-hidden="true">
+                <span>적음</span>
+                {HEATMAP_LEGEND_OPACITIES.map((opacity, i) => (
+                  <span
+                    key={i}
+                    className="w-2.5 h-2.5 rounded-sm"
+                    style={{
+                      background: opacity === 0 ? "var(--border)" : `rgba(59,130,246,${opacity})`,
+                    }}
+                  />
+                ))}
+                <span>많음</span>
+              </div>
+            </div>
+            <div
+              role="img"
+              aria-label={`최근 30일 Push 활동 히트맵: 총 ${dailyActivity.reduce((a, b) => a + b, 0)}건`}
+              className="grid gap-1"
+              style={{ gridTemplateColumns: `repeat(${Math.ceil(HEATMAP_DAYS / 5)}, 1fr)` }}
+            >
+              {dailyActivity.map((count, i) => {
+                const intensity = heatmapIntensity(count, maxActivity);
+                return (
+                  <motion.div
+                    key={i}
+                    title={`${dayLabels[i]}: ${count > 0 ? `${count}건의 Push` : "활동 없음"}`}
+                    aria-hidden="true"
+                    className="h-3 rounded-sm cursor-default"
+                    initial={HEATMAP_CELL_INITIAL}
+                    animate={isInView ? HEATMAP_CELL_ANIMATE_IN : HEATMAP_CELL_INITIAL}
+                    transition={{ duration: 0.3, delay: 0.3 + i * 0.015 }}
+                    style={{
+                      background: count === 0 ? "var(--border)" : `rgba(59,130,246,${intensity})`,
+                    }}
+                  />
+                );
+              })}
+            </div>
+            <div className="flex justify-between text-[10px] text-muted-foreground mt-1.5" aria-hidden="true">
+              <span>30일 전</span>
+              <span>오늘</span>
+            </div>
           </motion.div>
         )}
 
@@ -106,64 +193,81 @@ export default function GitHubActivity() {
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="bg-background border border-border rounded-xl p-5 animate-pulse"
+                aria-hidden="true"
+                className="bg-background border border-border rounded-xl p-5 animate-pulse motion-reduce:animate-none"
               >
                 <div className="h-4 bg-muted rounded w-1/3 mb-3" />
                 <div className="h-3 bg-muted rounded w-3/4" />
               </div>
             ))}
           </div>
-        ) : events.length === 0 ? (
-          <div className="text-center py-16 text-muted-foreground">
-            <Github size={40} className="mx-auto mb-4 opacity-30" />
+        ) : error ? (
+          <div className="text-center py-16 text-muted-foreground" role="alert">
+            <Github size={40} className="mx-auto mb-4 opacity-30" aria-hidden="true" />
             <p>GitHub 활동을 불러오는 중 오류가 발생했습니다.</p>
           </div>
         ) : (
-          <div className="space-y-4">
+          <ul className="space-y-4 list-none">
             {events.map((event, index) => (
-              <motion.div
+              <motion.li
                 key={`${event.repo}-${event.date}`}
-                initial={{ opacity: 0, x: -20 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                initial={EVENT_CARD_INITIAL}
+                animate={isInView ? EVENT_CARD_ANIMATE_IN : {}}
                 transition={{ duration: 0.4, delay: 0.2 + index * 0.08 }}
-                className="bg-background border border-border rounded-xl p-5 hover:border-primary/40 transition-colors"
+                whileHover={EVENT_CARD_HOVER}
+                className="bg-background border border-border rounded-xl p-5 hover:border-primary/40 transition-colors group"
               >
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <Github size={14} className="text-primary" />
-                    <span className="font-medium text-sm text-foreground">
+                    <Github size={14} className="text-primary" aria-hidden="true" />
+                    <a
+                      href={`${GITHUB_URL}/${event.repo}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      aria-label={`${event.repo} 저장소 (새 탭에서 열림)`}
+                      className="font-medium text-sm text-foreground hover:text-primary transition-colors"
+                    >
                       {event.repo}
-                    </span>
+                    </a>
                     <span className="text-xs bg-muted px-2 py-0.5 rounded-full text-muted-foreground">
                       {event.branch}
                     </span>
                   </div>
                   <span className="text-xs text-muted-foreground">
-                    {formatDate(event.date)}
+                    {formatRelativeDate(event.date)}
                   </span>
                 </div>
-                <div className="space-y-1.5">
+                <ul className="space-y-1.5 list-none">
                   {event.commits.map((commit) => (
-                    <div
+                    <li
                       key={commit.sha}
                       className="flex items-start gap-2 text-sm"
                     >
                       <GitCommitHorizontal
                         size={14}
                         className="text-muted-foreground mt-0.5 flex-shrink-0"
+                        aria-hidden="true"
                       />
-                      <span className="text-muted-foreground leading-snug">
+                      <span className="text-muted-foreground leading-snug flex-1">
                         {commit.message}
                       </span>
-                      <span className="text-xs text-primary/60 font-mono flex-shrink-0">
+                      <a
+                        href={`${GITHUB_URL}/${event.repo}/commit/${commit.sha}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        aria-label={`커밋 ${commit.sha} GitHub에서 보기 (새 탭에서 열림)`}
+                        className="text-xs text-primary/60 hover:text-primary font-mono flex-shrink-0 transition-colors"
+                      >
                         {commit.sha}
-                      </span>
-                    </div>
+                      </a>
+                    </li>
                   ))}
-                </div>
-              </motion.div>
+                </ul>
+              </motion.li>
             ))}
-          </div>
+          </ul>
         )}
       </div>
     </section>

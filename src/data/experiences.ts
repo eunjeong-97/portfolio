@@ -3,8 +3,8 @@ export interface Experience {
   period: string;
   title: string;
   description: string;
-  details: string[];
-  tags: string[];
+  details: readonly string[];
+  tags: readonly string[];
   videoUrl?: string;
 }
 

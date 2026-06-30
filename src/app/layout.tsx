@@ -1,17 +1,83 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import type { ReactNode } from "react";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import ClientLayout from "@/components/ClientLayout";
+import { AUTHOR_NAME, AUTHOR_EMAIL, GITHUB_URL, BLOG_URL, COMPANY_NAME, BASE_URL } from "@/constants/site";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
 });
 
+const JSONLD_SCHEMA = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${BASE_URL}/#website`,
+      url: BASE_URL,
+      name: `${AUTHOR_NAME} 포트폴리오`,
+      description: `React · React Native로 웹과 앱을 함께 개발하는 크로스플랫폼 개발자 ${AUTHOR_NAME}의 포트폴리오`,
+      inLanguage: "ko",
+      author: { "@id": `${BASE_URL}/#person` },
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": `${BASE_URL}/#webpage`,
+      url: BASE_URL,
+      name: `${AUTHOR_NAME} | Frontend & Mobile Developer`,
+      isPartOf: { "@id": `${BASE_URL}/#website` },
+      about: { "@id": `${BASE_URL}/#person` },
+    },
+    {
+      "@type": "Person",
+      "@id": `${BASE_URL}/#person`,
+      name: AUTHOR_NAME,
+      alternateName: "Eunjeong Park",
+      jobTitle: "Frontend & Mobile Developer",
+      description: `React · React Native로 웹과 앱을 함께 개발하는 크로스플랫폼 개발자. SDK 연동, 네이티브 모듈, 크로스플랫폼 개발 경험 3년+.`,
+      email: AUTHOR_EMAIL,
+      url: BASE_URL,
+      image: `${BASE_URL}/opengraph-image`,
+      sameAs: [GITHUB_URL, BLOG_URL],
+      knowsAbout: [
+        "React",
+        "React Native",
+        "TypeScript",
+        "Next.js",
+        "JavaScript",
+        "Native Module",
+        "SDK Integration",
+        "Java",
+        "Swift",
+      ],
+      worksFor: {
+        "@type": "Organization",
+        name: COMPANY_NAME,
+        startDate: "2022-03",
+        endDate: "2024-10",
+      },
+    },
+  ],
+});
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+};
+
+const AUTHOR_TITLE = `${AUTHOR_NAME} | Frontend & Mobile Developer`;
+const PORTFOLIO_TITLE = `${AUTHOR_NAME} 포트폴리오`;
+
 export const metadata: Metadata = {
-  title: "박은정 | Frontend & Mobile Developer",
+  metadataBase: new URL(BASE_URL),
+  title: AUTHOR_TITLE,
   description:
-    "React · React Native로 웹과 앱을 함께 개발하는 프론트엔드 개발자 박은정의 포트폴리오입니다. SDK 연동, 네이티브 모듈, 크로스플랫폼 개발 경험 보유.",
+    `React · React Native로 웹과 앱을 함께 개발하는 프론트엔드 개발자 ${AUTHOR_NAME}의 포트폴리오입니다. SDK 연동, 네이티브 모듈, 크로스플랫폼 개발 경험 보유.`,
   keywords: [
     "프론트엔드 개발자",
     "React",
@@ -20,35 +86,40 @@ export const metadata: Metadata = {
     "Next.js",
     "크로스플랫폼",
     "포트폴리오",
-    "박은정",
+    AUTHOR_NAME,
     "SDK 연동",
     "모바일 개발",
+    "Native Module",
+    "구직",
   ],
-  authors: [{ name: "박은정" }],
-  creator: "박은정",
+  authors: [{ name: AUTHOR_NAME }],
+  creator: AUTHOR_NAME,
+  alternates: {
+    canonical: BASE_URL,
+  },
   openGraph: {
-    title: "박은정 | Frontend & Mobile Developer",
+    title: AUTHOR_TITLE,
     description:
       "React · React Native로 웹과 앱을 함께 개발합니다. SDK 연동부터 네이티브 코드까지 직접 다루는 크로스플랫폼 개발자.",
     type: "website",
-    url: "https://eunjeong.vercel.app",
-    siteName: "박은정 포트폴리오",
+    url: BASE_URL,
+    siteName: PORTFOLIO_TITLE,
     locale: "ko_KR",
     images: [
       {
-        url: "/og-image.png",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "박은정 | Frontend & Mobile Developer",
+        alt: AUTHOR_TITLE,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "박은정 | Frontend & Mobile Developer",
+    title: AUTHOR_TITLE,
     description:
       "React · React Native로 웹과 앱을 함께 개발하는 크로스플랫폼 개발자.",
-    images: ["/og-image.png"],
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,
@@ -59,10 +130,21 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');document.documentElement.classList.add(t||'dark');}catch(e){document.documentElement.classList.add('dark');}})();`,
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSONLD_SCHEMA }}
+        />
+      </head>
       <body className={`${inter.variable} font-sans antialiased`}>
         <ClientLayout>{children}</ClientLayout>
       </body>

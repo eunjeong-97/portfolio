@@ -15,6 +15,7 @@
   --muted-foreground: #737373;
   --border: #e5e5e5;
   --section-bg: #f5f5f5;
+  color-scheme: light;
 }
 
 .dark {
@@ -27,6 +28,7 @@
   --muted-foreground: #a3a3a3;
   --border: #262626;
   --section-bg: #171717;
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -59,7 +61,13 @@ body {
     color 0.3s;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar — Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted-foreground) var(--muted);
+}
+
+/* Custom scrollbar — Chromium / Safari */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -80,4 +88,45 @@ body {
 /* Selection */
 ::selection {
   background: rgba(59, 130, 246, 0.3);
+}
+
+/* Focus visible - keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Ensure sections clear the fixed navigation when scrolled to */
+section[id] {
+  scroll-margin-top: 4.5rem;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Print styles */
+@media print {
+  nav,
+  footer,
+  .fixed {
+    display: none !important;
+  }
+  body {
+    background: white;
+    color: black;
+  }
+  section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
 }
